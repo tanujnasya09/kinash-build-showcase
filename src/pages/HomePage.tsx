@@ -1,9 +1,12 @@
-import { ArrowRight, Award, Users, Building, TrendingUp } from 'lucide-react';
+import { ArrowRight, Award, Users, Building, TrendingUp, MapPin, Phone, MessageSquare, CheckCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import SearchBar from '@/components/ui/SearchBar';
 import SEOHead from '@/components/SEO/SEOHead';
 import heroImage from '@/assets/hero-construction.jpg';
+import Slider from '@/components/Slider/Slider';
+import PropertySlider from '@/components/Slider/Slider';
+import properties from '@/data/proprties';
 
 const HomePage = () => {
   const stats = [
@@ -36,9 +39,12 @@ const HomePage = () => {
     }
   ];
 
+
+
+
   return (
     <div className="overflow-hidden">
-      <SEOHead 
+      <SEOHead
         title="Home"
         description="Kinash Associates delivers premium construction and real estate solutions. Building excellence, creating value through innovative construction and strategic property development."
         keywords="construction company, real estate development, commercial construction, residential development, property management, construction services"
@@ -46,12 +52,12 @@ const HomePage = () => {
       />
       {/* Hero Section */}
       <section className="relative min-h-screen flex items-center justify-center hero-gradient hero-pattern">
-        <div 
+        <div
           className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
           style={{ backgroundImage: `url(${heroImage})` }}
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-primary/50" />
-        
+
         <div className="relative z-10 container mx-auto px-4 text-center">
           <div className="max-w-4xl mx-auto">
             <h1 className="text-5xl md:text-7xl font-display font-bold text-white mb-6 text-reveal">
@@ -59,15 +65,15 @@ const HomePage = () => {
               <span className="text-accent block">Creating Value</span>
             </h1>
             <p className="text-xl md:text-2xl text-white/90 mb-12 text-reveal-delay max-w-3xl mx-auto leading-relaxed">
-              Kinash Associates delivers premium construction and real estate solutions 
+              Kinash Associates delivers premium construction and real estate solutions
               that transform visions into reality and create lasting value for our clients.
             </p>
-            
+
             {/* Search Bar */}
             <div className="mb-12">
               <SearchBar />
             </div>
-            
+
             <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
               <Link to="/services">
                 <Button className="btn-hero text-lg px-8 py-4">
@@ -110,23 +116,29 @@ const HomePage = () => {
         </div>
       </section>
 
+      {/* Featured Properties Section - HORIZONTAL SCROLL */}
+
+      <section className="bg-gradient-to-r from-muted to-background"><PropertySlider properties={properties} /></section>
+
+
+
       {/* Services Preview */}
-      <section className="py-24 bg-background">
+      <section className="py-24 bg-muted">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-display font-bold text-primary mb-6">
               Our Core Services
             </h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              From groundbreaking construction projects to strategic real estate solutions, 
+              From groundbreaking construction projects to strategic real estate solutions,
               we deliver excellence across every aspect of property development.
             </p>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
             {services.map((service, index) => (
-              <Link 
-                key={index} 
+              <Link
+                key={index}
                 to={service.link}
                 className="card-feature group hover:border-accent/20 transition-all duration-500"
               >
@@ -154,7 +166,7 @@ const HomePage = () => {
             Ready to Start Your Project?
           </h2>
           <p className="text-xl text-primary-foreground/90 mb-12 max-w-2xl mx-auto">
-            Let's discuss how we can bring your vision to life with our expertise 
+            Let's discuss how we can bring your vision to life with our expertise
             in construction and real estate development.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
