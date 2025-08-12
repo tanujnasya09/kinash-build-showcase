@@ -35,7 +35,7 @@ const Header = () => {
         </div>
 
         {/* Main navigation */}
-        <div className="flex items-center justify-between py-4">
+        <div className="flex items-center justify-between py-2">
           <Link
             to="/"
             className="flex items-center gap-2 text-2xl font-display font-bold text-primary hover:text-primary-glow transition-colors"
@@ -43,7 +43,7 @@ const Header = () => {
             <img
               src="/assets/logo.png"
               alt="Kinash Associates Logo"
-              className=" w-14 object-cover"
+              className="h-14 w-14 object-cover"
             />
 
           </Link>

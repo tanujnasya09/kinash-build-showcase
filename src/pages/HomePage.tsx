@@ -17,11 +17,7 @@ const HomePage = () => {
   ];
 
   const services = [
-    {
-      title: 'Commercial Construction',
-      description: 'Building state-of-the-art commercial spaces that drive business success.',
-      link: '/construction'
-    },
+   
     {
       title: 'Residential Development',
       description: 'Creating exceptional living spaces with innovative design and quality.',
@@ -51,39 +47,50 @@ const HomePage = () => {
         canonical="/"
       />
       {/* Hero Section */}
-      <section className="relative min-h-screen flex items-center justify-center hero-gradient hero-pattern">
+      <section className="relative min-h-[80vh] flex flex-col items-center justify-center text-center overflow-hidden">
+        {/* Background Image */}
         <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-20"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-25"
           style={{ backgroundImage: `url(${heroImage})` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-primary/90 via-primary/70 to-primary/50" />
+        {/* Overlay Gradient */}
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/80 to-primary/60" />
 
         <div className="relative z-10 container mx-auto px-4 text-center">
           <div className="max-w-4xl mx-auto">
-            <h1 className="text-5xl md:text-7xl font-display font-bold text-white mb-6 text-reveal">
-              Building Excellence,
-              <span className="text-accent block">Creating Value</span>
+            {/* Company Name */}
+            <h2 className="text-sm sm:text-base md:text-lg text-white/80 font-medium tracking-widest uppercase md:mb-3 py:2">
+              Kinash Associates & Construction
+            </h2>
+
+            {/* Main Heading */}
+            <h1 className="text-2xl sm:text-4xl md:text-6xl font-display font-extrabold text-white leading-snug mb-6 drop-shadow-lg">
+              <span className="block">Building Excellence,</span>
+              <span className="block text-accent">Creating Landmarks</span>
             </h1>
-            <p className="text-xl md:text-2xl text-white/90 mb-12 text-reveal-delay max-w-3xl mx-auto leading-relaxed">
-              Kinash Associates delivers premium construction and real estate solutions
-              that transform visions into reality and create lasting value for our clients.
+
+
+            {/* Short Premium Tagline */}
+            <p className="text-base sm:text-lg md:text-xl text-white/90 mb-10 text-reveal-delay max-w-2xl mx-auto leading-relaxed">
+              Delivering premium construction & real estate solutions with unmatched quality, timeless design, and lasting value.
             </p>
 
             {/* Search Bar */}
-            <div className="mb-12">
+            <div className="mb-10">
               <SearchBar />
             </div>
 
-            <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            {/* Buttons */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center py-2">
               <Link to="/services">
-                <Button className="btn-hero text-lg px-8 py-4">
-                  Explore Services
-                  <ArrowRight className="ml-2" size={20} />
+                <Button className="btn-hero text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 shadow-lg hover:shadow-accent/40 transition-all">
+                  Explore Our Services
+                  <ArrowRight className="ml-2" size={18} />
                 </Button>
               </Link>
               <Link to="/about">
-                <Button className="btn-outline text-white border-white hover:bg-white hover:text-primary text-lg px-8 py-4">
-                  Learn More
+                <Button className="btn-outline text-white border-white hover:bg-white hover:text-primary text-base sm:text-lg px-6 sm:px-8 py-3 sm:py-4 transition-all">
+                  About Us
                 </Button>
               </Link>
             </div>
@@ -91,9 +98,11 @@ const HomePage = () => {
         </div>
 
         {/* Floating Elements */}
-        <div className="absolute top-20 left-10 w-20 h-20 bg-accent/20 rounded-full blur-xl float" />
-        <div className="absolute bottom-20 right-10 w-32 h-32 bg-white/10 rounded-full blur-xl float-delay" />
+        <div className="absolute top-16 left-6 w-20 sm:w-24 h-20 sm:h-24 bg-accent/20 rounded-full blur-2xl animate-pulse" />
+        <div className="absolute bottom-16 right-6 w-28 sm:w-36 h-28 sm:h-36 bg-white/10 rounded-full blur-2xl animate-pulse delay-300" />
       </section>
+
+
 
       {/* Stats Section */}
       <section className="py-20 bg-gradient-to-r from-muted to-background">
