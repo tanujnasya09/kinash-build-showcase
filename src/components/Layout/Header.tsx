@@ -36,12 +36,18 @@ const Header = () => {
 
         {/* Main navigation */}
         <div className="flex items-center justify-between py-4">
-          <Link 
-            to="/" 
-            className="text-2xl font-display font-bold text-primary hover:text-primary-glow transition-colors"
+          <Link
+            to="/"
+            className="flex items-center gap-2 text-2xl font-display font-bold text-primary hover:text-primary-glow transition-colors"
           >
-            Kinash Associates
+            <img
+              src="/assets/logo.png"
+              alt="Kinash Associates Logo"
+              className=" w-14 object-cover"
+            />
+
           </Link>
+
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-8">
@@ -81,11 +87,10 @@ const Header = () => {
                   key={item.name}
                   to={item.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`block py-2 text-lg ${
-                    isActive(item.href) 
-                      ? 'text-primary font-semibold' 
+                  className={`block py-2 text-lg ${isActive(item.href)
+                      ? 'text-primary font-semibold'
                       : 'text-foreground hover:text-primary'
-                  } transition-colors`}
+                    } transition-colors`}
                 >
                   {item.name}
                 </Link>
