@@ -269,7 +269,7 @@ const AboutPage = () => {
                       </div>
                       <div>
                         <h4 className="font-semibold text-primary mb-1">Phone</h4>
-                        <p className="text-muted-foreground">(123) 456-7890</p>
+                        <p className="text-muted-foreground">+91 135 277 9000</p>
                         <p className="text-sm text-muted-foreground">Mon-Fri 8:00 AM - 6:00 PM</p>
                       </div>
                     </div>
@@ -280,7 +280,7 @@ const AboutPage = () => {
                       </div>
                       <div>
                         <h4 className="font-semibold text-primary mb-1">Email</h4>
-                        <p className="text-muted-foreground">info@kinashassociates.com</p>
+                        <p className="text-muted-foreground">contact@kinash.luxury</p>
                         <p className="text-sm text-muted-foreground">We'll respond within 24 hours</p>
                       </div>
                     </div>
@@ -292,9 +292,7 @@ const AboutPage = () => {
                       <div>
                         <h4 className="font-semibold text-primary mb-1">Office</h4>
                         <p className="text-muted-foreground">
-                          123 Business Avenue<br />
-                          Suite 100<br />
-                          City, State 12345
+                          Dehradun, Uttarakhand, India
                         </p>
                       </div>
                     </div>

@@ -1,10 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 /* Professional Design System for Kinash Associates */
-@import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap');
 
 @layer base {
   :root {
@@ -30,9 +30,10 @@
     --muted: 215 20% 96%;
     --muted-foreground: 215 13% 45%;
 
-    --accent: 43 96% 56%;
-    --accent-foreground: 220 13% 18%;
-    --accent-glow: 43 96% 70%;
+    /* Refined Luxury Metallic Champagne Gold Accent */
+    --accent: 35 38% 64%;
+    --accent-foreground: 215 28% 17%;
+    --accent-glow: 35 38% 74%;
 
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
@@ -50,18 +51,18 @@
     --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
 
     /* Elegant Shadows */
-    --shadow-soft: 0 1px 3px 0 hsl(var(--primary) / 0.1), 0 1px 2px 0 hsl(var(--primary) / 0.06);
-    --shadow-medium: 0 4px 6px -1px hsl(var(--primary) / 0.1), 0 2px 4px -1px hsl(var(--primary) / 0.06);
-    --shadow-large: 0 10px 15px -3px hsl(var(--primary) / 0.1), 0 4px 6px -2px hsl(var(--primary) / 0.05);
-    --shadow-elegant: 0 20px 25px -5px hsl(var(--primary) / 0.1), 0 10px 10px -5px hsl(var(--primary) / 0.04);
-    --shadow-glow: 0 0 40px hsl(var(--accent) / 0.3);
+    --shadow-soft: 0 1px 3px 0 hsl(var(--primary) / 0.05), 0 1px 2px 0 hsl(var(--primary) / 0.03);
+    --shadow-medium: 0 4px 6px -1px hsl(var(--primary) / 0.05), 0 2px 4px -1px hsl(var(--primary) / 0.03);
+    --shadow-large: 0 10px 15px -3px hsl(var(--primary) / 0.05), 0 4px 6px -2px hsl(var(--primary) / 0.02);
+    --shadow-elegant: 0 20px 25px -5px hsl(var(--primary) / 0.08), 0 10px 10px -5px hsl(var(--primary) / 0.03);
+    --shadow-glow: 0 0 40px hsl(var(--accent) / 0.15);
 
     /* Professional Animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
-    /* Typography Scale */
-    --font-display:'Montserrat', sans-serif;
+    /* Luxury Typography Scale: Clean geometric Montserrat combined with Lato body */
+    --font-display: 'Montserrat', sans-serif;
     --font-body: 'Lato', sans-serif;
 
     --sidebar-background: 0 0% 98%;
@@ -240,6 +241,27 @@
   
   .transition-smooth { transition: var(--transition-smooth); }
   .transition-bounce { transition: var(--transition-bounce); }
+
+  /* Premium Micro-Animations */
+  .hover-card-premium {
+    transition: var(--transition-smooth);
+  }
+  .hover-card-premium:hover {
+    transform: translateY(-6px) scale(1.015);
+    box-shadow: var(--shadow-glow);
+    border-color: hsl(var(--accent) / 0.3);
+  }
+
+  .btn-hover-scale {
+    transition: var(--transition-smooth);
+  }
+  .btn-hover-scale:hover {
+    transform: translateY(-1px) scale(1.025);
+    box-shadow: 0 4px 12px hsl(var(--accent) / 0.2);
+  }
+  .btn-hover-scale:active {
+    transform: translateY(0px) scale(0.97);
+  }
 }
 
 /* Professional Keyframes */

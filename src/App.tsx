@@ -13,31 +13,43 @@ import AboutPage from "./pages/AboutPage";
 import NotFound from "./pages/NotFound";
 import PropertyDetails from "./pages/Property";
 import AllPropertyDetails from "./pages/AllPropert";
+import AdminPage from "./pages/AdminPage";
+import ContactPage from "./pages/ContactPage";
+
+// Import our custom context providers for global properties CMS and language support
+import { LanguageProvider } from "./context/LanguageContext";
+import { PropertyProvider } from "./context/PropertyContext";
 
 const queryClient = new QueryClient();
 
 const App = () => (
   <HelmetProvider>
     <QueryClientProvider client={queryClient}>
-      <TooltipProvider>
-        <Toaster />
-        <Sonner />
-        <BrowserRouter>
-          <Layout>
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/services" element={<ServicesPage />} />
-              <Route path="/construction" element={<ConstructionPage />} />
-              <Route path="/real-estate" element={<RealEstatePage />} />
-              <Route path="/about" element={<AboutPage />} />
-                 <Route path="/property/:id" element={<PropertyDetails />} />
-                   <Route path="/properties" element={<AllPropertyDetails />} />
-              {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </Layout>
-        </BrowserRouter>
-      </TooltipProvider>
+      <LanguageProvider>
+        <PropertyProvider>
+          <TooltipProvider>
+            <Toaster />
+            <Sonner />
+            <BrowserRouter>
+              <Layout>
+                <Routes>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/services" element={<ServicesPage />} />
+                  <Route path="/construction" element={<ConstructionPage />} />
+                  <Route path="/real-estate" element={<RealEstatePage />} />
+                  <Route path="/about" element={<AboutPage />} />
+                  <Route path="/property/:id" element={<PropertyDetails />} />
+                  <Route path="/properties" element={<AllPropertyDetails />} />
+                  <Route path="/admin" element={<AdminPage />} />
+                  <Route path="/contact" element={<ContactPage />} />
+                  {/* Catch-all Not Found Route */}
+                  <Route path="*" element={<NotFound />} />
+                </Routes>
+              </Layout>
+            </BrowserRouter>
+          </TooltipProvider>
+        </PropertyProvider>
+      </LanguageProvider>
     </QueryClientProvider>
   </HelmetProvider>
 );

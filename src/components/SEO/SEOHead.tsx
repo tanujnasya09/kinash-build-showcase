@@ -43,15 +43,15 @@ const SEOHead = ({ title, description, keywords, canonical }: SEOHeadProps) => {
           "name": "Kinash Associates",
           "description": "Premier construction and real estate company delivering exceptional building and property solutions.",
           "url": siteUrl,
-          "telephone": "+1-123-456-7890",
-          "email": "info@kinashassociates.com",
+          "telephone": "+91-135-277-9000",
+          "email": "contact@kinash.luxury",
           "address": {
             "@type": "PostalAddress",
-            "streetAddress": "123 Business Avenue, Suite 100",
-            "addressLocality": "City",
-            "addressRegion": "State",
-            "postalCode": "12345",
-            "addressCountry": "US"
+            "streetAddress": "Dehradun",
+            "addressLocality": "Dehradun",
+            "addressRegion": "Uttarakhand",
+            "postalCode": "248001",
+            "addressCountry": "IN"
           },
           "sameAs": [
             "https://www.facebook.com/kinashassociates",

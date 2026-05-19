@@ -18,7 +18,7 @@ const properties = [
             "आज के समय के अनुसार शहर की सबसे अच्छी व स्वच्छ जगह",
             "प्लॉट आपके मनपसंद साइज में उपलब्ध!(100 गज, 150 गज, 200 गज, 250 गज)"
         ],
-        contact: "+91 9027577150",
+        contact: "+91 135 277 9000",
         videoLink: "https://www.youtube.com/watch?si=99gxio6HOjfm_Wtm&v=CneWfXK363M&feature=youtu.be",
         additionalInfo: "हम लाये हैं आपके लिए देहरादून की सबसे सुंदर जगह पर सबसे सस्ते प्लॉट जहां आप 10 लाख तक में प्लॉट लेकर घर बना सकते हैं।",
         images: [

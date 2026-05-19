@@ -261,10 +261,10 @@ const RealEstatePage = () => {
             how we can help you achieve your property investment goals.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="tel:+1234567890" className="btn-primary inline-flex items-center justify-center px-6 py-3 text-lg">
-              Call (123) 456-7890
+            <a href="tel:+911352779000" className="btn-primary inline-flex items-center justify-center px-6 py-3 text-lg">
+              Call +91 135 277 9000
             </a>
-            <a href="mailto:realestate@kinashassociates.com" className="btn-outline border-accent-foreground text-accent-foreground hover:bg-accent-foreground hover:text-accent inline-flex items-center justify-center px-6 py-3 text-lg">
+            <a href="mailto:contact@kinash.luxury" className="btn-outline border-accent-foreground text-accent-foreground hover:bg-accent-foreground hover:text-accent inline-flex items-center justify-center px-6 py-3 text-lg">
               Email Our Team
             </a>
           </div>
