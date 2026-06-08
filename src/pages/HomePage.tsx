@@ -119,15 +119,15 @@ export default function HomePage() {
       />
 
       {/* Full-screen Cinematic Hero */}
-      <section 
+      <section
         ref={heroRef}
         className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-28 pb-16 border-b border-white/5"
       >
         {/* Layered Technical Background Grids */}
         <div className="absolute inset-0 linear-grid opacity-10 z-0 pointer-events-none" />
-        
+
         {/* Fine Architectural Grid lines */}
-        <div className="absolute inset-0 flex justify-between pointer-events-none opacity-5 px-12 z-0">
+        <div className="absolute inset-0 flex justify-between pointer-events-none opacity-1 px-12 z-0">
           <div className="w-[1px] h-full bg-white" />
           <div className="w-[1px] h-full bg-white hidden md:block" />
           <div className="w-[1px] h-full bg-white hidden md:block" />
@@ -136,7 +136,7 @@ export default function HomePage() {
 
         {/* Cinematic Parallax Background Image */}
         <div
-          className="hero-bg absolute -inset-y-32 inset-x-0 bg-cover bg-center bg-no-repeat opacity-[0.15]"
+          className="hero-bg absolute -inset-y-32 inset-x-0 bg-cover bg-center bg-no-repeat opacity-[1.5]"
           style={{ backgroundImage: `url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&h=900&fit=crop')` }}
         />
 
@@ -145,11 +145,11 @@ export default function HomePage() {
 
         <div className="relative z-10 container mx-auto px-4 md:px-8 w-full mt-auto mb-6">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
+
             {/* Left Column: Luxury Typography & Search */}
             <div className="lg:col-span-7 text-left flex flex-col justify-center items-start">
               {/* Gold Sparkle Badge */}
-              <div 
+              <div
                 className="inline-flex items-center gap-2 bg-accent/5 border border-accent/25 px-5 py-2 mb-8 text-accent text-[9px] font-mono font-bold tracking-[0.3em] uppercase relative"
               >
                 <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-accent/40" />
@@ -246,7 +246,7 @@ export default function HomePage() {
 
           {/* Asymmetrical Bento Grid */}
           <div ref={bentoRef} className="grid grid-cols-1 md:grid-cols-12 gap-8">
-            
+
             {/* Bento Card 1: Stat Grid Block */}
             <div className="bento-card md:col-span-8 border border-white/5 bg-[#0a0c10]/60 p-8 grid grid-cols-2 gap-8 hover:border-accent/20 transition-colors duration-500 relative shadow-2xl">
               <div className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-accent/30" />
@@ -271,7 +271,7 @@ export default function HomePage() {
             {/* Bento Card 2: Visual Luxury Plaque */}
             <div className="bento-card md:col-span-4 border border-white/5 bg-[#0a0c10]/60 hover:border-accent/20 transition-all duration-500 overflow-hidden relative group min-h-[300px] shadow-2xl">
               <div className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-accent/30" />
-              <div 
+              <div
                 className="absolute inset-0 bg-cover bg-center transition-transform duration-[4000ms] group-hover:scale-105 opacity-25"
                 style={{ backgroundImage: `url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=600&fit=crop')` }}
               />
@@ -359,8 +359,8 @@ export default function HomePage() {
             {/* Horizontal Grid elements scrollable on scroll */}
             <div ref={scrollSectionRef} className="flex gap-8 pr-32">
               {properties.slice(0, 5).map((property) => (
-                <div 
-                  key={property.id} 
+                <div
+                  key={property.id}
                   className="horizontal-item w-[380px] flex-shrink-0"
                 >
                   <PropertyCard property={property} />
@@ -382,7 +382,7 @@ export default function HomePage() {
               Featured Portfolios
             </h2>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {properties.slice(0, 4).map((property) => (
               <PropertyCard key={property.id} property={property} />
@@ -394,7 +394,7 @@ export default function HomePage() {
       {/* Contracting divisions */}
       <section className="py-32 bg-[#0c0d10] text-white relative">
         <div className="absolute inset-0 linear-grid opacity-[0.03] z-0 pointer-events-none" />
-        
+
         {/* Fine grid lines */}
         <div className="absolute inset-0 flex justify-between pointer-events-none opacity-[0.05] px-12 z-0">
           <div className="w-[1px] h-full bg-white" />
@@ -502,7 +502,7 @@ export default function HomePage() {
               </Button>
             </Link>
           </div>
-          
+
           <div className="mt-16 flex justify-center items-center gap-2 text-[8px] font-mono uppercase tracking-[0.2em] text-white/35">
             <ShieldCheck size={12} className="text-accent" />
             ISO 9001:2015 REGISTERED & INBOUND PIPELINE SECURED
