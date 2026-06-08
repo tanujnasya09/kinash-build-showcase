@@ -16,22 +16,27 @@ import AllPropertyDetails from "./pages/AllPropert";
 import AdminPage from "./pages/AdminPage";
 import ContactPage from "./pages/ContactPage";
 
-// Import our custom context providers for global properties CMS and language support
 import { LanguageProvider } from "./context/LanguageContext";
 import { PropertyProvider } from "./context/PropertyContext";
+import { useState } from "react";
+import LuxuryLoader from "./components/Loader/LuxuryLoader";
 
 const queryClient = new QueryClient();
 
-const App = () => (
-  <HelmetProvider>
-    <QueryClientProvider client={queryClient}>
-      <LanguageProvider>
-        <PropertyProvider>
-          <TooltipProvider>
-            <Toaster />
-            <Sonner />
-            <BrowserRouter>
-              <Layout>
+const App = () => {
+  const [loading, setLoading] = useState(true);
+
+  return (
+    <HelmetProvider>
+      <QueryClientProvider client={queryClient}>
+        <LanguageProvider>
+          <PropertyProvider>
+            <TooltipProvider>
+              <Toaster />
+              <Sonner />
+              {loading && <LuxuryLoader onComplete={() => setLoading(false)} />}
+              <BrowserRouter>
+                <Layout>
                 <Routes>
                   <Route path="/" element={<HomePage />} />
                   <Route path="/services" element={<ServicesPage />} />
@@ -50,8 +55,9 @@ const App = () => (
           </TooltipProvider>
         </PropertyProvider>
       </LanguageProvider>
-    </QueryClientProvider>
-  </HelmetProvider>
-);
+      </QueryClientProvider>
+    </HelmetProvider>
+  );
+};
 
 export default App;

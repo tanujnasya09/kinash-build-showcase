@@ -1,14 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Phone, Mail, Globe, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/context/LanguageContext';
+import MagneticButton from '@/components/ui/MagneticButton';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import gsap from 'gsap';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -30,99 +32,116 @@ const Header = () => {
     setLanguage(lang);
   };
 
+  // Animate header entry
+  useEffect(() => {
+    gsap.fromTo(
+      '.luxury-header',
+      { y: -100, opacity: 0 },
+      { y: 0, opacity: 1, duration: 1.2, ease: 'power4.out', delay: 0.5 }
+    );
+  }, []);
+
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-border shadow-soft">
-      <div className="container mx-auto px-4">
+    <header className="luxury-header fixed top-0 left-0 right-0 z-50 bg-[#0c0d10]/85 backdrop-blur-md border-b border-white/5 shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
+      <div className="container mx-auto px-4 md:px-8">
         {/* Top bar with contact info */}
-        <div className="hidden md:flex items-center justify-between py-2 text-[11px] text-muted-foreground border-b border-border font-medium">
-          <div className="flex items-center gap-1">
-            <Sparkles size={12} className="text-accent animate-pulse" />
+        <div className="hidden md:flex items-center justify-between py-2 text-[10px] text-white/50 border-b border-white/5 font-mono uppercase tracking-[0.2em]">
+          <div className="flex items-center gap-1.5">
+            <Sparkles size={11} className="text-accent animate-pulse" />
             <span>Kinash Luxury Portfolios</span>
           </div>
           <div className="flex items-center space-x-6">
-            <a href="tel:+911352779000" className="flex items-center space-x-1.5 hover:text-primary transition-colors">
-              <Phone size={12} className="text-accent" />
+            <a href="tel:+911352779000" className="flex items-center space-x-1.5 hover:text-accent transition-colors">
+              <Phone size={10} className="text-accent" />
               <span>+91 135 277 9000</span>
             </a>
-            <a href="mailto:contact@kinash.luxury" className="flex items-center space-x-1.5 hover:text-primary transition-colors">
-              <Mail size={12} className="text-accent" />
+            <a href="mailto:contact@kinash.luxury" className="flex items-center space-x-1.5 hover:text-accent transition-colors">
+              <Mail size={10} className="text-accent" />
               <span>contact@kinash.luxury</span>
             </a>
           </div>
         </div>
 
         {/* Main navigation */}
-        <div className="flex items-center justify-between py-2">
+        <div className="flex items-center justify-between py-4">
           {/* Brand Logo */}
           <Link
             to="/"
-            className="flex items-center gap-3 text-2xl font-display font-black text-primary hover:text-accent transition-colors"
+            className="flex items-center gap-3 text-2xl font-display font-black text-white hover:text-accent transition-colors group"
           >
-            <img
-              src="/assets/logo.png"
-              alt="Kinash Logo"
-              className="h-10 w-10 object-contain rounded-xl border shadow-soft bg-muted"
-              onError={(e: any) => {
-                // Safe fallback logo link if local logo is missing
-                e.target.src = "https://images.unsplash.com/photo-1542838132-92c53300491e?w=80&h=80&fit=crop";
-              }}
-            />
-            <span className="text-lg uppercase tracking-wider font-extrabold font-display">
-              Kinash <span className="text-accent font-light">Luxury</span>
+            <div className="relative overflow-hidden w-9 h-9 rounded-none border border-accent/20 bg-[#0c0d10] flex items-center justify-center">
+              <span className="text-accent font-display font-extrabold text-sm tracking-tighter group-hover:scale-110 transition-transform duration-500">KA</span>
+              <div className="absolute inset-0 bg-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            </div>
+            <span className="text-sm uppercase tracking-[0.25em] font-extrabold font-display text-white">
+              Kinash <span className="bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent italic font-light">Luxury</span>
             </span>
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden xl:flex items-center space-x-7">
+          <nav className="hidden xl:flex items-center space-x-8">
             {navigation.map((item) => (
               <Link
                 key={item.name}
                 to={item.href}
-                className={`nav-link text-xs font-bold tracking-wider uppercase ${isActive(item.href) ? 'active text-accent' : ''}`}
+                className={`relative text-[10px] font-sans font-bold tracking-[0.2em] uppercase transition-colors duration-300 py-2 ${
+                  isActive(item.href) ? 'text-accent' : 'text-white/60 hover:text-white'
+                } group`}
               >
                 {item.name}
+                <span className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[1px] bg-accent transition-all duration-500 ${
+                  isActive(item.href) ? 'w-full' : 'w-0 group-hover:w-full'
+                }`} />
               </Link>
             ))}
           </nav>
 
           {/* Right Action panel */}
-          <div className="hidden md:flex items-center gap-4">
-            
+          <div className="hidden md:flex items-center gap-6">
             {/* Elegant Multilingual Picker */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-1.5 hover:bg-muted/80 rounded-xl px-3 border py-4 font-bold text-xs">
-                  <Globe size={14} className="text-accent" />
-                  {language === 'en' ? '🇬🇧 EN' : language === 'es' ? '🇪🇸 ES' : '🇩🇪 DE'}
+                <Button variant="ghost" size="sm" className="gap-1.5 hover:bg-white/5 border border-white/10 text-white rounded-none px-3.5 py-4 font-mono font-bold text-[9px] uppercase tracking-widest bg-transparent">
+                  <Globe size={12} className="text-accent" />
+                  {language === 'en' ? 'EN' : language === 'es' ? 'ES' : 'DE'}
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-white border rounded-xl shadow-elegant p-1.5">
+              <DropdownMenuContent align="end" className="bg-[#0b0c10] border border-white/10 rounded-none shadow-2xl p-1">
                 <DropdownMenuItem
                   onClick={() => handleLanguageChange('en')}
-                  className={`font-semibold text-xs py-2.5 rounded-lg px-4 ${language === 'en' ? 'bg-primary text-white' : 'hover:bg-muted'}`}
+                  className={`font-mono text-[9px] py-2 px-4 rounded-none cursor-pointer tracking-widest uppercase ${
+                    language === 'en' ? 'bg-accent text-[#0c0d10] font-extrabold' : 'text-white/80 hover:bg-white/5 hover:text-white'
+                  }`}
                 >
                   🇬🇧 English (EN)
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => handleLanguageChange('es')}
-                  className={`font-semibold text-xs py-2.5 rounded-lg px-4 ${language === 'es' ? 'bg-primary text-white' : 'hover:bg-muted'}`}
+                  className={`font-mono text-[9px] py-2 px-4 rounded-none cursor-pointer tracking-widest uppercase ${
+                    language === 'es' ? 'bg-accent text-[#0c0d10] font-extrabold' : 'text-white/80 hover:bg-white/5 hover:text-white'
+                  }`}
                 >
                   🇪🇸 Español (ES)
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => handleLanguageChange('de')}
-                  className={`font-semibold text-xs py-2.5 rounded-lg px-4 ${language === 'de' ? 'bg-primary text-white' : 'hover:bg-muted'}`}
+                  className={`font-mono text-[9px] py-2 px-4 rounded-none cursor-pointer tracking-widest uppercase ${
+                    language === 'de' ? 'bg-accent text-[#0c0d10] font-extrabold' : 'text-white/80 hover:bg-white/5 hover:text-white'
+                  }`}
                 >
                   🇩🇪 Deutsch (DE)
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* CTA Contact link */}
+            {/* CTA Contact link wrapped in MagneticButton */}
             <Link to="/contact">
-              <Button className="btn-primary py-2.5 px-5 text-xs tracking-wider uppercase font-bold rounded-xl shadow-soft">
+              <MagneticButton
+                className="btn-luxury-gold px-6 py-3.5 text-[9px] tracking-[0.25em] bg-accent text-[#0c0d10] border-transparent font-black"
+                strength={25}
+              >
                 {t('nav.contact')}
-              </Button>
+              </MagneticButton>
             </Link>
           </div>
 
@@ -131,18 +150,18 @@ const Header = () => {
             {/* Quick lang swap for mobile */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="p-2 border rounded-xl hover:bg-muted text-primary">
-                  <Globe size={18} />
+                <button className="p-2 border border-white/10 rounded-none hover:bg-white/5 text-white">
+                  <Globe size={16} className="text-accent" />
                 </button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-white border rounded-xl p-1.5">
-                <DropdownMenuItem onClick={() => handleLanguageChange('en')} className="font-semibold text-xs py-2">
+              <DropdownMenuContent align="end" className="bg-[#0b0c10] border border-white/10 rounded-none p-1">
+                <DropdownMenuItem onClick={() => handleLanguageChange('en')} className="font-mono text-[9px] tracking-widest uppercase py-2 text-white/80">
                   🇬🇧 EN
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleLanguageChange('es')} className="font-semibold text-xs py-2">
+                <DropdownMenuItem onClick={() => handleLanguageChange('es')} className="font-mono text-[9px] tracking-widest uppercase py-2 text-white/80">
                   🇪🇸 ES
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleLanguageChange('de')} className="font-semibold text-xs py-2">
+                <DropdownMenuItem onClick={() => handleLanguageChange('de')} className="font-mono text-[9px] tracking-widest uppercase py-2 text-white/80">
                   🇩🇪 DE
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -150,33 +169,34 @@ const Header = () => {
 
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 text-primary border rounded-xl hover:bg-muted"
+              className="p-2 text-white border border-white/10 rounded-none hover:bg-white/5"
             >
-              {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
+              {isMenuOpen ? <X size={16} /> : <Menu size={16} />}
             </button>
           </div>
         </div>
 
         {/* Mobile Navigation Panel */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-border animate-fade-in bg-white">
-            <nav className="space-y-3 px-2">
+          <div className="md:hidden py-4 border-t border-white/5 animate-fade-in bg-[#0c0d10]">
+            <nav className="space-y-2 px-2">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`block py-3 px-4 rounded-xl text-sm font-bold uppercase tracking-wider ${isActive(item.href)
-                      ? 'bg-primary text-white font-extrabold'
-                      : 'text-foreground hover:bg-muted'
-                    } transition-all`}
+                  className={`block py-3 px-4 rounded-none text-[10px] font-sans font-bold uppercase tracking-[0.2em] ${
+                    isActive(item.href)
+                      ? 'bg-accent text-[#0c0d10] font-extrabold'
+                      : 'text-white/70 hover:bg-white/5 hover:text-white'
+                  } transition-all`}
                 >
                   {item.name}
                 </Link>
               ))}
-              <div className="border-t pt-4 mt-4 px-2">
+              <div className="border-t border-white/5 pt-4 mt-4 px-2">
                 <Link to="/contact" onClick={() => setIsMenuOpen(false)}>
-                  <Button className="btn-primary w-full py-3.5 text-xs font-bold tracking-wider uppercase rounded-xl">
+                  <Button className="btn-luxury-gold w-full bg-accent text-[#0c0d10] border-transparent font-bold py-4 text-[9px] tracking-widest uppercase">
                     {t('nav.contact')}
                   </Button>
                 </Link>

@@ -1,35 +1,55 @@
-import { useState } from "react";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
-import { MapPin, Phone, CheckCircle, Search, Filter, Heart, Share2, Eye, Home, Users, Sparkles, Map, LayoutGrid } from "lucide-react";
+import { Search, Filter, Home, Sparkles, Map, LayoutGrid } from "lucide-react";
 import { useProperties } from "@/context/PropertyContext";
 import { useLanguage } from "@/context/LanguageContext";
 import InteractiveMap from "@/components/Map/InteractiveMap";
 import SEOHead from "@/components/SEO/SEOHead";
+import PropertyCard from "@/components/ui/PropertyCard";
+import gsap from "gsap";
 
 export default function AllProperties() {
   const { properties } = useProperties();
   const { t, language } = useLanguage();
+  const [searchParams] = useSearchParams();
 
   const [search, setSearch] = useState("");
   const [status, setStatus] = useState("");
   const [projectType, setProjectType] = useState("");
   const [locationFilter, setLocationFilter] = useState("");
-  const [maxPrice, setMaxPrice] = useState(100000000); // Higher budget ceiling for general flexibility
+  const [maxPrice, setMaxPrice] = useState(100000000); // 10 Crore limit
   const [showFilters, setShowFilters] = useState(false);
   const [activePropertyId, setActivePropertyId] = useState<number | null>(null);
-  
-  // Mobile navigation state
   const [mobileView, setMobileView] = useState<'list' | 'map'>('list');
 
-  // Filter properties
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  // Read URL search params on mount
+  useEffect(() => {
+    const searchVal = searchParams.get("search");
+    const locationVal = searchParams.get("location");
+    if (searchVal) setSearch(searchVal);
+    if (locationVal) setLocationFilter(locationVal.toLowerCase());
+  }, [searchParams]);
+
+  // Entrance animations for listings
+  useEffect(() => {
+    if (gridRef.current) {
+      const cards = gridRef.current.querySelectorAll('.property-card-wrapper');
+      gsap.fromTo(cards,
+        { opacity: 0, y: 30 },
+        { opacity: 1, y: 0, duration: 0.8, stagger: 0.08, ease: 'power3.out' }
+      );
+    }
+  }, [search, status, projectType, locationFilter, maxPrice]);
+
+  // Filter logic
   const filtered = properties.filter((p) => {
     const priceNum = parseInt(p.price.replace(/[₹,]/g, "")) || 0;
     
-    // Support translation searching
     const titleVal = (language === 'en' ? p.title : p.translations?.[language]?.title || p.title).toLowerCase();
     const locationVal = (language === 'en' ? p.location : p.translations?.[language]?.location || p.location).toLowerCase();
     const descriptionVal = (language === 'en' ? p.description : p.translations?.[language]?.description || p.description).toLowerCase();
@@ -68,102 +88,115 @@ export default function AllProperties() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-background to-muted/20 pt-28 pb-10">
+    <div className="min-h-screen bg-[#0c0d10] text-white pt-28 pb-16 relative overflow-hidden">
       <SEOHead
-        title="Luxury Listings Portfolio"
+        title="Luxury Listings Portfolio | Kinash Associates"
         description="Browse Kinash Associates' portfolio of premium lands, residential plots, and luxury housing schemes in Dehradun, Sahastradhara, and Dharmawala."
         keywords="land for sale dehradun, plots dharmawala, real estate catalog"
         canonical="/properties"
       />
 
-      <div className="max-w-[1600px] mx-auto px-4 md:px-8">
+      {/* Decorative clean line grid */}
+      <div className="absolute inset-0 flex justify-between pointer-events-none opacity-5 px-12 z-0">
+        <div className="w-[1px] h-full bg-white" />
+        <div className="w-[1px] h-full bg-white hidden md:block" />
+        <div className="w-[1px] h-full bg-white hidden md:block" />
+        <div className="w-[1px] h-full bg-white" />
+      </div>
+
+      <div className="max-w-[1600px] mx-auto px-4 md:px-8 relative z-10">
         
         {/* Header Block */}
-        <div className="text-center mb-10 max-w-3xl mx-auto">
-          <span className="text-xs uppercase tracking-widest text-accent font-semibold mb-3 block">
+        <div className="text-left mb-12 max-w-4xl">
+          <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold mb-4 block">
             {t('properties.title')}
           </span>
-          <h1 className="text-4xl md:text-5xl font-display font-extrabold text-primary mb-4">
-            {language === 'en' ? 'Exclusive Properties Portfolio' : language === 'es' ? 'Portafolio Exclusivo' : 'Exklusives Immobilienportfolio'}
+          <h1 className="text-4xl md:text-6xl font-display font-medium text-white mb-6 leading-none">
+            Architectural <span className="bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent italic font-light">Listings</span> Portfolio.
           </h1>
-          <p className="text-base sm:text-lg text-muted-foreground leading-relaxed">
-            {t('properties.subtitle')}
+          <p className="text-xs text-white/50 max-w-2xl leading-relaxed font-light">
+            Explore Kinash Associates' verified land reserves, residential layouts, and high-appreciation development projects. Every listing features secure legal titles and demarcated coordinates.
           </p>
         </div>
 
         {/* Search and Filters Section */}
-        <div className="bg-white shadow-soft rounded-3xl border border-border mb-8 overflow-hidden">
+        <div className="bg-[#0a0c10]/70 border border-white/5 shadow-2xl mb-12 backdrop-blur-md relative">
+          <div className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-accent/40" />
+          <div className="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-accent/40" />
+          
           {/* Search Bar */}
-          <div className="p-4 sm:p-6 border-b border-border bg-muted/20">
+          <div className="p-4 sm:p-6 border-b border-white/5 bg-[#0d0f14]/50">
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-muted-foreground" size={20} />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-accent/60" size={16} />
               <Input
-                placeholder={t('hero.searchPlaceholder')}
+                placeholder="Search properties, registry titles, or specifications..."
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pl-12 pr-4 py-6 text-base border-2 border-muted focus:border-accent rounded-2xl bg-white shadow-inner"
+                className="pl-12 pr-4 py-6 text-xs border border-white/10 rounded-none bg-[#0c0d10]/50 text-white placeholder:text-white/30 focus:border-accent focus:ring-0 focus:outline-none"
               />
             </div>
           </div>
 
           {/* Filters Toggle Button (Mobile) */}
-          <div className="block sm:hidden px-4 py-3 border-b border-border">
+          <div className="block sm:hidden px-4 py-3 border-b border-white/5">
             <Button
               variant="outline"
               onClick={() => setShowFilters(!showFilters)}
-              className="w-full justify-center gap-2 rounded-xl"
+              className="w-full justify-center gap-2 rounded-none border-white/10 text-white bg-transparent hover:bg-white/5"
             >
-              <Filter size={16} />
+              <Filter size={14} className="text-accent" />
               {showFilters ? "Hide Filters" : "Show Filters"}
             </Button>
-          </div>          {/* Filters Grid */}
+          </div>
+
+          {/* Filters Grid */}
           <div className={`p-6 transition-all duration-300 ${showFilters ? 'block' : 'hidden sm:block'}`}>
             <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 items-end">
               {/* Status Filter */}
-              <div>
-                <label className="text-xs font-bold text-muted-foreground tracking-wide uppercase mb-2 block">
-                  {t('properties.filter.status')}
+              <div className="relative">
+                <label className="font-mono text-[7px] text-accent/60 uppercase tracking-widest mb-2 block select-none">
+                  Registry Status
                 </label>
                 <select
                   value={status}
                   onChange={(e) => setStatus(e.target.value)}
-                  className="w-full border-2 border-muted hover:border-primary/20 focus:border-accent rounded-xl py-3 px-4 text-sm bg-white text-primary font-medium"
+                  className="w-full border border-white/10 rounded-none py-3 px-4 text-xs bg-[#0d0f14]/70 text-white focus:border-accent focus:outline-none font-light"
                 >
-                  <option value="all">{language === 'en' ? 'All Statuses' : language === 'es' ? 'Todos los Estados' : 'Alle Status'}</option>
-                  <option value="completed">{language === 'en' ? 'Completed' : language === 'es' ? 'Completado' : 'Abgeschlossen'}</option>
-                  <option value="under construction">{language === 'en' ? 'Under Construction' : language === 'es' ? 'En Construcción' : 'In Bau'}</option>
-                  <option value="available">{language === 'en' ? 'Available' : language === 'es' ? 'Disponible' : 'Verfügbar'}</option>
-                  <option value="sold">{language === 'en' ? 'Sold Out' : language === 'es' ? 'Agotado' : 'Ausverkauft'}</option>
+                  <option value="all">All Statuses</option>
+                  <option value="completed">Completed</option>
+                  <option value="under construction">Under Construction</option>
+                  <option value="available">Available</option>
+                  <option value="sold">Sold Out</option>
                 </select>
               </div>
 
               {/* Project Type Filter */}
-              <div>
-                <label className="text-xs font-bold text-muted-foreground tracking-wide uppercase mb-2 block">
-                  {language === 'en' ? 'Project Type' : language === 'es' ? 'Tipo de Proyecto' : 'Projekttyp'}
+              <div className="relative">
+                <label className="font-mono text-[7px] text-accent/60 uppercase tracking-widest mb-2 block select-none">
+                  Project Division
                 </label>
                 <select
                   value={projectType}
                   onChange={(e) => setProjectType(e.target.value)}
-                  className="w-full border-2 border-muted hover:border-primary/20 focus:border-accent rounded-xl py-3 px-4 text-sm bg-white text-primary font-medium"
+                  className="w-full border border-white/10 rounded-none py-3 px-4 text-xs bg-[#0d0f14]/70 text-white focus:border-accent focus:outline-none font-light"
                 >
-                  <option value="all">{language === 'en' ? 'All Types' : language === 'es' ? 'Todos los Tipos' : 'Alle Typen'}</option>
-                  <option value="plot">{language === 'en' ? 'Residential Plot' : language === 'es' ? 'Terreno Residencial' : 'Baugrundstück'}</option>
-                  <option value="apartment">{language === 'en' ? 'Luxury Apartment' : language === 'es' ? 'Apartamento de Lujo' : 'Luxusapartment'}</option>
+                  <option value="all">All Divisions</option>
+                  <option value="plot">Residential Plot</option>
+                  <option value="apartment">Luxury Apartment</option>
                 </select>
               </div>
 
               {/* Location Filter */}
-              <div>
-                <label className="text-xs font-bold text-muted-foreground tracking-wide uppercase mb-2 block">
-                  {language === 'en' ? 'Location' : language === 'es' ? 'Ubicación' : 'Standort'}
+              <div className="relative">
+                <label className="font-mono text-[7px] text-accent/60 uppercase tracking-widest mb-2 block select-none">
+                  Location Zone
                 </label>
                 <select
                   value={locationFilter}
                   onChange={(e) => setLocationFilter(e.target.value)}
-                  className="w-full border-2 border-muted hover:border-primary/20 focus:border-accent rounded-xl py-3 px-4 text-sm bg-white text-primary font-medium"
+                  className="w-full border border-white/10 rounded-none py-3 px-4 text-xs bg-[#0d0f14]/70 text-white focus:border-accent focus:outline-none font-light"
                 >
-                  <option value="all">{language === 'en' ? 'All Locations' : language === 'es' ? 'Todas las Ubicaciones' : 'Alle Standorte'}</option>
+                  <option value="all">All Locations</option>
                   <option value="dharmawala">Dharmawala</option>
                   <option value="bhopalpani">Bhopalpani</option>
                   <option value="sahastradhara">Sahastradhara Road</option>
@@ -172,16 +205,14 @@ export default function AllProperties() {
               </div>
 
               {/* Price Range */}
-              <div>
-                <div className="flex justify-between items-center mb-2">
-                  <label className="text-xs font-bold text-muted-foreground tracking-wide uppercase">
-                    {t('properties.filter.budget')}
-                  </label>
-                  <span className="text-sm font-bold text-accent">
+              <div className="relative">
+                <div className="flex justify-between items-center mb-2 font-mono text-[7px] text-accent/60 uppercase tracking-widest">
+                  <label>Max Budget</label>
+                  <span className="text-accent font-bold">
                     {maxPrice >= 100000000 ? 'No Limit' : `₹${(maxPrice / 100000).toFixed(0)} Lakh`}
                   </span>
                 </div>
-                <div className="px-2">
+                <div className="px-2 py-3 bg-[#0d0f14]/40 border border-white/5">
                   <Slider
                     value={[maxPrice]}
                     max={100000000}
@@ -190,7 +221,7 @@ export default function AllProperties() {
                     onValueChange={(val) => setMaxPrice(val[0])}
                     className="w-full text-accent"
                   />
-                  <div className="flex justify-between text-[10px] text-muted-foreground mt-2">
+                  <div className="flex justify-between text-[8px] font-mono text-white/30 mt-2">
                     <span>₹10L</span>
                     <span>₹10Cr</span>
                   </div>
@@ -200,11 +231,10 @@ export default function AllProperties() {
               {/* Clear Filters */}
               <div>
                 <Button
-                  variant="outline"
                   onClick={clearFilters}
-                  className="w-full border-2 border-muted hover:border-accent rounded-xl py-5 hover:bg-muted font-bold text-primary transition-all duration-300"
+                  className="w-full btn-luxury-outline border-white/10 text-white hover:bg-white hover:text-black font-bold text-[9px] py-4 uppercase tracking-widest rounded-none"
                 >
-                  {t('properties.filter.clear')}
+                  Reset Filters
                 </Button>
               </div>
             </div>
@@ -213,21 +243,25 @@ export default function AllProperties() {
 
         {/* Mobile View Toggle Bar */}
         <div className="flex lg:hidden justify-center mb-6">
-          <div className="bg-white border rounded-xl p-1 shadow-soft flex gap-2">
+          <div className="bg-[#0a0c10] border border-white/5 rounded-none p-1 flex gap-2">
             <Button
               variant={mobileView === 'list' ? 'default' : 'ghost'}
               onClick={() => setMobileView('list')}
-              className="gap-2 rounded-lg font-semibold"
+              className={`gap-2 rounded-none font-mono text-[9px] tracking-widest uppercase ${
+                mobileView === 'list' ? 'bg-accent text-[#0c0d10]' : 'text-white'
+              }`}
             >
-              <LayoutGrid size={16} />
+              <LayoutGrid size={12} />
               {t('properties.grid')}
             </Button>
             <Button
               variant={mobileView === 'map' ? 'default' : 'ghost'}
               onClick={() => setMobileView('map')}
-              className="gap-2 rounded-lg font-semibold"
+              className={`gap-2 rounded-none font-mono text-[9px] tracking-widest uppercase ${
+                mobileView === 'map' ? 'bg-accent text-[#0c0d10]' : 'text-white'
+              }`}
             >
-              <Map size={16} />
+              <Map size={12} />
               {t('properties.map')}
             </Button>
           </div>
@@ -237,142 +271,35 @@ export default function AllProperties() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* Left Column: Properties List Feed */}
-          <div className={`lg:col-span-7 space-y-6 ${mobileView === 'list' ? 'block' : 'hidden lg:block'}`}>
+          <div 
+            ref={gridRef}
+            className={`lg:col-span-7 space-y-8 ${mobileView === 'list' ? 'block' : 'hidden lg:block'}`}
+          >
             {filtered.length > 0 ? (
               <div className="grid gap-8 grid-cols-1 md:grid-cols-2">
-                {filtered.map((property) => {
-                  // Dynamic translation variables
-                  const displayTitle = language === 'en' ? property.title : property.translations?.[language]?.title || property.title;
-                  const displayLocation = language === 'en' ? property.location : property.translations?.[language]?.location || property.location;
-                  const displayDesc = language === 'en' ? property.description : property.translations?.[language]?.description || property.description;
-                  const displayFeatures = language === 'en' ? property.features : property.translations?.[language]?.features || property.features;
-                  const displaySpecs = {
-                    type: language === 'en' ? property.specs.type : property.translations?.[language]?.specsType || property.specs.type,
-                    possession: language === 'en' ? property.specs.possession : property.translations?.[language]?.specsPossession || property.specs.possession
-                  };
-
-                  return (
-                    <Card
-                      key={property.id}
+                {filtered.map((property) => (
+                  <div key={property.id} className="property-card-wrapper">
+                    <PropertyCard
+                      property={property}
+                      isActive={activePropertyId === property.id}
                       onMouseEnter={() => setActivePropertyId(property.id)}
-                      className={`group flex flex-col hover-card-premium border border-border/80 shadow-soft rounded-3xl overflow-hidden bg-white ${
-                        activePropertyId === property.id ? 'ring-2 ring-accent border-transparent' : ''
-                      }`}
-                    >
-                      {/* Image Section */}
-                      <div className="relative h-56 overflow-hidden bg-muted">
-                        <img
-                          src={property.images?.[0]}
-                          alt={displayTitle}
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                          onError={(e: any) => {
-                            e.target.src = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&h=400&fit=crop";
-                          }}
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent"></div>
-                        
-                        {/* Status Badge */}
-                        <div
-                          className={`absolute top-4 left-4 px-3.5 py-1.5 rounded-full text-xs font-bold shadow-lg ${
-                            property.status.toLowerCase().includes("completed")
-                              ? "bg-primary text-accent border border-accent/30"
-                              : property.status.toLowerCase().includes("construction")
-                              ? "bg-amber-500 text-primary font-extrabold animate-pulse"
-                              : property.status.toLowerCase().includes("sold")
-                              ? "bg-red-500 text-white"
-                              : "bg-green-500 text-white"
-                          }`}
-                        >
-                          {property.status}
-                        </div>
-
-                        {/* Property Specs overlay */}
-                        <div className="absolute bottom-4 left-4 text-white text-xs font-semibold bg-primary/80 backdrop-blur-sm py-1 px-3.5 rounded-full">
-                          {displaySpecs.type}
-                        </div>
-                      </div>
-
-                      {/* Content Section */}
-                      <CardHeader className="pb-3 pt-5">
-                        <div className="flex items-center text-muted-foreground mb-1">
-                          <MapPin size={14} className="mr-1 text-accent flex-shrink-0" />
-                          <span className="text-xs line-clamp-1">{displayLocation}</span>
-                        </div>
-                        <CardTitle className="text-xl font-display font-bold line-clamp-1 group-hover:text-accent transition-colors leading-tight text-primary">
-                          {displayTitle}
-                        </CardTitle>
-                        <p className="text-2xl font-display font-black text-primary mt-2">
-                          {property.price}
-                        </p>
-                      </CardHeader>
-
-                      <CardContent className="flex-1 space-y-4 pb-4">
-                        {/* Area details and stats */}
-                        <div className="grid grid-cols-3 gap-2 p-3 bg-muted/40 rounded-xl text-center text-2xs font-semibold border text-primary">
-                          <div>
-                            <span className="text-muted-foreground block font-medium mb-0.5">Area Size</span>
-                            {property.specs.area || property.specs.sizes[0]}
-                          </div>
-                          <div>
-                            <span className="text-muted-foreground block font-medium mb-0.5">Possession</span>
-                            {displaySpecs.possession}
-                          </div>
-                          <div>
-                            <span className="text-muted-foreground block font-medium mb-0.5">Facing</span>
-                            {property.specs.facing}
-                          </div>
-                        </div>
-
-                        {/* Description snippet */}
-                        <p className="text-xs text-muted-foreground line-clamp-2 leading-relaxed">
-                          {displayDesc}
-                        </p>
-
-                        {/* Features highlight */}
-                        <div className="space-y-1.5 border-t pt-3">
-                          {displayFeatures.slice(0, 2).map((feat, i) => (
-                            <div key={i} className="flex items-center text-xs text-muted-foreground">
-                              <CheckCircle className="w-4 h-4 text-green-500 mr-2 flex-shrink-0" />
-                              <span className="line-clamp-1">{feat}</span>
-                            </div>
-                          ))}
-                        </div>
-                      </CardContent>
-
-                      {/* Footer CTA */}
-                      <CardFooter className="border-t border-border/80 pt-4 pb-5 flex gap-2">
-                        <Button 
-                          onClick={() => (window.location.href = `/property/${property.slug}`)} 
-                          className="flex-1 bg-primary hover:bg-primary-glow text-white rounded-xl py-2.5 font-bold text-xs transition-all shadow-soft"
-                        >
-                          {t('properties.viewDetails')}
-                        </Button>
-                        <Button
-                          variant="outline"
-                          onClick={() => (window.location.href = `/contact`)}
-                          className="rounded-xl border hover:bg-muted font-bold text-xs"
-                        >
-                          <Phone size={14} className="mr-1 text-accent" />
-                          {t('properties.contact')}
-                        </Button>
-                      </CardFooter>
-                    </Card>
-                  );
-                })}
+                    />
+                  </div>
+                ))}
               </div>
             ) : (
               /* No Results Found */
-              <div className="text-center py-16 bg-white rounded-3xl border border-border shadow-soft">
-                <Home size={64} className="mx-auto text-muted-foreground/30 mb-4" />
-                <h3 className="text-2xl font-bold text-primary mb-2">{t('properties.noResults')}</h3>
-                <p className="text-muted-foreground max-w-sm mx-auto text-sm leading-relaxed mb-6">
-                  {t('properties.noResultsDesc')}
+              <div className="text-center py-24 bg-[#0a0c10]/40 rounded-none border border-white/5">
+                <Home size={48} className="mx-auto text-accent/30 mb-6 animate-pulse" />
+                <h3 className="text-xl font-display font-medium text-white mb-3">No Properties Found</h3>
+                <p className="text-white/45 max-w-sm mx-auto text-xs leading-relaxed font-light mb-8">
+                  No listings matched your active filter configuration. Reset the parameters to browse the full catalog.
                 </p>
                 <Button 
                   onClick={clearFilters}
-                  className="bg-primary hover:bg-primary-glow text-white px-6 py-2.5 rounded-xl font-bold"
+                  className="btn-luxury-gold bg-accent text-[#0c0d10] border-transparent font-bold text-[9px] tracking-widest uppercase py-3.5 px-6 rounded-none"
                 >
-                  {t('properties.filter.clear')}
+                  Clear All Filters
                 </Button>
               </div>
             )}
@@ -380,10 +307,10 @@ export default function AllProperties() {
 
           {/* Right Column: Interactive Leaflet Grayscale Map */}
           <div className={`lg:col-span-5 lg:sticky lg:top-28 ${mobileView === 'map' ? 'block' : 'hidden lg:block'}`}>
-            <div className="h-[400px] sm:h-[500px] lg:h-[700px] w-full rounded-3xl overflow-hidden shadow-elegant border bg-white p-2">
-              <div className="absolute top-6 right-6 z-20 bg-primary text-primary-foreground font-mono text-[10px] py-1 px-3 rounded-full border shadow-lg flex items-center gap-1.5">
+            <div className="h-[400px] sm:h-[500px] lg:h-[700px] w-full rounded-none overflow-hidden border border-white/5 bg-[#0a0c10] p-1 relative shadow-2xl">
+              <div className="absolute top-4 right-4 z-20 bg-[#0c0d10] text-accent font-mono text-[8px] py-1 px-3 border border-white/10 tracking-widest uppercase flex items-center gap-1.5 pointer-events-none">
                 <Sparkles size={10} className="text-accent animate-pulse" />
-                Luxury Map Tiles Active
+                System Map Grid Active
               </div>
               <InteractiveMap
                 properties={filtered}

@@ -3,13 +3,14 @@ import { useParams, Link } from "react-router-dom";
 import { 
   MapPin, CheckCircle, Phone, X, Share2, Heart, Eye, Calendar, Home, Bed, 
   Bath, Car, ArrowLeft, Play, Camera, ChevronLeft, ChevronRight, Maximize2, 
-  FileText, Download, Compass, ShieldAlert, Award, Sparkles 
+  FileText, Download, Compass, ShieldAlert, Award, Sparkles, RefreshCw
 } from "lucide-react";
 import { useProperties } from "@/context/PropertyContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { Button } from "@/components/ui/button";
 import SEOHead from "@/components/SEO/SEOHead";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
+import MagneticButton from "@/components/ui/MagneticButton";
 
 // Helper: Get YouTube Embed URL
 function getYouTubeEmbedUrl(link: string | undefined) {
@@ -37,10 +38,10 @@ export default function PropertyDetails() {
 
   if (!property) {
     return (
-      <div className="container py-32 text-center">
-        <h1 className="text-3xl font-bold text-red-500">Property Not Found</h1>
-        <Link to="/properties" className="text-accent font-semibold mt-4 block hover:underline">
-          Return to Properties
+      <div className="container py-32 text-center text-white bg-[#0c0d10] min-h-screen flex flex-col justify-center items-center">
+        <h1 className="text-3xl font-display font-medium text-accent">Property Not Found</h1>
+        <Link to="/properties" className="text-white/60 font-mono text-xs uppercase tracking-widest mt-6 block hover:text-accent transition-colors">
+          Return to Properties Directory
         </Link>
       </div>
     );
@@ -76,7 +77,7 @@ export default function PropertyDetails() {
     setDownloadingBrochure(true);
     setTimeout(() => {
       setDownloadingBrochure(false);
-      // Simulate real PDF prospectus downloading
+      // Simulate PDF prospectus downloading
       const link = document.createElement('a');
       link.href = 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
       link.setAttribute('download', `Kinash_${property.slug}_Brochure.pdf`);
@@ -88,87 +89,105 @@ export default function PropertyDetails() {
   };
 
   return (
-    <section className="min-h-screen bg-gradient-to-b from-background to-muted/20 pt-28 pb-16">
+    <section className="min-h-screen bg-[#0c0d10] text-white pt-28 pb-20 relative overflow-hidden">
       <SEOHead
-        title={displayTitle}
+        title={`${displayTitle} | Kinash Associates`}
         description={displayDesc}
         keywords={`${displayTitle}, property dehradun, kinash listings`}
         canonical={`/property/${property.slug}`}
       />
 
+      {/* Decorative technical line grid */}
+      <div className="absolute inset-0 flex justify-between pointer-events-none opacity-5 px-12 z-0">
+        <div className="w-[1px] h-full bg-white" />
+        <div className="w-[1px] h-full bg-white hidden md:block" />
+        <div className="w-[1px] h-full bg-white hidden md:block" />
+        <div className="w-[1px] h-full bg-white" />
+      </div>
+
       {/* Detail Navbar sticky header */}
-      <div className="bg-white border-b sticky top-[72px] z-30 shadow-soft backdrop-blur-md bg-white/95">
-        <div className="max-w-7xl mx-auto px-4 py-4">
+      <div className="bg-[#0a0c10]/80 border-b border-white/5 sticky top-[72px] z-30 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
+        <div className="max-w-7xl mx-auto px-4 py-4 md:px-8">
           <div className="flex items-center justify-between">
             <Link
               to="/properties"
-              className="flex items-center text-primary hover:text-accent font-bold transition-colors text-sm"
+              className="flex items-center text-white/70 hover:text-accent font-mono text-[9px] tracking-widest uppercase transition-colors"
             >
-              <ArrowLeft size={16} className="mr-2" />
+              <ArrowLeft size={12} className="mr-2 text-accent" />
               {t('detail.back')}
             </Link>
             
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setIsLiked(!isLiked)}
-                className={`p-3 rounded-xl border transition-all duration-300 ${isLiked
-                  ? 'bg-red-50 text-red-500 scale-105 border-red-200'
-                  : 'bg-white hover:bg-muted text-muted-foreground'
+                className={`p-3 border transition-all duration-300 ${isLiked
+                  ? 'bg-accent/10 text-accent border-accent/40 scale-105'
+                  : 'bg-transparent border-white/10 hover:bg-white/5 text-white/60 hover:text-white'
                 }`}
               >
-                <Heart size={16} fill={isLiked ? 'currentColor' : 'none'} />
+                <Heart size={14} fill={isLiked ? 'currentColor' : 'none'} />
               </button>
-              <button className="p-3 rounded-xl border bg-white hover:bg-muted text-muted-foreground transition-all">
-                <Share2 size={16} />
+              
+              <button className="p-3 border border-white/10 bg-transparent hover:bg-white/5 text-white/60 hover:text-white transition-all">
+                <Share2 size={14} />
               </button>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 mt-8">
+      <div className="max-w-7xl mx-auto px-4 mt-12 md:px-8 relative z-10">
         
         {/* Title Block Header */}
-        <div className="bg-white border border-border rounded-3xl p-6 md:p-8 shadow-soft mb-8">
-          <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-6">
+        <div className="bg-[#0a0c10]/70 border border-white/5 p-6 md:p-10 backdrop-blur-md relative mb-10 shadow-2xl">
+          <div className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-accent/40" />
+          <div className="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-accent/40" />
+          
+          <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-8">
             <div>
-              <span className={`inline-block px-3.5 py-1.5 rounded-full text-xs font-bold mb-3 ${
+              <span className={`inline-block px-3.5 py-1.5 border text-[9px] font-mono font-bold uppercase tracking-widest mb-4 ${
                 property.status.toLowerCase().includes("sold")
-                  ? "bg-red-100 text-red-600 border border-red-200"
-                  : "bg-green-100 text-green-600 border border-green-200"
+                  ? "bg-red-950/20 text-red-400 border-red-500/30"
+                  : "bg-accent/5 text-accent border-accent/30"
               }`}>
                 {property.status}
               </span>
-              <h1 className="text-3xl md:text-4xl font-display font-extrabold text-primary mb-3">
+              <h1 className="text-3xl md:text-5xl font-display font-medium text-white mb-4 leading-tight">
                 {displayTitle}
               </h1>
-              <div className="flex items-center text-muted-foreground">
-                <MapPin size={18} className="mr-2 text-accent flex-shrink-0" />
-                <span className="text-base md:text-lg">{displayLocation}</span>
+              <div className="flex items-center text-white/60">
+                <MapPin size={16} className="mr-2 text-accent flex-shrink-0" />
+                <span className="text-sm md:text-base font-light tracking-wide">{displayLocation}</span>
               </div>
             </div>
-            <div className="bg-gradient-to-br from-primary to-primary-glow text-white p-6 rounded-2xl border flex flex-col items-center lg:items-end justify-center min-w-[200px]">
-              <span className="text-xs uppercase tracking-widest text-accent font-semibold mb-1">
+            
+            <div className="bg-[#0d0f14] border border-white/5 p-6 min-w-[240px] text-left lg:text-right relative">
+              <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-accent/30" />
+              <span className="text-[9px] uppercase tracking-[0.25em] text-accent font-mono block mb-1">
                 {language === 'en' ? 'Premium Valuation' : 'Valuación Premium'}
               </span>
-              <span className="text-2xl md:text-3xl font-display font-black text-white">{property.price}</span>
-              <span className="text-2xs text-white/60 font-medium mt-1">Immediate Demarcation Included</span>
+              <span className="text-3xl md:text-4xl font-display font-light text-white block bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent">{property.price}</span>
+              <span className="text-[8px] text-white/40 font-mono tracking-wider uppercase mt-1.5 block">Immediate Demarcation Included</span>
             </div>
           </div>
         </div>
 
         {/* Media Split Layout: Image Slider and Walkthrough Video */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
           
           {/* Main Visual Slider (Left column) */}
           <div className="lg:col-span-7 space-y-4">
             {hasImages && (
-              <div className="relative rounded-3xl overflow-hidden shadow-elegant bg-slate-900 group">
+              <div className="relative border border-white/5 bg-[#0a0c10] overflow-hidden group shadow-2xl">
+                {/* Tech corner marks */}
+                <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-accent/40 z-20" />
+                <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-accent/40 z-20" />
+
                 <div className="aspect-video relative flex items-center justify-center">
                   <img
                     src={property.images[currentImageIndex]}
                     alt={`Property image ${currentImageIndex + 1}`}
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"
+                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                     onError={(e: any) => {
                       e.target.src = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&h=800&fit=crop';
                     }}
@@ -179,34 +198,34 @@ export default function PropertyDetails() {
                     <>
                       <button
                         onClick={prevImage}
-                        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-accent text-white p-3 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100"
+                        className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-[#0c0d10]/80 hover:bg-accent text-white hover:text-black p-3.5 border border-white/10 transition-all duration-300 opacity-0 group-hover:opacity-100"
                       >
-                        <ChevronLeft size={18} />
+                        <ChevronLeft size={16} />
                       </button>
                       <button
                         onClick={nextImage}
-                        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-black/60 hover:bg-accent text-white p-3 rounded-full transition-all duration-300 opacity-0 group-hover:opacity-100"
+                        className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-[#0c0d10]/80 hover:bg-accent text-white hover:text-black p-3.5 border border-white/10 transition-all duration-300 opacity-0 group-hover:opacity-100"
                       >
-                        <ChevronRight size={18} />
+                        <ChevronRight size={16} />
                       </button>
                     </>
                   )}
 
                   {/* Top Bar Indicators */}
-                  <div className="absolute top-4 left-4 bg-primary/80 backdrop-blur-sm text-white px-3.5 py-1.5 rounded-full text-xs font-bold flex items-center shadow-lg gap-1.5">
-                    <Camera size={12} className="text-accent" />
+                  <div className="absolute top-4 left-4 bg-[#0c0d10]/80 backdrop-blur-md text-white px-3.5 py-1.5 border border-white/10 text-[9px] font-mono uppercase tracking-widest flex items-center shadow-lg gap-1.5 z-20">
+                    <Camera size={11} className="text-accent" />
                     {t('detail.gallery')}
                   </div>
 
                   <button
                     onClick={() => setIsGalleryOpen(true)}
-                    className="absolute top-4 right-4 bg-black/65 hover:bg-black text-white p-2 rounded-full shadow-lg transition-all"
+                    className="absolute top-4 right-4 bg-[#0c0d10]/80 hover:bg-accent text-white hover:text-[#0c0d10] p-2 border border-white/10 shadow-lg transition-all z-20"
                   >
-                    <Maximize2 size={16} />
+                    <Maximize2 size={14} />
                   </button>
 
                   {/* Image Counter */}
-                  <div className="absolute bottom-4 right-4 bg-black/70 text-white px-3 py-1 rounded-full text-xs font-bold">
+                  <div className="absolute bottom-4 right-4 bg-[#0c0d10]/80 border border-white/10 text-white px-3 py-1 font-mono text-[9px]">
                     {currentImageIndex + 1} / {property.images.length}
                   </div>
                 </div>
@@ -220,10 +239,10 @@ export default function PropertyDetails() {
                   <button
                     key={idx}
                     onClick={() => setCurrentImageIndex(idx)}
-                    className={`relative flex-shrink-0 w-24 h-16 rounded-xl overflow-hidden transition-all duration-300 ${
+                    className={`relative flex-shrink-0 w-24 h-16 overflow-hidden transition-all duration-300 rounded-none border ${
                       currentImageIndex === idx
-                        ? 'ring-2 ring-accent scale-102 opacity-100'
-                        : 'opacity-60 hover:opacity-100'
+                        ? 'border-accent scale-[1.02] opacity-100'
+                        : 'border-white/10 opacity-50 hover:opacity-100'
                     }`}
                   >
                     <img src={img} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
@@ -236,13 +255,13 @@ export default function PropertyDetails() {
           {/* YouTube HD Walkthrough Walk (Right column) */}
           <div className="lg:col-span-5 h-full">
             {youtubeUrl ? (
-              <div className="bg-slate-900 rounded-3xl overflow-hidden shadow-elegant h-full flex flex-col border border-slate-800">
-                <div className="p-4 bg-slate-950 border-b border-white/5 flex items-center justify-between text-white text-xs font-bold">
-                  <span className="flex items-center gap-1.5 uppercase font-display tracking-widest text-red-500">
-                    <Play size={14} className="fill-red-500" />
+              <div className="bg-[#0a0c10] border border-white/5 overflow-hidden shadow-2xl h-full flex flex-col">
+                <div className="p-4 bg-[#0d0f14] border-b border-white/5 flex items-center justify-between text-white text-[9px] font-mono tracking-widest">
+                  <span className="flex items-center gap-1.5 uppercase text-red-500 font-bold">
+                    <Play size={12} className="fill-red-500" />
                     {t('detail.tour')}
                   </span>
-                  <span className="text-slate-400 font-mono">4K ULTRA HD</span>
+                  <span className="text-white/40">4K AERIAL WALKTHROUGH</span>
                 </div>
                 <div className="relative aspect-video lg:flex-1 h-full min-h-[250px] bg-black">
                   <iframe
@@ -258,19 +277,21 @@ export default function PropertyDetails() {
                 </div>
               </div>
             ) : (
-              <div className="bg-primary text-white rounded-3xl p-8 shadow-elegant h-full flex flex-col justify-center relative overflow-hidden border border-border">
-                <div className="absolute -bottom-10 -left-10 w-44 h-44 bg-accent/15 rounded-full blur-3xl" />
-                <Play className="text-accent mb-4 animate-pulse" size={44} />
-                <h3 className="text-2xl font-display font-extrabold text-white mb-2">
+              <div className="bg-[#0a0c10] text-white border border-white/5 p-8 shadow-2xl h-full flex flex-col justify-center relative overflow-hidden">
+                <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-accent/40" />
+                <Play className="text-accent mb-4 animate-pulse animate-duration-1000" size={36} />
+                <h3 className="text-xl font-display font-medium text-white mb-3">
                   Signature Guided Tour
                 </h3>
-                <p className="text-sm text-white/70 leading-relaxed mb-6 font-light">
+                <p className="text-xs text-white/50 leading-relaxed mb-8 font-light">
                   A high-definition cinematic and aerial walkthrough is currently being produced for this masterpiece. Inquire with our Dehradun registry to schedule a private, in-person site walk.
                 </p>
                 <Link to="/contact">
-                  <Button className="bg-accent hover:bg-accent-glow text-primary font-bold rounded-xl py-3 w-full">
-                    Schedule Site Visit
-                  </Button>
+                  <MagneticButton strength={15} className="w-full">
+                    <Button className="btn-luxury-gold bg-accent text-[#0c0d10] border-transparent font-bold py-4 w-full uppercase text-[9px] tracking-widest rounded-none hover:bg-accent-glow">
+                      Schedule Site Visit
+                    </Button>
+                  </MagneticButton>
                 </Link>
               </div>
             )}
@@ -283,8 +304,10 @@ export default function PropertyDetails() {
           {/* Main Informative Column (Left) */}
           <div className="lg:col-span-8 space-y-8">
             {/* Custom Interactive Luxury Tabs Navigator */}
-            <div className="bg-white border rounded-3xl shadow-soft overflow-hidden">
-              <div className="flex border-b overflow-x-auto bg-muted/20">
+            <div className="bg-[#0a0c10] border border-white/5 shadow-2xl relative">
+              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-accent/40" />
+              
+              <div className="flex border-b border-white/5 overflow-x-auto bg-[#0d0f14]/50 scrollbar-none">
                 {[
                   { id: 'overview', label: t('detail.overview'), icon: Home },
                   { id: 'features', label: t('detail.features'), icon: CheckCircle },
@@ -294,13 +317,13 @@ export default function PropertyDetails() {
                   <button
                     key={tItem.id}
                     onClick={() => setActiveTab(tItem.id)}
-                    className={`flex items-center gap-2 px-6 py-4 font-bold border-b-2 whitespace-nowrap text-sm transition-all duration-300 ${
+                    className={`flex items-center gap-2 px-6 py-4.5 font-mono text-[9px] uppercase tracking-widest border-b-2 whitespace-nowrap transition-all duration-300 ${
                       activeTab === tItem.id
-                        ? 'border-accent text-accent bg-white'
-                        : 'border-transparent text-muted-foreground hover:text-primary hover:bg-muted/10'
+                        ? 'border-accent text-accent bg-[#0a0c10] font-bold'
+                        : 'border-transparent text-white/50 hover:text-white hover:bg-white/5'
                     }`}
                   >
-                    <tItem.icon size={16} />
+                    <tItem.icon size={12} className="text-accent" />
                     {tItem.label}
                   </button>
                 ))}
@@ -309,46 +332,46 @@ export default function PropertyDetails() {
               <div className="p-6 md:p-8">
                 {/* Tab: Overview */}
                 {activeTab === 'overview' && (
-                  <div className="space-y-8">
+                  <div className="space-y-8 animate-fade-in">
                     <div>
-                      <h3 className="text-xl font-display font-bold text-primary mb-4 flex items-center gap-2">
-                        <span className="w-1.5 h-6 bg-accent rounded-full block" />
+                      <h3 className="text-lg font-display font-medium text-white mb-4 flex items-center gap-2">
+                        <span className="w-1 h-5 bg-accent block" />
                         {t('detail.descTitle')}
                       </h3>
-                      <p className="text-base text-muted-foreground leading-relaxed bg-muted/10 p-5 rounded-2xl border border-dashed border-border/70">
+                      <p className="text-xs text-white/60 leading-relaxed bg-[#0d0f14]/40 p-5 border border-white/5 font-light">
                         {displayDesc}
                       </p>
                     </div>
 
                     {/* Specs Cards */}
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                      <div className="bg-muted/30 border p-4 rounded-2xl text-center shadow-soft">
-                        <Home className="mx-auto mb-2 text-accent" size={20} />
-                        <span className="text-[10px] text-muted-foreground font-semibold block uppercase">
+                      <div className="bg-[#0d0f14]/60 border border-white/5 p-4 text-left relative">
+                        <div className="absolute top-0 left-0 w-1 h-1 border-t border-l border-accent/40" />
+                        <span className="text-[8px] text-accent uppercase font-mono tracking-wider block mb-1">
                           {t('detail.type')}
                         </span>
-                        <span className="font-bold text-primary text-sm mt-0.5 block">{displaySpecs.type}</span>
+                        <span className="font-display font-medium text-white text-xs block">{displaySpecs.type}</span>
                       </div>
-                      <div className="bg-muted/30 border p-4 rounded-2xl text-center shadow-soft">
-                        <Calendar className="mx-auto mb-2 text-accent" size={20} />
-                        <span className="text-[10px] text-muted-foreground font-semibold block uppercase">
+                      <div className="bg-[#0d0f14]/60 border border-white/5 p-4 text-left relative">
+                        <div className="absolute top-0 left-0 w-1 h-1 border-t border-l border-accent/40" />
+                        <span className="text-[8px] text-accent uppercase font-mono tracking-wider block mb-1">
                           {t('detail.possession')}
                         </span>
-                        <span className="font-bold text-primary text-sm mt-0.5 block">{displaySpecs.possession}</span>
+                        <span className="font-display font-medium text-white text-xs block">{displaySpecs.possession}</span>
                       </div>
-                      <div className="bg-muted/30 border p-4 rounded-2xl text-center shadow-soft">
-                        <Compass className="mx-auto mb-2 text-accent" size={20} />
-                        <span className="text-[10px] text-muted-foreground font-semibold block uppercase">
+                      <div className="bg-[#0d0f14]/60 border border-white/5 p-4 text-left relative">
+                        <div className="absolute top-0 left-0 w-1 h-1 border-t border-l border-accent/40" />
+                        <span className="text-[8px] text-accent uppercase font-mono tracking-wider block mb-1">
                           {t('detail.facing')}
                         </span>
-                        <span className="font-bold text-primary text-sm mt-0.5 block">{displaySpecs.facing}</span>
+                        <span className="font-display font-medium text-white text-xs block">{displaySpecs.facing}</span>
                       </div>
-                      <div className="bg-muted/30 border p-4 rounded-2xl text-center shadow-soft">
-                        <Sparkles className="mx-auto mb-2 text-accent" size={20} />
-                        <span className="text-[10px] text-muted-foreground font-semibold block uppercase">
+                      <div className="bg-[#0d0f14]/60 border border-white/5 p-4 text-left relative">
+                        <div className="absolute top-0 left-0 w-1 h-1 border-t border-l border-accent/40" />
+                        <span className="text-[8px] text-accent uppercase font-mono tracking-wider block mb-1">
                           {t('detail.sizeOptions')}
                         </span>
-                        <span className="font-bold text-primary text-xs mt-1 block">
+                        <span className="font-mono text-white text-[9px] mt-0.5 block line-clamp-1">
                           {property.specs.sizes.join(', ')}
                         </span>
                       </div>
@@ -358,16 +381,16 @@ export default function PropertyDetails() {
 
                 {/* Tab: Features */}
                 {activeTab === 'features' && (
-                  <div>
-                    <h3 className="text-xl font-display font-bold text-primary mb-6 flex items-center gap-2">
-                      <span className="w-1.5 h-6 bg-accent rounded-full block" />
+                  <div className="animate-fade-in">
+                    <h3 className="text-lg font-display font-medium text-white mb-6 flex items-center gap-2">
+                      <span className="w-1 h-5 bg-accent block" />
                       Amenities & Key Provisions
                     </h3>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {displayFeatures.map((feat, idx) => (
-                        <div key={idx} className="flex items-center gap-3 p-4 bg-muted/20 border rounded-2xl hover:shadow-soft transition-all">
-                          <CheckCircle className="text-green-500 flex-shrink-0" size={18} />
-                          <span className="text-sm font-semibold text-primary">{feat}</span>
+                        <div key={idx} className="flex items-center gap-3.5 p-4 bg-[#0d0f14]/40 border border-white/5">
+                          <CheckCircle className="text-accent flex-shrink-0" size={14} />
+                          <span className="text-xs font-light tracking-wide text-white/80">{feat}</span>
                         </div>
                       ))}
                     </div>
@@ -376,23 +399,23 @@ export default function PropertyDetails() {
 
                 {/* Tab: Floor Plans */}
                 {activeTab === 'floor' && (
-                  <div className="space-y-6">
-                    <h3 className="text-xl font-display font-bold text-primary mb-4 flex items-center gap-2">
-                      <span className="w-1.5 h-6 bg-accent rounded-full block" />
+                  <div className="space-y-6 animate-fade-in">
+                    <h3 className="text-lg font-display font-medium text-white mb-4 flex items-center gap-2">
+                      <span className="w-1 h-5 bg-accent block" />
                       Architectural Floor & Layout Plans
                     </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                    <p className="text-xs text-white/55 leading-relaxed font-light mb-4">
                       Carefully engineered space configuration utilizing maximum thermal insulation, solar access, and functional airflow pathways.
                     </p>
-                    <div className="bg-slate-900 rounded-2xl overflow-hidden border max-w-lg mx-auto relative group shadow-elegant">
+                    <div className="bg-[#0d0f14] border border-white/5 overflow-hidden max-w-lg mx-auto relative group shadow-2xl">
                       <img
                         src="https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop"
                         alt="Premium Layout Floor Plan"
-                        className="w-full h-auto opacity-80"
+                        className="w-full h-auto opacity-70 group-hover:scale-102 transition-transform duration-500"
                       />
-                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <span className="text-white text-xs font-bold uppercase tracking-wider bg-primary/80 py-2 px-4 rounded-full border shadow-lg flex items-center gap-2">
-                          <Maximize2 size={12} /> Click to Expand Blueprint
+                      <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                        <span className="text-white text-[9px] font-mono uppercase tracking-widest bg-[#0c0d10] border border-white/10 py-3 px-5 shadow-lg flex items-center gap-2">
+                          <Maximize2 size={10} className="text-accent" /> Click to Expand Blueprint
                         </span>
                       </div>
                     </div>
@@ -401,35 +424,35 @@ export default function PropertyDetails() {
 
                 {/* Tab: 3D Tour */}
                 {activeTab === 'tour3d' && (
-                  <div className="space-y-6">
-                    <h3 className="text-xl font-display font-bold text-primary mb-4 flex items-center gap-2">
-                      <span className="w-1.5 h-6 bg-accent rounded-full block" />
+                  <div className="space-y-6 animate-fade-in">
+                    <h3 className="text-lg font-display font-medium text-white mb-4 flex items-center gap-2">
+                      <span className="w-1 h-5 bg-accent block" />
                       Interactive 360° Virtual Walkthrough
                     </h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed font-light">
+                    <p className="text-xs text-white/55 leading-relaxed font-light">
                       Teleport directly into the site with our virtual 3D panorama scanner. Rotate 360 degrees and visually explore architectural demarcations.
                     </p>
                     
                     {/* Visual 3D Tour Portal */}
-                    <div className="relative rounded-3xl overflow-hidden border shadow-elegant h-[350px] bg-slate-950 flex items-center justify-center">
+                    <div className="relative border border-white/5 overflow-hidden shadow-2xl h-[350px] bg-slate-950 flex items-center justify-center">
                       <img
                         src="https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=1200&h=600&fit=crop"
                         alt="3D Space panorama preview"
-                        className="absolute inset-0 w-full h-full object-cover opacity-50 blur-[1px]"
+                        className="absolute inset-0 w-full h-full object-cover opacity-30 blur-[1px]"
                       />
                       <div className="relative z-10 text-center max-w-sm px-6">
-                        <div className="w-16 h-16 rounded-full bg-accent/20 border-2 border-accent text-accent flex items-center justify-center mx-auto mb-4 animate-bounce">
-                          <Compass size={32} />
+                        <div className="w-14 h-14 rounded-full bg-accent/10 border border-accent text-accent flex items-center justify-center mx-auto mb-4 animate-bounce">
+                          <Compass size={24} />
                         </div>
-                        <h4 className="font-display font-bold text-white text-lg mb-2">
+                        <h4 className="font-display font-medium text-white text-base mb-2">
                           Interactive 360° Portal Ready
                         </h4>
-                        <p className="text-xs text-white/70 mb-6">
+                        <p className="text-[11px] text-white/60 mb-6 leading-relaxed font-light">
                           Explore high-resolution spatial virtual walkthrough coordinates. Fully optimized for iPad, VR headsets, and desktop viewers.
                         </p>
                         <Button
                           onClick={() => window.open(property.virtualTourUrl || '#', '_blank')}
-                          className="bg-accent hover:bg-accent-glow text-primary font-bold rounded-xl px-6"
+                          className="bg-accent hover:bg-accent-glow text-[#0c0d10] border-transparent font-bold py-3 px-6 rounded-none font-mono text-[9px] uppercase tracking-widest"
                         >
                           Launch 360° VR Tour
                         </Button>
@@ -445,45 +468,47 @@ export default function PropertyDetails() {
           <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-[160px]">
             
             {/* Download brochure panel */}
-            <div className="bg-white border border-border rounded-3xl p-6 md:p-8 shadow-soft">
-              <h3 className="font-display font-bold text-lg text-primary mb-4 flex items-center gap-2">
-                <FileText className="text-accent" size={20} />
+            <div className="bg-[#0a0c10] border border-white/5 p-6 md:p-8 shadow-2xl relative">
+              <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-accent/40" />
+              <h3 className="font-display font-medium text-base text-white mb-4 flex items-center gap-2">
+                <FileText className="text-accent" size={16} />
                 {t('detail.brochure')}
               </h3>
-              <p className="text-xs text-muted-foreground leading-relaxed mb-6">
+              <p className="text-xs text-white/50 leading-relaxed mb-6 font-light">
                 Receive the complete architectural prospectus, including fine-grained blueprints, soil testing results, layout plans, and full pricing matrices.
               </p>
               <Button
                 onClick={() => setIsBrochureOpen(true)}
-                className="w-full bg-primary hover:bg-primary-glow text-white font-bold rounded-xl py-3 flex items-center justify-center gap-2 shadow-soft"
+                className="w-full bg-[#0d0f14] border border-white/10 hover:bg-accent hover:text-[#0c0d10] text-white font-bold py-3.5 flex items-center justify-center gap-2 rounded-none font-mono text-[9px] tracking-widest uppercase hover:border-transparent transition-all"
               >
-                <Download size={16} />
+                <Download size={12} />
                 Get PDF Brochure
               </Button>
             </div>
 
             {/* Direct Dial / Action list */}
-            <div className="bg-white border border-border rounded-3xl p-6 md:p-8 shadow-soft">
-              <h3 className="font-display font-bold text-lg text-primary mb-6">
+            <div className="bg-[#0a0c10] border border-white/5 p-6 md:p-8 shadow-2xl relative">
+              <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-accent/40" />
+              <h3 className="font-display font-medium text-base text-white mb-6">
                 {t('detail.highlights')}
               </h3>
               <div className="space-y-4">
-                <div className="flex items-center p-3 bg-muted/40 rounded-xl border border-dashed border-border/80">
-                  <Phone className="text-accent mr-3" size={16} />
+                <div className="flex items-center p-3 bg-[#0d0f14]/50 border border-white/5">
+                  <Phone className="text-accent mr-3.5 flex-shrink-0" size={14} />
                   <div>
-                    <span className="text-[10px] text-muted-foreground font-semibold block">DIRECT PHONE</span>
-                    <span className="text-xs font-bold text-primary">{property.contact}</span>
+                    <span className="text-[8px] text-white/40 font-mono tracking-wider uppercase block">DIRECT PHONE</span>
+                    <span className="text-xs font-bold text-white tracking-wide">{property.contact}</span>
                   </div>
                 </div>
 
-                <div className="space-y-2">
+                <div className="space-y-2 pt-2">
                   <Link to="/contact">
-                    <Button className="w-full text-xs py-2.5 rounded-xl font-bold" variant="outline">
+                    <Button className="w-full text-[9px] font-mono uppercase tracking-widest py-3 border border-white/10 text-white rounded-none hover:bg-white/5" variant="outline">
                       {t('detail.sendMessage')}
                     </Button>
                   </Link>
                   <Link to="/contact">
-                    <Button className="w-full bg-primary hover:bg-primary-glow text-white text-xs py-2.5 rounded-xl font-bold shadow-soft">
+                    <Button className="w-full btn-luxury-gold bg-accent text-[#0c0d10] text-[9px] font-mono uppercase tracking-widest py-3.5 rounded-none font-bold hover:bg-accent-glow shadow-md">
                       {t('detail.schedule')}
                     </Button>
                   </Link>
@@ -496,14 +521,14 @@ export default function PropertyDetails() {
 
       {/* Full-Screen Zoom Image Modal */}
       {isGalleryOpen && hasImages && (
-        <div className="fixed inset-0 bg-black/95 flex items-center justify-center z-50 animate-fade-in">
+        <div className="fixed inset-0 bg-[#0c0d10]/95 flex items-center justify-center z-50 animate-fade-in backdrop-blur-sm">
           <div className="relative w-full h-full flex items-center justify-center p-4">
             {/* Close */}
             <button
-              className="absolute top-6 right-6 text-white hover:text-accent bg-black/50 rounded-full p-3 z-10 transition-all"
+              className="absolute top-6 right-6 text-white/60 hover:text-accent bg-black/40 hover:bg-[#0c0d10] border border-white/10 p-3 z-10 transition-all"
               onClick={() => setIsGalleryOpen(false)}
             >
-              <X size={24} />
+              <X size={20} />
             </button>
 
             {/* Navigation */}
@@ -511,15 +536,15 @@ export default function PropertyDetails() {
               <>
                 <button
                   onClick={prevImage}
-                  className="absolute left-6 top-1/2 transform -translate-y-1/2 text-white hover:text-accent bg-black/50 rounded-full p-4 transition-all z-10"
+                  className="absolute left-6 top-1/2 transform -translate-y-1/2 text-white hover:text-black bg-[#0c0d10]/60 hover:bg-accent border border-white/10 p-4 transition-all z-10"
                 >
-                  <ChevronLeft size={24} />
+                  <ChevronLeft size={20} />
                 </button>
                 <button
                   onClick={nextImage}
-                  className="absolute right-6 top-1/2 transform -translate-y-1/2 text-white hover:text-accent bg-black/50 rounded-full p-4 transition-all z-10"
+                  className="absolute right-6 top-1/2 transform -translate-y-1/2 text-white hover:text-black bg-[#0c0d10]/60 hover:bg-accent border border-white/10 p-4 transition-all z-10"
                 >
-                  <ChevronRight size={24} />
+                  <ChevronRight size={20} />
                 </button>
               </>
             )}
@@ -528,13 +553,13 @@ export default function PropertyDetails() {
             <img
               src={property.images[currentImageIndex]}
               alt={`Expanded property image ${currentImageIndex + 1}`}
-              className="max-w-full max-h-full object-contain rounded-lg shadow-2xl"
+              className="max-w-full max-h-full object-contain border border-white/5 shadow-2xl"
               onError={(e: any) => {
                 e.target.src = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&h=800&fit=crop';
               }}
             />
 
-            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-black/70 text-white px-5 py-2 rounded-full font-bold text-sm">
+            <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 bg-[#0c0d10] border border-white/10 text-white px-5 py-2 font-mono text-xs">
               {currentImageIndex + 1} / {property.images.length}
             </div>
           </div>
@@ -543,41 +568,43 @@ export default function PropertyDetails() {
 
       {/* Brochure Prospectus Download Modal Dialog */}
       <Dialog open={isBrochureOpen} onOpenChange={setIsBrochureOpen}>
-        <DialogContent className="max-w-md bg-white rounded-3xl border shadow-elegant p-6 outline-none">
-          <DialogHeader className="border-b pb-4 mb-4">
-            <DialogTitle className="text-xl font-display font-extrabold text-primary flex items-center gap-2">
-              <Award className="text-accent animate-pulse" />
+        <DialogContent className="max-w-md bg-[#0a0c10] border border-white/10 rounded-none shadow-2xl p-6 outline-none text-white relative">
+          <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-accent/40" />
+          
+          <DialogHeader className="border-b border-white/5 pb-4 mb-4">
+            <DialogTitle className="text-lg font-display font-medium text-white flex items-center gap-2">
+              <Award className="text-accent animate-pulse" size={18} />
               {t('detail.brochureDownload')}
             </DialogTitle>
-            <DialogDescription className="text-xs text-muted-foreground mt-1">
+            <DialogDescription className="text-[10px] text-white/40 mt-1 uppercase font-mono tracking-wider">
               Securely authenticate to retrieve the luxury prospectus.
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-4">
-            <p className="text-sm text-muted-foreground leading-relaxed">
+            <p className="text-xs text-white/60 leading-relaxed font-light">
               {t('detail.brochureText')} By downloading, your interest is logged in our corporate pipeline to coordinate priority site allocations.
             </p>
             
-            <div className="bg-muted/40 p-4 rounded-xl border border-dashed text-2xs space-y-1 text-primary">
-              <div><span className="font-bold text-muted-foreground uppercase">File:</span> Kinash_Prospectus_{property.slug}.pdf</div>
-              <div><span className="font-bold text-muted-foreground uppercase">Size:</span> 14.8 MB</div>
-              <div><span className="font-bold text-muted-foreground uppercase">Format:</span> Print Ready vector layers</div>
+            <div className="bg-[#0d0f14] p-4 border border-white/5 text-[9px] font-mono tracking-wide uppercase space-y-1 text-white/60">
+              <div><span className="text-accent/60 mr-1.5">File:</span> Kinash_Prospectus_{property.slug}.pdf</div>
+              <div><span className="text-accent/60 mr-1.5">Size:</span> 14.8 MB</div>
+              <div><span className="text-accent/60 mr-1.5">Format:</span> Print Ready vector layers</div>
             </div>
 
             <Button
               onClick={handleDownloadBrochure}
               disabled={downloadingBrochure}
-              className="w-full bg-primary hover:bg-primary-glow text-white font-bold py-3.5 rounded-xl flex items-center justify-center gap-2 shadow-soft"
+              className="w-full btn-luxury-gold bg-accent text-[#0c0d10] border-transparent font-bold py-3.5 rounded-none flex items-center justify-center gap-2 uppercase tracking-widest font-mono text-[9px] hover:bg-accent-glow"
             >
               {downloadingBrochure ? (
                 <>
-                  <RefreshCw className="animate-spin" size={16} />
+                  <RefreshCw className="animate-spin" size={12} />
                   Preparing portfolio dossier...
                 </>
               ) : (
                 <>
-                  <Download size={16} />
+                  <Download size={12} />
                   Download Prospectus
                 </>
               )}

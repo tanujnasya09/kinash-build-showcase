@@ -1,0 +1,193 @@
+import React, { useRef, useState } from 'react';
+import { Link } from 'react-router-dom';
+import { MapPin, Phone, CheckCircle, ArrowUpRight } from 'lucide-react';
+import { Property } from '@/context/PropertyContext';
+import { useLanguage } from '@/context/LanguageContext';
+import { Button } from '@/components/ui/button';
+import MagneticButton from '@/components/ui/MagneticButton';
+import gsap from 'gsap';
+
+interface PropertyCardProps {
+  property: Property;
+  isActive?: boolean;
+  onMouseEnter?: () => void;
+}
+
+export default function PropertyCard({ property, isActive = false, onMouseEnter }: PropertyCardProps) {
+  const { language, t } = useLanguage();
+  const cardRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const borderRef = useRef<HTMLDivElement>(null);
+
+  // Mouse move parallax coordinates for inside image
+  const [parallax, setParallax] = useState({ x: 0, y: 0 });
+
+  const displayTitle = language === 'en' ? property.title : property.translations?.[language]?.title || property.title;
+  const displayLocation = language === 'en' ? property.location : property.translations?.[language]?.location || property.location;
+  const displayDesc = language === 'en' ? property.description : property.translations?.[language]?.description || property.description;
+  const displayFeatures = language === 'en' ? property.features : property.translations?.[language]?.features || property.features;
+  const displaySpecs = {
+    type: language === 'en' ? property.specs.type : property.translations?.[language]?.specsType || property.specs.type,
+    possession: language === 'en' ? property.specs.possession : property.translations?.[language]?.specsPossession || property.specs.possession
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const card = cardRef.current;
+    if (!card) return;
+
+    const rect = card.getBoundingClientRect();
+    const x = (e.clientX - rect.left) / rect.width - 0.5; // range: -0.5 to 0.5
+    const y = (e.clientY - rect.top) / rect.height - 0.5; // range: -0.5 to 0.5
+
+    // Image Parallax Shift
+    setParallax({ x: x * 15, y: y * 15 });
+
+    // Shine / Border Follow Effect
+    if (borderRef.current) {
+      const borderX = e.clientX - rect.left;
+      const borderY = e.clientY - rect.top;
+      gsap.to(borderRef.current, {
+        background: `radial-gradient(400px circle at ${borderX}px ${borderY}px, rgba(223, 186, 72, 0.25), transparent 40%)`,
+        duration: 0.3
+      });
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setParallax({ x: 0, y: 0 });
+    if (borderRef.current) {
+      gsap.to(borderRef.current, {
+        background: 'transparent',
+        duration: 0.6
+      });
+    }
+  };
+
+  return (
+    <div
+      ref={cardRef}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      onMouseEnter={onMouseEnter}
+      className={`group relative flex flex-col w-full bg-[#0a0c10]/80 border border-white/5 shadow-2xl transition-all duration-700 overflow-hidden ${
+        isActive ? 'border-accent/50 shadow-[0_0_50px_rgba(223,186,72,0.15)]' : 'hover:border-accent/20'
+      }`}
+    >
+      {/* Animated Hover Border Overlay */}
+      <div 
+        ref={borderRef} 
+        className="absolute inset-0 pointer-events-none z-20 border border-transparent transition-all duration-300" 
+      />
+
+      {/* Technical corner marks for architectural design aesthetic */}
+      <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-accent/30 pointer-events-none z-10" />
+      <div className="absolute top-0 right-0 w-1.5 h-1.5 border-t border-r border-accent/30 pointer-events-none z-10" />
+      <div className="absolute bottom-0 left-0 w-1.5 h-1.5 border-b border-l border-accent/30 pointer-events-none z-10" />
+      <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-accent/30 pointer-events-none z-10" />
+
+      {/* Image container with hidden overflow */}
+      <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#0d0f14]">
+        <img
+          ref={imgRef}
+          src={property.images?.[0]}
+          alt={displayTitle}
+          className="w-full h-full object-cover scale-[1.08] transition-transform duration-700"
+          style={{
+            transform: `translate3d(${parallax.x}px, ${parallax.y}px, 0) scale(1.1)`,
+          }}
+          onError={(e: any) => {
+            e.target.src = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop";
+          }}
+        />
+        {/* Dark gold color tint overlay */}
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0c0d10] via-[#0c0d10]/15 to-transparent z-10" />
+        
+        {/* Luxury Glassmorphic Status Badge */}
+        <div
+          className={`absolute top-4 left-4 z-20 px-3.5 py-1.5 bg-[#0c0d10]/60 backdrop-blur-md border text-[9px] font-sans font-bold uppercase tracking-widest ${
+            property.status.toLowerCase().includes("completed")
+              ? "text-accent border-accent/30"
+              : property.status.toLowerCase().includes("construction")
+              ? "text-amber-400 border-amber-400/30"
+              : property.status.toLowerCase().includes("sold")
+              ? "text-red-400 border-red-400/30"
+              : "text-green-400 border-green-400/30"
+          }`}
+        >
+          {property.status}
+        </div>
+
+        {/* Spec Badge Overlay */}
+        <div className="absolute bottom-4 left-4 z-20 text-[9px] font-mono uppercase tracking-widest text-[#0c0d10] bg-accent px-3 py-1 font-bold">
+          {displaySpecs.type}
+        </div>
+      </div>
+
+      {/* Info Content Section */}
+      <div className="p-6 flex flex-col justify-between flex-1 relative z-10">
+        <div>
+          <div className="flex items-center text-white/50 mb-2 font-mono text-[9px] uppercase tracking-wider">
+            <MapPin size={10} className="mr-1.5 text-accent flex-shrink-0" />
+            <span className="line-clamp-1">{displayLocation}</span>
+          </div>
+          <h3 className="text-lg font-display font-medium text-white mb-2 line-clamp-1 group-hover:text-accent transition-colors duration-500 leading-tight">
+            {displayTitle}
+          </h3>
+          <p className="text-xl font-display font-extralight text-accent bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent mb-4">
+            {property.price}
+          </p>
+
+          {/* Quick Technical specifications */}
+          <div className="grid grid-cols-3 gap-2 p-3 bg-[#0d0f14]/50 border border-white/5 text-[9px] font-mono tracking-wider uppercase text-white/60 mb-4">
+            <div className="text-center border-r border-white/5">
+              <span className="text-accent/50 block font-normal text-[7px] mb-0.5">SIZE</span>
+              {property.specs.area || property.specs.sizes[0]}
+            </div>
+            <div className="text-center border-r border-white/5">
+              <span className="text-accent/50 block font-normal text-[7px] mb-0.5">TIMELINE</span>
+              {displaySpecs.possession}
+            </div>
+            <div className="text-center">
+              <span className="text-accent/50 block font-normal text-[7px] mb-0.5">FACING</span>
+              {property.specs.facing}
+            </div>
+          </div>
+
+          <p className="text-xs text-white/60 font-light line-clamp-2 leading-relaxed mb-6">
+            {displayDesc}
+          </p>
+
+          {/* Features checkmarks */}
+          <div className="space-y-1.5 border-t border-white/5 pt-4 mb-6">
+            {displayFeatures.slice(0, 2).map((feat, i) => (
+              <div key={i} className="flex items-center text-[10px] text-white/50 font-sans tracking-wide">
+                <CheckCircle className="w-3.5 h-3.5 text-accent mr-2.5 flex-shrink-0" />
+                <span className="line-clamp-1 font-light">{feat}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Footer Actions */}
+        <div className="flex gap-3 mt-auto items-center pt-2">
+          <Link to={`/property/${property.slug}`} className="flex-1">
+            <Button 
+              className="w-full btn-luxury-gold bg-[#0d0f14] hover:bg-accent hover:text-[#0c0d10] text-white border border-white/10 rounded-none py-3.5 text-[9px] tracking-widest uppercase flex items-center justify-center gap-1.5"
+            >
+              Details
+              <ArrowUpRight size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+            </Button>
+          </Link>
+          <Link to="/contact">
+            <MagneticButton 
+              className="p-3 bg-accent text-[#0c0d10] border-transparent rounded-none hover:bg-accent-glow flex items-center justify-center"
+              strength={20}
+            >
+              <Phone size={12} />
+            </MagneticButton>
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}

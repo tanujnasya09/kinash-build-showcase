@@ -1,31 +1,10 @@
-import { useState } from 'react';
-import { Users, Award, Target, Heart, Phone, Mail, MapPin, Send } from 'lucide-react';
+import { Target, Heart, Users, Award, ShieldCheck, ArrowRight } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import SEOHead from '@/components/SEO/SEOHead';
+import MagneticButton from '@/components/ui/MagneticButton';
 
 const AboutPage = () => {
-  const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    phone: '',
-    company: '',
-    service: '',
-    message: ''
-  });
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    console.log('Form submitted:', formData);
-    // Handle form submission here
-  };
-
   const values = [
     {
       icon: Target,
@@ -73,91 +52,96 @@ const AboutPage = () => {
   const stats = [
     { value: '15+', label: 'Years of Excellence' },
     { value: '500+', label: 'Projects Completed' },
-    { value: '$2B+', label: 'Value Delivered' },
+    { value: '₹200Cr+', label: 'Equity Value Delivered' },
     { value: '98%', label: 'Client Satisfaction' }
   ];
 
   return (
-    <div className="pt-8">
+    <div className="min-h-screen bg-[#0c0d10] text-white pt-28 pb-16 relative overflow-hidden">
+      <SEOHead
+        title="Our Story & Vision | Kinash Associates"
+        description="Learn about the heritage, leadership team, and corporate values of Kinash Associates, leading construction and real estate firm."
+        keywords="kinash associates, construction directors dehradun, real estate history"
+        canonical="/about"
+      />
+
+      {/* Decorative technical line grid */}
+      <div className="absolute inset-0 flex justify-between pointer-events-none opacity-5 px-12 z-0">
+        <div className="w-[1px] h-full bg-white" />
+        <div className="w-[1px] h-full bg-white hidden md:block" />
+        <div className="w-[1px] h-full bg-white hidden md:block" />
+        <div className="w-[1px] h-full bg-white" />
+      </div>
+
       {/* Hero Section */}
-      <section className="py-24 bg-gradient-to-r from-primary to-primary-glow text-primary-foreground">
-        <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl md:text-6xl font-display font-bold mb-6">
-            About Kinash Associates
+      <section className="py-24 relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0a0c10] to-transparent opacity-40 z-0" />
+        <div className="container mx-auto px-4 md:px-8 relative z-10 max-w-5xl">
+          <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-4">
+            corporate profile
+          </span>
+          <h1 className="text-4xl md:text-6xl font-display font-medium leading-none mb-6">
+            Building Legacies, Shaping <span className="bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent italic font-light">Landscapes</span>.
           </h1>
-          <p className="text-xl text-primary-foreground/90 max-w-3xl mx-auto leading-relaxed">
-            Building dreams into reality through exceptional construction and real estate services. 
-            Our commitment to excellence has made us a trusted partner for over 15 years.
+          <p className="text-xs sm:text-sm text-white/50 leading-relaxed font-light max-w-2xl">
+            Established in Dehradun, Kinash Associates specializes in demarcating high-value plots and constructing state-of-the-art civil infrastructure under verified ISO compliance workflows.
           </p>
         </div>
       </section>
 
       {/* Company Story */}
-      <section className="py-24 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-display font-bold text-primary mb-6">
-                Our Story
-              </h2>
-            </div>
-            
-            <div className="prose prose-lg mx-auto text-muted-foreground leading-relaxed">
-              <p className="text-xl mb-8">
-                Founded in 2009, Kinash Associates began with a simple vision: to transform the construction 
-                and real estate industry through innovation, quality, and unwavering commitment to client success.
-              </p>
-              
-              <p className="mb-8">
-                What started as a small construction firm has grown into a comprehensive real estate and 
-                construction company, delivering projects worth over $2 billion and earning the trust of 
-                clients across commercial, residential, and industrial sectors.
-              </p>
-              
-              <p className="mb-8">
-                Today, we combine traditional craftsmanship with cutting-edge technology to deliver 
-                exceptional results. Our team of experts brings decades of combined experience to every 
-                project, ensuring that your vision becomes a reality that exceeds expectations.
-              </p>
-              
-              <p>
-                As we look to the future, we remain committed to our founding principles while embracing 
-                new technologies and sustainable practices that benefit our clients, communities, and environment.
-              </p>
-            </div>
+      <section className="py-20 relative border-t border-white/5 bg-[#090b10]">
+        <div className="container mx-auto px-4 md:px-8 max-w-4xl">
+          <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-4">
+            our heritage
+          </span>
+          <h2 className="text-3xl font-display font-medium text-white mb-8">
+            The History of Kinash
+          </h2>
+          
+          <div className="space-y-6 text-xs text-white/60 font-light leading-relaxed">
+            <p className="text-sm text-white/80 leading-relaxed font-normal">
+              Founded with a clear vision: to transform the land registry, construction mapping, and real estate development model in Uttarakhand through absolute compliance, legal transparency, and engineering quality.
+            </p>
+            <p>
+              What began as a specialized engineering survey desk has expanded into a premier multi-division contracting firm, delivering high-precision layout demarcations and structural concrete works across private and public sectors.
+            </p>
+            <p>
+              Today, we utilize electronic total station surveying and soil mechanics studies to ensure that every asset in the Kinash Luxury portfolio represents a secure equity path. Our legal partners review each registry title, ensuring zero-risk ownership.
+            </p>
           </div>
         </div>
       </section>
 
       {/* Values Section */}
-      <section className="py-24 bg-muted">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-primary mb-6">
-              Our Values
+      <section className="py-24 border-t border-white/5 bg-[#0c0d10]">
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="max-w-3xl mb-16">
+            <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-3">
+              operating code
+            </span>
+            <h2 className="text-3xl font-display font-medium text-white">
+              The Principles Behind Our Standards
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              The principles that guide everything we do and define who we are as a company.
-            </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {values.map((value, index) => (
+            {values.map((val, idx) => (
               <div 
-                key={index} 
-                className="text-center group"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                key={idx} 
+                className="border border-white/5 bg-[#0a0c10]/60 p-8 relative hover:border-accent/20 transition-colors duration-500 shadow-2xl"
               >
-                <div className="inline-flex items-center justify-center w-20 h-20 bg-primary rounded-full mb-6 group-hover:bg-accent transition-colors duration-300">
-                  <value.icon className="text-white" size={32} />
+                <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-accent/40" />
+                <div className="w-10 h-10 border border-white/10 bg-[#0c0d10] flex items-center justify-center text-accent mb-6">
+                  <val.icon size={16} />
                 </div>
                 
-                <h3 className="text-xl font-display font-semibold text-primary mb-4 group-hover:text-accent transition-colors">
-                  {value.title}
+                <h3 className="text-base font-display font-medium text-white mb-3">
+                  {val.title}
                 </h3>
                 
-                <p className="text-muted-foreground leading-relaxed">
-                  {value.description}
+                <p className="text-[11px] text-white/50 leading-relaxed font-light">
+                  {val.description}
                 </p>
               </div>
             ))}
@@ -165,73 +149,66 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Team Section */}
-      <section className="py-24 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display font-bold text-primary mb-6">
-              Leadership Team
+      {/* Leadership Team */}
+      <section className="py-24 border-t border-white/5 bg-[#090b10]">
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="max-w-3xl mb-16">
+            <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-3">
+              executive council
+            </span>
+            <h2 className="text-3xl font-display font-medium text-white">
+              Governance & Leadership
             </h2>
-            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Meet the experienced professionals leading Kinash Associates to new heights of excellence.
-            </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto">
-            {team.map((member, index) => (
-              <Card 
-                key={index} 
-                className="card-feature group text-center overflow-hidden"
-                style={{ animationDelay: `${index * 0.1}s` }}
+            {team.map((member, idx) => (
+              <div 
+                key={idx} 
+                className="border border-white/5 bg-[#0a0c10]/60 hover:border-accent/25 transition-all duration-500 group shadow-2xl relative"
               >
-                <div className="relative w-32 h-32 mx-auto mb-6 rounded-full overflow-hidden">
+                <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-accent/30" />
+                <div className="relative aspect-square overflow-hidden bg-[#0d0f14] border-b border-white/5">
                   <img 
                     src={member.image} 
                     alt={member.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    className="w-full h-full object-cover grayscale transition-all duration-700 group-hover:scale-105 group-hover:grayscale-0"
                   />
                 </div>
                 
-                <h3 className="text-xl font-display font-semibold text-primary mb-2 group-hover:text-accent transition-colors">
-                  {member.name}
-                </h3>
-                
-                <p className="text-accent font-medium mb-4">
-                  {member.position}
-                </p>
-                
-                <p className="text-muted-foreground leading-relaxed">
-                  {member.bio}
-                </p>
-              </Card>
+                <div className="p-6">
+                  <h3 className="text-base font-display font-medium text-white mb-1">
+                    {member.name}
+                  </h3>
+                  
+                  <span className="text-[9px] font-mono uppercase tracking-widest text-accent block mb-4">
+                    {member.position}
+                  </span>
+                  
+                  <p className="text-[11px] text-white/50 leading-relaxed font-light">
+                    {member.bio}
+                  </p>
+                </div>
+              </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Stats Section */}
-      <section className="py-24 bg-primary text-primary-foreground">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-display font-bold mb-6">
-              Our Track Record
-            </h2>
-            <p className="text-xl text-primary-foreground/90 max-w-3xl mx-auto">
-              Numbers that speak to our commitment and success in delivering exceptional results.
-            </p>
-          </div>
-          
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
+      {/* Track Record Stats */}
+      <section className="py-24 border-t border-white/5 bg-[#0c0d10]">
+        <div className="container mx-auto px-4 md:px-8">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+            {stats.map((stat, idx) => (
               <div 
-                key={index} 
-                className="text-center"
-                style={{ animationDelay: `${index * 0.1}s` }}
+                key={idx} 
+                className="text-center p-6 bg-[#0a0c10]/40 border border-white/5 relative"
               >
-                <div className="text-4xl md:text-5xl font-display font-bold text-accent mb-2">
+                <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-accent/30" />
+                <div className="text-2xl sm:text-3xl font-display font-medium text-accent mb-2">
                   {stat.value}
                 </div>
-                <div className="text-primary-foreground/80 font-medium">
+                <div className="text-[9px] font-mono uppercase tracking-widest text-white/40 font-bold">
                   {stat.label}
                 </div>
               </div>
@@ -240,184 +217,37 @@ const AboutPage = () => {
         </div>
       </section>
 
-      {/* Contact Form Section */}
-      <section className="py-24 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="max-w-6xl mx-auto">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl md:text-5xl font-display font-bold text-primary mb-6">
-                Get In Touch
-              </h2>
-              <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-                Ready to start your project? Contact us today for a consultation and let's discuss 
-                how we can bring your vision to life.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-12">
-              {/* Contact Info */}
-              <div className="space-y-8">
-                <div>
-                  <h3 className="text-2xl font-display font-semibold text-primary mb-6">
-                    Contact Information
-                  </h3>
-                  
-                  <div className="space-y-6">
-                    <div className="flex items-start space-x-4">
-                      <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center flex-shrink-0">
-                        <Phone className="text-white" size={20} />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-primary mb-1">Phone</h4>
-                        <p className="text-muted-foreground">+91 135 277 9000</p>
-                        <p className="text-sm text-muted-foreground">Mon-Fri 8:00 AM - 6:00 PM</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-start space-x-4">
-                      <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center flex-shrink-0">
-                        <Mail className="text-white" size={20} />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-primary mb-1">Email</h4>
-                        <p className="text-muted-foreground">contact@kinash.luxury</p>
-                        <p className="text-sm text-muted-foreground">We'll respond within 24 hours</p>
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-start space-x-4">
-                      <div className="w-12 h-12 bg-primary rounded-xl flex items-center justify-center flex-shrink-0">
-                        <MapPin className="text-white" size={20} />
-                      </div>
-                      <div>
-                        <h4 className="font-semibold text-primary mb-1">Office</h4>
-                        <p className="text-muted-foreground">
-                          Dehradun, Uttarakhand, India
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              
-              {/* Contact Form */}
-              <div className="lg:col-span-2">
-                <Card className="card-elegant">
-                  <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label htmlFor="name" className="block text-sm font-semibold text-primary mb-2">
-                          Full Name *
-                        </label>
-                        <input
-                          type="text"
-                          id="name"
-                          name="name"
-                          value={formData.name}
-                          onChange={handleInputChange}
-                          required
-                          className="w-full px-4 py-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
-                          placeholder="Your full name"
-                        />
-                      </div>
-                      
-                      <div>
-                        <label htmlFor="email" className="block text-sm font-semibold text-primary mb-2">
-                          Email Address *
-                        </label>
-                        <input
-                          type="email"
-                          id="email"
-                          name="email"
-                          value={formData.email}
-                          onChange={handleInputChange}
-                          required
-                          className="w-full px-4 py-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
-                          placeholder="your.email@company.com"
-                        />
-                      </div>
-                    </div>
-                    
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                      <div>
-                        <label htmlFor="phone" className="block text-sm font-semibold text-primary mb-2">
-                          Phone Number
-                        </label>
-                        <input
-                          type="tel"
-                          id="phone"
-                          name="phone"
-                          value={formData.phone}
-                          onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
-                          placeholder="(123) 456-7890"
-                        />
-                      </div>
-                      
-                      <div>
-                        <label htmlFor="company" className="block text-sm font-semibold text-primary mb-2">
-                          Company
-                        </label>
-                        <input
-                          type="text"
-                          id="company"
-                          name="company"
-                          value={formData.company}
-                          onChange={handleInputChange}
-                          className="w-full px-4 py-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
-                          placeholder="Your company name"
-                        />
-                      </div>
-                    </div>
-                    
-                    <div>
-                      <label htmlFor="service" className="block text-sm font-semibold text-primary mb-2">
-                        Service Interest
-                      </label>
-                      <select
-                        id="service"
-                        name="service"
-                        value={formData.service}
-                        onChange={handleInputChange}
-                        className="w-full px-4 py-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all"
-                      >
-                        <option value="">Select a service</option>
-                        <option value="commercial-construction">Commercial Construction</option>
-                        <option value="residential-development">Residential Development</option>
-                        <option value="real-estate-investment">Real Estate Investment</option>
-                        <option value="property-management">Property Management</option>
-                        <option value="consulting">Project Consulting</option>
-                        <option value="other">Other</option>
-                      </select>
-                    </div>
-                    
-                    <div>
-                      <label htmlFor="message" className="block text-sm font-semibold text-primary mb-2">
-                        Project Details *
-                      </label>
-                      <textarea
-                        id="message"
-                        name="message"
-                        value={formData.message}
-                        onChange={handleInputChange}
-                        required
-                        rows={5}
-                        className="w-full px-4 py-3 border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-accent focus:border-transparent transition-all resize-none"
-                        placeholder="Tell us about your project, timeline, budget, and any specific requirements..."
-                      />
-                    </div>
-                    
-                    <Button 
-                      type="submit" 
-                      className="btn-hero w-full py-4 text-lg font-semibold"
-                    >
-                      Send Message
-                      <Send className="ml-2" size={20} />
-                    </Button>
-                  </form>
-                </Card>
-              </div>
-            </div>
+      {/* Call to Action - Clean Luxury Plaque */}
+      <section className="py-24 border-t border-white/5 bg-[#0d0f14]/50 relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(223,186,72,0.05),transparent_40%)] pointer-events-none" />
+        <div className="container mx-auto px-4 md:px-8 text-center relative z-10 max-w-3xl">
+          <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-4">
+            secure connection
+          </span>
+          <h2 className="text-3xl sm:text-5xl font-display font-medium text-white mb-6 leading-none">
+            Ready to Build Your <span className="bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent italic font-light">Legacy</span>?
+          </h2>
+          <p className="text-xs text-white/55 leading-relaxed font-light mb-10 max-w-md mx-auto">
+            Get in touch with a senior portfolio advisor or request technical survey records for active registries.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+            <Link to="/contact" className="w-full sm:w-auto">
+              <MagneticButton strength={20} className="w-full">
+                <Button className="btn-luxury-gold bg-accent text-[#0c0d10] border-transparent font-bold py-4 px-10 rounded-none uppercase text-[9px] tracking-widest hover:bg-accent-glow w-full">
+                  Connect with advisor
+                </Button>
+              </MagneticButton>
+            </Link>
+            <Link to="/properties" className="w-full sm:w-auto">
+              <Button className="btn-luxury-outline border-white/20 text-white hover:bg-white hover:text-black rounded-none py-4 px-10 w-full uppercase text-[9px] tracking-widest font-bold">
+                Browse properties catalog
+              </Button>
+            </Link>
+          </div>
+
+          <div className="mt-12 flex justify-center items-center gap-2 text-[8px] font-mono uppercase tracking-[0.2em] text-white/35">
+            <ShieldCheck size={11} className="text-accent" />
+            SECURED END-TO-END REGISTRY PIPELINE
           </div>
         </div>
       </section>
