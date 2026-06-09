@@ -251,7 +251,7 @@ export default function ContactPage() {
                   />
                 </div>
 
-                <MagneticButton strength={15} className="w-full">
+                <MagneticButton strength={15} className="w-full" as="div">
                   <Button
                     type="submit"
                     disabled={loading}

@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useParams, Link } from "react-router-dom";
-import { 
-  MapPin, CheckCircle, Phone, X, Share2, Heart, Eye, Calendar, Home, Bed, 
-  Bath, Car, ArrowLeft, Play, Camera, ChevronLeft, ChevronRight, Maximize2, 
+import {
+  MapPin, CheckCircle, Phone, X, Share2, Heart, Eye, Calendar, Home, Bed,
+  Bath, Car, ArrowLeft, Play, Camera, ChevronLeft, ChevronRight, Maximize2,
   FileText, Download, Compass, ShieldAlert, Award, Sparkles, RefreshCw
 } from "lucide-react";
 import { useProperties } from "@/context/PropertyContext";
@@ -23,7 +23,7 @@ export default function PropertyDetails() {
   const { id } = useParams();
   const { properties } = useProperties();
   const { t, language } = useLanguage();
-  
+
   // Find property by slug
   const property = properties.find((p) => p.slug.toString() === id);
 
@@ -31,7 +31,7 @@ export default function PropertyDetails() {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
   const [isLiked, setIsLiked] = useState(false);
-  
+
   // Brochure Modal State
   const [isBrochureOpen, setIsBrochureOpen] = useState(false);
   const [downloadingBrochure, setDownloadingBrochure] = useState(false);
@@ -116,18 +116,18 @@ export default function PropertyDetails() {
               <ArrowLeft size={12} className="mr-2 text-accent" />
               {t('detail.back')}
             </Link>
-            
+
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setIsLiked(!isLiked)}
                 className={`p-3 border transition-all duration-300 ${isLiked
                   ? 'bg-accent/10 text-accent border-accent/40 scale-105'
                   : 'bg-transparent border-white/10 hover:bg-white/5 text-white/60 hover:text-white'
-                }`}
+                  }`}
               >
                 <Heart size={14} fill={isLiked ? 'currentColor' : 'none'} />
               </button>
-              
+
               <button className="p-3 border border-white/10 bg-transparent hover:bg-white/5 text-white/60 hover:text-white transition-all">
                 <Share2 size={14} />
               </button>
@@ -137,19 +137,18 @@ export default function PropertyDetails() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 mt-12 md:px-8 relative z-10">
-        
+
         {/* Title Block Header */}
         <div className="bg-[#0a0c10]/70 border border-white/5 p-6 md:p-10 backdrop-blur-md relative mb-10 shadow-2xl">
           <div className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-accent/40" />
           <div className="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-accent/40" />
-          
+
           <div className="flex flex-col lg:flex-row lg:items-start justify-between gap-8">
             <div>
-              <span className={`inline-block px-3.5 py-1.5 border text-[9px] font-mono font-bold uppercase tracking-widest mb-4 ${
-                property.status.toLowerCase().includes("sold")
-                  ? "bg-red-950/20 text-red-400 border-red-500/30"
-                  : "bg-accent/5 text-accent border-accent/30"
-              }`}>
+              <span className={`inline-block px-3.5 py-1.5 border text-[9px] font-mono font-bold uppercase tracking-widest mb-4 ${property.status.toLowerCase().includes("sold")
+                ? "bg-red-950/20 text-red-400 border-red-500/30"
+                : "bg-accent/5 text-accent border-accent/30"
+                }`}>
                 {property.status}
               </span>
               <h1 className="text-3xl md:text-5xl font-display font-medium text-white mb-4 leading-tight">
@@ -160,7 +159,7 @@ export default function PropertyDetails() {
                 <span className="text-sm md:text-base font-light tracking-wide">{displayLocation}</span>
               </div>
             </div>
-            
+
             <div className="bg-[#0d0f14] border border-white/5 p-6 min-w-[240px] text-left lg:text-right relative">
               <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-accent/30" />
               <span className="text-[9px] uppercase tracking-[0.25em] text-accent font-mono block mb-1">
@@ -174,7 +173,7 @@ export default function PropertyDetails() {
 
         {/* Media Split Layout: Image Slider and Walkthrough Video */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mb-12">
-          
+
           {/* Main Visual Slider (Left column) */}
           <div className="lg:col-span-7 space-y-4">
             {hasImages && (
@@ -239,11 +238,10 @@ export default function PropertyDetails() {
                   <button
                     key={idx}
                     onClick={() => setCurrentImageIndex(idx)}
-                    className={`relative flex-shrink-0 w-24 h-16 overflow-hidden transition-all duration-300 rounded-none border ${
-                      currentImageIndex === idx
-                        ? 'border-accent scale-[1.02] opacity-100'
-                        : 'border-white/10 opacity-50 hover:opacity-100'
-                    }`}
+                    className={`relative flex-shrink-0 w-24 h-16 overflow-hidden transition-all duration-300 rounded-none border ${currentImageIndex === idx
+                      ? 'border-accent scale-[1.02] opacity-100'
+                      : 'border-white/10 opacity-50 hover:opacity-100'
+                      }`}
                   >
                     <img src={img} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
                   </button>
@@ -287,7 +285,7 @@ export default function PropertyDetails() {
                   A high-definition cinematic and aerial walkthrough is currently being produced for this masterpiece. Inquire with our Dehradun registry to schedule a private, in-person site walk.
                 </p>
                 <Link to="/contact">
-                  <MagneticButton strength={15} className="w-full">
+                  <MagneticButton strength={15} className="w-full" as="div">
                     <Button className="btn-luxury-gold bg-accent text-[#0c0d10] border-transparent font-bold py-4 w-full uppercase text-[9px] tracking-widest rounded-none hover:bg-accent-glow">
                       Schedule Site Visit
                     </Button>
@@ -300,13 +298,13 @@ export default function PropertyDetails() {
 
         {/* Tab-driven Specs, Floor plan, Virtual Tour and Description */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
+
           {/* Main Informative Column (Left) */}
           <div className="lg:col-span-8 space-y-8">
             {/* Custom Interactive Luxury Tabs Navigator */}
             <div className="bg-[#0a0c10] border border-white/5 shadow-2xl relative">
               <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-accent/40" />
-              
+
               <div className="flex border-b border-white/5 overflow-x-auto bg-[#0d0f14]/50 scrollbar-none">
                 {[
                   { id: 'overview', label: t('detail.overview'), icon: Home },
@@ -317,11 +315,10 @@ export default function PropertyDetails() {
                   <button
                     key={tItem.id}
                     onClick={() => setActiveTab(tItem.id)}
-                    className={`flex items-center gap-2 px-6 py-4.5 font-mono text-[9px] uppercase tracking-widest border-b-2 whitespace-nowrap transition-all duration-300 ${
-                      activeTab === tItem.id
-                        ? 'border-accent text-accent bg-[#0a0c10] font-bold'
-                        : 'border-transparent text-white/50 hover:text-white hover:bg-white/5'
-                    }`}
+                    className={`flex items-center gap-2 px-6 py-2 font-mono text-[12px] uppercase tracking-widest border-b-2 whitespace-nowrap transition-all duration-300 ${activeTab === tItem.id
+                      ? 'border-accent text-accent bg-[#0a0c10] font-bold'
+                      : 'border-transparent text-white/50 hover:text-white hover:bg-white/5'
+                      }`}
                   >
                     <tItem.icon size={12} className="text-accent" />
                     {tItem.label}
@@ -432,7 +429,7 @@ export default function PropertyDetails() {
                     <p className="text-xs text-white/55 leading-relaxed font-light">
                       Teleport directly into the site with our virtual 3D panorama scanner. Rotate 360 degrees and visually explore architectural demarcations.
                     </p>
-                    
+
                     {/* Visual 3D Tour Portal */}
                     <div className="relative border border-white/5 overflow-hidden shadow-2xl h-[350px] bg-slate-950 flex items-center justify-center">
                       <img
@@ -466,7 +463,7 @@ export default function PropertyDetails() {
 
           {/* Contact, Download Brochure & Info Panel (Right) */}
           <div className="lg:col-span-4 space-y-6 lg:sticky lg:top-[160px]">
-            
+
             {/* Download brochure panel */}
             <div className="bg-[#0a0c10] border border-white/5 p-6 md:p-8 shadow-2xl relative">
               <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-accent/40" />
@@ -479,7 +476,7 @@ export default function PropertyDetails() {
               </p>
               <Button
                 onClick={() => setIsBrochureOpen(true)}
-                className="w-full bg-[#0d0f14] border border-white/10 hover:bg-accent hover:text-[#0c0d10] text-white font-bold py-3.5 flex items-center justify-center gap-2 rounded-none font-mono text-[9px] tracking-widest uppercase hover:border-transparent transition-all"
+                className="w-full bg-[#0d0f14] border border-white/10 hover:bg-accent hover:text-[#0c0d10] text-white font-bold py-3.5 flex items-center justify-center gap-2 rounded-none font-mono text-[12px] tracking-widest uppercase hover:border-transparent transition-all"
               >
                 <Download size={12} />
                 Get PDF Brochure
@@ -570,7 +567,7 @@ export default function PropertyDetails() {
       <Dialog open={isBrochureOpen} onOpenChange={setIsBrochureOpen}>
         <DialogContent className="max-w-md bg-[#0a0c10] border border-white/10 rounded-none shadow-2xl p-6 outline-none text-white relative">
           <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-accent/40" />
-          
+
           <DialogHeader className="border-b border-white/5 pb-4 mb-4">
             <DialogTitle className="text-lg font-display font-medium text-white flex items-center gap-2">
               <Award className="text-accent animate-pulse" size={18} />
@@ -585,7 +582,7 @@ export default function PropertyDetails() {
             <p className="text-xs text-white/60 leading-relaxed font-light">
               {t('detail.brochureText')} By downloading, your interest is logged in our corporate pipeline to coordinate priority site allocations.
             </p>
-            
+
             <div className="bg-[#0d0f14] p-4 border border-white/5 text-[9px] font-mono tracking-wide uppercase space-y-1 text-white/60">
               <div><span className="text-accent/60 mr-1.5">File:</span> Kinash_Prospectus_{property.slug}.pdf</div>
               <div><span className="text-accent/60 mr-1.5">Size:</span> 14.8 MB</div>

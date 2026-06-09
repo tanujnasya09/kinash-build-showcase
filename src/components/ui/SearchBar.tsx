@@ -30,7 +30,7 @@ const SearchBar = () => {
       <div className="grid grid-cols-1 md:grid-cols-12 gap-4 items-center">
         {/* Search Query Input */}
         <div className="md:col-span-5 relative">
-          <label className="absolute top-[-8px] left-3 bg-[#0d0f14] px-1.5 font-mono text-[7px] text-accent/60 uppercase tracking-widest select-none">
+          <label className="absolute top-[-8px] left-3 bg-[#0c0d10] px-1.5 font-mono text-[7px] text-accent/60 uppercase tracking-widest select-none">
             Find Registry / Plot
           </label>
           <div className="flex items-center mt-1">
@@ -52,7 +52,7 @@ const SearchBar = () => {
 
         {/* Location Input */}
         <div className="md:col-span-4 relative">
-          <label className="absolute top-[-8px] left-3 bg-[#0d0f14] px-1.5 font-mono text-[7px] text-accent/60 uppercase tracking-widest select-none">
+          <label className="absolute top-[-8px] left-3 bg-[#0c0d10] px-1.5 font-mono text-[7px] text-accent/60 uppercase tracking-widest select-none">
             Region Selection
           </label>
           <div className="flex items-center mt-1">

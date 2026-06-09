@@ -7,6 +7,7 @@ interface MagneticButtonProps {
   onClick?: () => void;
   strength?: number; // pull strength (0 to 1)
   type?: 'button' | 'submit';
+  as?: React.ElementType;
 }
 
 export default function MagneticButton({
@@ -15,9 +16,10 @@ export default function MagneticButton({
   onClick,
   strength = 30,
   type = 'button',
+  as: Component = 'button',
 }: MagneticButtonProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const elementRef = useRef<HTMLButtonElement>(null);
+  const elementRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const container = containerRef.current;
@@ -59,15 +61,14 @@ export default function MagneticButton({
 
   return (
     <div ref={containerRef} className="inline-block p-4 -m-4">
-      <button
+      <Component
         ref={elementRef}
-        type={type}
-        onClick={onClick}
+        {...(Component === 'button' ? { type, onClick } : { onClick })}
         className={`relative select-none ${className}`}
         style={{ transformStyle: 'preserve-3d' }}
       >
         {children}
-      </button>
+      </Component>
     </div>
   );
 }

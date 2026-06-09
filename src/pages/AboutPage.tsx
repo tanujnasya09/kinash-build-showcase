@@ -232,7 +232,7 @@ const AboutPage = () => {
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
             <Link to="/contact" className="w-full sm:w-auto">
-              <MagneticButton strength={20} className="w-full">
+              <MagneticButton strength={20} className="w-full" as="div">
                 <Button className="btn-luxury-gold bg-accent text-[#0c0d10] border-transparent font-bold py-4 px-10 rounded-none uppercase text-[9px] tracking-widest hover:bg-accent-glow w-full">
                   Connect with advisor
                 </Button>

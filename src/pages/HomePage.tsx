@@ -2,13 +2,11 @@ import { useEffect, useRef } from 'react';
 import { ArrowRight, Award, Users, Building, TrendingUp, Sparkles, ShieldCheck, MapPin, Quote, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import SearchBar from '@/components/ui/SearchBar';
 import SEOHead from '@/components/SEO/SEOHead';
 import { useProperties } from '@/context/PropertyContext';
 import { useLanguage } from '@/context/LanguageContext';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import LuxuryCanvas from '@/components/Three/LuxuryCanvas';
 import PropertyCard from '@/components/ui/PropertyCard';
 import MagneticButton from '@/components/ui/MagneticButton';
 
@@ -41,24 +39,7 @@ export default function HomePage() {
       );
     }
 
-    // 2. Hero background parallax scrolling
-    if (heroRef.current) {
-      const bg = heroRef.current.querySelector('.hero-bg');
-      if (bg) {
-        gsap.to(bg, {
-          yPercent: 15,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: heroRef.current,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true,
-          }
-        });
-      }
-    }
-
-    // 3. Bento Grid stagger entrance with smooth lift
+    // 2. Bento Grid stagger entrance with smooth lift
     if (bentoRef.current) {
       const cards = bentoRef.current.querySelectorAll('.bento-card');
       gsap.fromTo(cards,
@@ -121,32 +102,26 @@ export default function HomePage() {
       {/* Full-screen Cinematic Hero */}
       <section
         ref={heroRef}
-        className="relative min-h-screen flex flex-col justify-center overflow-hidden pt-28 pb-16 border-b border-white/5"
+        className="relative min-h-[90vh] lg:h-[90vh] flex items-center justify-center overflow-hidden bg-[#0c0d10] py-16 border-b border-white/5"
       >
         {/* Layered Technical Background Grids */}
         <div className="absolute inset-0 linear-grid opacity-10 z-0 pointer-events-none" />
 
         {/* Fine Architectural Grid lines */}
-        <div className="absolute inset-0 flex justify-between pointer-events-none opacity-1 px-12 z-0">
+        <div className="absolute inset-0 flex justify-between pointer-events-none opacity-[0.03] px-12 z-0">
           <div className="w-[1px] h-full bg-white" />
           <div className="w-[1px] h-full bg-white hidden md:block" />
           <div className="w-[1px] h-full bg-white hidden md:block" />
           <div className="w-[1px] h-full bg-white" />
         </div>
 
-        {/* Cinematic Parallax Background Image */}
-        <div
-          className="hero-bg absolute -inset-y-32 inset-x-0 bg-cover bg-center bg-no-repeat opacity-[1.5]"
-          style={{ backgroundImage: `url('https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&h=900&fit=crop')` }}
-        />
+        {/* Luxury Clean Background with Golden Radial Glow */}
+        <div className="absolute inset-0 bg-[#0c0d10] z-0" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_40%,rgba(223,186,72,0.06),transparent_50%)] z-0 pointer-events-none" />
 
-        {/* Deep Dark-Slate Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-b from-[#0c0d10] via-[#0c0d10]/95 to-[#0c0d10] z-0" />
-
-        <div className="relative z-10 container mx-auto px-4 md:px-8 w-full mt-auto mb-6">
+        <div className="relative z-10 container mx-auto px-4 md:px-8 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-
-            {/* Left Column: Luxury Typography & Search */}
+            {/* Left Column: Premium Editorial Typography & Actions */}
             <div className="lg:col-span-7 text-left flex flex-col justify-center items-start">
               {/* Gold Sparkle Badge */}
               <div
@@ -161,12 +136,12 @@ export default function HomePage() {
               {/* Title with Rising text effect */}
               <h1 ref={titleContainerRef} className="text-4xl sm:text-6xl md:text-7xl font-display font-medium leading-[1.08] mb-8 tracking-tight text-white">
                 <span className="block overflow-hidden relative h-[1.2em]">
-                  <span className="reveal-line inline-block absolute left-0 top-0">
+                  <span className="reveal-line inline-block relative">
                     {t('hero.title1')}
                   </span>
                 </span>
                 <span className="block overflow-hidden relative h-[1.2em] mt-1">
-                  <span className="reveal-line inline-block absolute left-0 top-0 text-accent bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent italic font-light">
+                  <span className="reveal-line inline-block relative text-accent bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent italic font-light">
                     {t('hero.title2')}
                   </span>
                 </span>
@@ -177,15 +152,10 @@ export default function HomePage() {
                 {t('hero.tagline')}
               </p>
 
-              {/* Search Panel */}
-              <div className="mb-10 w-full max-w-xl">
-                <SearchBar />
-              </div>
-
               {/* Action Links */}
               <div className="flex flex-col sm:flex-row gap-6 justify-start items-center w-full">
                 <Link to="/properties" className="w-full sm:w-auto">
-                  <MagneticButton strength={20} className="w-full">
+                  <MagneticButton strength={20} className="w-full" as="div">
                     <Button className="btn-luxury-gold bg-accent text-[#0c0d10] border-transparent font-black px-9 py-5 hover:bg-accent-glow w-full shadow-lg">
                       Explore Properties
                       <ArrowRight className="ml-2.5" size={14} />
@@ -200,24 +170,34 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right Column: R3F Canvas & Orbiting Stat Cards */}
-            <div className="lg:col-span-5 w-full h-[450px] lg:h-[600px] flex items-center justify-center relative z-10">
-              <LuxuryCanvas />
-
-              {/* Floating Stat Card 1 - Glassmorphic */}
-              <div className="absolute top-10 left-4 bg-[#0a0c10]/70 backdrop-blur-md border border-white/10 p-4 max-w-[150px] text-left hidden md:block relative shadow-2xl">
-                <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-accent/40" />
-                <span className="text-[9px] text-accent uppercase font-mono tracking-wider block mb-1">Delivered</span>
-                <span className="text-xl font-display font-medium text-white block">₹200Cr+</span>
-                <span className="text-[8px] text-white/40 font-mono leading-snug">Appreciation equity coordinates.</span>
-              </div>
-
-              {/* Floating Stat Card 2 - Glassmorphic */}
-              <div className="absolute bottom-10 right-4 bg-[#0a0c10]/70 backdrop-blur-md border border-white/10 p-4 max-w-[150px] text-left hidden md:block relative shadow-2xl">
-                <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-accent/40" />
-                <span className="text-[9px] text-accent uppercase font-mono tracking-wider block mb-1">Scale</span>
-                <span className="text-xl font-display font-medium text-white block">500+ Plots</span>
-                <span className="text-[8px] text-white/40 font-mono leading-snug">Demarcated in growth sectors.</span>
+            {/* Right Column: Architectural Visual Frame */}
+            <div className="lg:col-span-5 w-full flex items-center justify-center relative z-10">
+              <div className="relative w-full aspect-[4/5] max-w-[380px] border border-white/10 p-2.5 bg-[#0a0c10]/40 backdrop-blur-sm shadow-2xl group overflow-hidden">
+                {/* Gold Accent Corners */}
+                <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent" />
+                <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent" />
+                
+                <div className="w-full h-full overflow-hidden relative">
+                  <img 
+                    src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=1000&fit=crop" 
+                    alt="Kinash Associates Luxury Architecture" 
+                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                  />
+                  {/* Subtle dark gradient overlay */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0c0d10]/80 via-[#0c0d10]/20 to-transparent" />
+                  
+                  {/* Editorial Overlay Info */}
+                  <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
+                    <div className="text-left">
+                      <span className="text-[8px] uppercase tracking-widest text-accent font-mono block mb-1">Active Registry</span>
+                      <span className="text-xs font-display font-medium text-white block">Dehradun Valley</span>
+                    </div>
+                    <div className="text-right">
+                      <span className="text-[8px] uppercase tracking-widest text-accent font-mono block mb-1">Delivered</span>
+                      <span className="text-xs font-display font-medium text-white block">₹200Cr+</span>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -348,7 +328,7 @@ export default function HomePage() {
                 Explore handpicked luxury lands, demarcated villas, and residential developments in key high-appreciation zones of Uttarakhand.
               </p>
               <Link to="/properties">
-                <MagneticButton strength={20}>
+                <MagneticButton strength={20} as="div">
                   <Button className="btn-luxury-gold bg-accent text-[#0c0d10] border-transparent font-bold py-4 px-8 text-[9px] tracking-widest uppercase rounded-none hover:bg-accent-glow shadow-md">
                     View Full Directory
                   </Button>
@@ -490,7 +470,7 @@ export default function HomePage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center font-mono text-[9px]">
             <Link to="/contact" className="w-full sm:w-auto">
-              <MagneticButton strength={20} className="w-full">
+              <MagneticButton strength={20} className="w-full" as="div">
                 <Button className="btn-luxury-gold bg-accent text-[#0c0d10] border-transparent hover:bg-accent-glow px-9 py-4 rounded-none uppercase font-bold w-full">
                   {language === 'en' ? 'Inquire Today' : 'Consultar Ahora'}
                 </Button>
