@@ -252,8 +252,11 @@ export default function HomePage() {
             <div className="bento-card md:col-span-4 border border-white/5 bg-[#0a0c10]/60 hover:border-accent/20 transition-all duration-500 overflow-hidden relative group min-h-[300px] shadow-2xl">
               <div className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-accent/30" />
               <div
-                className="absolute inset-0 bg-cover bg-center transition-transform duration-[4000ms] group-hover:scale-105 opacity-25"
-                style={{ backgroundImage: `url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=600&fit=crop')` }}
+                className="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-105 opacity-25"
+                style={{ 
+                  backgroundImage: `url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=600&fit=crop')`,
+                  transitionDuration: '4000ms'
+                }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0c0d10] via-[#0c0d10]/60 to-transparent" />
               <div className="absolute inset-0 p-8 flex flex-col justify-end z-10">
