@@ -23,10 +23,14 @@ export default function HomePage() {
   const titleContainerRef = useRef<HTMLHeadingElement>(null);
 
   useEffect(() => {
+    let pinAnimation: gsap.core.Tween | null = null;
+    let heroReveal: gsap.core.Tween | null = null;
+    let bentoStagger: gsap.core.Tween | null = null;
+
     // 1. Hero Text Reveal Animation (Split-text effect using CSS lines)
     if (titleContainerRef.current) {
       const lines = titleContainerRef.current.querySelectorAll('.reveal-line');
-      gsap.fromTo(lines,
+      heroReveal = gsap.fromTo(lines,
         { yPercent: 100, opacity: 0 },
         {
           yPercent: 0,
@@ -42,7 +46,7 @@ export default function HomePage() {
     // 2. Bento Grid stagger entrance with smooth lift
     if (bentoRef.current) {
       const cards = bentoRef.current.querySelectorAll('.bento-card');
-      gsap.fromTo(cards,
+      bentoStagger = gsap.fromTo(cards,
         { opacity: 0, y: 60 },
         {
           opacity: 1,
@@ -63,7 +67,7 @@ export default function HomePage() {
       const totalWidth = scrollSectionRef.current.scrollWidth - window.innerWidth;
 
       if (totalWidth > 0 && window.innerWidth >= 1024) {
-        const pinAnimation = gsap.to(scrollSectionRef.current, {
+        pinAnimation = gsap.to(scrollSectionRef.current, {
           x: -totalWidth - 120,
           ease: 'none',
           scrollTrigger: {
@@ -75,12 +79,21 @@ export default function HomePage() {
             invalidateOnRefresh: true,
           }
         });
-
-        return () => {
-          pinAnimation.scrollTrigger?.kill();
-        };
       }
     }
+
+    return () => {
+      if (heroReveal) heroReveal.kill();
+      if (bentoStagger) {
+        bentoStagger.scrollTrigger?.kill();
+        bentoStagger.kill();
+      }
+      if (pinAnimation) {
+        pinAnimation.scrollTrigger?.kill();
+        pinAnimation.kill();
+      }
+      ScrollTrigger.getAll().forEach(trigger => trigger.kill());
+    };
   }, [properties]);
 
   const stats = [
@@ -228,11 +241,15 @@ export default function HomePage() {
           <div ref={bentoRef} className="grid grid-cols-1 md:grid-cols-12 gap-8">
 
             {/* Bento Card 1: Stat Grid Block */}
-            <div className="bento-card md:col-span-8 border border-white/5 bg-[#0a0c10]/60 p-8 grid grid-cols-2 gap-8 hover:border-accent/20 transition-colors duration-500 relative shadow-2xl">
-              <div className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-accent/30" />
+            <div className="bento-card group md:col-span-8 border border-white/5 bg-[#0a0c10]/60 p-8 grid grid-cols-2 gap-8 hover:border-accent/20 transition-colors duration-500 relative shadow-2xl overflow-hidden">
+              {/* Gold Accent Corner Brackets */}
+              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               {stats.map((stat, idx) => (
-                <div key={idx} className="flex flex-col justify-between">
-                  <div className="w-10 h-10 border border-white/10 bg-[#0c0d10] flex items-center justify-center text-accent mb-4">
+                <div key={idx} className="flex flex-col justify-between text-left">
+                  <div className="w-10 h-10 border border-white/10 bg-[#0c0d10] flex items-center justify-center text-accent mb-4 transition-transform duration-500 group-hover:scale-105">
                     <stat.icon size={16} />
                   </div>
                   <div>
@@ -250,7 +267,11 @@ export default function HomePage() {
 
             {/* Bento Card 2: Visual Luxury Plaque */}
             <div className="bento-card md:col-span-4 border border-white/5 bg-[#0a0c10]/60 hover:border-accent/20 transition-all duration-500 overflow-hidden relative group min-h-[300px] shadow-2xl">
-              <div className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-accent/30" />
+              {/* Gold Accent Corner Brackets */}
+              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-105 opacity-25"
                 style={{ 
@@ -259,7 +280,7 @@ export default function HomePage() {
                 }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0c0d10] via-[#0c0d10]/60 to-transparent" />
-              <div className="absolute inset-0 p-8 flex flex-col justify-end z-10">
+              <div className="absolute inset-0 p-8 flex flex-col justify-end z-10 text-left">
                 <span className="text-[8px] uppercase tracking-[0.25em] text-accent font-mono font-bold block mb-2">Architectural Artistry</span>
                 <h3 className="text-lg font-display font-medium text-white mb-3">Premium Demarcation</h3>
                 <p className="text-[10px] text-white/50 font-light leading-relaxed mb-6">
@@ -272,10 +293,14 @@ export default function HomePage() {
             </div>
 
             {/* Bento Card 3: Quote block from founder */}
-            <div className="bento-card md:col-span-4 border border-white/5 bg-[#0a0c10]/60 p-8 hover:border-accent/20 transition-colors duration-500 flex flex-col justify-between min-h-[280px] relative shadow-2xl">
-              <div className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-accent/30" />
-              <Quote className="text-accent opacity-20" size={28} />
-              <div>
+            <div className="bento-card group md:col-span-4 border border-white/5 bg-[#0a0c10]/60 p-8 hover:border-accent/20 transition-colors duration-500 flex flex-col justify-between min-h-[280px] relative shadow-2xl overflow-hidden">
+              {/* Gold Accent Corner Brackets */}
+              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <Quote className="text-accent opacity-20 transition-transform duration-500 group-hover:scale-105" size={28} />
+              <div className="text-left">
                 <p className="text-xs text-white/70 italic font-light leading-relaxed mb-6">
                   "Our target is to establish transparent equity routes for clients, ensuring clean title deeds, secured registration, and layouts designed to double in valuation."
                 </p>
@@ -287,13 +312,17 @@ export default function HomePage() {
             </div>
 
             {/* Bento Card 4: Compliance block */}
-            <div className="bento-card md:col-span-8 border border-white/5 bg-[#0a0c10]/60 p-8 hover:border-accent/20 transition-colors duration-500 flex flex-col justify-between min-h-[280px] relative shadow-2xl">
-              <div className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-accent/30" />
+            <div className="bento-card group md:col-span-8 border border-white/5 bg-[#0a0c10]/60 p-8 hover:border-accent/20 transition-colors duration-500 flex flex-col justify-between min-h-[280px] relative shadow-2xl overflow-hidden">
+              {/* Gold Accent Corner Brackets */}
+              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               <div className="flex justify-between items-start">
                 <span className="text-[8px] uppercase tracking-[0.25em] text-accent font-mono font-bold">Standard of Quality</span>
                 <span className="text-[9px] font-mono text-white/30">REG #4810/UA</span>
               </div>
-              <div className="mt-8">
+              <div className="mt-8 text-left">
                 <h3 className="text-xl font-display font-medium text-white mb-4">Certified Management Frameworks</h3>
                 <p className="text-xs text-white/50 font-light leading-relaxed max-w-xl mb-6">
                   Kinash Associates operates under strict ISO 9001:2015 standards. We manage structural soil studies, concrete testing cubes, and property title reviews with senior legal councils before registry demarcation.
@@ -402,26 +431,31 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {/* Division 1: Construction Division */}
-            <div className="border border-white/5 bg-[#121318] p-10 hover:border-accent/20 transition-all duration-500 flex flex-col justify-between min-h-[380px] relative">
-              <div className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-accent/60" />
-              <div>
+            <div className="border border-white/5 bg-[#121318] p-10 hover:border-accent/20 transition-all duration-500 flex flex-col justify-between min-h-[380px] relative group overflow-hidden">
+              {/* Gold Accent Corner Brackets */}
+              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <div className="text-left relative z-10">
                 <span className="text-[8px] uppercase tracking-[0.2em] text-accent font-mono font-bold block mb-2">Division 01</span>
                 <h3 className="text-2xl font-display font-medium text-white mb-4">Civil Engineering & Contracting</h3>
                 <p className="text-xs text-white/50 font-light leading-relaxed mb-6">
                   Providing full-scale civil engineering, structural designs, and total station land mapping. Registered A-class contractor in Uttarakhand departments.
                 </p>
                 <ul className="space-y-2 mb-8">
-                  <li className="flex items-center text-[9px] uppercase tracking-wider text-white/70 font-bold">
+                  <li className="flex items-center text-[9px] uppercase tracking-wider text-white/70 font-bold group-hover:translate-x-1 transition-transform duration-300">
                     <div className="w-1.5 h-1.5 bg-accent rounded-none mr-3" />
                     Residential Layout Demarcation
                   </li>
-                  <li className="flex items-center text-[9px] uppercase tracking-wider text-white/70 font-bold">
+                  <li className="flex items-center text-[9px] uppercase tracking-wider text-white/70 font-bold group-hover:translate-x-1 transition-transform duration-300">
                     <div className="w-1.5 h-1.5 bg-accent rounded-none mr-3" />
                     A-Class Civil Construction Projects
                   </li>
                 </ul>
               </div>
-              <Link to="/construction">
+              <Link to="/construction" className="relative z-10">
                 <Button className="btn-luxury-outline w-full py-4 text-[9px] tracking-widest rounded-none border border-white/10 hover:bg-white hover:text-black uppercase font-bold">
                   Engineering division
                 </Button>
@@ -429,26 +463,31 @@ export default function HomePage() {
             </div>
 
             {/* Division 2: Real Estate Division */}
-            <div className="border border-white/5 bg-[#121318] p-10 hover:border-accent/20 transition-all duration-500 flex flex-col justify-between min-h-[380px] relative">
-              <div className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-accent/60" />
-              <div>
+            <div className="border border-white/5 bg-[#121318] p-10 hover:border-accent/20 transition-all duration-500 flex flex-col justify-between min-h-[380px] relative group overflow-hidden">
+              {/* Gold Accent Corner Brackets */}
+              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              <div className="text-left relative z-10">
                 <span className="text-[8px] uppercase tracking-[0.2em] text-accent font-mono font-bold block mb-2">Division 02</span>
                 <h3 className="text-2xl font-display font-medium text-white mb-4">Strategic Advisory & Brokerage</h3>
                 <p className="text-xs text-white/50 font-light leading-relaxed mb-6">
                   Curating properties with high appreciation yields, clean title deeds, and complete registry compliance. We manage all transfer documentation.
                 </p>
                 <ul className="space-y-2 mb-8">
-                  <li className="flex items-center text-[9px] uppercase tracking-wider text-white/70 font-bold">
+                  <li className="flex items-center text-[9px] uppercase tracking-wider text-white/70 font-bold group-hover:translate-x-1 transition-transform duration-300">
                     <div className="w-1.5 h-1.5 bg-accent rounded-none mr-3" />
                     Clean Registry Verification
                   </li>
-                  <li className="flex items-center text-[9px] uppercase tracking-wider text-white/70 font-bold">
+                  <li className="flex items-center text-[9px] uppercase tracking-wider text-white/70 font-bold group-hover:translate-x-1 transition-transform duration-300">
                     <div className="w-1.5 h-1.5 bg-accent rounded-none mr-3" />
                     Registry Title Searches
                   </li>
                 </ul>
               </div>
-              <Link to="/real-estate">
+              <Link to="/real-estate" className="relative z-10">
                 <Button className="btn-luxury-outline w-full py-4 text-[9px] tracking-widest rounded-none border border-white/10 hover:bg-white hover:text-black uppercase font-bold">
                   Advisory Division
                 </Button>

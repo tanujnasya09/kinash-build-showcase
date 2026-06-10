@@ -1,4 +1,5 @@
-import { ReactNode, useEffect } from 'react';
+import { ReactNode, useEffect, useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
 import Lenis from 'lenis';
@@ -12,6 +13,9 @@ interface LayoutProps {
 }
 
 const Layout = ({ children }: LayoutProps) => {
+  const location = useLocation();
+  const lenisRef = useRef<Lenis | null>(null);
+
   useEffect(() => {
     // Initialize Lenis smooth scroll
     const lenis = new Lenis({
@@ -23,6 +27,8 @@ const Layout = ({ children }: LayoutProps) => {
       wheelMultiplier: 1,
       touchMultiplier: 1.5,
     });
+
+    lenisRef.current = lenis;
 
     // Synchronize Lenis scrolling with ScrollTrigger
     lenis.on('scroll', ScrollTrigger.update);
@@ -36,12 +42,28 @@ const Layout = ({ children }: LayoutProps) => {
 
     // Scroll to top on load
     window.scrollTo(0, 0);
+    lenis.scrollTo(0, { immediate: true });
 
     return () => {
       lenis.destroy();
       gsap.ticker.remove(updateTicker);
+      lenisRef.current = null;
     };
   }, []);
+
+  // Handle autoscroll and reset position on route transition
+  useEffect(() => {
+    window.scrollTo(0, 0);
+    if (lenisRef.current) {
+      lenisRef.current.scrollTo(0, { immediate: true });
+    }
+    // Small delay to ensure components finish rendering before updating triggers
+    const timeoutId = setTimeout(() => {
+      ScrollTrigger.refresh();
+    }, 100);
+
+    return () => clearTimeout(timeoutId);
+  }, [location.pathname]);
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0c0d10]">

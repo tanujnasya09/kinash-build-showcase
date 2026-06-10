@@ -146,7 +146,7 @@ const Header = () => {
           </div>
 
           {/* Mobile buttons */}
-          <div className="flex md:hidden items-center gap-2">
+          <div className="flex xl:hidden items-center gap-2">
             {/* Quick lang swap for mobile */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -178,7 +178,7 @@ const Header = () => {
 
         {/* Mobile Navigation Panel */}
         {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-white/5 animate-fade-in bg-[#0c0d10]">
+          <div className="xl:hidden py-4 border-t border-white/5 animate-fade-in bg-[#0c0d10]">
             <nav className="space-y-2 px-2">
               {navigation.map((item) => (
                 <Link

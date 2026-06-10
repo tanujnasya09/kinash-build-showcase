@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, CheckCircle, ArrowUpRight } from 'lucide-react';
 import { Property } from '@/context/PropertyContext';
@@ -19,8 +19,11 @@ export default function PropertyCard({ property, isActive = false, onMouseEnter 
   const imgRef = useRef<HTMLImageElement>(null);
   const borderRef = useRef<HTMLDivElement>(null);
 
-  // Mouse move parallax coordinates for inside image
-  const [parallax, setParallax] = useState({ x: 0, y: 0 });
+  // Corner bracket refs for smooth hover animations
+  const topLeftRef = useRef<HTMLDivElement>(null);
+  const topRightRef = useRef<HTMLDivElement>(null);
+  const bottomLeftRef = useRef<HTMLDivElement>(null);
+  const bottomRightRef = useRef<HTMLDivElement>(null);
 
   const displayTitle = language === 'en' ? property.title : property.translations?.[language]?.title || property.title;
   const displayLocation = language === 'en' ? property.location : property.translations?.[language]?.location || property.location;
@@ -31,6 +34,42 @@ export default function PropertyCard({ property, isActive = false, onMouseEnter 
     possession: language === 'en' ? property.specs.possession : property.translations?.[language]?.specsPossession || property.specs.possession
   };
 
+  const handleMouseEnter = () => {
+    if (onMouseEnter) {
+      onMouseEnter();
+    }
+
+    const card = cardRef.current;
+    if (!card) return;
+
+    // Smooth lift & shadow glow
+    gsap.to(card, {
+      y: -8,
+      borderColor: 'rgba(223, 186, 72, 0.35)',
+      boxShadow: '0 20px 45px rgba(223, 186, 72, 0.08), 0 0 40px rgba(0, 0, 0, 0.5)',
+      duration: 0.5,
+      ease: 'power3.out'
+    });
+
+    // Zoom image slightly on enter
+    if (imgRef.current) {
+      gsap.to(imgRef.current, {
+        scale: 1.15,
+        duration: 0.6,
+        ease: 'power2.out'
+      });
+    }
+
+    // Animate and highlight corner brackets outward
+    const corners = [topLeftRef.current, topRightRef.current, bottomLeftRef.current, bottomRightRef.current];
+    gsap.to(corners.filter(Boolean), {
+      borderColor: 'rgba(223, 186, 72, 0.8)',
+      scale: 1.25,
+      duration: 0.4,
+      ease: 'power2.out'
+    });
+  };
+
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const card = cardRef.current;
     if (!card) return;
@@ -39,51 +78,94 @@ export default function PropertyCard({ property, isActive = false, onMouseEnter 
     const x = (e.clientX - rect.left) / rect.width - 0.5; // range: -0.5 to 0.5
     const y = (e.clientY - rect.top) / rect.height - 0.5; // range: -0.5 to 0.5
 
-    // Image Parallax Shift
-    setParallax({ x: x * 15, y: y * 15 });
+    // Image Parallax Shift with GSAP (buttery smooth, no micro-stutter)
+    if (imgRef.current) {
+      gsap.to(imgRef.current, {
+        x: x * 20,
+        y: y * 20,
+        scale: 1.15,
+        duration: 0.4,
+        ease: 'power2.out',
+        overwrite: 'auto'
+      });
+    }
 
     // Shine / Border Follow Effect
     if (borderRef.current) {
       const borderX = e.clientX - rect.left;
       const borderY = e.clientY - rect.top;
       gsap.to(borderRef.current, {
-        background: `radial-gradient(400px circle at ${borderX}px ${borderY}px, rgba(223, 186, 72, 0.25), transparent 40%)`,
-        duration: 0.3
+        background: `radial-gradient(350px circle at ${borderX}px ${borderY}px, rgba(223, 186, 72, 0.18), transparent 45%)`,
+        duration: 0.3,
+        ease: 'power2.out'
       });
     }
   };
 
   const handleMouseLeave = () => {
-    setParallax({ x: 0, y: 0 });
+    const card = cardRef.current;
+    if (!card) return;
+
+    // Reset card lift and shadow
+    gsap.to(card, {
+      y: 0,
+      borderColor: isActive ? 'rgba(223, 186, 72, 0.5)' : 'rgba(255, 255, 255, 0.05)',
+      boxShadow: isActive ? '0 0 50px rgba(223, 186, 72, 0.15)' : '0 10px 30px rgba(0, 0, 0, 0.3)',
+      duration: 0.6,
+      ease: 'power3.out'
+    });
+
+    // Reset image transform and scale
+    if (imgRef.current) {
+      gsap.to(imgRef.current, {
+        x: 0,
+        y: 0,
+        scale: 1.08,
+        duration: 0.6,
+        ease: 'power3.out'
+      });
+    }
+
+    // Reset shine overlay
     if (borderRef.current) {
       gsap.to(borderRef.current, {
         background: 'transparent',
-        duration: 0.6
+        duration: 0.6,
+        ease: 'power3.out'
       });
     }
+
+    // Reset corner brackets
+    const corners = [topLeftRef.current, topRightRef.current, bottomLeftRef.current, bottomRightRef.current];
+    gsap.to(corners.filter(Boolean), {
+      borderColor: 'rgba(223, 186, 72, 0.3)',
+      scale: 1.0,
+      duration: 0.5,
+      ease: 'power3.out'
+    });
   };
 
   return (
     <div
       ref={cardRef}
+      onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      onMouseEnter={onMouseEnter}
-      className={`group relative flex flex-col w-full bg-[#0a0c10]/80 border border-white/5 shadow-2xl transition-all duration-700 overflow-hidden ${
-        isActive ? 'border-accent/50 shadow-[0_0_50px_rgba(223,186,72,0.15)]' : 'hover:border-accent/20'
+      className={`group relative flex flex-col w-full bg-[#0a0c10]/80 border border-white/5 shadow-2xl transition-all duration-500 overflow-hidden ${
+        isActive ? 'border-accent/50 shadow-[0_0_50px_rgba(223,186,72,0.15)]' : ''
       }`}
     >
       {/* Animated Hover Border Overlay */}
       <div 
         ref={borderRef} 
-        className="absolute inset-0 pointer-events-none z-20 border border-transparent transition-all duration-300" 
+        className="absolute inset-0 pointer-events-none z-20 border border-transparent" 
       />
 
       {/* Technical corner marks for architectural design aesthetic */}
-      <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-accent/30 pointer-events-none z-10" />
-      <div className="absolute top-0 right-0 w-1.5 h-1.5 border-t border-r border-accent/30 pointer-events-none z-10" />
-      <div className="absolute bottom-0 left-0 w-1.5 h-1.5 border-b border-l border-accent/30 pointer-events-none z-10" />
-      <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-accent/30 pointer-events-none z-10" />
+      <div ref={topLeftRef} className="absolute top-0 left-0 w-2 h-2 border-t border-l border-accent/35 pointer-events-none z-20 origin-top-left transition-colors duration-300" />
+      <div ref={topRightRef} className="absolute top-0 right-0 w-2 h-2 border-t border-r border-accent/35 pointer-events-none z-20 origin-top-right transition-colors duration-300" />
+      <div ref={bottomLeftRef} className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-accent/35 pointer-events-none z-20 origin-bottom-left transition-colors duration-300" />
+      <div ref={bottomRightRef} className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-accent/35 pointer-events-none z-20 origin-bottom-right transition-colors duration-300" />
 
       {/* Image container with hidden overflow */}
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#0d0f14]">
@@ -91,10 +173,7 @@ export default function PropertyCard({ property, isActive = false, onMouseEnter 
           ref={imgRef}
           src={property.images?.[0]}
           alt={displayTitle}
-          className="w-full h-full object-cover scale-[1.08] transition-transform duration-700"
-          style={{
-            transform: `translate3d(${parallax.x}px, ${parallax.y}px, 0) scale(1.1)`,
-          }}
+          className="w-full h-full object-cover scale-[1.08]"
           onError={(e: any) => {
             e.target.src = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop";
           }}

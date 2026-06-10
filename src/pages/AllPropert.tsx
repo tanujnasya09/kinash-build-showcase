@@ -49,33 +49,33 @@ export default function AllProperties() {
   // Filter logic
   const filtered = properties.filter((p) => {
     const priceNum = parseInt(p.price.replace(/[₹,]/g, "")) || 0;
-    
+
     const titleVal = (language === 'en' ? p.title : p.translations?.[language]?.title || p.title).toLowerCase();
     const locationVal = (language === 'en' ? p.location : p.translations?.[language]?.location || p.location).toLowerCase();
     const descriptionVal = (language === 'en' ? p.description : p.translations?.[language]?.description || p.description).toLowerCase();
 
-    const matchesSearch = 
-      titleVal.includes(search.toLowerCase()) || 
+    const matchesSearch =
+      titleVal.includes(search.toLowerCase()) ||
       locationVal.includes(search.toLowerCase()) ||
       descriptionVal.includes(search.toLowerCase());
 
-    const matchesStatus = 
-      !status || 
-      status === "all" || 
+    const matchesStatus =
+      !status ||
+      status === "all" ||
       p.status.toLowerCase().includes(status.toLowerCase());
 
-    const matchesType = 
-      !projectType || 
-      projectType === "all" || 
+    const matchesType =
+      !projectType ||
+      projectType === "all" ||
       p.specs.type.toLowerCase().includes(projectType.toLowerCase());
 
-    const matchesLocation = 
-      !locationFilter || 
-      locationFilter === "all" || 
+    const matchesLocation =
+      !locationFilter ||
+      locationFilter === "all" ||
       p.location.toLowerCase().includes(locationFilter.toLowerCase());
 
     const matchesPrice = priceNum <= maxPrice;
-    
+
     return matchesSearch && matchesStatus && matchesType && matchesLocation && matchesPrice;
   });
 
@@ -105,7 +105,7 @@ export default function AllProperties() {
       </div>
 
       <div className="max-w-[1600px] mx-auto px-4 md:px-8 relative z-10">
-        
+
         {/* Header Block */}
         <div className="text-left mb-12 max-w-4xl">
           <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold mb-4 block">
@@ -123,7 +123,7 @@ export default function AllProperties() {
         <div className="bg-[#0a0c10]/70 border border-white/5 shadow-2xl mb-12 backdrop-blur-md relative">
           <div className="absolute top-0 left-0 w-2.5 h-2.5 border-t border-l border-accent/40" />
           <div className="absolute top-0 right-0 w-2.5 h-2.5 border-t border-r border-accent/40" />
-          
+
           {/* Search Bar */}
           <div className="p-4 sm:p-6 border-b border-white/5 bg-[#0d0f14]/50">
             <div className="relative">
@@ -154,7 +154,7 @@ export default function AllProperties() {
             <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 items-end">
               {/* Status Filter */}
               <div className="relative">
-                <label className="font-mono text-[7px] text-accent/60 uppercase tracking-widest mb-2 block select-none">
+                <label className="font-mono text-[12px] text-accent/60 uppercase tracking-widest mb-2 block select-none">
                   Registry Status
                 </label>
                 <select
@@ -172,7 +172,7 @@ export default function AllProperties() {
 
               {/* Project Type Filter */}
               <div className="relative">
-                <label className="font-mono text-[7px] text-accent/60 uppercase tracking-widest mb-2 block select-none">
+                <label className="font-mono text-[12px] text-accent/60 uppercase tracking-widest mb-2 block select-none">
                   Project Division
                 </label>
                 <select
@@ -188,7 +188,7 @@ export default function AllProperties() {
 
               {/* Location Filter */}
               <div className="relative">
-                <label className="font-mono text-[7px] text-accent/60 uppercase tracking-widest mb-2 block select-none">
+                <label className="font-mono text-[12px] text-accent/60 uppercase tracking-widest mb-2 block select-none">
                   Location Zone
                 </label>
                 <select
@@ -206,22 +206,26 @@ export default function AllProperties() {
 
               {/* Price Range */}
               <div className="relative">
-                <div className="flex justify-between items-center mb-2 font-mono text-[7px] text-accent/60 uppercase tracking-widest">
+                <div className="flex justify-between items-center mb-3 font-mono text-[12px] text-accent/60 uppercase tracking-widest">
                   <label>Max Budget</label>
                   <span className="text-accent font-bold">
-                    {maxPrice >= 100000000 ? 'No Limit' : `₹${(maxPrice / 100000).toFixed(0)} Lakh`}
+                    {maxPrice >= 100000000
+                      ? 'No Limit'
+                      : maxPrice >= 10000000
+                        ? `₹${(maxPrice / 10000000).toFixed(1)} Cr`
+                        : `₹${(maxPrice / 100000).toFixed(0)} Lakh`}
                   </span>
                 </div>
-                <div className="px-2 py-3 bg-[#0d0f14]/40 border border-white/5">
+                <div className="pt-2 pb-1">
                   <Slider
                     value={[maxPrice]}
                     max={100000000}
                     min={1000000}
                     step={1000000}
                     onValueChange={(val) => setMaxPrice(val[0])}
-                    className="w-full text-accent"
+                    className="w-full"
                   />
-                  <div className="flex justify-between text-[8px] font-mono text-white/30 mt-2">
+                  <div className="flex justify-between text-[12px] font-mono text-white/30 mt-2 tracking-wider">
                     <span>₹10L</span>
                     <span>₹10Cr</span>
                   </div>
@@ -247,9 +251,8 @@ export default function AllProperties() {
             <Button
               variant={mobileView === 'list' ? 'default' : 'ghost'}
               onClick={() => setMobileView('list')}
-              className={`gap-2 rounded-none font-mono text-[9px] tracking-widest uppercase ${
-                mobileView === 'list' ? 'bg-accent text-[#0c0d10]' : 'text-white'
-              }`}
+              className={`gap-2 rounded-none font-mono text-[9px] tracking-widest uppercase ${mobileView === 'list' ? 'bg-accent text-[#0c0d10]' : 'text-white'
+                }`}
             >
               <LayoutGrid size={12} />
               {t('properties.grid')}
@@ -257,9 +260,8 @@ export default function AllProperties() {
             <Button
               variant={mobileView === 'map' ? 'default' : 'ghost'}
               onClick={() => setMobileView('map')}
-              className={`gap-2 rounded-none font-mono text-[9px] tracking-widest uppercase ${
-                mobileView === 'map' ? 'bg-accent text-[#0c0d10]' : 'text-white'
-              }`}
+              className={`gap-2 rounded-none font-mono text-[9px] tracking-widest uppercase ${mobileView === 'map' ? 'bg-accent text-[#0c0d10]' : 'text-white'
+                }`}
             >
               <Map size={12} />
               {t('properties.map')}
@@ -269,9 +271,9 @@ export default function AllProperties() {
 
         {/* Interactive Split Pane Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
+
           {/* Left Column: Properties List Feed */}
-          <div 
+          <div
             ref={gridRef}
             className={`lg:col-span-7 space-y-8 ${mobileView === 'list' ? 'block' : 'hidden lg:block'}`}
           >
@@ -295,7 +297,7 @@ export default function AllProperties() {
                 <p className="text-white/45 max-w-sm mx-auto text-xs leading-relaxed font-light mb-8">
                   No listings matched your active filter configuration. Reset the parameters to browse the full catalog.
                 </p>
-                <Button 
+                <Button
                   onClick={clearFilters}
                   className="btn-luxury-gold bg-accent text-[#0c0d10] border-transparent font-bold text-[9px] tracking-widest uppercase py-3.5 px-6 rounded-none"
                 >

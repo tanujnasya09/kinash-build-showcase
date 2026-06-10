@@ -36,6 +36,20 @@ export default function PropertyDetails() {
   const [isBrochureOpen, setIsBrochureOpen] = useState(false);
   const [downloadingBrochure, setDownloadingBrochure] = useState(false);
 
+  // Immersive 3D virtual tour portal states
+  const [isTourActive, setIsTourActive] = useState(false);
+  const [isTourLoading, setIsTourLoading] = useState(false);
+  const [isTourFullscreen, setIsTourFullscreen] = useState(false);
+  const [tourHotspot, setTourHotspot] = useState('main');
+
+  const handleLaunchTour = () => {
+    setIsTourLoading(true);
+    setIsTourActive(true);
+    setTimeout(() => {
+      setIsTourLoading(false);
+    }, 1800);
+  };
+
   if (!property) {
     return (
       <div className="container py-32 text-center text-white bg-[#0c0d10] min-h-screen flex flex-col justify-center items-center">
@@ -96,6 +110,102 @@ export default function PropertyDetails() {
         keywords={`${displayTitle}, property dehradun, kinash listings`}
         canonical={`/property/${property.slug}`}
       />
+
+      {/* Immersive Fullscreen VR Portal Overlay */}
+      {isTourFullscreen && isTourActive && (
+        <div className="fixed inset-0 z-[99999] w-screen h-screen bg-[#0c0d10] p-4 md:p-8 flex flex-col gap-4">
+          <style>{`
+            @keyframes scanLine {
+              0% { transform: translateY(-100%); }
+              100% { transform: translateY(100%); }
+            }
+            .technical-scanline {
+              background: linear-gradient(to bottom, rgba(223, 186, 72, 0) 0%, rgba(223, 186, 72, 0.05) 10%, rgba(223, 186, 72, 0.15) 50%, rgba(223, 186, 72, 0.05) 90%, rgba(223, 186, 72, 0) 100%);
+              animation: scanLine 6s infinite linear;
+            }
+          `}</style>
+          <div className="flex items-center justify-between border-b border-white/5 pb-3">
+            <div className="flex items-center gap-3">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span className="text-[10px] font-mono tracking-widest text-white uppercase font-bold">
+                SPATIAL LINK ACTIVE // {property.title.toUpperCase()} // PORTAL DOCK
+              </span>
+            </div>
+            <div className="flex gap-2">
+              <Button
+                onClick={() => {
+                  setIsTourActive(false);
+                  setIsTourFullscreen(false);
+                }}
+                className="bg-red-950/20 border border-red-500/20 hover:bg-red-500 hover:text-white text-red-400 rounded-none font-mono text-[9px] uppercase tracking-widest py-1.5 px-4 font-bold"
+              >
+                Terminate Link
+              </Button>
+              <Button
+                onClick={() => setIsTourFullscreen(false)}
+                className="bg-accent text-[#0c0d10] hover:bg-accent-glow rounded-none font-mono text-[9px] uppercase tracking-widest py-1.5 px-4 font-bold"
+              >
+                Collapse Viewport
+              </Button>
+            </div>
+          </div>
+          
+          <div className="flex-1 w-full relative bg-black border border-white/5">
+            {isTourLoading ? (
+              <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0c0d10] z-30">
+                <div className="w-64 max-w-xs space-y-4 text-center">
+                  <Compass className="w-8 h-8 text-accent animate-spin mx-auto mb-2" />
+                  <div className="text-[10px] font-mono tracking-widest text-accent uppercase animate-pulse">
+                    ESTABLISHING VR LINK...
+                  </div>
+                  <div className="h-[2px] w-full bg-white/5 overflow-hidden">
+                    <div className="h-full bg-accent animate-loading-bar" style={{ width: '100%' }} />
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <iframe
+                src={`${property.virtualTourUrl || 'https://kuula.co/share/collection/7YyWz'}`}
+                className="w-full h-full border-none"
+                allow="xr-spatial-tracking; gyroscope; accelerometer; fullscreen"
+                title="Fullscreen VR Tour"
+              />
+            )}
+            <div className="absolute inset-0 pointer-events-none technical-scanline z-10 opacity-20" />
+          </div>
+
+          <div className="flex flex-wrap items-center justify-between gap-4 border-t border-white/5 pt-4 text-[9px] font-mono tracking-widest text-white/50 text-left">
+            <div className="flex gap-4">
+              <span>RESOLUTION: ULTRA_HD_360</span>
+              <span className="hidden sm:inline">COORDINATES: {property.coordinates.join(', ')}</span>
+            </div>
+            <div className="flex gap-2 pointer-events-auto">
+              <span>TELEPORT DOCK:</span>
+              {[
+                { id: 'main', label: 'Main Plot' },
+                { id: 'approach', label: 'Approach Road' },
+                { id: 'surroundings', label: 'Surrounding Forest' }
+              ].map((hs) => (
+                <button
+                  key={hs.id}
+                  onClick={() => {
+                    setTourHotspot(hs.id);
+                    setIsTourLoading(true);
+                    setTimeout(() => setIsTourLoading(false), 900);
+                  }}
+                  className={`px-2 py-0.5 border uppercase text-[8px] ${
+                    tourHotspot === hs.id
+                      ? 'bg-accent text-[#0c0d10] border-accent font-bold'
+                      : 'bg-transparent text-white border-white/10 hover:border-accent hover:text-accent'
+                  }`}
+                >
+                  {hs.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Decorative technical line grid */}
       <div className="absolute inset-0 flex justify-between pointer-events-none opacity-5 px-12 z-0">
@@ -422,38 +532,138 @@ export default function PropertyDetails() {
                 {/* Tab: 3D Tour */}
                 {activeTab === 'tour3d' && (
                   <div className="space-y-6 animate-fade-in">
-                    <h3 className="text-lg font-display font-medium text-white mb-4 flex items-center gap-2">
-                      <span className="w-1 h-5 bg-accent block" />
-                      Interactive 360° Virtual Walkthrough
-                    </h3>
-                    <p className="text-xs text-white/55 leading-relaxed font-light">
-                      Teleport directly into the site with our virtual 3D panorama scanner. Rotate 360 degrees and visually explore architectural demarcations.
-                    </p>
-
-                    {/* Visual 3D Tour Portal */}
-                    <div className="relative border border-white/5 overflow-hidden shadow-2xl h-[350px] bg-slate-950 flex items-center justify-center">
-                      <img
-                        src="https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?w=1200&h=600&fit=crop"
-                        alt="3D Space panorama preview"
-                        className="absolute inset-0 w-full h-full object-cover opacity-30 blur-[1px]"
-                      />
-                      <div className="relative z-10 text-center max-w-sm px-6">
-                        <div className="w-14 h-14 rounded-full bg-accent/10 border border-accent text-accent flex items-center justify-center mx-auto mb-4 animate-bounce">
-                          <Compass size={24} />
-                        </div>
-                        <h4 className="font-display font-medium text-white text-base mb-2">
-                          Interactive 360° Portal Ready
-                        </h4>
-                        <p className="text-[11px] text-white/60 mb-6 leading-relaxed font-light">
-                          Explore high-resolution spatial virtual walkthrough coordinates. Fully optimized for iPad, VR headsets, and desktop viewers.
+                    <style>{`
+                      @keyframes loadingBar {
+                        0% { transform: translateX(-100%); }
+                        100% { transform: translateX(100%); }
+                      }
+                      .animate-loading-bar {
+                        animation: loadingBar 1.8s infinite linear;
+                      }
+                    `}</style>
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+                      <div className="text-left">
+                        <h3 className="text-lg font-display font-medium text-white mb-2 flex items-center gap-2">
+                          <span className="w-1 h-5 bg-accent block" />
+                          Interactive 360° Virtual Walkthrough
+                        </h3>
+                        <p className="text-xs text-white/55 leading-relaxed font-light">
+                          Teleport directly into the site with our virtual 3D panorama scanner. Rotate 360 degrees and visually explore architectural demarcations.
                         </p>
-                        <Button
-                          onClick={() => window.open(property.virtualTourUrl || '#', '_blank')}
-                          className="bg-accent hover:bg-accent-glow text-[#0c0d10] border-transparent font-bold py-3 px-6 rounded-none font-mono text-[9px] uppercase tracking-widest"
-                        >
-                          Launch 360° VR Tour
-                        </Button>
                       </div>
+                      
+                      {isTourActive && (
+                        <div className="flex gap-2">
+                          <Button
+                            onClick={() => setIsTourFullscreen(true)}
+                            className="bg-accent hover:bg-accent-glow text-[#0c0d10] font-bold py-2 px-4 rounded-none font-mono text-[9px] uppercase tracking-widest"
+                          >
+                            Launch Fullscreen Portal
+                          </Button>
+                          <Button
+                            onClick={() => {
+                              setIsTourActive(false);
+                              setIsTourFullscreen(false);
+                            }}
+                            className="bg-[#0d0f14] border border-white/10 hover:border-red-500/20 hover:text-red-400 text-white/60 py-2 px-4 rounded-none font-mono text-[9px] uppercase tracking-widest"
+                          >
+                            Reset Link
+                          </Button>
+                        </div>
+                      )}
+                    </div>
+                    
+                    {/* The VR Tour Portal Viewport */}
+                    <div className="relative border border-white/5 overflow-hidden shadow-2xl h-[400px] w-full bg-[#090a0d]">
+                      {!isTourActive ? (
+                        /* Pre-activation cover screen */
+                        <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
+                          <img
+                            src={property.images?.[1] || property.images?.[0]}
+                            alt="3D Space panorama preview"
+                            className="absolute inset-0 w-full h-full object-cover opacity-25 blur-[1px]"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-[#090a0d] via-transparent to-black/30" />
+                          <div className="relative z-10 max-w-sm">
+                            <div className="w-14 h-14 rounded-full bg-accent/10 border border-accent text-accent flex items-center justify-center mx-auto mb-4 shadow-[0_0_25px_rgba(223,186,72,0.15)]">
+                              <Compass size={24} className="animate-pulse" />
+                            </div>
+                            <h4 className="font-display font-medium text-white text-base mb-2">
+                              3D Reality Scanner Ready
+                            </h4>
+                            <p className="text-[11px] text-white/50 mb-6 leading-relaxed font-light">
+                              Establish a remote 360° telemetry connection directly into the site grounds. Fully compatible with mobile, iPad, and VR headsets.
+                            </p>
+                            <Button
+                              onClick={handleLaunchTour}
+                              className="bg-accent hover:bg-accent-glow text-[#0c0d10] font-bold py-3.5 px-8 rounded-none font-mono text-[9px] uppercase tracking-widest shadow-glow"
+                            >
+                              Launch 360° Walkthrough
+                            </Button>
+                          </div>
+                        </div>
+                      ) : isTourLoading ? (
+                        /* Glowing Cyberpunk Telemetry Loading State */
+                        <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#0c0d10] z-30">
+                          <div className="w-64 max-w-xs space-y-4 text-center">
+                            <Compass className="w-8 h-8 text-accent animate-spin mx-auto mb-2" />
+                            <div className="text-[10px] font-mono tracking-widest text-accent uppercase animate-pulse">
+                              ESTABLISHING VR LINK...
+                            </div>
+                            <div className="h-[2px] w-full bg-white/5 overflow-hidden">
+                              <div className="h-full bg-accent animate-loading-bar" style={{ width: '100%' }} />
+                            </div>
+                            <div className="text-[8px] font-mono text-white/40 uppercase space-y-1">
+                              <div>SECTOR_ID: {property.id}</div>
+                              <div>LAT_LNG: {property.coordinates.join(', ')}</div>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        /* Interactive 3D Iframe Viewer */
+                        <div className="relative w-full h-full flex flex-col">
+                          {/* Live Scan indicator */}
+                          <div className="absolute top-4 left-4 z-20 flex items-center gap-2 bg-[#0c0d10]/80 backdrop-blur-md px-3 py-1.5 border border-emerald-500/30 text-[9px] font-mono text-emerald-400">
+                            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                            LIVE SPATIAL GRID LINK ACTIVE
+                          </div>
+                          
+                          <iframe
+                            src={`${property.virtualTourUrl || 'https://kuula.co/share/collection/7YyWz'}`}
+                            className="w-full h-full border-none bg-black flex-1"
+                            allow="xr-spatial-tracking; gyroscope; accelerometer; fullscreen"
+                            title="Interactive 3D Virtual Tour"
+                          />
+
+                          {/* Room Hotspots Selectors (Mock Teleportation Buttons) */}
+                          <div className="absolute bottom-4 left-4 right-4 z-20 flex flex-wrap gap-2 pointer-events-auto justify-start">
+                            <span className="text-[8px] font-mono text-white/50 flex items-center bg-[#0c0d10]/95 border border-white/5 px-2 py-1 select-none">
+                              TELEPORT DOCK:
+                            </span>
+                            {[
+                              { id: 'main', label: 'Main Area' },
+                              { id: 'approach', label: 'Approach View' },
+                              { id: 'surroundings', label: 'Forest Perimeter' }
+                            ].map((hs) => (
+                              <button
+                                key={hs.id}
+                                onClick={() => {
+                                  setTourHotspot(hs.id);
+                                  setIsTourLoading(true);
+                                  setTimeout(() => setIsTourLoading(false), 900);
+                                }}
+                                className={`px-2 py-1 text-[8px] font-mono uppercase tracking-wider border transition-all ${
+                                  tourHotspot === hs.id 
+                                    ? 'bg-accent text-[#0c0d10] border-accent font-bold' 
+                                    : 'bg-[#0c0d10]/90 text-white/70 border-white/10 hover:border-accent hover:text-white'
+                                }`}
+                              >
+                                {hs.label}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
