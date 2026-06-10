@@ -99,7 +99,7 @@ const enrichedInitialProperties: Property[] = [
     },
     coordinates: [30.4284, 77.7471],
     floorPlanUrl: 'https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop', // Floor plan mock
-    virtualTourUrl: 'https://kuula.co/share/collection/7YyWz?logo=1&info=1&fs=1&vr=0&sd=1&thumbs=1',
+    virtualTourUrl: 'https://my.matterport.com/show/?m=sxQGDh8m21N',
     brochureUrl: '#',
     translations: {
       es: {
@@ -153,7 +153,7 @@ const enrichedInitialProperties: Property[] = [
       'Excellent highway connectivity and access to local transport',
       'Fast-developing high-end residential neighborhood'
     ],
-    contact: 'Message Abhas Kathait',
+    contact: '+91 135 277 9000',
     images: [
       'https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?w=800&h=600&fit=crop',
       'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&h=600&fit=crop'
@@ -170,7 +170,7 @@ const enrichedInitialProperties: Property[] = [
     },
     coordinates: [30.2974, 78.1368],
     floorPlanUrl: 'https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop',
-    virtualTourUrl: 'https://kuula.co/share/collection/7YyWz?logo=1&info=1&fs=1&vr=0&sd=1&thumbs=1',
+    virtualTourUrl: 'https://my.matterport.com/show/?m=sxQGDh8m21N',
     brochureUrl: '#',
     translations: {
       es: {
@@ -239,7 +239,7 @@ const enrichedInitialProperties: Property[] = [
     },
     coordinates: [30.3475, 78.0772],
     floorPlanUrl: 'https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop',
-    virtualTourUrl: 'https://kuula.co/share/collection/7YyWz?logo=1&info=1&fs=1&vr=0&sd=1&thumbs=1',
+    virtualTourUrl: 'https://my.matterport.com/show/?m=sxQGDh8m21N',
     brochureUrl: '#',
     translations: {
       es: {
@@ -288,7 +288,7 @@ const enrichedInitialProperties: Property[] = [
       'Highly strategic geographic location with heavy appreciation forecast',
       'Superb regional and interstate highway connectivity'
     ],
-    contact: 'Message Abhas Kathait',
+    contact: 'Message User Name',
     videoLink: 'https://www.youtube.com/watch?v=IljspPrgaK4',
     images: [
       'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&h=600&fit=crop',
@@ -306,7 +306,7 @@ const enrichedInitialProperties: Property[] = [
     },
     coordinates: [30.4000, 77.8500],
     floorPlanUrl: 'https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop',
-    virtualTourUrl: 'https://kuula.co/share/collection/7YyWz?logo=1&info=1&fs=1&vr=0&sd=1&thumbs=1',
+    virtualTourUrl: 'https://my.matterport.com/show/?m=sxQGDh8m21N',
     brochureUrl: '#',
     translations: {
       es: {
@@ -370,7 +370,7 @@ const enrichedInitialProperties: Property[] = [
     },
     coordinates: [30.3547, 78.0862],
     floorPlanUrl: 'https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop',
-    virtualTourUrl: 'https://kuula.co/share/collection/7YyWz?logo=1&info=1&fs=1&vr=0&sd=1&thumbs=1',
+    virtualTourUrl: 'https://my.matterport.com/show/?m=sxQGDh8m21N',
     brochureUrl: '#',
     translations: {
       es: {
@@ -434,7 +434,7 @@ const enrichedInitialProperties: Property[] = [
     },
     coordinates: [30.4350, 77.7550],
     floorPlanUrl: 'https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop',
-    virtualTourUrl: 'https://kuula.co/share/collection/7YyWz?logo=1&info=1&fs=1&vr=0&sd=1&thumbs=1',
+    virtualTourUrl: 'https://my.matterport.com/show/?m=sxQGDh8m21N',
     brochureUrl: '#',
     translations: {
       es: {
@@ -504,7 +504,7 @@ export const PropertyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       ...newProp,
       id: nextId,
       floorPlanUrl: 'https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop',
-      virtualTourUrl: 'https://kuula.co/share/collection/7YyWz?logo=1&info=1&fs=1&vr=0&sd=1&thumbs=1',
+      virtualTourUrl: 'https://my.matterport.com/show/?m=sxQGDh8m21N',
       brochureUrl: '#'
     };
     const updated = [...properties, added];

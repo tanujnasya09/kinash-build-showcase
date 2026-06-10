@@ -70,12 +70,24 @@ const Header = () => {
             className="flex items-center gap-3 text-2xl font-display font-black text-white hover:text-accent transition-colors group"
           >
             <div className="relative overflow-hidden w-9 h-9 rounded-none border border-accent/20 bg-[#0c0d10] flex items-center justify-center">
-              <span className="text-accent font-display font-extrabold text-sm tracking-tighter group-hover:scale-110 transition-transform duration-500">KA</span>
+              <img
+                src="/assets/logo.png"
+                alt="Kinash Logo"
+                className="w-full h-full object-contain p-1 group-hover:scale-110 transition-transform duration-500"
+                onError={(e: any) => {
+                  e.target.src = "https://images.unsplash.com/photo-1542838132-92c53300491e?w=80&h=80&fit=crop";
+                }}
+              />
               <div className="absolute inset-0 bg-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
-            <span className="text-sm uppercase tracking-[0.25em] font-extrabold font-display text-white">
-              Kinash <span className="bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent italic font-light">Luxury</span>
-            </span>
+            <div className="flex flex-col justify-center">
+              <span className="text-[14px] uppercase tracking-[0.3em] font-black font-display text-white leading-none mb-1 group-hover:text-accent transition-colors duration-500">
+                Kinash<span className="text-accent group-hover:text-white transition-colors duration-500">.</span>
+              </span>
+              <span className="text-[7px] uppercase tracking-[0.4em] font-mono text-white/50 leading-none">
+                Associates & Construction
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}

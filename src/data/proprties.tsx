@@ -1,7 +1,7 @@
 const properties = [
     {
         id: 1,
-        slug:'aduwala-greens-dharmawala',
+        slug: 'aduwala-greens-dharmawala',
         title: "Aduwala Greens, Dharmawala",
         price: "₹10,000.00",
         status: "SOLD SOLD SOLD SOLD",
@@ -19,6 +19,7 @@ const properties = [
             "प्लॉट आपके मनपसंद साइज में उपलब्ध!(100 गज, 150 गज, 200 गज, 250 गज)"
         ],
         contact: "+91 135 277 9000",
+        virtualTourUrl: "https://my.matterport.com/show/?m=sxQGDh8m21N",
         videoLink: "https://www.youtube.com/watch?si=99gxio6HOjfm_Wtm&v=CneWfXK363M&feature=youtu.be",
         additionalInfo: "हम लाये हैं आपके लिए देहरादून की सबसे सुंदर जगह पर सबसे सस्ते प्लॉट जहां आप 10 लाख तक में प्लॉट लेकर घर बना सकते हैं।",
         images: [
@@ -35,7 +36,7 @@ const properties = [
 
     {
         id: 2,
-         slug:'plots-at-bhopalpani',
+        slug: 'plots-at-bhopalpani',
         title: "Plots at Bhopalpani",
         price: "₹30,000.00",
         status: "Available",
@@ -49,12 +50,13 @@ const properties = [
             "Residential area development"
         ],
         contact: "Message business",
-        businessOwner: "Abhas kathait",
+        virtualTourUrl: "https://my.matterport.com/show/?m=sxQGDh8m21N",
+        businessOwner: "User Name",
         images: [
             "/assets/bhopal-pani.jpg",
 
         ],
-         specs: {
+        specs: {
             type: "Residential Plot",
             sizes: ["100 गज", "150 गज", "200 गज", "250 गज"],
             possession: "Immediate",
@@ -63,7 +65,7 @@ const properties = [
     },
     {
         id: 3,
-         slug:'mg-residency',
+        slug: 'mg-residency',
         title: "MG Residency",
         price: "₹65,00,000.00",
         status: "Available",
@@ -90,18 +92,19 @@ const properties = [
             "/assets//msResidnecy5.jpg",
             "/assets//msResidnecy6.jpg"
         ],
-         specs: {
+        specs: {
             type: "Residential Plot",
             sizes: ["100 गज", "150 गज", "200 गज", "250 गज"],
             possession: "Immediate",
             facing: "East"
         },
 
-        contact: "Contact for details"
+        contact: "Contact for details",
+        virtualTourUrl: "https://my.matterport.com/show/?m=sxQGDh8m21N",
     },
     {
         id: 4,
-         slug:'jattowala',
+        slug: 'jattowala',
         title: "Jattowala",
         price: "₹17,000.00",
         status: "Available",
@@ -114,18 +117,19 @@ const properties = [
             "Good connectivity"
         ],
         contact: "Message business",
+        virtualTourUrl: "https://my.matterport.com/show/?m=sxQGDh8m21N",
         images: [
             "/assets//jattowala-1.jpg",
             "/assets//jattowala-2.jpg",
 
         ],
-         specs: {
+        specs: {
             type: "Residential Plot",
             sizes: ["100 गज", "150 गज", "200 गज", "250 गज"],
             possession: "Immediate",
             facing: "East"
         },
-        businessOwner: "Abhas kathait",
+        businessOwner: "User Name",
         videoLink: "https://www.youtube.com/watch?si=pFqT71Qb59dRk5Zp&v=IljspPrgaK4&feature=youtu.be"
     }
 ];
