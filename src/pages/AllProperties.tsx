@@ -262,7 +262,7 @@ export default function AllProperties() {
                 <Button
                   variant="outline"
                   onClick={clearFilters}
-                  className="w-full font-mono text-[10px] py-2.5 uppercase tracking-widest rounded-none border border-black/20 dark:border-white/20 text-foreground dark:text-white/80 hover:bg-[#111215] hover:text-white dark:hover:bg-accent dark:hover:text-[#0c0d10] transition-all duration-200"
+                  className="w-full font-mono text-[10px] py-2.5 uppercase tracking-widest rounded-none border border-black/20 dark:border-white/20 text-foreground dark:text-white/80 hover:bg-black/5 dark:hover:bg-white/10 hover:border-accent dark:hover:border-accent hover:text-accent dark:hover:text-[#0c0d10] transition-all duration-200"
                 >
                   {t('properties.filter.reset')}
                 </Button>

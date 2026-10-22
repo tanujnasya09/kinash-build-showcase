@@ -217,7 +217,7 @@ const AboutPage = () => {
               </Button>
             </MagneticButton>
             <MagneticButton strength={20} className="w-full sm:w-auto" as="div">
-              <Button asChild variant="outline" className="w-full sm:w-auto h-13 sm:h-14 px-8 py-4 bg-transparent text-[#111215] dark:text-white hover:bg-[#111215] hover:text-white dark:hover:bg-white dark:hover:text-[#0c0d10] font-display font-black text-xs uppercase tracking-[0.2em] rounded-none border border-black/20 dark:border-white/20 hover:border-black dark:hover:border-white transition-all flex items-center justify-center">
+              <Button asChild variant="outline" className="w-full sm:w-auto h-13 sm:h-14 px-8 py-4 bg-transparent text-[#111215] dark:text-white hover:bg-black/5 dark:hover:bg-white/10 hover:border-accent dark:hover:border-accent hover:text-accent dark:hover:text-accent font-display font-black text-xs uppercase tracking-[0.2em] rounded-none border border-black/20 dark:border-white/20 transition-all flex items-center justify-center">
                 <Link to="/properties">{copy.ctaSecondary}</Link>
               </Button>
             </MagneticButton>

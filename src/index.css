@@ -19,11 +19,11 @@
     --popover: 0 0% 100%;
     --popover-foreground: 220 15% 10%;
 
-    --primary: 220 15% 10%;
-    /* Deep Charcoal Obsidian (#111215) */
-    --primary-foreground: 40 25% 97%;
-    --primary-light: 40 12% 88%;
-    --primary-glow: 220 12% 20%;
+    --primary: 42 75% 42%;
+    /* Heritage Architectural Gold (#ba891d) */
+    --primary-foreground: 0 0% 100%;
+    --primary-light: 42 80% 52%;
+    --primary-glow: 42 75% 42%;
 
     --secondary: 40 14% 92%;
     /* Fine Carrara Stone (#ece9e1) */
@@ -157,6 +157,7 @@
 @layer components {
 
   /* Sotheby's & Christie's Editorial Button */
+  /* Sotheby's & Christie's Editorial Button */
   .btn-luxury-gold {
     position: relative;
     overflow: hidden;
@@ -170,18 +171,31 @@
     letter-spacing: 0.2em;
     padding: 1.1rem 2rem;
     transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    border: 1px solid hsl(var(--accent) / 0.4);
-    background-color: hsl(var(--primary));
-    color: hsl(var(--primary-foreground));
+    border: 1px solid hsl(var(--accent));
+    background: linear-gradient(135deg, #c59828 0%, #b3831b 100%);
+    color: #ffffff;
     border-radius: 0;
   }
 
   .btn-luxury-gold:hover {
-    border-color: hsl(var(--accent));
-    background-color: hsl(var(--accent));
-    color: hsl(var(--accent-foreground));
+    border-color: #7f570b;
+    background: #9c6d12;
+    color: #ffffff;
     transform: scale(1.01) translateY(-1px);
-    box-shadow: 0 8px 30px hsl(var(--accent) / 0.2);
+    box-shadow: 0 8px 30px rgba(186, 137, 29, 0.35);
+  }
+
+  .dark .btn-luxury-gold {
+    background: linear-gradient(135deg, #dfba48 0%, #c99f30 100%);
+    color: #0c0d10;
+    border-color: #dfba48;
+  }
+
+  .dark .btn-luxury-gold:hover {
+    background: #f0cb5a;
+    border-color: #f0cb5a;
+    color: #0c0d10;
+    box-shadow: 0 8px 30px rgba(223, 186, 72, 0.4);
   }
 
   .btn-luxury-gold:active {
@@ -200,18 +214,30 @@
     text-transform: uppercase;
     letter-spacing: 0.2em;
     padding: 1.1rem 2rem;
-    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    border: 1px solid hsl(var(--border) / 0.5);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    border: 1px solid rgba(17, 18, 22, 0.2);
     background-color: transparent;
-    color: hsl(var(--foreground));
+    color: #111215;
     border-radius: 0;
   }
 
   .btn-luxury-outline:hover {
-    border-color: hsl(var(--foreground));
-    background-color: hsl(var(--foreground));
-    color: hsl(var(--background));
+    border-color: #9c6d12;
+    background-color: rgba(186, 137, 29, 0.08);
+    color: #9c6d12;
     transform: scale(1.01) translateY(-1px);
+    box-shadow: 0 6px 20px rgba(186, 137, 29, 0.12);
+  }
+
+  .dark .btn-luxury-outline {
+    border-color: rgba(255, 255, 255, 0.2);
+    color: #ffffff;
+  }
+
+  .dark .btn-luxury-outline:hover {
+    border-color: #dfba48;
+    background-color: rgba(223, 186, 72, 0.1);
+    color: #dfba48;
   }
 
   /* Luxury Card Elements */
@@ -773,9 +799,10 @@ html:not(.dark) .section-closing-cta button[class*="border-"] {
 
 html:not(.dark) .section-closing-cta .border-white\/20:hover,
 html:not(.dark) .section-closing-cta button[class*="border-"]:hover {
-  background-color: #111215 !important;
-  color: #ffffff !important;
-  border-color: #111215 !important;
+  background-color: rgba(186, 137, 29, 0.08) !important;
+  color: #9c6d12 !important;
+  border-color: #9c6d12 !important;
+  box-shadow: 0 4px 16px rgba(186, 137, 29, 0.12) !important;
 }
 
 /* ==========================================================================
@@ -859,11 +886,12 @@ html:not(.dark) .hover\:bg-white\/10:hover {
 }
 
 html:not(.dark) .hover\:bg-white:hover {
-  background-color: #111215 !important;
+  background-color: rgba(186, 137, 29, 0.08) !important;
+  color: #9c6d12 !important;
 }
 
 html:not(.dark) .hover\:text-\[\#0c0d10\]:hover {
-  color: #ffffff !important;
+  color: #9c6d12 !important;
 }
 
 /* ==========================================================================
@@ -1027,11 +1055,15 @@ html:not(.dark) .bg-transparent.text-white.border-white\/10 {
 html:not(.dark) .btn-luxury-outline:hover,
 html:not(.dark) .bg-transparent.text-white.border-white\/20:hover,
 html:not(.dark) .bg-transparent.text-white.border-white\/15:hover,
-html:not(.dark) .bg-transparent.text-white.border-white\/10:hover {
-  background-color: #111215 !important;
-  color: #ffffff !important;
-  border-color: #111215 !important;
-  box-shadow: 0 10px 25px rgba(17, 18, 22, 0.12) !important;
+html:not(.dark) .bg-transparent.text-white.border-white\/10:hover,
+html:not(.dark) .section-hero button[class*="border-"]:hover,
+html:not(.dark) .section-closing-cta button[class*="border-"]:hover,
+html:not(.dark) .section-cta button[class*="border-"]:hover,
+html:not(.dark) section button[variant="outline"]:hover {
+  background-color: rgba(186, 137, 29, 0.08) !important;
+  color: #9c6d12 !important;
+  border-color: #9c6d12 !important;
+  box-shadow: 0 4px 16px rgba(186, 137, 29, 0.12) !important;
   transform: translateY(-2px) !important;
 }
 
@@ -1139,9 +1171,9 @@ html:not(.dark) .grid button.border-white\/10:hover,
 html:not(.dark) .grid button.border-white\/15:hover,
 html:not(.dark) .grid button.border-white\/20:hover,
 html:not(.dark) .section-divisions button:hover {
-  background-color: #111215 !important;
-  color: #ffffff !important;
-  border-color: #111215 !important;
+  background-color: rgba(186, 137, 29, 0.08) !important;
+  color: #9c6d12 !important;
+  border-color: #9c6d12 !important;
 }
 
 /* Heritage Architectural Gold Text (Passes WCAG AA 4.8:1 on alabaster/white) */
