@@ -689,39 +689,140 @@
 }
 
 /* ==========================================================================
-   Comprehensive Light Mode Design System (Warm Architectural Alabaster)
-   Transforms obsidian dark elements to high-contrast gallery alabaster & heritage gold
+   Comprehensive Light Mode Design System (Open Design Luxury & Atelier Zero)
+   Warm Architectural Alabaster, Travertine Wells & Heritage Gold Accents
    ========================================================================== */
 
 html:not(.dark) {
   color-scheme: light;
 }
 
-/* Base Canvas & Background Mappings */
+/* ==========================================================================
+   1. Section Rhythm & Architectural Material Hierarchy
+   ========================================================================== */
+
+/* Base Canvas & Default Alabaster */
 html:not(.dark) body,
 html:not(.dark) .bg-\[\#0c0d10\],
 html:not(.dark) .bg-\[\#0a0c10\],
-html:not(.dark) .bg-\[\#090b10\],
 html:not(.dark) .bg-\[\#090a0d\] {
-  background-color: #f7f6f2 !important;
+  background-color: #f8f7f4 !important;
 }
 
-/* Elevated Surfaces, Cards, and Dropdown Popovers */
+/* Section Hero */
+html:not(.dark) .section-hero {
+  background-color: #f8f7f4 !important;
+}
+
+/* Travertine / Honed Sandstone Wells (Heritage Stats, Story, Leadership) */
+html:not(.dark) .bg-\[\#090b10\] {
+  background-color: #ede7dc !important;
+  border-color: rgba(17, 18, 22, 0.08) !important;
+}
+
+/* Honed Limestone Well (Contracting Divisions) */
+html:not(.dark) .section-divisions {
+  background-color: #f0ebe0 !important;
+  border-color: rgba(17, 18, 22, 0.08) !important;
+}
+
+/* Closing CRM CTA Section: Cinematic Obsidian Anchor Block */
+html:not(.dark) .section-closing-cta {
+  background-color: #0c0d12 !important;
+  border-top: 1px solid rgba(223, 186, 72, 0.2) !important;
+}
+
+html:not(.dark) .section-closing-cta h2,
+html:not(.dark) .section-closing-cta h2 span,
+html:not(.dark) .section-closing-cta .text-white {
+  color: #fdfbf7 !important;
+}
+
+html:not(.dark) .section-closing-cta .text-accent {
+  color: #dfba48 !important;
+}
+
+html:not(.dark) .section-closing-cta p,
+html:not(.dark) .section-closing-cta .text-white\/55 {
+  color: rgba(253, 251, 247, 0.72) !important;
+}
+
+html:not(.dark) .section-closing-cta .text-white\/35 {
+  color: rgba(253, 251, 247, 0.45) !important;
+}
+
+html:not(.dark) .section-closing-cta .bg-accent {
+  background: linear-gradient(135deg, #dfba48 0%, #c99f30 100%) !important;
+  color: #0c0d10 !important;
+  border-color: #dfba48 !important;
+  box-shadow: 0 10px 30px rgba(223, 186, 72, 0.3) !important;
+}
+
+html:not(.dark) .section-closing-cta .bg-accent:hover {
+  background: #f0cb5a !important;
+  border-color: #f0cb5a !important;
+  box-shadow: 0 16px 40px rgba(223, 186, 72, 0.45) !important;
+}
+
+html:not(.dark) .section-closing-cta .border-white\/20 {
+  border-color: rgba(255, 255, 255, 0.25) !important;
+  color: #fdfbf7 !important;
+  background-color: transparent !important;
+}
+
+html:not(.dark) .section-closing-cta .border-white\/20:hover {
+  background-color: #ffffff !important;
+  color: #0c0d10 !important;
+  border-color: #ffffff !important;
+}
+
+/* ==========================================================================
+   2. Elevated Surfaces, Gallery Plates & Doppelrand Cards
+   ========================================================================== */
 html:not(.dark) .bg-\[\#0d0f14\],
 html:not(.dark) .bg-\[\#121318\],
 html:not(.dark) .bg-\[\#12141a\],
 html:not(.dark) .bg-\[\#0b0c10\],
-html:not(.dark) .luxury-plate {
+html:not(.dark) .bg-\[\#0a0c10\]\/90,
+html:not(.dark) .luxury-plate,
+html:not(.dark) .bento-card,
+html:not(.dark) .section-divisions .border,
+html:not(.dark) .luxury-card {
   background-color: #ffffff !important;
+  border-color: rgba(17, 18, 22, 0.09) !important;
+  box-shadow: 0 10px 30px -8px rgba(17, 18, 22, 0.07), 0 1px 3px rgba(17, 18, 22, 0.03) !important;
 }
 
 /* Secondary Panels, Inset Well Grids, and Spec Blocks */
 html:not(.dark) .bg-\[\#0a0c10\]\/60,
 html:not(.dark) .bg-\[\#0a0c10\]\/40,
+html:not(.dark) .bg-\[\#0d0f14\]\/80,
 html:not(.dark) .bg-\[\#0d0f14\]\/60,
 html:not(.dark) .bg-\[\#0d0f14\]\/50,
 html:not(.dark) .bg-\[\#0d0f14\]\/40 {
-  background-color: #f0eee7 !important;
+  background-color: #f3efe6 !important;
+  border-color: rgba(17, 18, 22, 0.08) !important;
+}
+
+/* Bento Card specific overrides */
+html:not(.dark) .bento-card {
+  background-color: #ffffff !important;
+  border-color: rgba(17, 18, 22, 0.09) !important;
+}
+
+html:not(.dark) .bento-card .bg-\[\#0c0d10\] {
+  background-color: #f7f5f0 !important;
+  border-color: rgba(156, 109, 18, 0.22) !important;
+  color: #9c6d12 !important;
+}
+
+/* Bento Visual Plaque Image & Overlay */
+html:not(.dark) .bento-visual-plaque [style*="backgroundImage"] {
+  opacity: 0.65 !important;
+}
+
+html:not(.dark) .bento-visual-plaque .bg-gradient-to-t {
+  background: linear-gradient(to top, rgba(255, 255, 255, 0.98) 0%, rgba(255, 255, 255, 0.82) 55%, rgba(255, 255, 255, 0.25) 100%) !important;
 }
 
 /* Sticky Header, Floating Navigation, and Frosted Glass Bars */
@@ -733,14 +834,15 @@ html:not(.dark) .bg-\[\#0c0d10\]\/95,
 html:not(.dark) .bg-\[\#0a0c10\]\/80,
 html:not(.dark) .bg-\[\#0a0c10\]\/70,
 html:not(.dark) .bg-\[\#0a0c10\]\/85 {
-  background-color: rgba(247, 246, 242, 0.94) !important;
+  background-color: rgba(248, 247, 244, 0.95) !important;
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04) !important;
+  border-color: rgba(17, 18, 22, 0.08) !important;
 }
 
 /* Fullscreen Gallery & Modal Backdrops in Light Mode */
 html:not(.dark) .fixed.inset-0.bg-\[\#0c0d10\]\/95,
 html:not(.dark) .fixed.inset-0.bg-\[\#0c0d10\] {
-  background-color: rgba(247, 246, 242, 0.98) !important;
+  background-color: rgba(248, 247, 244, 0.98) !important;
 }
 
 /* Translucent Elements & Hover States */
@@ -751,7 +853,7 @@ html:not(.dark) .bg-white\/10 {
 
 html:not(.dark) .hover\:bg-white\/5:hover,
 html:not(.dark) .hover\:bg-white\/10:hover {
-  background-color: rgba(17, 18, 22, 0.07) !important;
+  background-color: rgba(17, 18, 22, 0.08) !important;
 }
 
 html:not(.dark) .hover\:bg-white:hover {
@@ -762,7 +864,177 @@ html:not(.dark) .hover\:text-\[\#0c0d10\]:hover {
   color: #ffffff !important;
 }
 
-/* High-Contrast Typography Mappings */
+/* ==========================================================================
+   3. Photographic Clarity & Image Visibility Overhauls ("user can see image")
+   ========================================================================== */
+
+/* Hero Image Boost on Construction and Real Estate pages */
+html:not(.dark) .hero-bg-image {
+  opacity: 0.75 !important;
+  filter: none !important;
+}
+
+/* Left-only gradient veil so the right 40% of hero photography is crystal clear */
+html:not(.dark) .hero-gradient-overlay,
+html:not(.dark) .bg-gradient-to-r.from-\[\#0c0d10\].via-\[\#0c0d10\]\/90.to-transparent {
+  background: linear-gradient(to right, #f8f7f4 0%, rgba(248, 247, 244, 0.95) 34%, rgba(248, 247, 244, 0.45) 62%, rgba(248, 247, 244, 0.05) 86%, transparent 100%) !important;
+}
+
+/* Hide dark top-down vignette in Services and About pages */
+html:not(.dark) .bg-gradient-to-b.from-\[\#0a0c10\].to-transparent {
+  opacity: 0 !important;
+}
+
+/* Homepage Desktop Hero Visual Frame */
+html:not(.dark) .hero-visual-frame {
+  background-color: #ffffff !important;
+  border-color: rgba(17, 18, 22, 0.1) !important;
+  box-shadow: 0 24px 60px -12px rgba(17, 18, 22, 0.12), 0 0 0 1px rgba(17, 18, 22, 0.05) !important;
+}
+
+html:not(.dark) .hero-visual-frame .bg-gradient-to-t {
+  background: linear-gradient(to top, rgba(12, 13, 16, 0.85) 0%, rgba(12, 13, 16, 0.25) 38%, transparent 65%) !important;
+}
+
+/* Maintain high-contrast ivory & gold on top of hero photo overlay */
+html:not(.dark) .hero-visual-frame .text-white {
+  color: #ffffff !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6) !important;
+}
+
+html:not(.dark) .hero-visual-frame .text-accent {
+  color: #dfba48 !important;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6) !important;
+}
+
+/* Property Cards: Remove dark bottom fade streak over property photo */
+html:not(.dark) .property-card-image-gradient {
+  display: none !important;
+}
+
+html:not(.dark) .aspect-\[16\/10\] .bg-gradient-to-t {
+  display: none !important;
+}
+
+/* Property Card Status Badge: Translucent white pill with dark text */
+html:not(.dark) .aspect-\[16\/10\] .bg-\[\#0c0d10\]\/60 {
+  background-color: rgba(255, 255, 255, 0.92) !important;
+  border-color: rgba(17, 18, 22, 0.15) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08) !important;
+}
+
+/* Property Card Type Badge */
+html:not(.dark) .aspect-\[16\/10\] .bg-accent.text-\[\#0c0d10\] {
+  background-color: #ba891d !important;
+  color: #ffffff !important;
+}
+
+/* ==========================================================================
+   4. High-End Agency Hover Physics & Micro-Interactions
+   ========================================================================== */
+
+/* Bento Cards Hover Lift & Gold Highlight */
+html:not(.dark) .bento-card {
+  transition: transform 500ms cubic-bezier(0.32, 0.72, 0, 1), box-shadow 500ms cubic-bezier(0.32, 0.72, 0, 1), border-color 400ms ease !important;
+}
+
+html:not(.dark) .bento-card:hover {
+  transform: translateY(-5px) !important;
+  border-color: rgba(156, 109, 18, 0.5) !important;
+  box-shadow: 0 25px 50px -12px rgba(24, 26, 32, 0.14), 0 0 0 1px rgba(156, 109, 18, 0.35) !important;
+}
+
+/* Corner Bracket Animations in Light Mode */
+html:not(.dark) .border-white\/10 {
+  border-color: rgba(17, 18, 22, 0.12) !important;
+}
+
+html:not(.dark) .group:hover .border-white\/10,
+html:not(.dark) .group:hover .group-hover\:border-accent {
+  border-color: #9c6d12 !important;
+}
+
+/* Contracting Division Cards Hover */
+html:not(.dark) .section-divisions .border {
+  transition: transform 500ms cubic-bezier(0.32, 0.72, 0, 1), box-shadow 500ms cubic-bezier(0.32, 0.72, 0, 1), border-color 400ms ease !important;
+}
+
+html:not(.dark) .section-divisions .border:hover {
+  transform: translateY(-5px) !important;
+  border-color: rgba(156, 109, 18, 0.5) !important;
+  box-shadow: 0 25px 50px -15px rgba(24, 26, 32, 0.15), 0 0 0 1px rgba(156, 109, 18, 0.35) !important;
+}
+
+/* Service & Capability Cards Hover */
+html:not(.dark) .grid .bg-\[\#0a0c10\]\/60 {
+  transition: transform 500ms cubic-bezier(0.32, 0.72, 0, 1), box-shadow 500ms cubic-bezier(0.32, 0.72, 0, 1), border-color 400ms ease !important;
+}
+
+html:not(.dark) .grid .bg-\[\#0a0c10\]\/60:hover {
+  transform: translateY(-5px) !important;
+  border-color: rgba(156, 109, 18, 0.5) !important;
+  box-shadow: 0 25px 50px -12px rgba(24, 26, 32, 0.14), 0 0 0 1px rgba(156, 109, 18, 0.35) !important;
+}
+
+/* Primary Luxury Gold Button Physics */
+html:not(.dark) .bg-accent.text-\[\#0c0d10\],
+html:not(.dark) .btn-luxury-gold.bg-accent {
+  background: linear-gradient(135deg, #c59828 0%, #b3831b 100%) !important;
+  color: #ffffff !important;
+  border-color: #9c6d12 !important;
+  box-shadow: 0 10px 25px rgba(186, 137, 29, 0.25) !important;
+  transition: all 400ms cubic-bezier(0.32, 0.72, 0, 1) !important;
+}
+
+html:not(.dark) .bg-accent.text-\[\#0c0d10\]:hover,
+html:not(.dark) .btn-luxury-gold.bg-accent:hover {
+  background: #9c6d12 !important;
+  border-color: #7f570b !important;
+  color: #ffffff !important;
+  box-shadow: 0 16px 36px rgba(156, 109, 18, 0.35) !important;
+  transform: translateY(-2px) !important;
+}
+
+html:not(.dark) .bg-accent.text-\[\#0c0d10\]:active,
+html:not(.dark) .btn-luxury-gold.bg-accent:active {
+  transform: scale(0.98) !important;
+}
+
+/* Secondary Hero & Outline Buttons */
+html:not(.dark) .btn-luxury-outline,
+html:not(.dark) .bg-transparent.text-white.border-white\/20,
+html:not(.dark) .bg-transparent.text-white.border-white\/15,
+html:not(.dark) .bg-transparent.text-white.border-white\/10 {
+  border-color: rgba(17, 18, 22, 0.22) !important;
+  color: #111215 !important;
+  background-color: transparent !important;
+  transition: all 400ms cubic-bezier(0.32, 0.72, 0, 1) !important;
+}
+
+html:not(.dark) .btn-luxury-outline:hover,
+html:not(.dark) .bg-transparent.text-white.border-white\/20:hover,
+html:not(.dark) .bg-transparent.text-white.border-white\/15:hover,
+html:not(.dark) .bg-transparent.text-white.border-white\/10:hover {
+  background-color: #111215 !important;
+  color: #ffffff !important;
+  border-color: #111215 !important;
+  box-shadow: 0 10px 25px rgba(17, 18, 22, 0.12) !important;
+  transform: translateY(-2px) !important;
+}
+
+html:not(.dark) .btn-luxury-outline:active,
+html:not(.dark) .bg-transparent.text-white.border-white\/20:active {
+  transform: scale(0.98) !important;
+}
+
+/* Nested Arrow Kinetics */
+html:not(.dark) .group:hover svg.transition-transform {
+  transform: translateX(4px) translateY(-1px) !important;
+}
+
+/* ==========================================================================
+   5. High-Contrast Typography Mappings
+   ========================================================================== */
 html:not(.dark) .text-white {
   color: #111215 !important;
 }
@@ -775,17 +1047,17 @@ html:not(.dark) .text-white\/80 {
 
 html:not(.dark) .text-white\/70,
 html:not(.dark) .text-white\/60 {
-  color: #4d5360 !important;
+  color: #484e5b !important;
 }
 
 html:not(.dark) .text-white\/50,
 html:not(.dark) .text-white\/40 {
-  color: #6f7684 !important;
+  color: #697080 !important;
 }
 
 html:not(.dark) .text-white\/30,
 html:not(.dark) .text-white\/20 {
-  color: #98a0b0 !important;
+  color: #9299a9 !important;
 }
 
 html:not(.dark) .hover\:text-white:hover {
@@ -795,21 +1067,6 @@ html:not(.dark) .hover\:text-white:hover {
 /* Heritage Architectural Gold Text (Passes WCAG AA 4.8:1 on alabaster/white) */
 html:not(.dark) .text-accent {
   color: #9c6d12 !important;
-}
-
-/* Buttons with accent gold backgrounds retain high-contrast white text in light mode */
-html:not(.dark) .bg-accent.text-\[\#0c0d10\],
-html:not(.dark) .btn-luxury-gold.bg-accent {
-  background-color: #ba891d !important;
-  color: #ffffff !important;
-  border-color: #9c6d12 !important;
-}
-
-html:not(.dark) .bg-accent.text-\[\#0c0d10\]:hover,
-html:not(.dark) .btn-luxury-gold.bg-accent:hover {
-  background-color: #9c6d12 !important;
-  border-color: #7f570b !important;
-  color: #ffffff !important;
 }
 
 /* Accent Badges, Pills, and Glow Overlays */
@@ -848,64 +1105,103 @@ html:not(.dark) .border-accent\/50 {
   border-color: rgba(156, 109, 18, 0.35) !important;
 }
 
-/* Gradients in Light Mode */
-html:not(.dark) .from-\[\#0c0d10\] {
-  --tw-gradient-from: #f7f6f2 var(--tw-gradient-from-position) !important;
-}
-
-html:not(.dark) .via-\[\#0c0d10\]\/90,
-html:not(.dark) .via-\[\#0c0d10\]\/80,
-html:not(.dark) .via-\[\#0c0d10\]\/60 {
-  --tw-gradient-via: rgba(247, 246, 242, 0.85) var(--tw-gradient-via-position) !important;
-}
-
-html:not(.dark) .to-\[\#0c0d10\]\/95 {
-  --tw-gradient-to: rgba(247, 246, 242, 0.95) var(--tw-gradient-to-position) !important;
-}
-
-/* Hero Section Subtle Architectural Grid Lines in Light Mode */
+/* Subtle Architectural Grid Lines in Light Mode */
 html:not(.dark) .w-\[1px\].h-full.bg-white {
   background-color: #111215 !important;
-  opacity: 0.05 !important;
+  opacity: 0.06 !important;
 }
 
-/* Cards & Dropdown Shadows in Light Mode */
-html:not(.dark) .shadow-2xl {
-  box-shadow: 0 16px 40px -10px rgba(18, 19, 24, 0.07), 0 2px 6px rgba(18, 19, 24, 0.04) !important;
-}
-
-html:not(.dark) .shadow-xl {
-  box-shadow: 0 10px 25px -5px rgba(18, 19, 24, 0.06), 0 1px 3px rgba(18, 19, 24, 0.04) !important;
-}
-
-html:not(.dark) .shadow-lg {
-  box-shadow: 0 4px 12px rgba(18, 19, 24, 0.05) !important;
-}
-
-/* Luxury Card Elements in Light Mode */
-html:not(.dark) .luxury-card {
+/* ==========================================================================
+   6. Form Inputs, Selects, and Floating Labels
+   ========================================================================== */
+html:not(.dark) input.bg-\[\#0c0d10\],
+html:not(.dark) input.bg-\[\#0c0d10\]\/50,
+html:not(.dark) textarea.bg-\[\#0c0d10\]\/50,
+html:not(.dark) select.bg-\[\#0c0d10\]\/50,
+html:not(.dark) select.bg-\[\#0d0f14\] {
   background-color: #ffffff !important;
-  border-color: rgba(17, 18, 22, 0.09) !important;
+  color: #111215 !important;
+  border-color: rgba(17, 18, 22, 0.14) !important;
 }
 
-html:not(.dark) .luxury-card:hover {
-  border-color: rgba(156, 109, 18, 0.35) !important;
-  box-shadow: 0 20px 45px -10px rgba(18, 19, 24, 0.08) !important;
+html:not(.dark) input::placeholder,
+html:not(.dark) textarea::placeholder,
+html:not(.dark) input.placeholder\:text-white\/40::placeholder,
+html:not(.dark) input.placeholder\:text-white\/20::placeholder,
+html:not(.dark) textarea.placeholder\:text-white\/20::placeholder {
+  color: #767d8d !important;
+  opacity: 1 !important;
 }
 
-/* Luxury Outline Buttons in Light Mode */
-html:not(.dark) .btn-luxury-outline {
-  border-color: rgba(17, 18, 22, 0.18) !important;
+html:not(.dark) label.bg-\[\#0a0c10\] {
+  background-color: #ffffff !important;
+  color: #9c6d12 !important;
+}
+
+html:not(.dark) select option {
+  background-color: #ffffff !important;
   color: #111215 !important;
 }
 
-html:not(.dark) .btn-luxury-outline:hover {
-  background-color: #111215 !important;
-  border-color: #111215 !important;
-  color: #ffffff !important;
+/* ==========================================================================
+   7. Property Filter Chips & Tabs in Light Mode
+   ========================================================================== */
+html:not(.dark) button.bg-white\/5.text-white\/70 {
+  background-color: #ffffff !important;
+  color: #484e5b !important;
+  border-color: rgba(17, 18, 22, 0.12) !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+  transition: all 300ms ease !important;
 }
 
-/* Architectural Map Tiles & Leaflet Controls in Light Mode */
+html:not(.dark) button.bg-white\/5.text-white\/70:hover {
+  border-color: rgba(156, 109, 18, 0.5) !important;
+  color: #111215 !important;
+  box-shadow: 0 4px 12px rgba(156, 109, 18, 0.1) !important;
+}
+
+/* Tab scroll navigation arrows on property details */
+html:not(.dark) .bg-gradient-to-r.from-\[\#0d0f14\].via-\[\#0d0f14\]\/95.to-transparent {
+  background: linear-gradient(to right, #f8f7f4 0%, rgba(248, 247, 244, 0.95) 70%, transparent 100%) !important;
+}
+
+html:not(.dark) .bg-gradient-to-l.from-\[\#0d0f14\].via-\[\#0d0f14\]\/95.to-transparent {
+  background: linear-gradient(to left, #f8f7f4 0%, rgba(248, 247, 244, 0.95) 70%, transparent 100%) !important;
+}
+
+html:not(.dark) .w-6.h-6.rounded-full.bg-\[\#12141a\] {
+  background-color: #ffffff !important;
+  border-color: rgba(17, 18, 22, 0.15) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08) !important;
+}
+
+html:not(.dark) .w-6.h-6.rounded-full.bg-\[\#12141a\] svg {
+  color: #111215 !important;
+}
+
+html:not(.dark) .bg-\[\#0d0f14\]\/50.group\/tabs {
+  background-color: #f8f7f4 !important;
+}
+
+html:not(.dark) button.bg-\[\#0a0c10\].border-accent {
+  background-color: #ffffff !important;
+}
+
+/* ==========================================================================
+   8. Custom Map Price Markers & Leaflet Popups
+   ========================================================================== */
+html:not(.dark) .custom-luxury-marker .bg-\[\#0c0d10\]\/90 {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  color: #9c6d12 !important;
+  border-color: rgba(156, 109, 18, 0.45) !important;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12) !important;
+}
+
+html:not(.dark) .custom-luxury-marker .bg-\[\#0c0d10\] {
+  background-color: #ffffff !important;
+  border-color: rgba(156, 109, 18, 0.45) !important;
+}
+
 html:not(.dark) .luxury-map-tiles {
   filter: grayscale(0.75) contrast(1.1) brightness(0.97) !important;
 }
@@ -923,19 +1219,6 @@ html:not(.dark) .luxury-popup .leaflet-popup-tip {
   border-top: 1px solid rgba(156, 109, 18, 0.3) !important;
 }
 
-html:not(.dark) .luxury-popup .leaflet-container a.leaflet-popup-close-button {
-  color: rgba(17, 18, 22, 0.6) !important;
-}
-
-html:not(.dark) .luxury-popup .leaflet-container a.leaflet-popup-close-button:hover {
-  color: #9c6d12 !important;
-}
-
-html:not(.dark) .leaflet-bar {
-  border: 1px solid rgba(17, 18, 22, 0.12) !important;
-  box-shadow: 0 4px 15px rgba(18, 19, 24, 0.06) !important;
-}
-
 html:not(.dark) .leaflet-bar a {
   background-color: #ffffff !important;
   color: #9c6d12 !important;
@@ -943,36 +1226,72 @@ html:not(.dark) .leaflet-bar a {
 }
 
 html:not(.dark) .leaflet-bar a:hover {
-  background-color: #f7f6f2 !important;
+  background-color: #f8f7f4 !important;
   color: #7f570b !important;
 }
 
-html:not(.dark) .leaflet-control-attribution {
-  background: rgba(247, 246, 242, 0.92) !important;
-  color: rgba(17, 18, 22, 0.5) !important;
-  border-left: 1px solid rgba(17, 18, 22, 0.1) !important;
-  border-top: 1px solid rgba(17, 18, 22, 0.1) !important;
-}
-
-html:not(.dark) .leaflet-control-attribution a {
-  color: rgba(156, 109, 18, 0.6) !important;
-}
-
-/* Horizontal Scrollbar in Light Mode (Warm Charcoal on Alabaster Track) */
+/* ==========================================================================
+   9. Horizontal Scrollbar in Light Mode
+   ========================================================================== */
 html:not(.dark) .luxury-scrollbar-x {
-  scrollbar-color: rgba(17, 18, 22, 0.22) rgba(247, 246, 242, 0.95);
+  scrollbar-color: rgba(17, 18, 22, 0.25) rgba(248, 247, 244, 0.95);
 }
 
 html:not(.dark) .luxury-scrollbar-x::-webkit-scrollbar-track {
-  background: rgba(247, 246, 242, 0.95);
+  background: rgba(248, 247, 244, 0.95);
   border-top: 1px solid rgba(17, 18, 22, 0.08);
 }
 
 html:not(.dark) .luxury-scrollbar-x::-webkit-scrollbar-thumb {
-  background: rgba(17, 18, 22, 0.20);
+  background: rgba(17, 18, 22, 0.22);
   border: 1px solid rgba(17, 18, 22, 0.28);
 }
 
 html:not(.dark) .luxury-scrollbar-x::-webkit-scrollbar-thumb:hover {
   background: rgba(17, 18, 22, 0.45);
-}
+}
+
+/* ==========================================================================
+   10. Editorial Footer in Light Mode: Grounded Obsidian Base
+   ========================================================================== */
+html:not(.dark) footer {
+  background-color: #08090d !important;
+  color: #fdfbf7 !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+}
+
+html:not(.dark) footer .text-white,
+html:not(.dark) footer span.text-white {
+  color: #ffffff !important;
+}
+
+html:not(.dark) footer .text-accent {
+  color: #dfba48 !important;
+}
+
+html:not(.dark) footer .text-primary-foreground\/70,
+html:not(.dark) footer .text-primary-foreground\/75 {
+  color: rgba(253, 251, 247, 0.72) !important;
+}
+
+html:not(.dark) footer .text-primary-foreground\/50 {
+  color: rgba(253, 251, 247, 0.45) !important;
+}
+
+html:not(.dark) footer a:hover {
+  color: #dfba48 !important;
+}
+
+html:not(.dark) footer .border-white\/10 {
+  border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+html:not(.dark) footer .bg-white\/5 {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+}
+
+html:not(.dark) footer .bg-\[\#0c0d10\] {
+  background-color: #0c0d10 !important;
+}
+
+

@@ -118,7 +118,7 @@ export default function HomePage() {
       {/* Full-screen Cinematic Hero */}
       <section
         ref={heroRef}
-        className="relative flex flex-col justify-start lg:justify-center lg:items-center overflow-hidden bg-[#0c0d10] pt-20 sm:pt-24 lg:py-0 pb-10 sm:pb-14 lg:min-h-[90vh] lg:h-[90vh] border-b border-white/5"
+        className="section-hero relative flex flex-col justify-start lg:justify-center lg:items-center overflow-hidden bg-[#0c0d10] pt-20 sm:pt-24 lg:py-0 pb-10 sm:pb-14 lg:min-h-[90vh] lg:h-[90vh] border-b border-white/5"
       >
         {/* Fine Architectural Grid lines */}
         <div className="absolute inset-0 flex justify-between pointer-events-none opacity-[0.03] px-12 z-0">
@@ -214,7 +214,7 @@ export default function HomePage() {
 
             {/* Right Column: Architectural Visual Frame (Desktop Only — Never pushes mobile content offscreen) */}
             <div className="hidden lg:flex lg:col-span-5 w-full items-center justify-center relative z-10">
-              <div className="relative w-full aspect-[4/5] max-w-[380px] border border-white/10 p-2.5 bg-[#0a0c10]/40 backdrop-blur-sm shadow-2xl group overflow-hidden">
+              <div className="hero-visual-frame relative w-full aspect-[4/5] max-w-[380px] border border-white/10 p-2.5 bg-[#0a0c10]/40 backdrop-blur-sm shadow-2xl group overflow-hidden">
                 {/* Gold Accent Corners */}
                 <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent" />
                 <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent" />
@@ -296,7 +296,7 @@ export default function HomePage() {
             </div>
 
             {/* Bento Card 2: Visual Luxury Plaque */}
-            <div className="bento-card md:col-span-4 border border-white/5 bg-[#0a0c10]/60 hover:border-accent/20 transition-all duration-500 overflow-hidden relative group min-h-[260px] sm:min-h-[300px] shadow-2xl">
+            <div className="bento-card bento-visual-plaque md:col-span-4 border border-white/5 bg-[#0a0c10]/60 hover:border-accent/20 transition-all duration-500 overflow-hidden relative group min-h-[260px] sm:min-h-[300px] shadow-2xl">
               {/* Gold Accent Corner Brackets */}
               <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
@@ -465,7 +465,7 @@ export default function HomePage() {
       </section>
 
       {/* Contracting divisions */}
-      <section className="py-14 sm:py-20 lg:py-32 bg-[#0c0d10] text-white relative">
+      <section className="section-divisions py-14 sm:py-20 lg:py-32 bg-[#0c0d10] text-white relative">
         {/* Fine grid lines */}
         <div className="absolute inset-0 flex justify-between pointer-events-none opacity-[0.05] px-12 z-0">
           <div className="w-[1px] h-full bg-white" />
@@ -553,7 +553,7 @@ export default function HomePage() {
       </section>
 
       {/* CRM Contact CTA Section */}
-      <section className="py-16 sm:py-24 lg:py-32 bg-[#0c0d10] text-white relative overflow-hidden border-t border-white/5">
+      <section className="section-closing-cta py-16 sm:py-24 lg:py-32 bg-[#0c0d10] text-white relative overflow-hidden border-t border-white/5">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(223,186,72,0.06),transparent_50%)] pointer-events-none" />
         <div className="container mx-auto px-4 text-center relative z-10">
           <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-3 sm:mb-4">

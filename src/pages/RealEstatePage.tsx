@@ -53,10 +53,10 @@ const RealEstatePage = () => {
       {/* Hero Section */}
       <section className="relative py-10 sm:py-20 lg:py-32 overflow-hidden border-b border-white/5">
         <div 
-          className="absolute inset-0 bg-cover bg-center opacity-30 blur-[1px]"
+          className="hero-bg-image absolute inset-0 bg-cover bg-center opacity-30 blur-[1px]"
           style={{ backgroundImage: `url(${luxuryRealEstateImage})` }}
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-[#0c0d10] via-[#0c0d10]/90 to-transparent" />
+        <div className="hero-gradient-overlay absolute inset-0 bg-gradient-to-r from-[#0c0d10] via-[#0c0d10]/90 to-transparent" />
         
         <div className="relative z-10 container mx-auto px-4 md:px-8 max-w-5xl">
           <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-2.5 sm:mb-4">

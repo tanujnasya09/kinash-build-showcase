@@ -191,7 +191,7 @@ export default function PropertyCard({ property, isActive = false, onMouseEnter 
           }}
         />
         {/* Dark gold color tint overlay */}
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0c0d10] via-[#0c0d10]/15 to-transparent z-10" />
+        <div className="property-card-image-gradient absolute inset-0 bg-gradient-to-t from-[#0c0d10] via-[#0c0d10]/15 to-transparent z-10" />
         
         {/* Luxury Glassmorphic Status Badge */}
         <div
