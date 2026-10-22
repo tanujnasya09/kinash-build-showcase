@@ -21,11 +21,6 @@ export default defineConfig({
           if (!id.includes("node_modules")) return;
           if (id.includes("leaflet")) return "maps";
           if (id.includes("gsap") || id.includes("lenis")) return "motion";
-          if (id.includes("@radix-ui")) return "radix";
-          if (id.includes("react-router") || id.includes("/react/") || id.includes("/react-dom/")) {
-            return "react";
-          }
-          return "vendor";
         },
       },
     },
