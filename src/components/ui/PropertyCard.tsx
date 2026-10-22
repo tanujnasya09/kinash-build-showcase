@@ -217,11 +217,11 @@ export default function PropertyCard({ property, isActive = false, onMouseEnter 
       {/* Info Content Section */}
       <div className="p-4 sm:p-6 flex flex-col justify-between flex-1 relative z-10">
         <div>
-          <div className="flex items-center text-white/50 mb-2 font-mono text-[9px] uppercase tracking-wider">
+          <div className="flex items-center text-foreground/60 dark:text-white/50 mb-2 font-mono text-[9px] uppercase tracking-wider">
             <MapPin size={10} className="mr-1.5 text-accent flex-shrink-0" />
             <span className="line-clamp-1">{displayLocation}</span>
           </div>
-          <h3 className="text-base sm:text-lg font-display font-medium text-white mb-1.5 sm:mb-2 line-clamp-1 group-hover:text-accent transition-colors duration-500 leading-tight">
+          <h3 className="text-base sm:text-lg font-display font-medium text-foreground dark:text-white mb-1.5 sm:mb-2 line-clamp-1 group-hover:text-accent transition-colors duration-500 leading-tight">
             {displayTitle}
           </h3>
           <p className="text-lg sm:text-xl font-display font-extralight text-accent mb-3 sm:mb-4">
@@ -229,29 +229,29 @@ export default function PropertyCard({ property, isActive = false, onMouseEnter 
           </p>
 
           {/* Quick Technical specifications */}
-          <div className="grid grid-cols-3 gap-1 sm:gap-2 p-2 sm:p-3 bg-[#0d0f14]/50 border border-white/5 text-[8px] sm:text-[9px] font-mono tracking-wider uppercase text-white/60 mb-3 sm:mb-4">
-            <div className="text-center border-r border-white/5 px-1">
-              <span className="text-accent/50 block font-normal text-[7px] mb-0.5">{t('properties.card.size')}</span>
+          <div className="grid grid-cols-3 gap-1 sm:gap-2 p-2 sm:p-3 bg-[#f8f7f4] dark:bg-[#0d0f14]/50 border border-black/10 dark:border-white/5 text-[8px] sm:text-[9px] font-mono tracking-wider uppercase text-foreground/75 dark:text-white/60 mb-3 sm:mb-4">
+            <div className="text-center border-r border-black/10 dark:border-white/5 px-1">
+              <span className="text-accent/70 dark:text-accent/50 block font-normal text-[7px] mb-0.5">{t('properties.card.size')}</span>
               <span className="truncate block">{property.specs.area || property.specs.sizes[0]}</span>
             </div>
-            <div className="text-center border-r border-white/5 px-1">
-              <span className="text-accent/50 block font-normal text-[7px] mb-0.5">{t('properties.card.timeline')}</span>
+            <div className="text-center border-r border-black/10 dark:border-white/5 px-1">
+              <span className="text-accent/70 dark:text-accent/50 block font-normal text-[7px] mb-0.5">{t('properties.card.timeline')}</span>
               <span className="truncate block">{displaySpecs.possession}</span>
             </div>
             <div className="text-center px-1">
-              <span className="text-accent/50 block font-normal text-[7px] mb-0.5">{t('properties.card.facing')}</span>
+              <span className="text-accent/70 dark:text-accent/50 block font-normal text-[7px] mb-0.5">{t('properties.card.facing')}</span>
               <span className="truncate block">{property.specs.facing}</span>
             </div>
           </div>
 
-          <p className="text-[11px] sm:text-xs text-white/60 font-light line-clamp-2 leading-relaxed mb-4 sm:mb-6">
+          <p className="text-[11px] sm:text-xs text-foreground/70 dark:text-white/60 font-light line-clamp-2 leading-relaxed mb-4 sm:mb-6">
             {displayDesc}
           </p>
 
           {/* Features checkmarks */}
-          <div className="space-y-1.5 border-t border-white/5 pt-3 sm:pt-4 mb-4 sm:mb-6">
+          <div className="space-y-1.5 border-t border-black/10 dark:border-white/5 pt-3 sm:pt-4 mb-4 sm:mb-6">
             {displayFeatures.slice(0, 2).map((feat, i) => (
-              <div key={i} className="flex items-center text-[10px] text-white/50 font-sans tracking-wide">
+              <div key={i} className="flex items-center text-[10px] text-foreground/65 dark:text-white/50 font-sans tracking-wide">
                 <CheckCircle className="w-3.5 h-3.5 text-accent mr-2 flex-shrink-0" />
                 <span className="line-clamp-1 font-light">{feat}</span>
               </div>
@@ -263,7 +263,8 @@ export default function PropertyCard({ property, isActive = false, onMouseEnter 
         <div className="flex gap-2.5 sm:gap-3 mt-auto items-center pt-2">
           <Link to={`/property/${property.slug}`} className="flex-1">
             <Button 
-              className="w-full h-11 sm:h-12 btn-luxury-gold bg-[#0d0f14] hover:bg-accent hover:text-[#0c0d10] text-white border border-white/10 rounded-none text-[9px] tracking-widest uppercase flex items-center justify-center gap-1.5 transition-colors"
+              variant="outline"
+              className="w-full h-11 sm:h-12 border border-black/15 dark:border-white/10 bg-transparent text-[#111215] dark:text-white hover:bg-accent hover:text-[#0c0d10] dark:hover:bg-accent dark:hover:text-[#0c0d10] rounded-none text-[9px] tracking-widest uppercase flex items-center justify-center gap-1.5 font-bold transition-colors"
             >
               <span>{t('properties.card.details')}</span>
               <ArrowUpRight size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />

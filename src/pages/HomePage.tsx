@@ -130,16 +130,16 @@ export default function HomePage() {
 
         {/* Luxury Clean Background with Golden Radial Glow */}
         <div className="absolute inset-0 bg-[#0c0d10] z-0" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_40%,rgba(223,186,72,0.06),transparent_50%)] z-0 pointer-events-none" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_40%,rgba(223,186,72,0.08),transparent_55%)] z-0 pointer-events-none" />
 
-        {/* Mobile Ambient Architectural Vignette (Zero vertical scroll footprint) */}
+        {/* Mobile Ambient Architectural Vignette */}
         <div
-          className="absolute inset-0 z-0 opacity-15 bg-cover bg-center pointer-events-none lg:hidden"
+          className="absolute inset-0 z-0 opacity-25 dark:opacity-15 bg-cover bg-center pointer-events-none lg:hidden"
           style={{
             backgroundImage: "url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1000&auto=format&fit=crop&q=80')",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#0c0d10] via-[#0c0d10]/90 to-[#0c0d10]/95 pointer-events-none lg:hidden z-0" />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#f8f7f4] via-[#f8f7f4]/90 to-[#f8f7f4]/80 dark:from-[#0c0d10] dark:via-[#0c0d10]/90 dark:to-[#0c0d10]/95 pointer-events-none lg:hidden z-0" />
 
         <div className="relative z-10 container mx-auto px-4 md:px-8 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -147,16 +147,16 @@ export default function HomePage() {
             <div className="lg:col-span-7 text-left flex flex-col justify-center items-start w-full">
               {/* Gold Sparkle Badge */}
               <div
-                className="inline-flex items-center gap-2 bg-accent/5 border border-accent/25 px-3.5 sm:px-5 py-1.5 sm:py-2 mb-3.5 sm:mb-6 text-accent text-[9px] font-mono font-bold tracking-[0.3em] uppercase relative"
+                className="inline-flex items-center gap-2 bg-accent/10 border border-accent/30 px-3.5 sm:px-5 py-1.5 sm:py-2 mb-3.5 sm:mb-6 text-accent text-[9px] font-mono font-bold tracking-[0.3em] uppercase relative shadow-sm"
               >
-                <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-accent/40" />
-                <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-accent/40" />
+                <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-accent/50" />
+                <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-accent/50" />
                 <Sparkles size={11} className="animate-pulse text-accent" />
                 <span>{copy.heroBadge}</span>
               </div>
 
               {/* Title with Rising text effect */}
-              <h1 ref={titleContainerRef} className="text-[28px] sm:text-5xl md:text-6xl lg:text-7xl font-display font-medium leading-[1.1] mb-3.5 sm:mb-6 tracking-tight text-white [text-wrap:balance]">
+              <h1 ref={titleContainerRef} className="text-[28px] sm:text-5xl md:text-6xl lg:text-7xl font-display font-medium leading-[1.08] mb-3.5 sm:mb-6 tracking-tight text-foreground dark:text-white [text-wrap:balance]">
                 <span className="block overflow-hidden relative pb-[0.08em]">
                   <span className="reveal-line inline-block relative">
                     {copy.heroTitle1}
@@ -170,11 +170,11 @@ export default function HomePage() {
               </h1>
 
               {/* Subheading Description */}
-              <p className="text-xs sm:text-sm text-white/60 mb-5 sm:mb-8 max-w-xl text-left leading-relaxed font-light tracking-wide">
+              <p className="text-xs sm:text-sm text-foreground/75 dark:text-white/60 mb-5 sm:mb-8 max-w-xl text-left leading-relaxed font-light tracking-wide">
                 {copy.heroTagline}
               </p>
 
-              {/* Action Links - Ergonomic Mobile & Desktop Buttons (Row on mobile) */}
+              {/* Action Links - Ergonomic Mobile & Desktop Buttons */}
               <div className="flex flex-row gap-2.5 sm:gap-4 justify-start items-center w-full max-w-md">
                 <MagneticButton strength={15} className="flex-1 sm:flex-initial" as="div">
                   <Button
@@ -190,49 +190,80 @@ export default function HomePage() {
                 <MagneticButton strength={15} className="flex-1 sm:flex-initial" as="div">
                   <Button
                     asChild
-                    className="w-full sm:w-auto h-11 sm:h-14 px-3 sm:px-8 py-3 sm:py-4 bg-transparent text-white hover:bg-white hover:text-[#0c0d10] font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-white/20 hover:border-white transition-all flex items-center justify-center whitespace-nowrap"
+                    variant="outline"
+                    className="w-full sm:w-auto h-11 sm:h-14 px-3 sm:px-8 py-3 sm:py-4 bg-transparent text-[#111215] dark:text-white hover:bg-[#111215] hover:text-white dark:hover:bg-white dark:hover:text-[#0c0d10] font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-black/20 dark:border-white/20 hover:border-black dark:hover:border-white transition-all flex items-center justify-center whitespace-nowrap"
                   >
                     <Link to="/about">{copy.heroCtaAbout}</Link>
                   </Button>
                 </MagneticButton>
               </div>
 
+              {/* Desktop Architectural Editorial Trust Bar */}
+              <div className="hidden lg:flex items-center gap-6 mt-8 pt-6 border-t border-black/10 dark:border-white/10 w-full max-w-xl">
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-accent rounded-none" />
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/75 dark:text-white/60">
+                    <strong className="text-foreground dark:text-white font-bold">40+</strong> {copy.statLabelPlots || 'Verified Sites'}
+                  </span>
+                </div>
+                <div className="w-[1px] h-3 bg-black/15 dark:bg-white/15" />
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-accent rounded-none" />
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/75 dark:text-white/60">
+                    <strong className="text-foreground dark:text-white font-bold">25+ Yrs</strong> {copy.statLabelHeritage || 'Heritage'}
+                  </span>
+                </div>
+                <div className="w-[1px] h-3 bg-black/15 dark:bg-white/15" />
+                <div className="flex items-center gap-2">
+                  <div className="w-1.5 h-1.5 bg-accent rounded-none" />
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/75 dark:text-white/60">
+                    <strong className="text-accent font-bold font-mono">{formatMoneyCompact(copy.statAmountEquity, currency.code)}+</strong> Equity
+                  </span>
+                </div>
+              </div>
+
               {/* Mobile Specimen Live Bar (Zero bulky scroll) */}
-              <div className="lg:hidden w-full mt-5 sm:mt-8 pt-4 sm:pt-6 border-t border-white/10 grid grid-cols-2 gap-4">
+              <div className="lg:hidden w-full mt-5 sm:mt-8 pt-4 sm:pt-6 border-t border-black/10 dark:border-white/10 grid grid-cols-2 gap-4">
                 <div className="text-left">
-                  <span className="text-[8px] uppercase tracking-widest text-accent font-mono block mb-0.5">{copy.overlayRegistry}</span>
-                  <span className="text-xs font-display font-medium text-white block">{copy.overlayLocation}</span>
+                  <span className="text-[8px] uppercase tracking-widest text-accent font-mono font-bold block mb-0.5">{copy.overlayRegistry}</span>
+                  <span className="text-xs font-display font-medium text-foreground dark:text-white block">{copy.overlayLocation}</span>
                 </div>
                 <div className="text-right">
-                  <span className="text-[8px] uppercase tracking-widest text-accent font-mono block mb-0.5">{copy.overlayDelivered}</span>
-                  <span className="text-xs font-display font-medium text-accent block font-mono">
+                  <span className="text-[8px] uppercase tracking-widest text-accent font-mono font-bold block mb-0.5">{copy.overlayDelivered}</span>
+                  <span className="text-xs font-display font-medium text-accent block font-mono font-bold">
                     {formatMoneyCompact(copy.statAmountEquity, currency.code)}+
                   </span>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Architectural Visual Frame (Desktop Only — Never pushes mobile content offscreen) */}
+            {/* Right Column: Architectural Visual Frame (Desktop Only) */}
             <div className="hidden lg:flex lg:col-span-5 w-full items-center justify-center relative z-10">
-              <div className="hero-visual-frame relative w-full aspect-[4/5] max-w-[380px] border border-white/10 p-2.5 bg-[#0a0c10]/40 backdrop-blur-sm shadow-2xl group overflow-hidden">
+              <div className="hero-visual-frame relative w-full aspect-[4/5] max-w-[420px] xl:max-w-[460px] border border-black/15 dark:border-white/10 p-2 bg-white/70 dark:bg-[#0a0c10]/40 backdrop-blur-md shadow-2xl group overflow-hidden">
                 {/* Gold Accent Corners */}
-                <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent" />
-                <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent" />
+                <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-accent z-20" />
+                <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-accent z-20" />
 
                 <div className="w-full h-full overflow-hidden relative">
-                  <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=1000&fit=crop"
+                  <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&h=1100&fit=crop"
                     alt={t('common.villaAlt')}
                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                   />
+                  {/* Floating Verified Badge */}
+                  <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5 bg-white/95 dark:bg-[#0c0d10]/85 border border-black/10 dark:border-white/10 px-2.5 py-1 text-[8px] font-mono uppercase tracking-widest text-foreground dark:text-white backdrop-blur-md shadow-md">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                    <span>VERIFIED PORTFOLIO</span>
+                  </div>
+
                   {/* Architectural Floating Caption Plate (Zero photo darkening, maximum visibility) */}
-                  <div className="hero-floating-caption absolute bottom-3 left-3 right-3 p-3 bg-[#0c0d10]/80 backdrop-blur-md border border-white/10 flex justify-between items-end shadow-xl">
+                  <div className="hero-floating-caption absolute bottom-3 left-3 right-3 p-3.5 bg-white/95 dark:bg-[#0c0d10]/85 backdrop-blur-md border border-black/10 dark:border-white/15 flex justify-between items-end shadow-xl">
                     <div className="text-left">
-                      <span className="text-[8px] uppercase tracking-widest text-accent font-mono block mb-0.5">{copy.overlayRegistry}</span>
-                      <span className="text-xs font-display font-medium text-white block">{copy.overlayLocation}</span>
+                      <span className="text-[8px] uppercase tracking-widest text-accent font-mono font-bold block mb-0.5">{copy.overlayRegistry}</span>
+                      <span className="text-xs font-display font-medium text-foreground dark:text-white block">{copy.overlayLocation}</span>
                     </div>
                     <div className="text-right">
-                      <span className="text-[8px] uppercase tracking-widest text-accent font-mono block mb-0.5">{copy.overlayDelivered}</span>
-                      <span className="text-xs font-display font-medium text-accent block font-mono">
+                      <span className="text-[8px] uppercase tracking-widest text-accent font-mono font-bold block mb-0.5">{copy.overlayDelivered}</span>
+                      <span className="text-xs font-display font-medium text-accent block font-mono font-bold">
                         {formatMoneyCompact(copy.statAmountEquity, currency.code)}+
                       </span>
                     </div>
@@ -496,52 +527,52 @@ export default function HomePage() {
               <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
               <div className="text-left relative z-10">
                 <span className="text-[8px] uppercase tracking-[0.2em] text-accent font-mono font-bold block mb-2">{copy.divOneTag}</span>
-                <h3 className="text-xl sm:text-2xl font-display font-medium text-white mb-3 sm:mb-4">{copy.divOneTitle}</h3>
-                <p className="text-xs text-white/50 font-light leading-relaxed mb-6">
+                <h3 className="text-xl sm:text-2xl font-display font-medium text-foreground dark:text-white mb-3 sm:mb-4">{copy.divOneTitle}</h3>
+                <p className="text-xs text-foreground/75 dark:text-white/50 font-light leading-relaxed mb-6">
                   {copy.divOneBody}
                 </p>
                 <ul className="space-y-2 mb-8">
-                  <li className="flex items-center text-[9px] uppercase tracking-wider text-white/70 font-bold group-hover:translate-x-1 transition-transform duration-300">
+                  <li className="flex items-center text-[9px] uppercase tracking-wider text-foreground/75 dark:text-white/70 font-bold group-hover:translate-x-1 transition-transform duration-300">
                     <div className="w-1.5 h-1.5 bg-accent rounded-none mr-3" />
                     {copy.divOneItemOne}
                   </li>
-                  <li className="flex items-center text-[9px] uppercase tracking-wider text-white/70 font-bold group-hover:translate-x-1 transition-transform duration-300">
+                  <li className="flex items-center text-[9px] uppercase tracking-wider text-foreground/75 dark:text-white/70 font-bold group-hover:translate-x-1 transition-transform duration-300">
                     <div className="w-1.5 h-1.5 bg-accent rounded-none mr-3" />
                     {copy.divOneItemTwo}
                   </li>
                 </ul>
               </div>
-              <Button asChild className="relative z-10 w-full h-12 flex items-center justify-center text-xs tracking-widest rounded-none border border-white/15 bg-transparent hover:bg-white hover:text-black uppercase font-display font-bold transition-colors">
+              <Button asChild variant="outline" className="relative z-10 w-full h-12 flex items-center justify-center text-xs tracking-widest rounded-none border border-black/15 dark:border-white/15 bg-transparent text-[#111215] dark:text-white hover:bg-[#111215] hover:text-white dark:hover:bg-white dark:hover:text-black uppercase font-display font-bold transition-colors">
                 <Link to="/construction">{copy.divOneCta}</Link>
               </Button>
             </div>
 
             {/* Division 2: Real Estate Division */}
-            <div className="border border-white/5 bg-[#121318] p-6 sm:p-8 lg:p-10 hover:border-accent/20 transition-all duration-500 flex flex-col justify-between min-h-[340px] sm:min-h-[380px] relative group overflow-hidden">
+            <div className="border border-black/10 dark:border-white/5 bg-white dark:bg-[#121318] p-6 sm:p-8 lg:p-10 hover:border-accent/40 dark:hover:border-accent/20 transition-all duration-500 flex flex-col justify-between min-h-[340px] sm:min-h-[380px] relative group overflow-hidden shadow-xl dark:shadow-none">
               {/* Gold Accent Corner Brackets */}
-              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
-              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
-              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
-              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-black/15 dark:border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-black/15 dark:border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-black/15 dark:border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-black/15 dark:border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
               <div className="text-left relative z-10">
                 <span className="text-[8px] uppercase tracking-[0.2em] text-accent font-mono font-bold block mb-2">{copy.divTwoTag}</span>
-                <h3 className="text-xl sm:text-2xl font-display font-medium text-white mb-3 sm:mb-4">{copy.divTwoTitle}</h3>
-                <p className="text-xs text-white/50 font-light leading-relaxed mb-6">
+                <h3 className="text-xl sm:text-2xl font-display font-medium text-foreground dark:text-white mb-3 sm:mb-4">{copy.divTwoTitle}</h3>
+                <p className="text-xs text-foreground/75 dark:text-white/50 font-light leading-relaxed mb-6">
                   {copy.divTwoBody}
                 </p>
                 <ul className="space-y-2 mb-8">
-                  <li className="flex items-center text-[9px] uppercase tracking-wider text-white/70 font-bold group-hover:translate-x-1 transition-transform duration-300">
+                  <li className="flex items-center text-[9px] uppercase tracking-wider text-foreground/75 dark:text-white/70 font-bold group-hover:translate-x-1 transition-transform duration-300">
                     <div className="w-1.5 h-1.5 bg-accent rounded-none mr-3" />
                     {copy.divTwoItemOne}
                   </li>
-                  <li className="flex items-center text-[9px] uppercase tracking-wider text-white/70 font-bold group-hover:translate-x-1 transition-transform duration-300">
+                  <li className="flex items-center text-[9px] uppercase tracking-wider text-foreground/75 dark:text-white/70 font-bold group-hover:translate-x-1 transition-transform duration-300">
                     <div className="w-1.5 h-1.5 bg-accent rounded-none mr-3" />
                     {copy.divTwoItemTwo}
                   </li>
                 </ul>
               </div>
-              <Button asChild className="relative z-10 w-full h-12 flex items-center justify-center text-xs tracking-widest rounded-none border border-white/15 bg-transparent hover:bg-white hover:text-black uppercase font-display font-bold transition-colors">
+              <Button asChild variant="outline" className="relative z-10 w-full h-12 flex items-center justify-center text-xs tracking-widest rounded-none border border-black/15 dark:border-white/15 bg-transparent text-[#111215] dark:text-white hover:bg-[#111215] hover:text-white dark:hover:bg-white dark:hover:text-black uppercase font-display font-bold transition-colors">
                 <Link to="/real-estate">{copy.divTwoCta}</Link>
               </Button>
             </div>

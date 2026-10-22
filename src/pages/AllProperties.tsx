@@ -122,34 +122,34 @@ export default function AllProperties() {
 
         {/* Header Block with Editorial Serif Styling */}
         <div className="text-left mb-10 max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-accent/10 border border-accent/25 text-accent text-[10px] font-mono uppercase tracking-[0.25em] mb-4">
+          <div className="inline-flex items-center gap-2 px-3 py-1 bg-accent/10 border border-accent/25 text-accent text-[10px] font-mono uppercase tracking-[0.25em] mb-4 shadow-sm">
             <Sparkles size={11} className="text-accent animate-pulse" />
             <span>{t('properties.title') || "Verified Portfolio"}</span>
           </div>
-          <h1 className="text-4xl md:text-6xl font-display font-medium text-white mb-5 leading-tight tracking-tight">
+          <h1 className="text-4xl md:text-6xl font-display font-medium text-foreground dark:text-white mb-5 leading-tight tracking-tight">
             {copy.headline} <span className="text-accent italic font-light">{copy.headlineAccent}</span>
           </h1>
-          <p className="text-sm text-white/60 max-w-2xl leading-relaxed font-light">
+          <p className="text-sm text-foreground/75 dark:text-white/60 max-w-2xl leading-relaxed font-light">
             {copy.intro}
           </p>
         </div>
 
         {/* Search & Filter Command Center */}
-        <div className="bg-[#0a0c10]/90 border border-white/10 shadow-2xl mb-10 backdrop-blur-md relative">
+        <div className="bg-white/95 dark:bg-[#0a0c10]/90 border border-black/10 dark:border-white/10 shadow-xl dark:shadow-2xl mb-10 backdrop-blur-md relative">
           <div className="absolute top-0 left-0 w-2.5 h-2.5 border-t-2 border-l-2 border-accent" />
           <div className="absolute top-0 right-0 w-2.5 h-2.5 border-t-2 border-r-2 border-accent" />
           <div className="absolute bottom-0 left-0 w-2.5 h-2.5 border-b-2 border-l-2 border-accent" />
           <div className="absolute bottom-0 right-0 w-2.5 h-2.5 border-b-2 border-r-2 border-accent" />
 
           {/* Search Input Bar + Quick Status Pills */}
-          <div className="p-4 sm:p-6 border-b border-white/10 bg-[#0d0f14]/80 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
+          <div className="p-4 sm:p-6 border-b border-black/10 dark:border-white/10 bg-[#f8f7f4] dark:bg-[#0d0f14]/80 flex flex-col md:flex-row items-stretch md:items-center justify-between gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-accent/70" size={16} />
               <Input
                 placeholder={t('properties.searchPlaceholder')}
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
-                className="pl-12 pr-4 py-5 text-xs border border-white/10 rounded-none bg-[#0c0d10] text-white placeholder:text-white/40 focus:border-accent focus:ring-0 focus:outline-none"
+                className="pl-12 pr-4 py-5 text-xs border border-black/10 dark:border-white/10 rounded-none bg-white dark:bg-[#0c0d10] text-foreground dark:text-white placeholder:text-foreground/45 dark:placeholder:text-white/40 focus:border-accent focus:ring-0 focus:outline-none"
               />
             </div>
 
@@ -162,7 +162,7 @@ export default function AllProperties() {
                   className={`px-3 py-2 text-[10px] font-mono uppercase tracking-wider transition-all duration-200 border ${
                     status === opt.value
                       ? "bg-accent text-[#0c0d10] border-accent font-bold shadow-[0_0_15px_rgba(223,186,72,0.3)]"
-                      : "bg-white/5 text-white/70 border-white/10 hover:border-accent/40 hover:text-white"
+                      : "bg-white dark:bg-white/5 text-foreground/75 dark:text-white/70 border-black/10 dark:border-white/10 hover:border-accent/40 hover:text-foreground dark:hover:text-white"
                   }`}
                 >
                   {opt.label}
@@ -180,20 +180,20 @@ export default function AllProperties() {
                     className={`px-3 py-2 text-[9px] font-mono uppercase tracking-wider whitespace-nowrap transition-all duration-200 border flex-shrink-0 ${
                       status === opt.value
                         ? "bg-accent text-[#0c0d10] border-accent font-bold shadow-[0_0_15px_rgba(223,186,72,0.3)]"
-                        : "bg-white/5 text-white/70 border-white/10 hover:border-accent/40 hover:text-white"
+                        : "bg-white dark:bg-white/5 text-foreground/75 dark:text-white/70 border-black/10 dark:border-white/10 hover:border-accent/40 hover:text-foreground dark:hover:text-white"
                     }`}
                   >
                     {opt.label}
                   </button>
                 ))}
               </div>
-              <div className="absolute right-0 top-0 bottom-1 w-6 bg-gradient-to-l from-[#0d0f14] to-transparent pointer-events-none" />
+              <div className="absolute right-0 top-0 bottom-1 w-6 bg-gradient-to-l from-white dark:from-[#0d0f14] to-transparent pointer-events-none" />
             </div>
 
             <Button
               variant="outline"
               onClick={() => setShowFilters(!showFilters)}
-              className="lg:hidden justify-center gap-2 rounded-none border-white/10 text-white bg-transparent hover:bg-white/10 hover:text-white hover:border-accent/40 h-11 text-xs font-mono uppercase transition-all"
+              className="lg:hidden justify-center gap-2 rounded-none border-black/15 dark:border-white/10 text-foreground dark:text-white bg-transparent hover:bg-black/5 dark:hover:bg-white/10 hover:border-accent/40 h-11 text-xs font-mono uppercase transition-all"
             >
               <Filter size={14} className="text-accent" />
               {showFilters ? t('properties.filter.hide') : t('properties.filter.show')}
@@ -205,13 +205,13 @@ export default function AllProperties() {
             <div className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 items-end">
               {/* Division Type */}
               <div>
-                <label className="font-mono text-[10px] text-accent uppercase tracking-widest mb-2 block">
+                <label className="font-mono text-[10px] text-accent uppercase tracking-widest mb-2 block font-bold">
                   {t('properties.filter.division')}
                 </label>
                 <select
                   value={projectType}
                   onChange={(e) => setProjectType(e.target.value)}
-                  className="w-full border border-white/15 rounded-none py-2.5 px-3.5 text-xs bg-[#0d0f14] text-white focus:border-accent focus:outline-none"
+                  className="w-full border border-black/15 dark:border-white/15 rounded-none py-2.5 px-3.5 text-xs bg-white dark:bg-[#0d0f14] text-foreground dark:text-white focus:border-accent focus:outline-none"
                 >
                   <option value="all">{t('properties.filter.allDivisions')}</option>
                   <option value="plot">{t('properties.filter.divisionPlot')}</option>
@@ -222,13 +222,13 @@ export default function AllProperties() {
 
               {/* Location */}
               <div>
-                <label className="font-mono text-[10px] text-accent uppercase tracking-widest mb-2 block">
+                <label className="font-mono text-[10px] text-accent uppercase tracking-widest mb-2 block font-bold">
                   {t('properties.filter.location')}
                 </label>
                 <select
                   value={locationFilter}
                   onChange={(e) => setLocationFilter(e.target.value)}
-                  className="w-full border border-white/15 rounded-none py-2.5 px-3.5 text-xs bg-[#0d0f14] text-white focus:border-accent focus:outline-none"
+                  className="w-full border border-black/15 dark:border-white/15 rounded-none py-2.5 px-3.5 text-xs bg-white dark:bg-[#0d0f14] text-foreground dark:text-white focus:border-accent focus:outline-none"
                 >
                   <option value="all">{t('properties.filter.allLocations')}</option>
                   {availableLocations.map((loc) => (
@@ -240,8 +240,8 @@ export default function AllProperties() {
               {/* Max Budget Slider */}
               <div>
                 <div className="flex justify-between items-center mb-2 font-mono text-[10px] text-accent uppercase tracking-widest">
-                  <label>{t('properties.filter.budget')}</label>
-                  <span className="font-bold text-white">
+                  <label className="font-bold">{t('properties.filter.budget')}</label>
+                  <span className="font-bold text-foreground dark:text-white">
                     {maxPrice >= 100000000
                       ? t('properties.filter.noLimit')
                       : formatCompact(maxPrice, currency.code)}
@@ -262,7 +262,7 @@ export default function AllProperties() {
                 <Button
                   variant="outline"
                   onClick={clearFilters}
-                  className="w-full font-mono text-[10px] py-2.5 uppercase tracking-widest rounded-none border border-white/20 dark:border-white/20 text-white/80 hover:bg-accent hover:text-[#0c0d10] hover:border-accent transition-all duration-200"
+                  className="w-full font-mono text-[10px] py-2.5 uppercase tracking-widest rounded-none border border-black/20 dark:border-white/20 text-foreground dark:text-white/80 hover:bg-[#111215] hover:text-white dark:hover:bg-accent dark:hover:text-[#0c0d10] transition-all duration-200"
                 >
                   {t('properties.filter.reset')}
                 </Button>

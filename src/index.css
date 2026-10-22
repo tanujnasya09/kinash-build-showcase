@@ -870,14 +870,23 @@ html:not(.dark) .hover\:text-\[\#0c0d10\]:hover {
 
 /* Hero Image Boost on Construction and Real Estate pages */
 html:not(.dark) .hero-bg-image {
-  opacity: 0.75 !important;
+  opacity: 0.92 !important;
   filter: none !important;
 }
 
-/* Left-only gradient veil so the right 40% of hero photography is crystal clear */
+/* Left-only gradient veil so the right 60% of hero photography is crystal clear */
 html:not(.dark) .hero-gradient-overlay,
 html:not(.dark) .bg-gradient-to-r.from-\[\#0c0d10\].via-\[\#0c0d10\]\/90.to-transparent {
-  background: linear-gradient(to right, #f8f7f4 0%, rgba(248, 247, 244, 0.95) 34%, rgba(248, 247, 244, 0.45) 62%, rgba(248, 247, 244, 0.05) 86%, transparent 100%) !important;
+  background: linear-gradient(to right, #f8f7f4 0%, rgba(248, 247, 244, 0.97) 25%, rgba(248, 247, 244, 0.75) 42%, rgba(248, 247, 244, 0.18) 62%, transparent 78%) !important;
+}
+
+/* Mobile ambient hero image boost in light mode */
+html:not(.dark) .section-hero .opacity-15.lg\:hidden {
+  opacity: 0.35 !important;
+}
+
+html:not(.dark) .section-hero .bg-gradient-to-t.from-\[\#0c0d10\] {
+  background: linear-gradient(to top, #f8f7f4 0%, rgba(248, 247, 244, 0.92) 55%, rgba(248, 247, 244, 0.6) 100%) !important;
 }
 
 /* Hide dark top-down vignette in Services and About pages */
@@ -1035,35 +1044,102 @@ html:not(.dark) .group:hover svg.transition-transform {
 }
 
 /* ==========================================================================
-   5. High-Contrast Typography Mappings
+   5. High-Contrast Typography & In-Card Readability Safeguards
    ========================================================================== */
 html:not(.dark) .text-white {
   color: #111215 !important;
 }
 
+html:not(.dark) .text-white\/95,
 html:not(.dark) .text-white\/90,
 html:not(.dark) .text-white\/85,
 html:not(.dark) .text-white\/80 {
   color: #23272f !important;
 }
 
+html:not(.dark) .text-white\/75,
 html:not(.dark) .text-white\/70,
+html:not(.dark) .text-white\/65,
 html:not(.dark) .text-white\/60 {
   color: #484e5b !important;
 }
 
+html:not(.dark) .text-white\/55,
 html:not(.dark) .text-white\/50,
+html:not(.dark) .text-white\/45,
 html:not(.dark) .text-white\/40 {
-  color: #697080 !important;
+  color: #555c6d !important;
 }
 
+html:not(.dark) .text-white\/35,
 html:not(.dark) .text-white\/30,
-html:not(.dark) .text-white\/20 {
-  color: #9299a9 !important;
+html:not(.dark) .text-white\/25,
+html:not(.dark) .text-white\/20,
+html:not(.dark) .text-white\/15,
+html:not(.dark) .text-white\/10 {
+  color: #767d8d !important;
 }
 
 html:not(.dark) .hover\:text-white:hover {
   color: #111215 !important;
+}
+
+/* Explicit In-Card Text Safeguards (Fixes white-on-white text inside all cards) */
+html:not(.dark) .bento-card p,
+html:not(.dark) .bento-card li,
+html:not(.dark) .bento-card span:not(.text-accent):not(.bg-accent *),
+html:not(.dark) .luxury-card p,
+html:not(.dark) .luxury-card li,
+html:not(.dark) .luxury-card span:not(.text-accent):not(.bg-accent *),
+html:not(.dark) .grid > div p,
+html:not(.dark) .grid > div li,
+html:not(.dark) .grid > div span:not(.text-accent):not(.bg-accent *):not(.bg-\[\#0c0d10\] *):not(.hero-floating-caption *),
+html:not(.dark) [class*="bg-\[\#0a0c10\]"] p,
+html:not(.dark) [class*="bg-\[\#0a0c10\]"] li,
+html:not(.dark) [class*="bg-\[\#0a0c10\]"] span:not(.text-accent):not(.bg-accent *):not(.hero-floating-caption *),
+html:not(.dark) [class*="bg-\[\#0d0f14\]"] p,
+html:not(.dark) [class*="bg-\[\#0d0f14\]"] li,
+html:not(.dark) [class*="bg-\[\#0d0f14\]"] span:not(.text-accent):not(.bg-accent *):not(.hero-floating-caption *),
+html:not(.dark) [class*="bg-\[\#121318\]"] p,
+html:not(.dark) [class*="bg-\[\#121318\]"] li,
+html:not(.dark) [class*="bg-\[\#121318\]"] span:not(.text-accent):not(.bg-accent *):not(.hero-floating-caption *) {
+  color: #484e5b !important;
+}
+
+html:not(.dark) [class*="bg-\[\#0a0c10\]"] h2,
+html:not(.dark) [class*="bg-\[\#0a0c10\]"] h3,
+html:not(.dark) [class*="bg-\[\#0a0c10\]"] h4,
+html:not(.dark) [class*="bg-\[\#0d0f14\]"] h2,
+html:not(.dark) [class*="bg-\[\#0d0f14\]"] h3,
+html:not(.dark) [class*="bg-\[\#121318\]"] h2,
+html:not(.dark) [class*="bg-\[\#121318\]"] h3,
+html:not(.dark) .grid > div h3 {
+  color: #111215 !important;
+}
+
+/* Universal Light Mode Card Buttons (Eliminate solid dark black rectangles on white cards) */
+html:not(.dark) [class*="bg-\[\#0a0c10\]"] button:not(.bg-accent):not([class*="bg-accent"]),
+html:not(.dark) [class*="bg-\[\#0d0f14\]"] button:not(.bg-accent):not([class*="bg-accent"]),
+html:not(.dark) [class*="bg-\[\#121318\]"] button:not(.bg-accent):not([class*="bg-accent"]),
+html:not(.dark) .grid button.border-white\/10,
+html:not(.dark) .grid button.border-white\/15,
+html:not(.dark) .grid button.border-white\/20,
+html:not(.dark) .section-divisions button {
+  background-color: transparent !important;
+  color: #111215 !important;
+  border-color: rgba(17, 18, 22, 0.22) !important;
+}
+
+html:not(.dark) [class*="bg-\[\#0a0c10\]"] button:not(.bg-accent):not([class*="bg-accent"]):hover,
+html:not(.dark) [class*="bg-\[\#0d0f14\]"] button:not(.bg-accent):not([class*="bg-accent"]):hover,
+html:not(.dark) [class*="bg-\[\#121318\]"] button:not(.bg-accent):not([class*="bg-accent"]):hover,
+html:not(.dark) .grid button.border-white\/10:hover,
+html:not(.dark) .grid button.border-white\/15:hover,
+html:not(.dark) .grid button.border-white\/20:hover,
+html:not(.dark) .section-divisions button:hover {
+  background-color: #111215 !important;
+  color: #ffffff !important;
+  border-color: #111215 !important;
 }
 
 /* Heritage Architectural Gold Text (Passes WCAG AA 4.8:1 on alabaster/white) */
