@@ -726,54 +726,56 @@ html:not(.dark) .section-divisions {
   border-color: rgba(17, 18, 22, 0.08) !important;
 }
 
-/* Closing CRM CTA Section: Cinematic Obsidian Anchor Block */
+/* Closing CRM CTA Section: Consistent Architectural Travertine Canvas */
 html:not(.dark) .section-closing-cta {
-  background-color: #0c0d12 !important;
-  border-top: 1px solid rgba(223, 186, 72, 0.2) !important;
+  background-color: #ede7dc !important;
+  border-top: 1px solid rgba(17, 18, 22, 0.1) !important;
 }
 
 html:not(.dark) .section-closing-cta h2,
-html:not(.dark) .section-closing-cta h2 span,
+html:not(.dark) .section-closing-cta h2 span:not(.text-accent),
 html:not(.dark) .section-closing-cta .text-white {
-  color: #fdfbf7 !important;
+  color: #111215 !important;
 }
 
 html:not(.dark) .section-closing-cta .text-accent {
-  color: #dfba48 !important;
+  color: #9c6d12 !important;
 }
 
 html:not(.dark) .section-closing-cta p,
 html:not(.dark) .section-closing-cta .text-white\/55 {
-  color: rgba(253, 251, 247, 0.72) !important;
+  color: #4b5260 !important;
 }
 
 html:not(.dark) .section-closing-cta .text-white\/35 {
-  color: rgba(253, 251, 247, 0.45) !important;
+  color: #717886 !important;
 }
 
 html:not(.dark) .section-closing-cta .bg-accent {
-  background: linear-gradient(135deg, #dfba48 0%, #c99f30 100%) !important;
-  color: #0c0d10 !important;
-  border-color: #dfba48 !important;
-  box-shadow: 0 10px 30px rgba(223, 186, 72, 0.3) !important;
+  background: linear-gradient(135deg, #c59828 0%, #b3831b 100%) !important;
+  color: #ffffff !important;
+  border-color: #9c6d12 !important;
+  box-shadow: 0 10px 30px rgba(186, 137, 29, 0.25) !important;
 }
 
 html:not(.dark) .section-closing-cta .bg-accent:hover {
-  background: #f0cb5a !important;
-  border-color: #f0cb5a !important;
-  box-shadow: 0 16px 40px rgba(223, 186, 72, 0.45) !important;
+  background: #9c6d12 !important;
+  border-color: #7f570b !important;
+  box-shadow: 0 16px 40px rgba(156, 109, 18, 0.35) !important;
 }
 
-html:not(.dark) .section-closing-cta .border-white\/20 {
-  border-color: rgba(255, 255, 255, 0.25) !important;
-  color: #fdfbf7 !important;
+html:not(.dark) .section-closing-cta .border-white\/20,
+html:not(.dark) .section-closing-cta button[class*="border-"] {
+  border-color: rgba(17, 18, 22, 0.22) !important;
+  color: #111215 !important;
   background-color: transparent !important;
 }
 
-html:not(.dark) .section-closing-cta .border-white\/20:hover {
-  background-color: #ffffff !important;
-  color: #0c0d10 !important;
-  border-color: #ffffff !important;
+html:not(.dark) .section-closing-cta .border-white\/20:hover,
+html:not(.dark) .section-closing-cta button[class*="border-"]:hover {
+  background-color: #111215 !important;
+  color: #ffffff !important;
+  border-color: #111215 !important;
 }
 
 /* ==========================================================================
@@ -1330,46 +1332,73 @@ html:not(.dark) .luxury-scrollbar-x::-webkit-scrollbar-thumb:hover {
 }
 
 /* ==========================================================================
-   10. Editorial Footer in Light Mode: Grounded Obsidian Base
+   10. Editorial Footer in Light Mode: Warm Alabaster Canvas
    ========================================================================== */
 html:not(.dark) footer {
-  background-color: #08090d !important;
-  color: #fdfbf7 !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.08) !important;
+  background-color: #f3efe6 !important;
+  color: #111215 !important;
+  border-top: 1px solid rgba(17, 18, 22, 0.1) !important;
 }
 
 html:not(.dark) footer .text-white,
 html:not(.dark) footer span.text-white {
-  color: #ffffff !important;
+  color: #111215 !important;
 }
 
-html:not(.dark) footer .text-accent {
-  color: #dfba48 !important;
+html:not(.dark) footer .text-white\/50,
+html:not(.dark) footer .text-white\/60,
+html:not(.dark) footer .text-primary-foreground\/50 {
+  color: #717886 !important;
 }
 
 html:not(.dark) footer .text-primary-foreground\/70,
 html:not(.dark) footer .text-primary-foreground\/75 {
-  color: rgba(253, 251, 247, 0.72) !important;
+  color: #4b5260 !important;
 }
 
-html:not(.dark) footer .text-primary-foreground\/50 {
-  color: rgba(253, 251, 247, 0.45) !important;
+html:not(.dark) footer .text-accent {
+  color: #9c6d12 !important;
 }
 
 html:not(.dark) footer a:hover {
-  color: #dfba48 !important;
+  color: #9c6d12 !important;
 }
 
-html:not(.dark) footer .border-white\/10 {
-  border-color: rgba(255, 255, 255, 0.1) !important;
+html:not(.dark) footer .border-white\/10,
+html:not(.dark) footer .border-white\/5 {
+  border-color: rgba(17, 18, 22, 0.1) !important;
 }
 
 html:not(.dark) footer .bg-white\/5 {
-  background-color: rgba(255, 255, 255, 0.05) !important;
+  background-color: rgba(17, 18, 22, 0.04) !important;
+  color: #3b404d !important;
+}
+
+html:not(.dark) footer .bg-white\/5:hover {
+  background-color: rgba(17, 18, 22, 0.08) !important;
+  color: #9c6d12 !important;
+  border-color: rgba(156, 109, 18, 0.35) !important;
 }
 
 html:not(.dark) footer .bg-\[\#0c0d10\] {
-  background-color: #0c0d10 !important;
+  background-color: #ffffff !important;
+  border-color: rgba(17, 18, 22, 0.1) !important;
+}
+
+/* Header & Dropdown Overrides in Light Mode */
+html:not(.dark) [data-radix-popper-content-wrapper] [role="menu"] {
+  background-color: #ffffff !important;
+  border-color: rgba(17, 18, 22, 0.12) !important;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.1) !important;
+}
+
+html:not(.dark) [data-radix-popper-content-wrapper] [role="menuitem"] {
+  color: #111215 !important;
+}
+
+html:not(.dark) [data-radix-popper-content-wrapper] [role="menuitem"]:hover {
+  background-color: rgba(17, 18, 22, 0.05) !important;
+  color: #9c6d12 !important;
 }
 
 

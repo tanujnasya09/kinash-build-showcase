@@ -581,16 +581,16 @@ export default function HomePage() {
       </section>
 
       {/* CRM Contact CTA Section */}
-      <section className="section-closing-cta py-16 sm:py-24 lg:py-32 bg-[#0c0d10] text-white relative overflow-hidden border-t border-white/5">
+      <section className="section-closing-cta py-16 sm:py-24 lg:py-32 bg-[#ede7dc] dark:bg-[#0c0d10] text-foreground dark:text-white relative overflow-hidden border-t border-black/10 dark:border-white/5">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(223,186,72,0.06),transparent_50%)] pointer-events-none" />
-        <div className="container mx-auto px-4 text-center relative z-10">
+        <div className="container mx-auto px-4 text-center relative z-10 max-w-3xl">
           <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-3 sm:mb-4">
             {copy.ctaEyebrow}
           </span>
-          <h2 className="text-3xl sm:text-5xl md:text-6xl font-display font-medium mb-4 sm:mb-6 leading-tight">
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-display font-medium text-foreground dark:text-white mb-4 sm:mb-6 leading-tight">
             {copy.ctaTitle} <span className="text-accent italic font-light">{copy.ctaTitleAccent}</span>
           </h2>
-          <p className="text-xs sm:text-sm text-white/55 mb-8 sm:mb-12 max-w-xl mx-auto font-light leading-relaxed">
+          <p className="text-xs sm:text-sm text-foreground/75 dark:text-white/55 mb-8 sm:mb-12 max-w-xl mx-auto font-light leading-relaxed">
             {copy.ctaBody}
           </p>
           <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-5 justify-center items-stretch sm:items-center">
@@ -608,14 +608,15 @@ export default function HomePage() {
             <MagneticButton strength={20} className="w-full sm:w-auto" as="div">
               <Button
                 asChild
-                className="w-full sm:w-auto h-13 sm:h-14 px-8 py-4 bg-transparent text-white hover:bg-white hover:text-[#0c0d10] font-display font-black text-xs uppercase tracking-[0.2em] rounded-none border border-white/20 hover:border-white transition-all flex items-center justify-center"
+                variant="outline"
+                className="w-full sm:w-auto h-13 sm:h-14 px-8 py-4 bg-transparent text-[#111215] dark:text-white hover:bg-[#111215] hover:text-white dark:hover:bg-white dark:hover:text-[#0c0d10] font-display font-black text-xs uppercase tracking-[0.2em] rounded-none border border-black/20 dark:border-white/20 hover:border-black dark:hover:border-white transition-all flex items-center justify-center"
               >
                 <Link to="/properties">{copy.ctaSecondary}</Link>
               </Button>
             </MagneticButton>
           </div>
 
-          <div className="mt-10 sm:mt-16 flex justify-center items-center gap-2 text-[8px] font-mono uppercase tracking-[0.2em] text-white/35">
+          <div className="mt-10 sm:mt-16 flex justify-center items-center gap-2 text-[8px] font-mono uppercase tracking-[0.2em] text-foreground/60 dark:text-white/35">
             <ShieldCheck size={12} className="text-accent" />
             {copy.ctaFooter}
           </div>
