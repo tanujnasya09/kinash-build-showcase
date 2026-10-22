@@ -11,6 +11,7 @@ import SEOHead from "@/components/SEO/SEOHead";
 import PropertyCard from "@/components/ui/PropertyCard";
 import { formatCompact, parseAmount } from "@/lib/currency";
 import gsap from "gsap";
+import ArchitecturalGrid from "@/components/ui/ArchitecturalGrid";
 
 export default function AllProperties() {
   const { properties } = useProperties();
@@ -110,21 +111,18 @@ export default function AllProperties() {
         canonical="/properties"
       />
 
-      {/* Decorative clean line grid */}
-      <div className="absolute inset-0 flex justify-between pointer-events-none opacity-5 px-12 z-0">
-        <div className="w-[1px] h-full bg-white" />
-        <div className="w-[1px] h-full bg-white hidden md:block" />
-        <div className="w-[1px] h-full bg-white hidden md:block" />
-        <div className="w-[1px] h-full bg-white" />
-      </div>
+      {/* Architectural Drafting Blueprint Grid */}
+      <ArchitecturalGrid columns={5} />
 
       <div className="max-w-[1600px] mx-auto px-4 md:px-8 relative z-10">
 
-        {/* Header Block with Editorial Serif Styling */}
+        {/* Header Block with Editorial Architectural Styling */}
         <div className="text-left mb-10 max-w-4xl">
-          <div className="inline-flex items-center gap-2 px-3 py-1 bg-accent/10 border border-accent/25 text-accent text-[10px] font-mono uppercase tracking-[0.25em] mb-4 shadow-sm">
-            <Sparkles size={11} className="text-accent animate-pulse" />
-            <span>{t('properties.title') || "Verified Portfolio"}</span>
+          <div className="inline-flex items-center gap-3 mb-4">
+            <span className="w-6 sm:w-8 h-[2px] bg-accent inline-block" />
+            <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent font-bold">
+              {t('properties.title') || "Verified Portfolio"}
+            </span>
           </div>
           <h1 className="text-4xl md:text-6xl font-display font-medium text-foreground dark:text-white mb-5 leading-tight tracking-tight">
             {copy.headline} <span className="text-accent italic font-light">{copy.headlineAccent}</span>

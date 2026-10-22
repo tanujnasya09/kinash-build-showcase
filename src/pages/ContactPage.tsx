@@ -10,6 +10,7 @@ import { toast } from 'sonner';
 import MagneticButton from '@/components/ui/MagneticButton';
 import siteConfig from '@/config/site';
 import { interpolate } from '@/i18n';
+import ArchitecturalGrid from '@/components/ui/ArchitecturalGrid';
 
 export default function ContactPage() {
   const { t, language, content } = useLanguage();
@@ -82,24 +83,22 @@ export default function ContactPage() {
         canonical="/contact"
       />
 
-      {/* Technical grid line background */}
-      <div className="absolute inset-0 flex justify-between pointer-events-none opacity-5 px-12 z-0">
-        <div className="w-[1px] h-full bg-white" />
-        <div className="w-[1px] h-full bg-white hidden md:block" />
-        <div className="w-[1px] h-full bg-white hidden md:block" />
-        <div className="w-[1px] h-full bg-white" />
-      </div>
+      {/* Architectural Drafting Blueprint Grid */}
+      <ArchitecturalGrid columns={5} />
 
       <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
         {/* Header Block */}
         <div className="text-left max-w-3xl mb-16">
-          <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold mb-4 block">
-            {copy.eyebrow}
-          </span>
-          <h1 className="text-4xl md:text-6xl font-display font-medium text-white mb-6 leading-none">
+          <div className="inline-flex items-center gap-3 mb-4">
+            <span className="w-6 sm:w-8 h-[2px] bg-accent inline-block" />
+            <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold">
+              {copy.eyebrow}
+            </span>
+          </div>
+          <h1 className="text-4xl md:text-6xl font-display font-medium text-foreground dark:text-white mb-6 leading-none">
             {copy.headline} <span className="text-accent italic font-light">{copy.headlineAccent}</span>
           </h1>
-          <p className="text-xs text-white/50 leading-relaxed font-light max-w-xl">
+          <p className="text-xs text-foreground/70 dark:text-white/50 leading-relaxed font-light max-w-xl">
             {t('contact.subtitle')}
           </p>
         </div>

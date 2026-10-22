@@ -11,6 +11,7 @@ import PropertyCard from '@/components/ui/PropertyCard';
 import MagneticButton from '@/components/ui/MagneticButton';
 import siteConfig from '@/config/site';
 import { formatMoneyCompact } from '@/lib/currency';
+import ArchitecturalGrid from '@/components/ui/ArchitecturalGrid';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -107,7 +108,7 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="bg-[#0c0d10] text-white overflow-hidden">
+    <div className="bg-[#f8f7f4] dark:bg-[#0c0d10] text-foreground dark:text-white overflow-hidden">
       <SEOHead
         title={copy.meta.title}
         description={copy.meta.description}
@@ -118,18 +119,18 @@ export default function HomePage() {
       {/* Full-screen Cinematic Hero */}
       <section
         ref={heroRef}
-        className="section-hero relative flex flex-col justify-start lg:justify-center lg:items-center overflow-hidden bg-[#0c0d10] pt-20 sm:pt-24 lg:py-0 pb-10 sm:pb-14 lg:min-h-[90vh] lg:h-[90vh] border-b border-white/5"
+        className="section-hero relative flex flex-col justify-center overflow-hidden bg-[#f8f7f4] dark:bg-[#0c0d10] pt-28 sm:pt-32 lg:pt-36 pb-12 sm:pb-16 lg:pb-20 min-h-[90vh] border-b border-black/10 dark:border-white/5"
       >
         {/* Fine Architectural Grid lines */}
-        <div className="absolute inset-0 flex justify-between pointer-events-none opacity-[0.03] px-12 z-0">
-          <div className="w-[1px] h-full bg-white" />
-          <div className="w-[1px] h-full bg-white hidden md:block" />
-          <div className="w-[1px] h-full bg-white hidden md:block" />
-          <div className="w-[1px] h-full bg-white" />
+        <div className="absolute inset-0 flex justify-between pointer-events-none opacity-[0.04] dark:opacity-[0.03] px-12 z-0">
+          <div className="w-[1px] h-full bg-black dark:bg-white" />
+          <div className="w-[1px] h-full bg-black dark:bg-white hidden md:block" />
+          <div className="w-[1px] h-full bg-black dark:bg-white hidden md:block" />
+          <div className="w-[1px] h-full bg-black dark:bg-white" />
         </div>
 
         {/* Luxury Clean Background with Golden Radial Glow */}
-        <div className="absolute inset-0 bg-[#0c0d10] z-0" />
+        <div className="absolute inset-0 bg-[#f8f7f4] dark:bg-[#0c0d10] z-0" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_40%,rgba(223,186,72,0.08),transparent_55%)] z-0 pointer-events-none" />
 
         {/* Mobile Ambient Architectural Vignette */}
@@ -140,17 +141,18 @@ export default function HomePage() {
           }}
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#f8f7f4] via-[#f8f7f4]/90 to-[#f8f7f4]/80 dark:from-[#0c0d10] dark:via-[#0c0d10]/90 dark:to-[#0c0d10]/95 pointer-events-none lg:hidden z-0" />
+        <ArchitecturalGrid columns={5} />
 
         <div className="relative z-10 container mx-auto px-4 md:px-8 w-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left Column: Premium Editorial Typography & Actions */}
             <div className="lg:col-span-7 text-left flex flex-col justify-center items-start w-full">
-              {/* Gold Sparkle Badge */}
+              {/* Architectural Eyebrow Badge with Corner Accents */}
               <div
                 className="inline-flex items-center gap-2 bg-accent/10 border border-accent/30 px-3.5 sm:px-5 py-1.5 sm:py-2 mb-3.5 sm:mb-6 text-accent text-[9px] font-mono font-bold tracking-[0.3em] uppercase relative shadow-sm"
               >
-                <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-accent/50" />
-                <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-accent/50" />
+                <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-accent/60" />
+                <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-accent/60" />
                 <Sparkles size={11} className="animate-pulse text-accent" />
                 <span>{copy.heroBadge}</span>
               </div>
@@ -179,7 +181,7 @@ export default function HomePage() {
                 <MagneticButton strength={15} className="flex-1 sm:flex-initial" as="div">
                   <Button
                     asChild
-                    className="w-full sm:w-auto h-11 sm:h-14 px-3 sm:px-8 py-3 sm:py-4 bg-accent text-[#0c0d10] hover:bg-accent-glow font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-accent hover:border-accent-glow shadow-[0_10px_30px_rgba(223,186,72,0.25)] flex items-center justify-center gap-1.5 sm:gap-2 group transition-all whitespace-nowrap"
+                    className="w-full sm:w-auto h-11 sm:h-14 px-3 sm:px-8 py-3 sm:py-4 bg-accent text-white hover:bg-accent-glow font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-accent hover:border-accent-glow shadow-[0_10px_30px_rgba(223,186,72,0.25)] flex items-center justify-center gap-1.5 sm:gap-2 group transition-all whitespace-nowrap"
                   >
                     <Link to="/properties">
                       <span>{copy.heroCtaProperties}</span>
@@ -191,81 +193,68 @@ export default function HomePage() {
                   <Button
                     asChild
                     variant="outline"
-                    className="w-full sm:w-auto h-11 sm:h-14 px-3 sm:px-8 py-3 sm:py-4 bg-transparent text-[#111215] dark:text-white hover:bg-black/5 dark:hover:bg-white/10 hover:border-accent dark:hover:border-accent hover:text-accent dark:hover:text-accent font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-black/20 dark:border-white/20 transition-all flex items-center justify-center whitespace-nowrap"
+                    className="w-full sm:w-auto h-11 sm:h-14 px-3 sm:px-8 py-3 sm:py-4 bg-white/80 dark:bg-transparent text-[#111215] dark:text-white hover:bg-black/5 dark:hover:bg-white/10 hover:border-accent dark:hover:border-accent hover:text-accent dark:hover:text-accent font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-black/20 dark:border-white/20 transition-all flex items-center justify-center whitespace-nowrap shadow-sm"
                   >
                     <Link to="/about">{copy.heroCtaAbout}</Link>
                   </Button>
                 </MagneticButton>
               </div>
 
-              {/* Desktop Architectural Editorial Trust Bar */}
-              <div className="hidden lg:flex items-center gap-6 mt-8 pt-6 border-t border-black/10 dark:border-white/10 w-full max-w-xl">
-                <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-accent rounded-none" />
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/75 dark:text-white/60">
-                    <strong className="text-foreground dark:text-white font-bold">40+</strong> {copy.statLabelPlots || 'Verified Sites'}
-                  </span>
+              {/* Editorial Architectural Metrics Bar (Direct from Reference Image 1) */}
+              <div className="grid grid-cols-3 gap-3 sm:gap-6 pt-6 sm:pt-8 mt-6 sm:mt-8 border-t border-black/10 dark:border-white/10 w-full max-w-xl">
+                <div>
+                  <div className="text-2xl sm:text-3xl lg:text-4xl font-display font-medium text-foreground dark:text-white leading-none">
+                    40<span className="text-accent font-light">+</span>
+                  </div>
+                  <div className="text-[8px] sm:text-[9px] font-mono uppercase tracking-[0.2em] text-foreground/70 dark:text-white/50 mt-2 font-medium">
+                    {copy.statLabelPlots || 'Projects Completed'}
+                  </div>
                 </div>
-                <div className="w-[1px] h-3 bg-black/15 dark:bg-white/15" />
-                <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-accent rounded-none" />
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/75 dark:text-white/60">
-                    <strong className="text-foreground dark:text-white font-bold">25+ Yrs</strong> {copy.statLabelHeritage || 'Heritage'}
-                  </span>
+                <div className="border-l border-black/10 dark:border-white/10 pl-3 sm:pl-6">
+                  <div className="text-2xl sm:text-3xl lg:text-4xl font-display font-medium text-foreground dark:text-white leading-none">
+                    25<span className="text-accent font-light">+</span>
+                  </div>
+                  <div className="text-[8px] sm:text-[9px] font-mono uppercase tracking-[0.2em] text-foreground/70 dark:text-white/50 mt-2 font-medium">
+                    {copy.statLabelHeritage || 'Years Experience'}
+                  </div>
                 </div>
-                <div className="w-[1px] h-3 bg-black/15 dark:bg-white/15" />
-                <div className="flex items-center gap-2">
-                  <div className="w-1.5 h-1.5 bg-accent rounded-none" />
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-foreground/75 dark:text-white/60">
-                    <strong className="text-accent font-bold font-mono">{formatMoneyCompact(copy.statAmountEquity, currency.code)}+</strong> Equity
-                  </span>
-                </div>
-              </div>
-
-              {/* Mobile Specimen Live Bar (Zero bulky scroll) */}
-              <div className="lg:hidden w-full mt-5 sm:mt-8 pt-4 sm:pt-6 border-t border-black/10 dark:border-white/10 grid grid-cols-2 gap-4">
-                <div className="text-left">
-                  <span className="text-[8px] uppercase tracking-widest text-accent font-mono font-bold block mb-0.5">{copy.overlayRegistry}</span>
-                  <span className="text-xs font-display font-medium text-foreground dark:text-white block">{copy.overlayLocation}</span>
-                </div>
-                <div className="text-right">
-                  <span className="text-[8px] uppercase tracking-widest text-accent font-mono font-bold block mb-0.5">{copy.overlayDelivered}</span>
-                  <span className="text-xs font-display font-medium text-accent block font-mono font-bold">
-                    {formatMoneyCompact(copy.statAmountEquity, currency.code)}+
-                  </span>
+                <div className="border-l border-black/10 dark:border-white/10 pl-3 sm:pl-6">
+                  <div className="text-2xl sm:text-3xl lg:text-4xl font-display font-medium text-foreground dark:text-white leading-none">
+                    <span className="text-accent">{formatMoneyCompact(copy.statAmountEquity, currency.code)}</span><span className="text-accent font-light">+</span>
+                  </div>
+                  <div className="text-[8px] sm:text-[9px] font-mono uppercase tracking-[0.2em] text-foreground/70 dark:text-white/50 mt-2 font-medium">
+                    {copy.statLabelValue || 'Equity Delivered'}
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Right Column: Architectural Visual Frame (Desktop Only) */}
+            {/* Right Column: Architectural Visual Frame (Reference Image 1) */}
             <div className="hidden lg:flex lg:col-span-5 w-full items-center justify-center relative z-10">
-              <div className="hero-visual-frame relative w-full aspect-[4/5] max-w-[420px] xl:max-w-[460px] border border-black/15 dark:border-white/10 p-2 bg-white/70 dark:bg-[#0a0c10]/40 backdrop-blur-md shadow-2xl group overflow-hidden">
-                {/* Gold Accent Corners */}
-                <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-accent z-20" />
-                <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-accent z-20" />
+              <div className="relative w-full max-w-[430px] xl:max-w-[470px]">
+                {/* Architectural Drafting Corner Brackets (Image 1 & 2) */}
+                <div className="absolute -top-3 -left-3 w-8 h-8 border-t-2 border-l-2 border-accent pointer-events-none z-20" />
+                <div className="absolute -bottom-3 -right-3 w-8 h-8 border-b-2 border-r-2 border-accent pointer-events-none z-20" />
 
-                <div className="w-full h-full overflow-hidden relative">
-                  <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&h=1100&fit=crop"
-                    alt={t('common.villaAlt')}
-                    className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                  />
-                  {/* Floating Verified Badge */}
-                  <div className="absolute top-3 right-3 z-20 flex items-center gap-1.5 bg-white/95 dark:bg-[#0c0d10]/85 border border-black/10 dark:border-white/10 px-2.5 py-1 text-[8px] font-mono uppercase tracking-widest text-foreground dark:text-white backdrop-blur-md shadow-md">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                    <span>VERIFIED PORTFOLIO</span>
-                  </div>
+                <div className="hero-visual-frame relative w-full aspect-[4/5] border border-black/10 dark:border-white/10 p-3 bg-white dark:bg-[#0e1015] shadow-2xl group overflow-hidden">
+                  <div className="w-full h-full overflow-hidden relative">
+                    <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=900&h=1100&fit=crop"
+                      alt={t('common.villaAlt')}
+                      className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
+                    />
 
-                  {/* Architectural Floating Caption Plate (Zero photo darkening, maximum visibility) */}
-                  <div className="hero-floating-caption absolute bottom-3 left-3 right-3 p-3.5 bg-white/95 dark:bg-[#0c0d10]/85 backdrop-blur-md border border-black/10 dark:border-white/15 flex justify-between items-end shadow-xl">
-                    <div className="text-left">
-                      <span className="text-[8px] uppercase tracking-widest text-accent font-mono font-bold block mb-0.5">{copy.overlayRegistry}</span>
-                      <span className="text-xs font-display font-medium text-foreground dark:text-white block">{copy.overlayLocation}</span>
-                    </div>
-                    <div className="text-right">
-                      <span className="text-[8px] uppercase tracking-widest text-accent font-mono font-bold block mb-0.5">{copy.overlayDelivered}</span>
-                      <span className="text-xs font-display font-medium text-accent block font-mono font-bold">
-                        {formatMoneyCompact(copy.statAmountEquity, currency.code)}+
-                      </span>
+                    {/* Architectural Floating Caption Plate (Image 1) */}
+                    <div className="hero-floating-caption absolute bottom-3 left-3 right-3 p-3.5 bg-white/95 dark:bg-[#0c0d10]/90 backdrop-blur-md border border-black/10 dark:border-white/15 flex justify-between items-end shadow-xl">
+                      <div className="text-left">
+                        <span className="text-[8px] uppercase tracking-widest text-accent font-mono font-bold block mb-0.5">{copy.overlayRegistry}</span>
+                        <span className="text-xs font-display font-medium text-foreground dark:text-white block">{copy.overlayLocation}</span>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-[8px] uppercase tracking-widest text-accent font-mono font-bold block mb-0.5">{copy.overlayDelivered}</span>
+                        <span className="text-xs font-display font-medium text-accent block font-mono font-bold">
+                          {formatMoneyCompact(copy.statAmountEquity, currency.code)}+
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -280,17 +269,17 @@ export default function HomePage() {
       </section>
 
       {/* Bento Grid Editorial Stats & Brand Heritage Section */}
-      <section className="py-14 sm:py-20 lg:py-32 bg-[#090b10] border-b border-white/5 relative">
+      <section className="py-14 sm:py-20 lg:py-32 bg-[#ede7dc] dark:bg-[#090b10] border-b border-black/10 dark:border-white/5 relative">
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-4xl mb-10 sm:mb-16 lg:mb-24 text-left">
             <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-3 sm:mb-4">
               {copy.legacyEyebrow}
             </span>
-            <h2 className="text-3xl sm:text-5xl md:text-6xl font-display font-medium text-white leading-tight mb-4 sm:mb-6">
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-display font-medium text-foreground dark:text-white leading-tight mb-4 sm:mb-6">
               {copy.legacyTitle} <span className="text-accent italic font-light">{copy.legacyTitleAccent}</span>
             </h2>
             <div className="w-16 h-[1px] bg-accent mb-4 sm:mb-6" />
-            <p className="text-xs text-white/50 font-light leading-relaxed max-w-xl">
+            <p className="text-xs text-foreground/75 dark:text-white/50 font-light leading-relaxed max-w-xl">
               {copy.legacyBody}
             </p>
           </div>
@@ -299,49 +288,48 @@ export default function HomePage() {
           <div ref={bentoRef} className="grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-8">
 
             {/* Bento Card 1: Stat Grid Block */}
-            <div className="bento-card group md:col-span-8 border border-white/5 bg-[#0a0c10]/60 p-5 sm:p-8 grid grid-cols-2 gap-4 sm:gap-8 hover:border-accent/20 transition-colors duration-500 relative shadow-2xl overflow-hidden">
-              {/* Gold Accent Corner Brackets */}
-              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
-              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
-              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
-              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+            <div className="bento-card group md:col-span-8 border border-black/10 dark:border-white/5 bg-white dark:bg-[#0a0c10]/60 p-5 sm:p-8 grid grid-cols-2 gap-4 sm:gap-8 hover:border-accent/40 dark:hover:border-accent/20 transition-colors duration-500 relative shadow-xl dark:shadow-2xl overflow-hidden">
+              {/* Corner Brackets */}
+              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-black/15 dark:border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-black/15 dark:border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-black/15 dark:border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-black/15 dark:border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               {stats.map((stat, idx) => (
                 <div key={idx} className="flex flex-col justify-between text-left">
-                  <div className="w-9 h-9 sm:w-10 sm:h-10 border border-white/10 bg-[#0c0d10] flex items-center justify-center text-accent mb-3 sm:mb-4 transition-transform duration-500 group-hover:scale-105">
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 border border-black/10 dark:border-white/10 bg-[#f8f7f4] dark:bg-[#0c0d10] flex items-center justify-center text-accent mb-3 sm:mb-4 transition-transform duration-500 group-hover:scale-105 shadow-sm">
                     <stat.icon size={15} />
                   </div>
                   <div>
-                    <div className="text-xl sm:text-3xl font-display font-medium text-white mb-1">
+                    <div className="text-xl sm:text-3xl font-display font-medium text-foreground dark:text-white mb-1">
                       {stat.value}
                     </div>
                     <div className="text-[8px] tracking-[0.2em] uppercase text-accent font-mono mb-1">
                       {stat.label}
                     </div>
-                    <p className="text-[9px] text-white/40 font-light line-clamp-2">{stat.desc}</p>
+                    <p className="text-[9px] text-foreground/60 dark:text-white/40 font-light line-clamp-2">{stat.desc}</p>
                   </div>
                 </div>
               ))}
             </div>
 
             {/* Bento Card 2: Visual Luxury Plaque */}
-            <div className="bento-card bento-visual-plaque md:col-span-4 border border-white/5 bg-[#0a0c10]/60 hover:border-accent/20 transition-all duration-500 overflow-hidden relative group min-h-[260px] sm:min-h-[300px] shadow-2xl">
-              {/* Gold Accent Corner Brackets */}
-              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
-              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
-              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
-              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+            <div className="bento-card bento-visual-plaque md:col-span-4 border border-white/5 bg-[#0a0c10]/80 hover:border-accent/40 dark:hover:border-accent/20 transition-all duration-500 overflow-hidden relative group min-h-[260px] sm:min-h-[300px] shadow-2xl">
+              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/20 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500 z-20" />
+              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/20 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500 z-20" />
+              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/20 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500 z-20" />
+              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/20 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500 z-20" />
               <div
-                className="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-105 opacity-25"
+                className="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-105 opacity-35"
                 style={{
                   backgroundImage: `url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=600&fit=crop')`,
                   transitionDuration: '4000ms'
                 }}
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[#0c0d10] via-[#0c0d10]/60 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0c0d10] via-[#0c0d10]/70 to-transparent" />
               <div className="absolute inset-0 p-5 sm:p-8 flex flex-col justify-end z-10 text-left">
                 <span className="text-[8px] uppercase tracking-[0.25em] text-accent font-mono font-bold block mb-2">{copy.bentoArtistry}</span>
                 <h3 className="text-base sm:text-lg font-display font-medium text-white mb-2 sm:mb-3">{copy.bentoArtistryTitle}</h3>
-                <p className="text-[10px] text-white/50 font-light leading-relaxed mb-4 sm:mb-6 line-clamp-3">
+                <p className="text-[10px] text-white/70 font-light leading-relaxed mb-4 sm:mb-6 line-clamp-3">
                   {copy.bentoArtistryBody}
                 </p>
                 <Link to="/properties" className="text-[9px] tracking-widest uppercase font-mono font-bold text-accent hover:text-white flex items-center gap-1.5 group-hover:translate-x-1 transition-transform">
@@ -351,46 +339,44 @@ export default function HomePage() {
             </div>
 
             {/* Bento Card 3: Quote block from founder */}
-            <div className="bento-card group md:col-span-4 border border-white/5 bg-[#0a0c10]/60 p-5 sm:p-8 hover:border-accent/20 transition-colors duration-500 flex flex-col justify-between min-h-[240px] sm:min-h-[280px] relative shadow-2xl overflow-hidden">
-              {/* Gold Accent Corner Brackets */}
-              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
-              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
-              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
-              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
-              <Quote className="text-accent opacity-20 transition-transform duration-500 group-hover:scale-105" size={24} />
+            <div className="bento-card group md:col-span-4 border border-black/10 dark:border-white/5 bg-white dark:bg-[#0a0c10]/60 p-5 sm:p-8 hover:border-accent/40 dark:hover:border-accent/20 transition-colors duration-500 flex flex-col justify-between min-h-[240px] sm:min-h-[280px] relative shadow-xl dark:shadow-2xl overflow-hidden">
+              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-black/15 dark:border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-black/15 dark:border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-black/15 dark:border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-black/15 dark:border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <Quote className="text-accent opacity-30 transition-transform duration-500 group-hover:scale-105" size={24} />
               <div className="text-left">
-                <p className="text-xs text-white/70 italic font-light leading-relaxed mb-4 sm:mb-6">
+                <p className="text-xs text-foreground/80 dark:text-white/70 italic font-light leading-relaxed mb-4 sm:mb-6">
                   "{copy.founderQuote}"
                 </p>
                 <div>
-                  <span className="text-[9px] uppercase tracking-wider font-bold block text-white">{copy.founderName}</span>
-                  <span className="text-[7px] uppercase tracking-widest text-white/40 font-mono">{copy.founderRole}</span>
+                  <span className="text-[9px] uppercase tracking-wider font-bold block text-foreground dark:text-white">{copy.founderName}</span>
+                  <span className="text-[7px] uppercase tracking-widest text-foreground/50 dark:text-white/40 font-mono">{copy.founderRole}</span>
                 </div>
               </div>
             </div>
 
             {/* Bento Card 4: Compliance block */}
-            <div className="bento-card group md:col-span-8 border border-white/5 bg-[#0a0c10]/60 p-5 sm:p-8 hover:border-accent/20 transition-colors duration-500 flex flex-col justify-between min-h-[240px] sm:min-h-[280px] relative shadow-2xl overflow-hidden">
-              {/* Gold Accent Corner Brackets */}
-              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
-              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
-              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
-              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+            <div className="bento-card group md:col-span-8 border border-black/10 dark:border-white/5 bg-white dark:bg-[#0a0c10]/60 p-5 sm:p-8 hover:border-accent/40 dark:hover:border-accent/20 transition-colors duration-500 flex flex-col justify-between min-h-[240px] sm:min-h-[280px] relative shadow-xl dark:shadow-2xl overflow-hidden">
+              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-black/15 dark:border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-black/15 dark:border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-black/15 dark:border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-black/15 dark:border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               <div className="flex justify-between items-start">
                 <span className="text-[8px] uppercase tracking-[0.25em] text-accent font-mono font-bold">{copy.complianceBadge}</span>
-                <span className="text-[9px] font-mono text-white/30">{copy.complianceReg}</span>
+                <span className="text-[9px] font-mono text-foreground/40 dark:text-white/30">{copy.complianceReg}</span>
               </div>
               <div className="mt-6 sm:mt-8 text-left">
-                <h3 className="text-lg sm:text-xl font-display font-medium text-white mb-3 sm:mb-4">{copy.complianceHeading}</h3>
-                <p className="text-xs text-white/50 font-light leading-relaxed max-w-xl mb-4 sm:mb-6">
+                <h3 className="text-lg sm:text-xl font-display font-medium text-foreground dark:text-white mb-3 sm:mb-4">{copy.complianceHeading}</h3>
+                <p className="text-xs text-foreground/75 dark:text-white/50 font-light leading-relaxed max-w-xl mb-4 sm:mb-6">
                   {copy.complianceBody}
                 </p>
                 <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 text-[9px] tracking-wider uppercase font-bold text-accent">
-                  <div className="flex items-center gap-1.5 bg-[#0c0d10] py-1.5 px-3 border border-white/5">
+                  <div className="flex items-center gap-1.5 bg-[#f8f7f4] dark:bg-[#0c0d10] py-1.5 px-3 border border-black/10 dark:border-white/5 text-foreground dark:text-accent shadow-sm">
                     <ShieldCheck size={11} className="text-accent" />
                     {copy.complianceBadgeOne}
                   </div>
-                  <div className="flex items-center gap-1.5 bg-[#0c0d10] py-1.5 px-3 border border-white/5">
+                  <div className="flex items-center gap-1.5 bg-[#f8f7f4] dark:bg-[#0c0d10] py-1.5 px-3 border border-black/10 dark:border-white/5 text-foreground dark:text-accent shadow-sm">
                     <ShieldCheck size={11} className="text-accent" />
                     {copy.complianceBadgeTwo}
                   </div>
@@ -402,7 +388,7 @@ export default function HomePage() {
       </section>
 
       {/* Awwwards Pin Scroll Property Showcase */}
-      <section ref={pinRef} className="bg-[#0c0d10] relative overflow-hidden hidden lg:block border-b border-white/5">
+      <section ref={pinRef} className="bg-[#f8f7f4] dark:bg-[#0c0d10] text-foreground dark:text-white relative overflow-hidden hidden lg:block border-b border-black/10 dark:border-white/5">
         <div className="min-h-screen w-full flex items-center justify-start py-20 px-12">
           {/* Horizontal scroll grid */}
           <div className="flex gap-24 items-center">
@@ -411,14 +397,14 @@ export default function HomePage() {
               <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-4">
                 {copy.collectionEyebrow}
               </span>
-              <h2 className="text-4xl md:text-6xl font-display font-medium text-white leading-none mb-6">
+              <h2 className="text-4xl md:text-6xl font-display font-medium text-foreground dark:text-white leading-none mb-6">
                 {copy.collectionTitle} <span className="text-accent italic font-light">{copy.collectionTitleAccent}</span>
               </h2>
-              <p className="text-xs text-white/50 font-light leading-relaxed mb-8">
+              <p className="text-xs text-foreground/75 dark:text-white/50 font-light leading-relaxed mb-8">
                 {copy.collectionBody}
               </p>
               <MagneticButton strength={20} as="div">
-                <Button asChild className="btn-luxury-gold bg-accent text-[#0c0d10] border-transparent font-bold py-4 px-8 text-[9px] tracking-widest uppercase rounded-none hover:bg-accent-glow shadow-md">
+                <Button asChild className="btn-luxury-gold bg-accent text-white border-transparent font-bold py-4 px-8 text-[9px] tracking-widest uppercase rounded-none hover:bg-accent-glow shadow-md">
                   <Link to="/properties">{copy.collectionCta}</Link>
                 </Button>
               </MagneticButton>
@@ -440,14 +426,14 @@ export default function HomePage() {
       </section>
 
       {/* Mobile & Tablet Showcase with Touch Snap Carousel */}
-      <section className="py-14 sm:py-20 bg-[#0c0d10] lg:hidden border-b border-white/5 relative overflow-hidden">
+      <section className="py-14 sm:py-20 bg-[#f8f7f4] dark:bg-[#0c0d10] text-foreground dark:text-white lg:hidden border-b border-black/10 dark:border-white/5 relative overflow-hidden">
         <div className="container mx-auto px-4">
           <div className="mb-6 sm:mb-10 flex items-end justify-between">
             <div className="text-left">
               <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-2 sm:mb-3">
                 {copy.collectionEyebrow}
               </span>
-              <h2 className="text-2xl sm:text-3xl font-display font-medium text-white">
+              <h2 className="text-2xl sm:text-3xl font-display font-medium text-foreground dark:text-white">
                 {copy.mobileCollectionTitle}
               </h2>
             </div>
@@ -493,13 +479,13 @@ export default function HomePage() {
       </section>
 
       {/* Contracting divisions */}
-      <section className="section-divisions py-14 sm:py-20 lg:py-32 bg-[#0c0d10] text-white relative">
+      <section className="section-divisions py-14 sm:py-20 lg:py-32 bg-[#ede7dc] dark:bg-[#0c0d10] text-foreground dark:text-white relative border-b border-black/10 dark:border-white/5">
         {/* Fine grid lines */}
-        <div className="absolute inset-0 flex justify-between pointer-events-none opacity-[0.05] px-12 z-0">
-          <div className="w-[1px] h-full bg-white" />
-          <div className="w-[1px] h-full bg-white hidden md:block" />
-          <div className="w-[1px] h-full bg-white hidden md:block" />
-          <div className="w-[1px] h-full bg-white" />
+        <div className="absolute inset-0 flex justify-between pointer-events-none opacity-[0.05] dark:opacity-[0.04] px-12 z-0">
+          <div className="w-[1px] h-full bg-black dark:bg-white" />
+          <div className="w-[1px] h-full bg-black dark:bg-white hidden md:block" />
+          <div className="w-[1px] h-full bg-black dark:bg-white hidden md:block" />
+          <div className="w-[1px] h-full bg-black dark:bg-white" />
         </div>
 
         <div className="container mx-auto px-4 md:px-8 relative z-10">
@@ -507,23 +493,23 @@ export default function HomePage() {
             <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-3 sm:mb-4">
               {copy.divisionsEyebrow}
             </span>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-white mb-4 sm:mb-6 leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-foreground dark:text-white mb-4 sm:mb-6 leading-tight">
               {copy.divisionsTitle}
             </h2>
             <div className="w-16 h-[1px] bg-accent mx-auto mb-4 sm:mb-6" />
-            <p className="text-xs text-white/50 font-light leading-relaxed max-w-xl mx-auto">
+            <p className="text-xs text-foreground/75 dark:text-white/50 font-light leading-relaxed max-w-xl mx-auto">
               {copy.divisionsBody}
             </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 max-w-5xl mx-auto">
             {/* Division 1: Construction Division */}
-            <div className="border border-white/5 bg-[#121318] p-6 sm:p-8 lg:p-10 hover:border-accent/20 transition-all duration-500 flex flex-col justify-between min-h-[340px] sm:min-h-[380px] relative group overflow-hidden">
+            <div className="border border-black/10 dark:border-white/5 bg-white dark:bg-[#121318] p-6 sm:p-8 lg:p-10 hover:border-accent/40 dark:hover:border-accent/20 transition-all duration-500 flex flex-col justify-between min-h-[340px] sm:min-h-[380px] relative group overflow-hidden shadow-xl dark:shadow-none">
               {/* Gold Accent Corner Brackets */}
-              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
-              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
-              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
-              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-black/15 dark:border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-black/15 dark:border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-black/15 dark:border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
+              <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-black/15 dark:border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
               <div className="text-left relative z-10">
                 <span className="text-[8px] uppercase tracking-[0.2em] text-accent font-mono font-bold block mb-2">{copy.divOneTag}</span>

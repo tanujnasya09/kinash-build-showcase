@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import MagneticButton from '@/components/ui/MagneticButton';
 import SEOHead from '@/components/SEO/SEOHead';
 import { useLanguage } from '@/context/LanguageContext';
+import ArchitecturalGrid from '@/components/ui/ArchitecturalGrid';
 
 // High-end architectural photography URLs
 const luxuryHeroImage = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&h=900&fit=crop";
@@ -34,7 +35,7 @@ const ConstructionPage = () => {
   }));
 
   return (
-    <div className="min-h-screen bg-[#0c0d10] text-white pt-20 sm:pt-24 lg:pt-28 pb-16 relative overflow-hidden">
+    <div className="min-h-screen bg-[#f8f7f4] dark:bg-[#0c0d10] text-foreground dark:text-white pt-20 sm:pt-24 lg:pt-28 pb-16 relative overflow-hidden">
       <SEOHead
         title={copy.meta.title}
         description={copy.meta.description}
@@ -42,46 +43,72 @@ const ConstructionPage = () => {
         canonical="/construction"
       />
 
-      {/* Decorative technical line grid */}
-      <div className="absolute inset-0 flex justify-between pointer-events-none opacity-5 px-12 z-0">
-        <div className="w-[1px] h-full bg-white" />
-        <div className="w-[1px] h-full bg-white hidden md:block" />
-        <div className="w-[1px] h-full bg-white hidden md:block" />
-        <div className="w-[1px] h-full bg-white" />
-      </div>
+      {/* Architectural Drafting Blueprint Grid */}
+      <ArchitecturalGrid columns={5} />
 
-      {/* Hero Section */}
-      <section className="relative py-12 sm:py-20 lg:py-32 overflow-hidden border-b border-white/5">
+      {/* Hero Section with Cinematic Background Photography */}
+      <section className="relative py-16 sm:py-24 lg:py-36 overflow-hidden border-b border-black/10 dark:border-white/5">
         <div 
           className="hero-bg-image absolute inset-0 bg-cover bg-center opacity-85 md:opacity-95"
           style={{ backgroundImage: `url(${luxuryHeroImage})` }}
         />
-        <div className="hero-gradient-overlay absolute inset-0 bg-gradient-to-r from-[#0c0d10] via-[#0c0d10]/90 to-transparent" />
+        {/* Left Veil: Crystal-clear photo on right, 100% readable text on left */}
+        <div className="hero-gradient-overlay absolute inset-0 bg-gradient-to-r from-[#f8f7f4] via-[#f8f7f4]/95 sm:via-[#f8f7f4]/85 to-transparent dark:from-[#0c0d10] dark:via-[#0c0d10]/95 sm:dark:via-[#0c0d10]/85 dark:to-transparent" />
         
-        <div className="relative z-10 container mx-auto px-4 md:px-8 max-w-5xl">
-          <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-2.5 sm:mb-4">
-            {copy.eyebrow}
-          </span>
-          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-medium text-foreground dark:text-white mb-3.5 sm:mb-6 leading-[1.1] sm:leading-none">
-            {copy.title} <span className="text-accent italic font-light">{copy.titleAccent}</span>
-          </h1>
-          <p className="text-xs sm:text-sm text-foreground/75 dark:text-white/60 mb-6 sm:mb-8 leading-relaxed max-w-xl font-light">
-            {copy.intro}
-          </p>
-          <div className="flex flex-row gap-2.5 sm:gap-5 w-full max-w-md">
-            <MagneticButton strength={15} className="flex-1 sm:flex-initial" as="div">
-              <Button asChild className="w-full sm:w-auto h-11 sm:h-14 px-3 sm:px-8 py-3 sm:py-4 bg-accent text-[#0c0d10] hover:bg-accent-glow font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-accent hover:border-accent-glow shadow-[0_10px_30px_rgba(223,186,72,0.25)] flex items-center justify-center gap-1.5 sm:gap-2 group transition-all whitespace-nowrap">
-                <Link to="/contact">
-                  <span>{copy.heroCtaPrimary}</span>
-                  <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform duration-300" />
-                </Link>
-              </Button>
-            </MagneticButton>
-            <MagneticButton strength={15} className="flex-1 sm:flex-initial" as="div">
-              <Button asChild variant="outline" className="w-full sm:w-auto h-11 sm:h-14 px-3 sm:px-8 py-3 sm:py-4 bg-transparent text-[#111215] dark:text-white hover:bg-black/5 dark:hover:bg-white/10 hover:border-accent dark:hover:border-accent hover:text-accent dark:hover:text-accent font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-black/20 dark:border-white/20 transition-all flex items-center justify-center whitespace-nowrap">
-                <Link to="/properties">{copy.heroCtaSecondary}</Link>
-              </Button>
-            </MagneticButton>
+        <div className="relative z-10 container mx-auto px-4 md:px-8 max-w-6xl">
+          <div className="max-w-2xl text-left">
+            {/* Architectural Eyebrow with Accent Line */}
+            <div className="inline-flex items-center gap-3 mb-3.5 sm:mb-6">
+              <span className="w-8 h-[2px] bg-accent inline-block" />
+              <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold">
+                {copy.eyebrow || 'CIVIL CONTRACTING & ENGINEERING'}
+              </span>
+            </div>
+
+            {/* Title with Italic Accent */}
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-medium text-foreground dark:text-white mb-4 sm:mb-6 leading-[1.1] sm:leading-none">
+              {copy.title} <span className="text-accent italic font-light">{copy.titleAccent}</span>
+            </h1>
+
+            {/* Clear Communicative Intro */}
+            <p className="text-xs sm:text-sm text-foreground/80 dark:text-white/70 mb-6 sm:mb-8 leading-relaxed max-w-xl font-light">
+              {copy.intro}
+            </p>
+
+            {/* Action Buttons */}
+            <div className="flex flex-row gap-2.5 sm:gap-5 w-full max-w-md mb-8">
+              <MagneticButton strength={15} className="flex-1 sm:flex-initial" as="div">
+                <Button asChild className="w-full sm:w-auto h-11 sm:h-14 px-3 sm:px-8 py-3 sm:py-4 bg-accent text-white hover:bg-accent-glow font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-accent hover:border-accent-glow shadow-[0_10px_30px_rgba(223,186,72,0.25)] flex items-center justify-center gap-1.5 sm:gap-2 group transition-all whitespace-nowrap">
+                  <Link to="/contact">
+                    <span>{copy.heroCtaPrimary}</span>
+                    <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform duration-300" />
+                  </Link>
+                </Button>
+              </MagneticButton>
+              <MagneticButton strength={15} className="flex-1 sm:flex-initial" as="div">
+                <Button asChild variant="outline" className="w-full sm:w-auto h-11 sm:h-14 px-3 sm:px-8 py-3 sm:py-4 bg-white/80 dark:bg-transparent text-[#111215] dark:text-white hover:bg-black/5 dark:hover:bg-white/10 hover:border-accent dark:hover:border-accent hover:text-accent dark:hover:text-accent font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-black/20 dark:border-white/20 transition-all flex items-center justify-center whitespace-nowrap shadow-sm">
+                  <Link to="/properties">{copy.heroCtaSecondary}</Link>
+                </Button>
+              </MagneticButton>
+            </div>
+
+            {/* Engineering Standards Indicator Bar */}
+            <div className="flex flex-wrap items-center gap-4 sm:gap-6 pt-6 border-t border-black/10 dark:border-white/10 text-xs text-foreground/75 dark:text-white/60 font-mono">
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-accent" />
+                <span><strong className="text-foreground dark:text-white font-bold">100%</strong> Seismic Compliance</span>
+              </div>
+              <div className="hidden sm:block w-[1px] h-3 bg-black/15 dark:bg-white/15" />
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-accent" />
+                <span><strong className="text-foreground dark:text-white font-bold">18+</strong> Chartered Engineers</span>
+              </div>
+              <div className="hidden sm:block w-[1px] h-3 bg-black/15 dark:bg-white/15" />
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-accent" />
+                <span><strong className="text-accent font-bold">2.5M+</strong> Sq.Ft Built</span>
+              </div>
+            </div>
           </div>
         </div>
       </section>
