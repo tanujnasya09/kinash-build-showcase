@@ -1,0 +1,263 @@
+# Apex Luxury — Customization & Rebrand Guide
+
+Everything you need to turn the demo into your own site. Each layer of the template is isolated so you only touch the files you actually need.
+
+---
+
+## 1. The four editing layers
+
+| Layer | File(s) | What lives there |
+|---|---|---|
+| **Brand & business data** | `src/config/site.ts` | Name, wordmark, tagline, domain, contact details, social links, default currency, OG image |
+| **Page copy** | `src/content/*.ts` | Every headline, paragraph, CTA, stat, and per-page SEO meta — in EN / ES / DE |
+| **UI chrome** | `src/i18n/{en,es,de}.ts` | Nav labels, buttons, form labels, filter names, footer, CMS strings |
+| **Listings** | `src/context/PropertyContext.tsx` | Properties, prices, coordinates, photos, 3D tour URLs, per-listing translations |
+
+Nothing in `src/components` or `src/pages` needs editing to rebrand the site.
+
+---
+
+## 2. Brand, contact, domain (`src/config/site.ts`)
+
+```ts
+export const siteConfig: SiteConfig = {
+  name: "Apex Luxury Real Estate & Contracting",   // legal / full name
+  shortName: "Apex Luxury",                        // used in UI + SEO
+  wordmark: "Apex",                                // header/footer logo text
+  brandLine: "Real Estate & Contracting",          // logo sub-line
+  tagline: "Architectural Excellence, Exceptional Living",
+  description: "Curated portfolio of prime architectural estates…",
+  url: "https://apexluxuryestates.com",            // canonical domain (SEO, sitemap)
+  ogImage: "/assets/apex-opengraph.png",           // 1200×630 social card
+  contact: { phone, phoneFormatted, email, address, city, country, hours },
+  social: { facebook, twitter, instagram, linkedin, youtube },
+  defaultCurrency: "INR",                          // "INR" | "USD" | "EUR" | "GBP"
+};
+```
+
+Changing `url` here is enough — the canonical tags, Open Graph URLs, JSON-LD, `robots.txt`, and the generated sitemap all follow it.
+
+> `index.html` also ships static fallback meta tags for crawlers that read the raw HTML. Update the `<title>`, `<meta name="description">`, `<link rel="canonical">` and `og:url` there to match your domain.
+
+---
+
+## 3. Page copy (`src/content/`)
+
+One file per page, each holding all three languages:
+
+```
+src/content/
+├─ home.ts         # hero, stats, bento, collection, divisions, CTA
+├─ about.ts        # heritage, values, team, stats, CTA
+├─ services.ts     # service grid, process steps, CTA
+├─ realEstate.ts   # advisory sections, market stats, CTA
+├─ construction.ts # capabilities, projects, completed counter, CTA
+├─ properties.ts   # directory headline + intro
+├─ contact.ts      # office details, form labels, registry block
+└─ notFound.ts     # 404 copy
+```
+
+Each file exports a `Localized<T>` object (`{ en, es, de }`) plus its TypeScript interface, so adding a field is type-checked everywhere it is rendered.
+
+**SEO meta lives here too.** Every page interface carries a `meta` block:
+
+```ts
+meta: {
+  title: 'Luxury Real Estate & Construction',
+  description: 'Premium architectural layouts, plot demarcations and turnkey construction…',
+  keywords: 'luxury real estate dehradun, construction company uttarakhand'
+}
+```
+
+`SEOHead` appends the brand suffix automatically, sets the canonical URL, Open Graph/Twitter cards, `hreflang` alternates, and the JSON-LD graph.
+
+**Money figures are currency-aware.** Marketing stats use a `StatItem`:
+
+```ts
+{ amount: 2000000000, suffix: '+', label: 'Capital Deployed' }  // renders as ₹200Cr / $2B / 2 Mrd. €
+{ value: '98%', label: 'On-Time Delivery' }                     // static text
+```
+
+`src/lib/stat.ts` picks the right renderer for the active currency, so one number works in every market.
+
+---
+
+## 4. UI chrome (`src/i18n/`)
+
+`en.ts`, `es.ts`, and `de.ts` are flat key/value maps — nav, buttons, form labels, filters, footer, and CMS strings. Keys are typed from `en.ts`, so a missing translation is a compile error.
+
+```ts
+t('properties.filter.budget')
+t('properties.showing', { count: 12 })   // "Showing 12 matching estates"
+```
+
+Templates support `{placeholder}` interpolation via `interpolate()` in `src/i18n/index.ts`.
+
+To add a language: copy `en.ts` to `xx.ts`, translate the values, register it in `src/i18n/index.ts` (`translations`, `languages`), and add the matching block to each `src/content/*.ts`.
+
+---
+
+## 5. Currency display (`src/lib/currency.ts`)
+
+Four currencies ship by default:
+
+| Code | Symbol | Locale | Compact example |
+|---|---|---|---|
+| INR | ₹ | `en-IN` | ₹200Cr |
+| USD | $ | `en-US` | $2B |
+| EUR | € | `de-DE` | 2 Mrd. € |
+| GBP | £ | `en-GB` | £2B |
+
+- The picker lives in the header (desktop and mobile) and the choice is stored in `localStorage` under `apex_currency`.
+- **This is display formatting, not conversion.** A price of `4500000` displays as `₹45,00,000`, `$4,500,000`, `4.500.000 €`, or `£4,500,000` depending on the active currency. If you need conversion, multiply by your own rate before rendering, or hook the `getCurrency()` call to a pricing API.
+- Add a currency by appending an entry to `currencies` in `src/lib/currency.ts`.
+
+---
+
+## 6. Listings & the CMS
+
+### Via the dashboard (`/admin`)
+
+Add, edit, and delete properties with title, slug, price, status, type, location, coordinates, image URLs, features, video link, and sizes. Everything persists to `localStorage` under `apex_properties` and appears instantly in the grid, the Leaflet map, and the home page collection.
+
+The admin panel is a full CRUD interface — it is a demo of the Sanity document model, not a live connection. To move to a real backend, declare the matching Sanity document type and swap the provider functions in `src/context/PropertyContext.tsx`; the components already read the same field names.
+
+### Via code (`src/context/PropertyContext.tsx`)
+
+Edit `enrichedInitialProperties`:
+
+```ts
+{
+  id: 1,
+  slug: 'mg-residency',
+  title: 'MG Residency',
+  location: 'Dehradun',
+  price: 4500000,
+  status: 'Available',
+  coordinates: [30.3165, 78.0322],
+  images: ['/assets/your-project-photo.jpg'],
+  videoLink: 'https://youtube.com/watch?v=YOUR_VIDEO_ID',
+  virtualTourUrl: 'https://my.matterport.com/show/?m=YOUR_SPACE_ID',
+  features: ['…'],
+  specs: { type: 'Luxury Apartment', area: '2,850 sq.ft', sizes: ['2 BHK'], possession: 'Immediate', facing: 'North' },
+  translations: { es: { title: '…', location: '…', description: '…' }, de: { … } }
+}
+```
+
+`scripts/generate-sitemap.mjs` reads these slugs, so `npm run build` regenerates `public/sitemap.xml` automatically (also runnable with `npm run sitemap`).
+
+---
+
+## 7. Images, video, and embeds (licence-safe by default)
+
+The template ships **no third-party photography inside the package**. Demo photos are hot-linked
+from Unsplash, the 3D tour points at Matterport's official public demo space, and the walkthrough
+panel ships empty. Full details of every external asset and its licence are in
+`ASSETS-LICENSES.md`.
+
+**Your own property photos**
+
+1. Drop your files in `public/assets/` (or any path you prefer) and reference them as
+   `/assets/your-file.jpg`.
+2. Use photos you shot, shot under a buyout/work-for-hire agreement, or hold a commercial licence
+   that permits redistribution. A photographer keeps copyright in the images they shoot.
+3. Do not use Unsplash **+** (paid) images — their terms forbid use in templates for resale. Free
+   Unsplash images are fine, and attribution is optional but appreciated.
+
+**3D tour** — one switch for the whole site:
+
+```ts
+// src/config/site.ts
+demo: {
+  virtualTourUrl: 'https://my.matterport.com/show/?m=YOUR_SPACE_ID',
+}
+```
+
+**Walkthrough video** — per listing, only for a video you own or may embed:
+
+```ts
+videoLink: 'https://www.youtube.com/watch?v=YOUR_VIDEO_ID', // omit to hide the panel
+```
+
+Leave `videoLink` unset and the panel renders a designed "guided tour" state that links to the
+contact form — that is what the demo listings ship with, so no third party's video is embedded in
+your site.
+
+**Map tiles** — `src/components/Map/InteractiveMap.tsx` renders CARTO tiles over OpenStreetMap
+data. The attribution line is a licence condition (OSM data is ODbL); do not remove it.
+
+**Fonts** — loaded from Google Fonts under the SIL OFL. Self-host them if you need to work offline
+or avoid third-party requests, and keep the OFL notice.
+
+---
+
+## 7. Design system (`DESIGN.md`, `tailwind.config.ts`, `src/index.css`)
+
+- **Colors** — charcoal `#0c0d10`, champagne gold `#dfba48`, ivory `#fdfbf7`, card `#121318`
+- **Type** — Archivo (display), Manrope (body), JetBrains Mono (technical metadata)
+- **Shape** — square corners, hairline borders, 1px gold rules
+
+`DESIGN.md` documents the token set and the "craft floor" rules the design follows (no gradient text, no glassmorphism, no pill buttons). Read it before restyling so the result stays cohesive.
+
+---
+
+## 8. SEO checklist before launch
+
+1. Set `siteConfig.url` to your live domain.
+2. Update the static meta block in `index.html` to match.
+3. Replace `public/assets/apex-opengraph.png` with your own 1200×630 social card.
+4. Edit the `meta` block in each `src/content/*.ts` file with your page titles and descriptions.
+5. `npm run build` regenerates `public/sitemap.xml` with your domain and listings.
+6. Submit the sitemap in Google Search Console.
+7. Replace the demo photos with your own, and check the pre-launch list in `ASSETS-LICENSES.md`.
+
+---
+
+## 9. Deployment
+
+### Netlify
+- Build command: `npm run build`
+- Publish directory: `dist`
+- `public/_redirects` already contains the SPA fallback (`/* /index.html 200`)
+
+### Vercel
+- Framework preset: **Vite**
+- Build command: `npm run build`, output directory: `dist`
+- SPA rewrites are already included in `vercel.json` — deploy as-is.
+
+### Cloudflare Pages
+- Build command: `npm run build`, output directory: `dist`
+- Add a `_redirects` rule: `/* /index.html 200`
+
+### GitHub Pages
+- Build with `npm run build`, publish `dist` from the `gh-pages` branch
+- Because the app uses client-side routing, also copy `index.html` to `dist/404.html` so deep links fall back to the app
+
+---
+
+## 10. FAQ
+
+**Do I need a backend?**
+No. The CMS stores to LocalStorage in the visitor's browser. It works out of the box and is easy to replace with Sanity, Supabase, or your own API.
+
+**Can I change colors and fonts?**
+Yes — `tailwind.config.ts` and `src/index.css`. Keep the contrast ratio of gold on charcoal (about 8:1) for accessibility.
+
+**Does the language switcher change the currency?**
+No, they are independent. Language is stored under `apex_lang`, currency under `apex_currency`.
+
+**How do I remove the `/admin` route?**
+Delete the route and the `AdminPage` import in `src/App.tsx`.
+
+**Why do prices show the same number in different currencies?**
+The template formats numbers, it does not convert them. See section 5.
+
+**Can I use the demo photos on my client's site?**
+Use your own. The demo photos are hot-linked from Unsplash under a licence that permits commercial
+use, but they are placeholders — they do not depict the properties you are selling, and swapping in
+your own is what makes the template pay for itself. See section 7 and `ASSETS-LICENSES.md`.
+
+**Is GSAP included legally?**
+Yes. GSAP ships under Webflow's standard "No Charge" licence (free for commercial use, including
+all plugins). The only thing you may not build with it is a no-code animation builder that competes
+with Webflow. See `ASSETS-LICENSES.md`.

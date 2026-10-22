@@ -9,12 +9,15 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import PropertyCard from '@/components/ui/PropertyCard';
 import MagneticButton from '@/components/ui/MagneticButton';
+import siteConfig from '@/config/site';
+import { formatMoneyCompact } from '@/lib/currency';
 
 gsap.registerPlugin(ScrollTrigger);
 
 export default function HomePage() {
   const { properties } = useProperties();
-  const { t, language } = useLanguage();
+  const { content, currency, t } = useLanguage();
+  const copy = content.home;
 
   const heroRef = useRef<HTMLDivElement>(null);
   const scrollSectionRef = useRef<HTMLDivElement>(null);
@@ -97,29 +100,26 @@ export default function HomePage() {
   }, [properties]);
 
   const stats = [
-    { icon: Building, value: '500+', label: t('stats.completed'), desc: 'Premium plots demarcated.' },
-    { icon: Users, value: '15+', label: t('stats.experience'), desc: 'Years of structural heritage.' },
-    { icon: Award, value: '25+', label: t('stats.awards'), desc: 'National architectural awards.' },
-    { icon: TrendingUp, value: '₹200Cr+', label: t('stats.delivered'), desc: 'Equity values delivered.' },
+    { icon: Building, value: copy.statValuePlots, label: copy.statLabelPlots, desc: copy.statPlots },
+    { icon: Users, value: copy.statValueHeritage, label: copy.statLabelHeritage, desc: copy.statHeritage },
+    { icon: Award, value: copy.statValueAwards, label: copy.statLabelAwards, desc: copy.statAwards },
+    { icon: TrendingUp, value: `${formatMoneyCompact(copy.statAmountEquity, currency.code)}+`, label: copy.statLabelEquity, desc: copy.statEquity },
   ];
 
   return (
     <div className="bg-[#0c0d10] text-white overflow-hidden">
       <SEOHead
-        title="Kinash Luxury Real Estate & Contracting"
-        description="Kinash Associates delivers premium architectural layouts, residential plot demarcations, and state-of-the-art construction solutions in Uttarakhand."
-        keywords="construction company, real estate dehradun, luxury land plots"
+        title={copy.meta.title}
+        description={copy.meta.description}
+        keywords={copy.meta.keywords}
         canonical="/"
       />
 
       {/* Full-screen Cinematic Hero */}
       <section
         ref={heroRef}
-        className="relative min-h-[90vh] lg:h-[90vh] flex items-center justify-center overflow-hidden bg-[#0c0d10] py-16 border-b border-white/5"
+        className="relative flex flex-col justify-start lg:justify-center lg:items-center overflow-hidden bg-[#0c0d10] pt-20 sm:pt-24 lg:py-0 pb-10 sm:pb-14 lg:min-h-[90vh] lg:h-[90vh] border-b border-white/5"
       >
-        {/* Layered Technical Background Grids */}
-        <div className="absolute inset-0 linear-grid opacity-10 z-0 pointer-events-none" />
-
         {/* Fine Architectural Grid lines */}
         <div className="absolute inset-0 flex justify-between pointer-events-none opacity-[0.03] px-12 z-0">
           <div className="w-[1px] h-full bg-white" />
@@ -132,82 +132,112 @@ export default function HomePage() {
         <div className="absolute inset-0 bg-[#0c0d10] z-0" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_40%,rgba(223,186,72,0.06),transparent_50%)] z-0 pointer-events-none" />
 
+        {/* Mobile Ambient Architectural Vignette (Zero vertical scroll footprint) */}
+        <div
+          className="absolute inset-0 z-0 opacity-15 bg-cover bg-center pointer-events-none lg:hidden"
+          style={{
+            backgroundImage: "url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1000&auto=format&fit=crop&q=80')",
+          }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-[#0c0d10] via-[#0c0d10]/90 to-[#0c0d10]/95 pointer-events-none lg:hidden z-0" />
+
         <div className="relative z-10 container mx-auto px-4 md:px-8 w-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
             {/* Left Column: Premium Editorial Typography & Actions */}
-            <div className="lg:col-span-7 text-left flex flex-col justify-center items-start">
+            <div className="lg:col-span-7 text-left flex flex-col justify-center items-start w-full">
               {/* Gold Sparkle Badge */}
               <div
-                className="inline-flex items-center gap-2 bg-accent/5 border border-accent/25 px-5 py-2 mb-8 text-accent text-[9px] font-mono font-bold tracking-[0.3em] uppercase relative"
+                className="inline-flex items-center gap-2 bg-accent/5 border border-accent/25 px-3.5 sm:px-5 py-1.5 sm:py-2 mb-3.5 sm:mb-6 text-accent text-[9px] font-mono font-bold tracking-[0.3em] uppercase relative"
               >
                 <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-accent/40" />
                 <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-accent/40" />
                 <Sparkles size={11} className="animate-pulse text-accent" />
-                <span>{t('hero.companyName')}</span>
+                <span>{copy.heroBadge}</span>
               </div>
 
               {/* Title with Rising text effect */}
-              <h1 ref={titleContainerRef} className="text-4xl sm:text-6xl md:text-7xl font-display font-medium leading-[1.08] mb-8 tracking-tight text-white">
-                <span className="block overflow-hidden relative h-[1.2em]">
+              <h1 ref={titleContainerRef} className="text-[28px] sm:text-5xl md:text-6xl lg:text-7xl font-display font-medium leading-[1.1] mb-3.5 sm:mb-6 tracking-tight text-white [text-wrap:balance]">
+                <span className="block overflow-hidden relative pb-[0.08em]">
                   <span className="reveal-line inline-block relative">
-                    {t('hero.title1')}
+                    {copy.heroTitle1}
                   </span>
                 </span>
-                <span className="block overflow-hidden relative h-[1.2em] mt-1">
-                  <span className="reveal-line inline-block relative text-accent bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent italic font-light">
-                    {t('hero.title2')}
+                <span className="block overflow-hidden relative pb-[0.08em] mt-0.5 sm:mt-1">
+                  <span className="reveal-line inline-block relative text-accent italic font-light">
+                    {copy.heroTitle2}
                   </span>
                 </span>
               </h1>
 
               {/* Subheading Description */}
-              <p className="text-xs sm:text-sm text-white/50 mb-10 max-w-xl text-left leading-relaxed font-light tracking-wide">
-                {t('hero.tagline')}
+              <p className="text-xs sm:text-sm text-white/60 mb-5 sm:mb-8 max-w-xl text-left leading-relaxed font-light tracking-wide">
+                {copy.heroTagline}
               </p>
 
-              {/* Action Links */}
-              <div className="flex flex-col sm:flex-row gap-6 justify-start items-center w-full">
-                <Link to="/properties" className="w-full sm:w-auto">
-                  <MagneticButton strength={20} className="w-full" as="div">
-                    <Button className="btn-luxury-gold bg-accent text-[#0c0d10] border-transparent font-black px-9 py-5 hover:bg-accent-glow w-full shadow-lg">
-                      Explore Properties
-                      <ArrowRight className="ml-2.5" size={14} />
-                    </Button>
-                  </MagneticButton>
-                </Link>
-                <Link to="/about" className="w-full sm:w-auto">
-                  <Button className="btn-luxury-outline border-white/10 text-white hover:bg-white hover:text-black rounded-none px-9 py-5 w-full sm:w-auto">
-                    {t('hero.cta.about')}
+              {/* Action Links - Ergonomic Mobile & Desktop Buttons (Row on mobile) */}
+              <div className="flex flex-row gap-2.5 sm:gap-4 justify-start items-center w-full max-w-md">
+                <MagneticButton strength={15} className="flex-1 sm:flex-initial" as="div">
+                  <Button
+                    asChild
+                    className="w-full sm:w-auto h-11 sm:h-14 px-3 sm:px-8 py-3 sm:py-4 bg-accent text-[#0c0d10] hover:bg-accent-glow font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-accent hover:border-accent-glow shadow-[0_10px_30px_rgba(223,186,72,0.25)] flex items-center justify-center gap-1.5 sm:gap-2 group transition-all whitespace-nowrap"
+                  >
+                    <Link to="/properties">
+                      <span>{copy.heroCtaProperties}</span>
+                      <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform duration-300" />
+                    </Link>
                   </Button>
-                </Link>
+                </MagneticButton>
+                <MagneticButton strength={15} className="flex-1 sm:flex-initial" as="div">
+                  <Button
+                    asChild
+                    className="w-full sm:w-auto h-11 sm:h-14 px-3 sm:px-8 py-3 sm:py-4 bg-transparent text-white hover:bg-white hover:text-[#0c0d10] font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-white/20 hover:border-white transition-all flex items-center justify-center whitespace-nowrap"
+                  >
+                    <Link to="/about">{copy.heroCtaAbout}</Link>
+                  </Button>
+                </MagneticButton>
+              </div>
+
+              {/* Mobile Specimen Live Bar (Zero bulky scroll) */}
+              <div className="lg:hidden w-full mt-5 sm:mt-8 pt-4 sm:pt-6 border-t border-white/10 grid grid-cols-2 gap-4">
+                <div className="text-left">
+                  <span className="text-[8px] uppercase tracking-widest text-accent font-mono block mb-0.5">{copy.overlayRegistry}</span>
+                  <span className="text-xs font-display font-medium text-white block">{copy.overlayLocation}</span>
+                </div>
+                <div className="text-right">
+                  <span className="text-[8px] uppercase tracking-widest text-accent font-mono block mb-0.5">{copy.overlayDelivered}</span>
+                  <span className="text-xs font-display font-medium text-accent block font-mono">
+                    {formatMoneyCompact(copy.statAmountEquity, currency.code)}+
+                  </span>
+                </div>
               </div>
             </div>
 
-            {/* Right Column: Architectural Visual Frame */}
-            <div className="lg:col-span-5 w-full flex items-center justify-center relative z-10">
+            {/* Right Column: Architectural Visual Frame (Desktop Only — Never pushes mobile content offscreen) */}
+            <div className="hidden lg:flex lg:col-span-5 w-full items-center justify-center relative z-10">
               <div className="relative w-full aspect-[4/5] max-w-[380px] border border-white/10 p-2.5 bg-[#0a0c10]/40 backdrop-blur-sm shadow-2xl group overflow-hidden">
                 {/* Gold Accent Corners */}
                 <div className="absolute top-0 left-0 w-3 h-3 border-t border-l border-accent" />
                 <div className="absolute bottom-0 right-0 w-3 h-3 border-b border-r border-accent" />
-                
+
                 <div className="w-full h-full overflow-hidden relative">
-                  <img 
-                    src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=1000&fit=crop" 
-                    alt="Kinash Associates Luxury Architecture" 
+                  <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&h=1000&fit=crop"
+                    alt={t('common.villaAlt')}
                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                   />
                   {/* Subtle dark gradient overlay */}
                   <div className="absolute inset-0 bg-gradient-to-t from-[#0c0d10]/80 via-[#0c0d10]/20 to-transparent" />
-                  
+
                   {/* Editorial Overlay Info */}
                   <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
                     <div className="text-left">
-                      <span className="text-[8px] uppercase tracking-widest text-accent font-mono block mb-1">Active Registry</span>
-                      <span className="text-xs font-display font-medium text-white block">Dehradun Valley</span>
+                      <span className="text-[8px] uppercase tracking-widest text-accent font-mono block mb-1">{copy.overlayRegistry}</span>
+                      <span className="text-xs font-display font-medium text-white block">{copy.overlayLocation}</span>
                     </div>
                     <div className="text-right">
-                      <span className="text-[8px] uppercase tracking-widest text-accent font-mono block mb-1">Delivered</span>
-                      <span className="text-xs font-display font-medium text-white block">₹200Cr+</span>
+                      <span className="text-[8px] uppercase tracking-widest text-accent font-mono block mb-1">{copy.overlayDelivered}</span>
+                      <span className="text-xs font-display font-medium text-white block">
+                        {formatMoneyCompact(copy.statAmountEquity, currency.code)}+
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -222,26 +252,26 @@ export default function HomePage() {
       </section>
 
       {/* Bento Grid Editorial Stats & Brand Heritage Section */}
-      <section className="py-32 bg-[#090b10] border-b border-white/5 relative">
+      <section className="py-14 sm:py-20 lg:py-32 bg-[#090b10] border-b border-white/5 relative">
         <div className="container mx-auto px-4 md:px-8">
-          <div className="max-w-4xl mb-24 text-left">
-            <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-4">
-              brand legacy
+          <div className="max-w-4xl mb-10 sm:mb-16 lg:mb-24 text-left">
+            <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-3 sm:mb-4">
+              {copy.legacyEyebrow}
             </span>
-            <h2 className="text-4xl md:text-6xl font-display font-medium text-white leading-none mb-6">
-              Built on Trust, Crafted for <span className="bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent italic font-light">Appreciation</span>.
+            <h2 className="text-3xl sm:text-5xl md:text-6xl font-display font-medium text-white leading-tight mb-4 sm:mb-6">
+              {copy.legacyTitle} <span className="text-accent italic font-light">{copy.legacyTitleAccent}</span>
             </h2>
-            <div className="w-16 h-[1px] bg-accent mb-6" />
+            <div className="w-16 h-[1px] bg-accent mb-4 sm:mb-6" />
             <p className="text-xs text-white/50 font-light leading-relaxed max-w-xl">
-              We manage structural developments, registry transfers, and layout demarcations with zero-compromise ISO-accredited workflows.
+              {copy.legacyBody}
             </p>
           </div>
 
           {/* Asymmetrical Bento Grid */}
-          <div ref={bentoRef} className="grid grid-cols-1 md:grid-cols-12 gap-8">
+          <div ref={bentoRef} className="grid grid-cols-1 md:grid-cols-12 gap-5 sm:gap-8">
 
             {/* Bento Card 1: Stat Grid Block */}
-            <div className="bento-card group md:col-span-8 border border-white/5 bg-[#0a0c10]/60 p-8 grid grid-cols-2 gap-8 hover:border-accent/20 transition-colors duration-500 relative shadow-2xl overflow-hidden">
+            <div className="bento-card group md:col-span-8 border border-white/5 bg-[#0a0c10]/60 p-5 sm:p-8 grid grid-cols-2 gap-4 sm:gap-8 hover:border-accent/20 transition-colors duration-500 relative shadow-2xl overflow-hidden">
               {/* Gold Accent Corner Brackets */}
               <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
@@ -249,24 +279,24 @@ export default function HomePage() {
               <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               {stats.map((stat, idx) => (
                 <div key={idx} className="flex flex-col justify-between text-left">
-                  <div className="w-10 h-10 border border-white/10 bg-[#0c0d10] flex items-center justify-center text-accent mb-4 transition-transform duration-500 group-hover:scale-105">
-                    <stat.icon size={16} />
+                  <div className="w-9 h-9 sm:w-10 sm:h-10 border border-white/10 bg-[#0c0d10] flex items-center justify-center text-accent mb-3 sm:mb-4 transition-transform duration-500 group-hover:scale-105">
+                    <stat.icon size={15} />
                   </div>
                   <div>
-                    <div className="text-2xl sm:text-3xl font-display font-medium text-white mb-1">
+                    <div className="text-xl sm:text-3xl font-display font-medium text-white mb-1">
                       {stat.value}
                     </div>
                     <div className="text-[8px] tracking-[0.2em] uppercase text-accent font-mono mb-1">
                       {stat.label}
                     </div>
-                    <p className="text-[9px] text-white/40 font-light">{stat.desc}</p>
+                    <p className="text-[9px] text-white/40 font-light line-clamp-2">{stat.desc}</p>
                   </div>
                 </div>
               ))}
             </div>
 
             {/* Bento Card 2: Visual Luxury Plaque */}
-            <div className="bento-card md:col-span-4 border border-white/5 bg-[#0a0c10]/60 hover:border-accent/20 transition-all duration-500 overflow-hidden relative group min-h-[300px] shadow-2xl">
+            <div className="bento-card md:col-span-4 border border-white/5 bg-[#0a0c10]/60 hover:border-accent/20 transition-all duration-500 overflow-hidden relative group min-h-[260px] sm:min-h-[300px] shadow-2xl">
               {/* Gold Accent Corner Brackets */}
               <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
@@ -274,67 +304,67 @@ export default function HomePage() {
               <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               <div
                 className="absolute inset-0 bg-cover bg-center transition-transform group-hover:scale-105 opacity-25"
-                style={{ 
+                style={{
                   backgroundImage: `url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&h=600&fit=crop')`,
                   transitionDuration: '4000ms'
                 }}
               />
               <div className="absolute inset-0 bg-gradient-to-t from-[#0c0d10] via-[#0c0d10]/60 to-transparent" />
-              <div className="absolute inset-0 p-8 flex flex-col justify-end z-10 text-left">
-                <span className="text-[8px] uppercase tracking-[0.25em] text-accent font-mono font-bold block mb-2">Architectural Artistry</span>
-                <h3 className="text-lg font-display font-medium text-white mb-3">Premium Demarcation</h3>
-                <p className="text-[10px] text-white/50 font-light leading-relaxed mb-6">
-                  Every plot is verified with high-precision total station machinery and structural alignments.
+              <div className="absolute inset-0 p-5 sm:p-8 flex flex-col justify-end z-10 text-left">
+                <span className="text-[8px] uppercase tracking-[0.25em] text-accent font-mono font-bold block mb-2">{copy.bentoArtistry}</span>
+                <h3 className="text-base sm:text-lg font-display font-medium text-white mb-2 sm:mb-3">{copy.bentoArtistryTitle}</h3>
+                <p className="text-[10px] text-white/50 font-light leading-relaxed mb-4 sm:mb-6 line-clamp-3">
+                  {copy.bentoArtistryBody}
                 </p>
                 <Link to="/properties" className="text-[9px] tracking-widest uppercase font-mono font-bold text-accent hover:text-white flex items-center gap-1.5 group-hover:translate-x-1 transition-transform">
-                  Browse Plottings <ArrowRight size={10} />
+                  {copy.bentoBrowse} <ArrowRight size={10} />
                 </Link>
               </div>
             </div>
 
             {/* Bento Card 3: Quote block from founder */}
-            <div className="bento-card group md:col-span-4 border border-white/5 bg-[#0a0c10]/60 p-8 hover:border-accent/20 transition-colors duration-500 flex flex-col justify-between min-h-[280px] relative shadow-2xl overflow-hidden">
+            <div className="bento-card group md:col-span-4 border border-white/5 bg-[#0a0c10]/60 p-5 sm:p-8 hover:border-accent/20 transition-colors duration-500 flex flex-col justify-between min-h-[240px] sm:min-h-[280px] relative shadow-2xl overflow-hidden">
               {/* Gold Accent Corner Brackets */}
               <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
-              <Quote className="text-accent opacity-20 transition-transform duration-500 group-hover:scale-105" size={28} />
+              <Quote className="text-accent opacity-20 transition-transform duration-500 group-hover:scale-105" size={24} />
               <div className="text-left">
-                <p className="text-xs text-white/70 italic font-light leading-relaxed mb-6">
-                  "Our target is to establish transparent equity routes for clients, ensuring clean title deeds, secured registration, and layouts designed to double in valuation."
+                <p className="text-xs text-white/70 italic font-light leading-relaxed mb-4 sm:mb-6">
+                  "{copy.founderQuote}"
                 </p>
                 <div>
-                  <span className="text-[9px] uppercase tracking-wider font-bold block text-white">S. Kinash</span>
-                  <span className="text-[7px] uppercase tracking-widest text-white/40 font-mono">Managing Director, Kinash Associates</span>
+                  <span className="text-[9px] uppercase tracking-wider font-bold block text-white">{copy.founderName}</span>
+                  <span className="text-[7px] uppercase tracking-widest text-white/40 font-mono">{copy.founderRole}</span>
                 </div>
               </div>
             </div>
 
             {/* Bento Card 4: Compliance block */}
-            <div className="bento-card group md:col-span-8 border border-white/5 bg-[#0a0c10]/60 p-8 hover:border-accent/20 transition-colors duration-500 flex flex-col justify-between min-h-[280px] relative shadow-2xl overflow-hidden">
+            <div className="bento-card group md:col-span-8 border border-white/5 bg-[#0a0c10]/60 p-5 sm:p-8 hover:border-accent/20 transition-colors duration-500 flex flex-col justify-between min-h-[240px] sm:min-h-[280px] relative shadow-2xl overflow-hidden">
               {/* Gold Accent Corner Brackets */}
               <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               <div className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               <div className="flex justify-between items-start">
-                <span className="text-[8px] uppercase tracking-[0.25em] text-accent font-mono font-bold">Standard of Quality</span>
-                <span className="text-[9px] font-mono text-white/30">REG #4810/UA</span>
+                <span className="text-[8px] uppercase tracking-[0.25em] text-accent font-mono font-bold">{copy.complianceBadge}</span>
+                <span className="text-[9px] font-mono text-white/30">{copy.complianceReg}</span>
               </div>
-              <div className="mt-8 text-left">
-                <h3 className="text-xl font-display font-medium text-white mb-4">Certified Management Frameworks</h3>
-                <p className="text-xs text-white/50 font-light leading-relaxed max-w-xl mb-6">
-                  Kinash Associates operates under strict ISO 9001:2015 standards. We manage structural soil studies, concrete testing cubes, and property title reviews with senior legal councils before registry demarcation.
+              <div className="mt-6 sm:mt-8 text-left">
+                <h3 className="text-lg sm:text-xl font-display font-medium text-white mb-3 sm:mb-4">{copy.complianceHeading}</h3>
+                <p className="text-xs text-white/50 font-light leading-relaxed max-w-xl mb-4 sm:mb-6">
+                  {copy.complianceBody}
                 </p>
-                <div className="flex flex-wrap items-center gap-4 text-[9px] tracking-wider uppercase font-bold text-accent">
+                <div className="flex flex-wrap items-center gap-2.5 sm:gap-4 text-[9px] tracking-wider uppercase font-bold text-accent">
                   <div className="flex items-center gap-1.5 bg-[#0c0d10] py-1.5 px-3 border border-white/5">
                     <ShieldCheck size={11} className="text-accent" />
-                    ISO 9001:2015 REGISTERED
+                    {copy.complianceBadgeOne}
                   </div>
                   <div className="flex items-center gap-1.5 bg-[#0c0d10] py-1.5 px-3 border border-white/5">
                     <ShieldCheck size={11} className="text-accent" />
-                    Clean Registry Guaranteed
+                    {copy.complianceBadgeTwo}
                   </div>
                 </div>
               </div>
@@ -351,21 +381,19 @@ export default function HomePage() {
             {/* Sticky Content Intro */}
             <div className="flex-shrink-0 w-[420px] text-left">
               <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-4">
-                curated collection
+                {copy.collectionEyebrow}
               </span>
               <h2 className="text-4xl md:text-6xl font-display font-medium text-white leading-none mb-6">
-                Featured <span className="bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent italic font-light">Portfolios</span>.
+                {copy.collectionTitle} <span className="text-accent italic font-light">{copy.collectionTitleAccent}</span>
               </h2>
               <p className="text-xs text-white/50 font-light leading-relaxed mb-8">
-                Explore handpicked luxury lands, demarcated villas, and residential developments in key high-appreciation zones of Uttarakhand.
+                {copy.collectionBody}
               </p>
-              <Link to="/properties">
-                <MagneticButton strength={20} as="div">
-                  <Button className="btn-luxury-gold bg-accent text-[#0c0d10] border-transparent font-bold py-4 px-8 text-[9px] tracking-widest uppercase rounded-none hover:bg-accent-glow shadow-md">
-                    View Full Directory
-                  </Button>
-                </MagneticButton>
-              </Link>
+              <MagneticButton strength={20} as="div">
+                <Button asChild className="btn-luxury-gold bg-accent text-[#0c0d10] border-transparent font-bold py-4 px-8 text-[9px] tracking-widest uppercase rounded-none hover:bg-accent-glow shadow-md">
+                  <Link to="/properties">{copy.collectionCta}</Link>
+                </Button>
+              </MagneticButton>
             </div>
 
             {/* Horizontal Grid elements scrollable on scroll */}
@@ -383,30 +411,61 @@ export default function HomePage() {
         </div>
       </section>
 
-      {/* Fallback Grid Showcase for Mobile Devices */}
-      <section className="py-24 bg-[#0c0d10] lg:hidden border-b border-white/5">
+      {/* Mobile & Tablet Showcase with Touch Snap Carousel */}
+      <section className="py-14 sm:py-20 bg-[#0c0d10] lg:hidden border-b border-white/5 relative overflow-hidden">
         <div className="container mx-auto px-4">
-          <div className="mb-12 text-left">
-            <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-3">
-              curated collection
-            </span>
-            <h2 className="text-3xl font-display font-medium text-white">
-              Featured Portfolios
-            </h2>
+          <div className="mb-6 sm:mb-10 flex items-end justify-between">
+            <div className="text-left">
+              <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-2 sm:mb-3">
+                {copy.collectionEyebrow}
+              </span>
+              <h2 className="text-2xl sm:text-3xl font-display font-medium text-white">
+                {copy.mobileCollectionTitle}
+              </h2>
+            </div>
+            {/* Mobile Touch Swipe Indicator */}
+            <div className="md:hidden flex items-center gap-1.5 text-[8px] font-mono uppercase tracking-widest text-accent/80 pb-1">
+              <span>Swipe</span>
+              <ArrowRight size={10} />
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {/* Mobile: Touch-Native Horizontal Swipe Snap Carousel (Replaces 2,000px of dead vertical scroll) */}
+          <div className="md:hidden flex overflow-x-auto snap-x snap-mandatory gap-4 pb-4 -mx-4 px-4 no-scrollbar scroll-smooth">
+            {properties.slice(0, 5).map((property) => (
+              <div
+                key={property.id}
+                className="w-[84vw] max-w-[320px] flex-shrink-0 snap-start"
+              >
+                <PropertyCard property={property} />
+              </div>
+            ))}
+          </div>
+
+          {/* Tablet (md to lg): 2-Column Responsive Grid */}
+          <div className="hidden md:grid md:grid-cols-2 gap-6 lg:hidden">
             {properties.slice(0, 4).map((property) => (
               <PropertyCard key={property.id} property={property} />
             ))}
+          </div>
+
+          {/* Mobile All Properties Quick Link */}
+          <div className="mt-6 sm:mt-8 text-center md:hidden">
+            <Button
+              asChild
+              className="w-full h-12 bg-transparent text-white border border-white/15 hover:bg-white hover:text-[#0c0d10] font-display font-bold text-xs uppercase tracking-widest rounded-none transition-colors"
+            >
+              <Link to="/properties" className="flex items-center justify-center gap-2">
+                <span>{copy.collectionCta || "View Full Collection"}</span>
+                <ArrowRight size={12} />
+              </Link>
+            </Button>
           </div>
         </div>
       </section>
 
       {/* Contracting divisions */}
-      <section className="py-32 bg-[#0c0d10] text-white relative">
-        <div className="absolute inset-0 linear-grid opacity-[0.03] z-0 pointer-events-none" />
-
+      <section className="py-14 sm:py-20 lg:py-32 bg-[#0c0d10] text-white relative">
         {/* Fine grid lines */}
         <div className="absolute inset-0 flex justify-between pointer-events-none opacity-[0.05] px-12 z-0">
           <div className="w-[1px] h-full bg-white" />
@@ -416,22 +475,22 @@ export default function HomePage() {
         </div>
 
         <div className="container mx-auto px-4 md:px-8 relative z-10">
-          <div className="text-center mb-24 max-w-3xl mx-auto">
-            <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-4">
-              professional operations
+          <div className="text-center mb-10 sm:mb-16 lg:mb-24 max-w-3xl mx-auto">
+            <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-3 sm:mb-4">
+              {copy.divisionsEyebrow}
             </span>
-            <h2 className="text-4xl md:text-5xl font-display font-medium text-white mb-6">
-              Our Core Contracting Divisions
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium text-white mb-4 sm:mb-6 leading-tight">
+              {copy.divisionsTitle}
             </h2>
-            <div className="w-16 h-[1px] bg-accent mx-auto mb-6" />
+            <div className="w-16 h-[1px] bg-accent mx-auto mb-4 sm:mb-6" />
             <p className="text-xs text-white/50 font-light leading-relaxed max-w-xl mx-auto">
-              Delivering specialized civil contracting services and strategic real estate brokerage under certified legal compliance.
+              {copy.divisionsBody}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 max-w-5xl mx-auto">
             {/* Division 1: Construction Division */}
-            <div className="border border-white/5 bg-[#121318] p-10 hover:border-accent/20 transition-all duration-500 flex flex-col justify-between min-h-[380px] relative group overflow-hidden">
+            <div className="border border-white/5 bg-[#121318] p-6 sm:p-8 lg:p-10 hover:border-accent/20 transition-all duration-500 flex flex-col justify-between min-h-[340px] sm:min-h-[380px] relative group overflow-hidden">
               {/* Gold Accent Corner Brackets */}
               <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
@@ -439,31 +498,29 @@ export default function HomePage() {
               <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
               <div className="text-left relative z-10">
-                <span className="text-[8px] uppercase tracking-[0.2em] text-accent font-mono font-bold block mb-2">Division 01</span>
-                <h3 className="text-2xl font-display font-medium text-white mb-4">Civil Engineering & Contracting</h3>
+                <span className="text-[8px] uppercase tracking-[0.2em] text-accent font-mono font-bold block mb-2">{copy.divOneTag}</span>
+                <h3 className="text-xl sm:text-2xl font-display font-medium text-white mb-3 sm:mb-4">{copy.divOneTitle}</h3>
                 <p className="text-xs text-white/50 font-light leading-relaxed mb-6">
-                  Providing full-scale civil engineering, structural designs, and total station land mapping. Registered A-class contractor in Uttarakhand departments.
+                  {copy.divOneBody}
                 </p>
                 <ul className="space-y-2 mb-8">
                   <li className="flex items-center text-[9px] uppercase tracking-wider text-white/70 font-bold group-hover:translate-x-1 transition-transform duration-300">
                     <div className="w-1.5 h-1.5 bg-accent rounded-none mr-3" />
-                    Residential Layout Demarcation
+                    {copy.divOneItemOne}
                   </li>
                   <li className="flex items-center text-[9px] uppercase tracking-wider text-white/70 font-bold group-hover:translate-x-1 transition-transform duration-300">
                     <div className="w-1.5 h-1.5 bg-accent rounded-none mr-3" />
-                    A-Class Civil Construction Projects
+                    {copy.divOneItemTwo}
                   </li>
                 </ul>
               </div>
-              <Link to="/construction" className="relative z-10">
-                <Button className="btn-luxury-outline w-full py-4 text-[9px] tracking-widest rounded-none border border-white/10 hover:bg-white hover:text-black uppercase font-bold">
-                  Engineering division
-                </Button>
-              </Link>
+              <Button asChild className="relative z-10 w-full h-12 flex items-center justify-center text-xs tracking-widest rounded-none border border-white/15 bg-transparent hover:bg-white hover:text-black uppercase font-display font-bold transition-colors">
+                <Link to="/construction">{copy.divOneCta}</Link>
+              </Button>
             </div>
 
             {/* Division 2: Real Estate Division */}
-            <div className="border border-white/5 bg-[#121318] p-10 hover:border-accent/20 transition-all duration-500 flex flex-col justify-between min-h-[380px] relative group overflow-hidden">
+            <div className="border border-white/5 bg-[#121318] p-6 sm:p-8 lg:p-10 hover:border-accent/20 transition-all duration-500 flex flex-col justify-between min-h-[340px] sm:min-h-[380px] relative group overflow-hidden">
               {/* Gold Accent Corner Brackets */}
               <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
@@ -471,63 +528,68 @@ export default function HomePage() {
               <div className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-white/10 group-hover:border-accent group-hover:w-3 group-hover:h-3 transition-all duration-500" />
               <div className="absolute inset-0 bg-gradient-to-br from-accent/5 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
               <div className="text-left relative z-10">
-                <span className="text-[8px] uppercase tracking-[0.2em] text-accent font-mono font-bold block mb-2">Division 02</span>
-                <h3 className="text-2xl font-display font-medium text-white mb-4">Strategic Advisory & Brokerage</h3>
+                <span className="text-[8px] uppercase tracking-[0.2em] text-accent font-mono font-bold block mb-2">{copy.divTwoTag}</span>
+                <h3 className="text-xl sm:text-2xl font-display font-medium text-white mb-3 sm:mb-4">{copy.divTwoTitle}</h3>
                 <p className="text-xs text-white/50 font-light leading-relaxed mb-6">
-                  Curating properties with high appreciation yields, clean title deeds, and complete registry compliance. We manage all transfer documentation.
+                  {copy.divTwoBody}
                 </p>
                 <ul className="space-y-2 mb-8">
                   <li className="flex items-center text-[9px] uppercase tracking-wider text-white/70 font-bold group-hover:translate-x-1 transition-transform duration-300">
                     <div className="w-1.5 h-1.5 bg-accent rounded-none mr-3" />
-                    Clean Registry Verification
+                    {copy.divTwoItemOne}
                   </li>
                   <li className="flex items-center text-[9px] uppercase tracking-wider text-white/70 font-bold group-hover:translate-x-1 transition-transform duration-300">
                     <div className="w-1.5 h-1.5 bg-accent rounded-none mr-3" />
-                    Registry Title Searches
+                    {copy.divTwoItemTwo}
                   </li>
                 </ul>
               </div>
-              <Link to="/real-estate" className="relative z-10">
-                <Button className="btn-luxury-outline w-full py-4 text-[9px] tracking-widest rounded-none border border-white/10 hover:bg-white hover:text-black uppercase font-bold">
-                  Advisory Division
-                </Button>
-              </Link>
+              <Button asChild className="relative z-10 w-full h-12 flex items-center justify-center text-xs tracking-widest rounded-none border border-white/15 bg-transparent hover:bg-white hover:text-black uppercase font-display font-bold transition-colors">
+                <Link to="/real-estate">{copy.divTwoCta}</Link>
+              </Button>
             </div>
           </div>
         </div>
       </section>
 
       {/* CRM Contact CTA Section */}
-      <section className="py-32 bg-[#0c0d10] text-white relative overflow-hidden border-t border-white/5">
+      <section className="py-16 sm:py-24 lg:py-32 bg-[#0c0d10] text-white relative overflow-hidden border-t border-white/5">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(223,186,72,0.06),transparent_50%)] pointer-events-none" />
         <div className="container mx-auto px-4 text-center relative z-10">
-          <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-4">
-            secure connection
+          <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-3 sm:mb-4">
+            {copy.ctaEyebrow}
           </span>
-          <h2 className="text-4xl sm:text-6xl font-display font-medium mb-6 leading-none">
-            Design Your Architectural <span className="bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent italic font-light">Vision</span>
+          <h2 className="text-3xl sm:text-5xl md:text-6xl font-display font-medium mb-4 sm:mb-6 leading-tight">
+            {copy.ctaTitle} <span className="text-accent italic font-light">{copy.ctaTitleAccent}</span>
           </h2>
-          <p className="text-xs sm:text-sm text-white/55 mb-12 max-w-xl mx-auto font-light leading-relaxed">
-            Partner with Uttarakhand's leading ISO-accredited construction agency. Dispatch your requirements instantly to our lead support team.
+          <p className="text-xs sm:text-sm text-white/55 mb-8 sm:mb-12 max-w-xl mx-auto font-light leading-relaxed">
+            {copy.ctaBody}
           </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center font-mono text-[9px]">
-            <Link to="/contact" className="w-full sm:w-auto">
-              <MagneticButton strength={20} className="w-full" as="div">
-                <Button className="btn-luxury-gold bg-accent text-[#0c0d10] border-transparent hover:bg-accent-glow px-9 py-4 rounded-none uppercase font-bold w-full">
-                  {language === 'en' ? 'Inquire Today' : 'Consultar Ahora'}
-                </Button>
-              </MagneticButton>
-            </Link>
-            <Link to="/properties" className="w-full sm:w-auto">
-              <Button className="btn-luxury-outline border-white/20 text-white hover:bg-white hover:text-black px-9 py-4 rounded-none uppercase font-bold w-full sm:w-auto">
-                Explore Properties Map
+          <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-5 justify-center items-stretch sm:items-center">
+            <MagneticButton strength={20} className="w-full sm:w-auto" as="div">
+              <Button
+                asChild
+                className="w-full sm:w-auto h-13 sm:h-14 px-8 py-4 bg-accent text-[#0c0d10] hover:bg-accent-glow font-display font-black text-xs uppercase tracking-[0.2em] rounded-none border border-accent hover:border-accent-glow shadow-[0_10px_30px_rgba(223,186,72,0.25)] flex items-center justify-center gap-2 group transition-all"
+              >
+                <Link to="/contact">
+                  <span>{copy.ctaPrimary}</span>
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+                </Link>
               </Button>
-            </Link>
+            </MagneticButton>
+            <MagneticButton strength={20} className="w-full sm:w-auto" as="div">
+              <Button
+                asChild
+                className="w-full sm:w-auto h-13 sm:h-14 px-8 py-4 bg-transparent text-white hover:bg-white hover:text-[#0c0d10] font-display font-black text-xs uppercase tracking-[0.2em] rounded-none border border-white/20 hover:border-white transition-all flex items-center justify-center"
+              >
+                <Link to="/properties">{copy.ctaSecondary}</Link>
+              </Button>
+            </MagneticButton>
           </div>
 
-          <div className="mt-16 flex justify-center items-center gap-2 text-[8px] font-mono uppercase tracking-[0.2em] text-white/35">
+          <div className="mt-10 sm:mt-16 flex justify-center items-center gap-2 text-[8px] font-mono uppercase tracking-[0.2em] text-white/35">
             <ShieldCheck size={12} className="text-accent" />
-            ISO 9001:2015 REGISTERED & INBOUND PIPELINE SECURED
+            {copy.ctaFooter}
           </div>
         </div>
       </section>

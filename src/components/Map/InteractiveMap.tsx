@@ -3,28 +3,21 @@ import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import { Property } from '@/context/PropertyContext';
+import { Link } from 'react-router-dom';
 import { MapPin, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import { formatCompact, formatPrice, parseAmount } from '@/lib/currency';
 
-// Helper function to format prices into compact luxury tags: e.g. "₹65,00,000.00" -> "₹65L" or "₹17,000" -> "₹17K/Gaj"
-const getPriceTagText = (price: string) => {
-  const numStr = price.replace(/[₹,]/g, "");
-  const num = parseFloat(numStr) || 0;
-  if (num >= 10000000) {
-    return `₹${(num / 10000000).toFixed(1)}Cr`;
-  } else if (num >= 100000) {
-    return `₹${(num / 100000).toFixed(0)}L`;
-  } else if (num > 0) {
-    if (num < 100000) {
-      return `₹${(num / 1000).toFixed(0)}K/Gaj`;
-    }
-  }
-  return price;
+// Compact luxury tags for map pins: 6500000 -> "₹65L", 17000 -> "₹17K"
+const getPriceTagText = (price: string, currencyCode: string) => {
+  const num = parseAmount(price);
+  if (num <= 0) return formatPrice(price, currencyCode);
+  return formatCompact(num, currencyCode);
 };
 
 // Generates a stunning custom luxury Price-Tag marker
-const createLuxuryPriceIcon = (price: string, isSelected: boolean) => {
-  const displayPrice = getPriceTagText(price);
+const createLuxuryPriceIcon = (price: string, isSelected: boolean, currencyCode: string) => {
+  const displayPrice = getPriceTagText(price, currencyCode);
   const activeClasses = isSelected 
     ? 'bg-accent text-[#0c0d10] border-accent scale-110 shadow-[0_0_20px_rgba(223,186,72,0.5)] z-50 font-bold' 
     : 'bg-[#0c0d10]/90 text-accent border-accent/30 hover:bg-accent hover:text-[#0c0d10] hover:scale-105';
@@ -77,7 +70,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
   center = [30.3475, 78.0772], // Default Dehradun center
   zoom = 11,
 }) => {
-  const { language, t } = useLanguage();
+  const { language, t, currency } = useLanguage();
 
   // Find active property coordinate to center map
   const activeProp = properties.find((p) => p.id === activePropertyId);
@@ -120,7 +113,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
               <Marker
                 key={`${p.id}-${isSelected}`} // Force Leaflet recreation on active hover state change
                 position={p.coordinates}
-                icon={createLuxuryPriceIcon(p.price, isSelected)}
+                icon={createLuxuryPriceIcon(p.price, isSelected, currency.code)}
                 eventHandlers={{
                   click: () => {
                     if (onSelectProperty) {
@@ -132,8 +125,7 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
                 <Popup className="luxury-popup">
                   <div className="p-3 w-60 bg-[#0c0d10] text-white">
                     <div className="relative overflow-hidden aspect-[16/10] mb-3 border border-white/5 bg-[#0d0f14]">
-                      <img
-                        src={p.images?.[0]}
+                      <img loading="lazy" decoding="async" src={p.images?.[0]}
                         alt={displayTitle}
                         className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                       />
@@ -146,14 +138,14 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
                       {displayTitle}
                     </h4>
                     <div className="flex items-center justify-between border-t border-white/5 pt-2 mt-2">
-                      <span className="text-xs font-mono font-bold text-accent">{p.price}</span>
-                      <a
-                        href={`/property/${p.slug}`}
-                        className="text-[9px] font-mono uppercase tracking-widest text-white hover:text-accent flex items-center gap-1 transition-colors duration-300"
+                      <span className="text-xs font-mono font-bold text-accent">{formatPrice(p.price, currency.code)}</span>
+                      <Link
+                        to={`/property/${p.slug}`}
+                        className="text-[10px] font-mono uppercase tracking-widest text-white hover:text-accent flex items-center gap-1 transition-colors duration-300"
                       >
                         {t('properties.viewDetails')}
                         <ArrowRight size={10} className="text-accent" />
-                      </a>
+                      </Link>
                     </div>
                   </div>
                 </Popup>

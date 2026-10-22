@@ -1,10 +1,8 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,600&family=Montserrat:wght@300;400;500;600;700&family=Lato:ital,wght@0,300;0,400;0,700;1,300;1,400&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Professional Design System for Kinash Associates */
+/* Professional Design System for Apex Luxury */
 
 @layer base {
   :root {
@@ -61,12 +59,13 @@
     --shadow-glow: 0 0 40px hsl(var(--accent) / 0.15);
 
     /* Professional Animations */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    --transition-bounce: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
-    /* Luxury Typography Scale: Clean geometric Montserrat combined with Lato body */
-    --font-display: 'Montserrat', sans-serif;
-    --font-body: 'Lato', sans-serif;
+    /* Luxury Typography Scale: Archivo display paired with Manrope body */
+    --font-display: 'Archivo', sans-serif;
+    --font-body: 'Manrope', sans-serif;
+    --font-sans: 'Manrope', sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
 
     --sidebar-background: 220 12% 11%;
     --sidebar-foreground: 40 25% 97%;
@@ -149,7 +148,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-family: var(--font-sans);
+    font-family: var(--font-display);
     font-weight: 700;
     font-size: 0.75rem;
     text-transform: uppercase;
@@ -180,7 +179,7 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-family: var(--font-sans);
+    font-family: var(--font-display);
     font-weight: 700;
     font-size: 0.75rem;
     text-transform: uppercase;
@@ -354,10 +353,6 @@
     transition: var(--transition-smooth);
   }
 
-  .transition-bounce {
-    transition: var(--transition-bounce);
-  }
-
   /* Premium Micro-Animations */
   .hover-card-premium {
     transition: var(--transition-smooth);
@@ -425,6 +420,54 @@
     opacity: 1;
     transform: translate3d(0, 0, 0);
   }
+}
+
+/* --------------------------------------------------------------------------
+   Accessibility & legibility floor
+   -------------------------------------------------------------------------- */
+
+/* No persistent UI label should render below 11px, whatever the utility says. */
+@layer utilities {
+  .text-\[7px\],
+  .text-\[8px\],
+  .text-\[9px\] {
+    font-size: 0.6875rem !important;
+    line-height: 1.35 !important;
+  }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.25s ease-out both;
+}
+
+/* Never hide content from users who ask for reduced motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+
+  .reveal-line,
+  .bento-card,
+  .loader-letter {
+    opacity: 1 !important;
+    transform: none !important;
+  }
+}
+
+/* Visible focus for keyboard users across the site. */
+:focus-visible {
+  outline: 2px solid hsl(var(--accent));
+  outline-offset: 2px;
 }
 
 /* ==========================================================================
@@ -511,4 +554,121 @@
 .custom-luxury-marker {
   background: transparent !important;
   border: none !important;
+}
+
+/* Hide scrollbar for smooth touch carousels */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Open Design Double-Bezel Hardware Plate Architecture */
+.luxury-plate {
+  position: relative;
+  background-color: rgba(10, 12, 16, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.08), 0 20px 40px rgba(0, 0, 0, 0.5);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.luxury-plate:hover {
+  border-color: rgba(223, 186, 72, 0.3);
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.12), 0 25px 50px rgba(223, 186, 72, 0.06), 0 0 40px rgba(0, 0, 0, 0.6);
+}
+
+/* High-Ticket Enterprise Client Dossier Print Stylesheet */
+@media print {
+  header,
+  footer,
+  nav,
+  .luxury-header,
+  .leaflet-control-container,
+  button,
+  .no-print {
+    display: none !important;
+  }
+
+  body {
+    background-color: #ffffff !important;
+    color: #111111 !important;
+    font-size: 11pt !important;
+  }
+
+  .bg-\[\#0c0d10\],
+  .bg-\[\#0a0c10\],
+  .bg-\[\#0d0f14\],
+  .bg-\[\#121318\] {
+    background: transparent !important;
+    color: #111111 !important;
+    border-color: #e5e5e5 !important;
+    box-shadow: none !important;
+  }
+
+  .text-white,
+  .text-white\/80,
+  .text-white\/70,
+  .text-white\/60,
+  .text-white\/50 {
+    color: #222222 !important;
+  }
+
+  .text-accent {
+    color: #8b6b15 !important;
+    font-weight: bold !important;
+  }
+
+  img {
+    max-width: 100% !important;
+    page-break-inside: avoid;
+  }
+}
+
+/* ==========================================================================
+   Universal Invisible Scrollbars for Mobile Touch Containers
+   ========================================================================== */
+.no-scrollbar::-webkit-scrollbar,
+.scrollbar-none::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
+.no-scrollbar,
+.scrollbar-none {
+  -ms-overflow-style: none !important;
+  scrollbar-width: none !important;
+}
+
+/* ==========================================================================
+   Luxury Horizontal Scrollbar for Desktop/Tablet Scrollable Strips
+   Frosted Platinum / Crisp White finish to cleanly contrast with Gold Selection
+   ========================================================================== */
+.luxury-scrollbar-x {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255, 255, 255, 0.28) rgba(12, 13, 16, 0.85);
+}
+
+.luxury-scrollbar-x::-webkit-scrollbar {
+  height: 4px;
+}
+
+.luxury-scrollbar-x::-webkit-scrollbar-track {
+  background: rgba(12, 13, 16, 0.85);
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.luxury-scrollbar-x::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  transition: all 0.2s ease;
+}
+
+.luxury-scrollbar-x::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(255, 255, 255, 0.85);
 }

@@ -8,9 +8,12 @@ import { useProperties } from '@/context/PropertyContext';
 import SEOHead from '@/components/SEO/SEOHead';
 import { toast } from 'sonner';
 import MagneticButton from '@/components/ui/MagneticButton';
+import siteConfig from '@/config/site';
+import { interpolate } from '@/i18n';
 
 export default function ContactPage() {
-  const { t, language } = useLanguage();
+  const { t, language, content } = useLanguage();
+  const copy = content.contact;
   const { properties } = useProperties();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -18,12 +21,24 @@ export default function ContactPage() {
   const [selectedProperty, setSelectedProperty] = useState('');
   const [message, setMessage] = useState('');
   const [loading, setLoading] = useState(false);
-  const [crmLead, setCrmLead] = useState<any | null>(null);
+  const [crmLead, setCrmLead] = useState<{
+    leadId: string;
+    fullName: string;
+    emailAddress: string;
+    phoneNumber: string;
+    propertyInterest: string;
+    messageContent: string;
+    timestamp: string;
+    source: string;
+    crmStatus: string;
+    ipAddress: string;
+    leadScore: string;
+  } | null>(null);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!name || !email || !phone) {
-      toast.error(language === 'en' ? 'Please fill out all required fields.' : 'Por favor llene todos los campos requeridos.');
+      toast.error(t('contact.required'));
       return;
     }
 
@@ -37,7 +52,7 @@ export default function ContactPage() {
         fullName: name,
         emailAddress: email,
         phoneNumber: phone,
-        propertyInterest: selectedProperty || 'General Inquiry',
+        propertyInterest: selectedProperty || copy.generalInquiry,
         messageContent: message,
         timestamp: new Date().toLocaleString(),
         source: 'Luxury Web Inbound',
@@ -61,9 +76,9 @@ export default function ContactPage() {
   return (
     <div className="min-h-screen bg-[#0c0d10] text-white pt-28 pb-20 relative overflow-hidden">
       <SEOHead
-        title="Inquire & Connect | Kinash Associates"
-        description="Connect with the luxury real estate and construction team at Kinash Associates. Request consultation, brochure downloads, or schedule site visits."
-        keywords="contact construction, real estate agent dehradun, luxury property inquiry"
+        title={copy.meta.title}
+        description={copy.meta.description}
+        keywords={copy.meta.keywords}
         canonical="/contact"
       />
 
@@ -79,10 +94,10 @@ export default function ContactPage() {
         {/* Header Block */}
         <div className="text-left max-w-3xl mb-16">
           <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold mb-4 block">
-            {language === 'en' ? 'Get In Touch' : language === 'es' ? 'Contacto' : 'Kontakt'}
+            {copy.eyebrow}
           </span>
           <h1 className="text-4xl md:text-6xl font-display font-medium text-white mb-6 leading-none">
-            Establish a Secure <span className="bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent italic font-light">Connection</span>.
+            {copy.headline} <span className="text-accent italic font-light">{copy.headlineAccent}</span>
           </h1>
           <p className="text-xs text-white/50 leading-relaxed font-light max-w-xl">
             {t('contact.subtitle')}
@@ -97,7 +112,7 @@ export default function ContactPage() {
               <div className="absolute bottom-0 right-0 w-2.5 h-2.5 border-b border-r border-accent/40" />
               
               <h3 className="text-xl font-display font-medium mb-8 text-white">
-                Kinash Headquarters
+                {copy.headquarters}
               </h3>
               
               <div className="space-y-6">
@@ -107,10 +122,10 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h4 className="text-[8px] font-mono text-white/40 uppercase tracking-widest mb-1.5">
-                      {language === 'en' ? 'Address' : 'Dirección'}
+                      {copy.addressLabel}
                     </h4>
                     <p className="text-sm text-white/80 font-light leading-relaxed">
-                      Dehradun, Uttarakhand, India
+                      {siteConfig.contact.address}, {siteConfig.contact.city}, {siteConfig.contact.country}
                     </p>
                   </div>
                 </div>
@@ -121,10 +136,10 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h4 className="text-[8px] font-mono text-white/40 uppercase tracking-widest mb-1.5">
-                      {language === 'en' ? 'Phone Support' : 'Soporte'}
+                      {copy.phoneLabel}
                     </h4>
-                    <a href="tel:+911352779000" className="text-sm text-accent hover:text-accent-glow font-bold tracking-wide">
-                      +91 135 277 9000
+                    <a href={`tel:${siteConfig.contact.phone.replace(/\s/g, '')}`} className="text-sm text-accent hover:text-accent-glow font-bold tracking-wide">
+                      {siteConfig.contact.phoneFormatted}
                     </a>
                   </div>
                 </div>
@@ -135,10 +150,10 @@ export default function ContactPage() {
                   </div>
                   <div>
                     <h4 className="text-[8px] font-mono text-white/40 uppercase tracking-widest mb-1.5">
-                      {language === 'en' ? 'Email Address' : 'Correo'}
+                      {copy.emailLabel}
                     </h4>
-                    <a href="mailto:contact@kinash.luxury" className="text-sm text-white/80 hover:text-accent transition-colors font-light">
-                      contact@kinash.luxury
+                    <a href={`mailto:${siteConfig.contact.email}`} className="text-sm text-white/80 hover:text-accent transition-colors font-light">
+                      {siteConfig.contact.email}
                     </a>
                   </div>
                 </div>
@@ -147,7 +162,7 @@ export default function ContactPage() {
               <div className="border-t border-white/5 mt-10 pt-8 flex items-center gap-3">
                 <Award className="text-accent" size={20} />
                 <span className="text-[10px] text-white/50 tracking-wider font-light">
-                  {language === 'en' ? 'Government Registered & ISO Certified' : 'Certificación ISO y Registro Gubernamental'}
+                  {copy.certification}
                 </span>
               </div>
             </div>
@@ -158,10 +173,10 @@ export default function ContactPage() {
               <ShieldCheck className="text-accent flex-shrink-0" size={20} />
               <div>
                 <h4 className="font-display font-medium text-white text-xs mb-1">
-                  Corporate Database Protection Active
+                  {copy.securityTitle}
                 </h4>
                 <p className="text-[10px] text-white/50 leading-relaxed font-light">
-                  All communication is fully encrypted using TLS 1.3 protocol and dispatched directly to Kinash Associates' private corporate directory. Your data privacy is strictly protected.
+                  {copy.securityBody}
                 </p>
               </div>
             </div>
@@ -174,7 +189,7 @@ export default function ContactPage() {
               <div className="absolute bottom-0 right-0 w-2.5 h-2.5 border-b border-r border-accent/40" />
 
               <h3 className="text-xl font-display font-medium text-white mb-8">
-                {language === 'en' ? 'Direct Property Inquiry' : 'Consulta Directa de Propiedad'}
+                {copy.formTitle}
               </h3>
 
               <form onSubmit={handleSubmit} className="space-y-6">
@@ -185,7 +200,7 @@ export default function ContactPage() {
                     </label>
                     <Input
                       required
-                      placeholder="Enter full name"
+                      placeholder={copy.placeholderName}
                       value={name}
                       onChange={(e) => setName(e.target.value)}
                       className="border border-white/10 rounded-none bg-[#0c0d10]/50 py-3.5 px-4 text-xs text-white placeholder:text-white/20 focus:border-accent focus:outline-none"
@@ -198,7 +213,7 @@ export default function ContactPage() {
                     <Input
                       required
                       type="email"
-                      placeholder="E.g. name@domain.com"
+                      placeholder={copy.placeholderEmail}
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
                       className="border border-white/10 rounded-none bg-[#0c0d10]/50 py-3.5 px-4 text-xs text-white placeholder:text-white/20 focus:border-accent focus:outline-none"
@@ -213,7 +228,7 @@ export default function ContactPage() {
                     </label>
                     <Input
                       required
-                      placeholder="E.g. +91 135 277 9000"
+                      placeholder={copy.placeholderPhone}
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
                       className="border border-white/10 rounded-none bg-[#0c0d10]/50 py-3.5 px-4 text-xs text-white placeholder:text-white/20 focus:border-accent focus:outline-none"
@@ -221,14 +236,14 @@ export default function ContactPage() {
                   </div>
                   <div className="relative">
                     <label className="absolute top-[-8px] left-3 bg-[#0a0c10] px-1.5 font-mono text-[7px] text-accent/60 uppercase tracking-widest select-none">
-                      {language === 'en' ? 'Property of Interest' : 'Propiedad de Interés'}
+                      {copy.propertyInterest}
                     </label>
                     <select
                       value={selectedProperty}
                       onChange={(e) => setSelectedProperty(e.target.value)}
                       className="w-full border border-white/10 rounded-none py-3.5 px-4 text-xs bg-[#0c0d10]/50 text-white focus:border-accent focus:outline-none"
                     >
-                      <option value="">{language === 'en' ? '-- Select Listing (Optional) --' : '-- Seleccionar --'}</option>
+                      <option value="">{copy.selectPlaceholder}</option>
                       {properties.map((p) => (
                         <option key={p.id} value={p.title}>
                           {p.title}
@@ -243,7 +258,7 @@ export default function ContactPage() {
                     {t('contact.message')}
                   </label>
                   <Textarea
-                    placeholder={language === 'en' ? 'Describe your requirements, preferred calling times, or questions...' : 'Describa sus requisitos...'}
+                    placeholder={copy.placeholderMessage}
                     value={message}
                     onChange={(e) => setMessage(e.target.value)}
                     rows={4}
@@ -255,10 +270,10 @@ export default function ContactPage() {
                   <Button
                     type="submit"
                     disabled={loading}
-                    className="w-full btn-luxury-gold bg-accent text-[#0c0d10] border-transparent font-bold py-4 rounded-none uppercase text-[9px] tracking-widest flex items-center justify-center gap-2 hover:bg-accent-glow"
+                    className="w-full h-13 sm:h-14 bg-accent text-[#0c0d10] hover:bg-accent-glow border border-accent hover:border-accent-glow font-display font-black text-xs uppercase tracking-[0.2em] rounded-none flex items-center justify-center gap-2 group transition-all shadow-[0_10px_30px_rgba(223,186,72,0.25)]"
                   >
-                    {loading ? t('contact.submitting') : t('contact.submit')}
-                    <ArrowRight size={12} />
+                    <span>{loading ? t('contact.submitting') : t('contact.submit')}</span>
+                    <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
                   </Button>
                 </MagneticButton>
               </form>
@@ -273,27 +288,27 @@ export default function ContactPage() {
                   <div className="flex items-center gap-2">
                     <Award className="text-accent animate-pulse" size={16} />
                     <span className="font-mono text-[9px] tracking-wider uppercase text-white/80">
-                      Inquiry Security Registry
+                      {copy.registryTitle}
                     </span>
                   </div>
                   <span className="text-[8px] bg-accent/10 text-accent border border-accent/30 px-3 py-1 font-mono tracking-widest uppercase">
-                    OFFICIAL SUBMISSION LOGGED
+                    {copy.registryBadge}
                   </span>
                 </div>
 
                 <p className="text-xs text-white/70 leading-relaxed mb-6 font-light">
-                  Your inquiry has been cataloged under Reference ID <strong className="text-white font-mono">{crmLead.leadId}</strong>. A dedicated Kinash portfolio representative is being allocated to compile your requested information, site plans, and custom pricing arrays.
+                  {interpolate(copy.registryBody, { id: crmLead.leadId })}
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-[9px] font-mono border-t border-white/5 pt-6 uppercase tracking-wider">
                   <div>
-                    <span className="text-white/40 block mb-0.5">Assigned Officer Status</span>
+                    <span className="text-white/40 block mb-0.5">{copy.officerLabel}</span>
                     <span className="text-green-400 font-bold flex items-center gap-1.5 mt-0.5">
-                      <CheckCircle2 size={12} className="text-green-400" /> Allocation In Progress
+                      <CheckCircle2 size={12} className="text-green-400" /> {copy.officerStatus}
                     </span>
                   </div>
                   <div>
-                    <span className="text-white/40 block mb-0.5">Target Portfolio Segment</span>
+                    <span className="text-white/40 block mb-0.5">{copy.segmentLabel}</span>
                     <span className="text-white font-semibold">{crmLead.propertyInterest}</span>
                   </div>
                 </div>

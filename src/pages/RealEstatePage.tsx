@@ -3,74 +3,42 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import MagneticButton from '@/components/ui/MagneticButton';
 import SEOHead from '@/components/SEO/SEOHead';
+import { useLanguage } from '@/context/LanguageContext';
+import { statValue } from '@/lib/stat';
 
 // High-end real estate and commercial photography URLs
 const luxuryRealEstateImage = "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=1600&h=900&fit=crop";
 const luxuryOfficeImage = "https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&h=600&fit=crop";
 const luxuryIndustrialImage = "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?w=800&h=600&fit=crop";
 
+const serviceIcons = [Search, TrendingUp, Key, Home];
+const statIcons = [DollarSign, Home, Award, Users];
+
 const RealEstatePage = () => {
-  const services = [
-    {
-      icon: Search,
-      title: 'Property Acquisition',
-      description: 'Expert guidance in finding and acquiring the perfect property for your needs and investment goals.',
-      features: ['Market Analysis', 'Property Evaluation', 'Negotiation Support', 'Due Diligence']
-    },
-    {
-      icon: TrendingUp,
-      title: 'Investment Advisory',
-      description: 'Strategic real estate investment consulting to maximize returns and build wealth through property.',
-      features: ['Investment Strategy', 'Market Research', 'Portfolio Analysis', 'Risk Assessment']
-    },
-    {
-      icon: Key,
-      title: 'Property Management',
-      description: 'Comprehensive property management services to optimize performance and tenant satisfaction.',
-      features: ['Tenant Management', 'Maintenance Coordination', 'Financial Reporting', 'Asset Optimization']
-    },
-    {
-      icon: Home,
-      title: 'Development Consulting',
-      description: 'From concept to completion, we guide real estate development projects to successful outcomes.',
-      features: ['Site Selection', 'Feasibility Studies', 'Project Planning', 'Market Positioning']
-    }
-  ];
+  const { content, currency } = useLanguage();
+  const copy = content.realEstate;
 
-  const propertyTypes = [
-    {
-      title: 'Commercial Estates',
-      description: 'Office buildings, retail spaces, and industrial properties for business investment.',
-      image: luxuryOfficeImage,
-      features: ['Office Buildings', 'Retail Centers', 'Warehouses', 'Mixed-Use']
-    },
-    {
-      title: 'Residential Mansions',
-      description: 'Luxury homes, condominiums, and residential developments for personal and investment use.',
-      image: luxuryRealEstateImage,
-      features: ['Luxury Homes', 'Condominiums', 'Townhouses', 'Rental Properties']
-    },
-    {
-      title: 'Industrial Facilities',
-      description: 'Manufacturing facilities, distribution centers, and specialized industrial spaces.',
-      image: luxuryIndustrialImage,
-      features: ['Manufacturing', 'Distribution', 'R&D Facilities', 'Flex Space']
-    }
-  ];
+  const services = copy.services.map((service, idx) => ({
+    ...service,
+    icon: serviceIcons[idx],
+  }));
 
-  const marketStats = [
-    { icon: DollarSign, value: '₹200Cr+', label: 'Valuation Managed' },
-    { icon: Home, value: '1,200+', label: 'Successful Transactions' },
-    { icon: Award, value: '98%', label: 'Client Satisfaction' },
-    { icon: Users, value: '500+', label: 'Active Clients' }
-  ];
+  const propertyTypes = copy.types.map((type, idx) => ({
+    ...type,
+    image: [luxuryOfficeImage, luxuryRealEstateImage, luxuryIndustrialImage][idx],
+  }));
+
+  const marketStats = copy.stats.map((stat, idx) => ({
+    ...stat,
+    icon: statIcons[idx],
+  }));
 
   return (
-    <div className="min-h-screen bg-[#0c0d10] text-white pt-28 pb-16 relative overflow-hidden">
+    <div className="min-h-screen bg-[#0c0d10] text-white pt-20 sm:pt-24 lg:pt-28 pb-16 relative overflow-hidden">
       <SEOHead
-        title="Luxury Real Estate Portfolio | Kinash Associates"
-        description="Connect with real estate acquisition and advisory services by Kinash Associates. Commercial complexes, private residential mansions."
-        keywords="luxury property dehradun, real estate broker uttarakhand, property acquisition registry"
+        title={copy.meta.title}
+        description={copy.meta.description}
+        keywords={copy.meta.keywords}
         canonical="/real-estate"
       />
 
@@ -83,7 +51,7 @@ const RealEstatePage = () => {
       </div>
 
       {/* Hero Section */}
-      <section className="relative py-32 overflow-hidden border-b border-white/5">
+      <section className="relative py-10 sm:py-20 lg:py-32 overflow-hidden border-b border-white/5">
         <div 
           className="absolute inset-0 bg-cover bg-center opacity-30 blur-[1px]"
           style={{ backgroundImage: `url(${luxuryRealEstateImage})` }}
@@ -91,28 +59,29 @@ const RealEstatePage = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-[#0c0d10] via-[#0c0d10]/90 to-transparent" />
         
         <div className="relative z-10 container mx-auto px-4 md:px-8 max-w-5xl">
-          <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-4">
-            real estate advisory
+          <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-2.5 sm:mb-4">
+            {copy.eyebrow}
           </span>
-          <h1 className="text-4xl md:text-6xl font-display font-medium text-white mb-6 leading-none">
-            Strategic Acquisitions, <span className="bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent italic font-light">Asset</span> Optimization.
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-medium text-white mb-3.5 sm:mb-6 leading-[1.1] sm:leading-none">
+            {copy.title} <span className="text-accent italic font-light">{copy.titleAccent}</span>
           </h1>
-          <p className="text-xs sm:text-sm text-white/60 mb-8 leading-relaxed max-w-xl font-light">
-            We source, manage, and scale prime real estate assets across North India, prioritizing secure titles, high occupancy yields, and premium capital gains.
+          <p className="text-xs sm:text-sm text-white/60 mb-6 sm:mb-8 leading-relaxed max-w-xl font-light">
+            {copy.intro}
           </p>
-          <div className="flex flex-col sm:flex-row gap-6">
-            <Link to="/properties">
-              <MagneticButton strength={20} as="div">
-                <Button className="btn-luxury-gold bg-accent text-[#0c0d10] border-transparent font-bold py-4 px-10 rounded-none uppercase text-[9px] tracking-widest hover:bg-accent-glow">
-                  Explore Opportunities
-                </Button>
-              </MagneticButton>
-            </Link>
-            <Link to="/contact">
-              <Button className="btn-luxury-outline border-white/20 text-white hover:bg-white hover:text-black rounded-none py-4 px-10 uppercase text-[9px] tracking-widest font-bold">
-                Schedule Consultation
+          <div className="flex flex-row gap-2.5 sm:gap-5 w-full max-w-md">
+            <MagneticButton strength={15} className="flex-1 sm:flex-initial" as="div">
+              <Button asChild className="w-full sm:w-auto h-11 sm:h-14 px-3 sm:px-8 py-3 sm:py-4 bg-accent text-[#0c0d10] hover:bg-accent-glow font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-accent hover:border-accent-glow shadow-[0_10px_30px_rgba(223,186,72,0.25)] flex items-center justify-center gap-1.5 sm:gap-2 group transition-all whitespace-nowrap">
+                <Link to="/properties">
+                  <span>{copy.heroCtaPrimary}</span>
+                  <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform duration-300" />
+                </Link>
               </Button>
-            </Link>
+            </MagneticButton>
+            <MagneticButton strength={15} className="flex-1 sm:flex-initial" as="div">
+              <Button asChild className="w-full sm:w-auto h-11 sm:h-14 px-3 sm:px-8 py-3 sm:py-4 bg-transparent text-white hover:bg-white hover:text-[#0c0d10] font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-white/20 hover:border-white transition-all flex items-center justify-center whitespace-nowrap">
+                <Link to="/contact">{copy.heroCtaSecondary}</Link>
+              </Button>
+            </MagneticButton>
           </div>
         </div>
       </section>
@@ -122,10 +91,10 @@ const RealEstatePage = () => {
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-3xl mb-16">
             <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-3">
-              services
+              {copy.servicesEyebrow}
             </span>
             <h2 className="text-3xl font-display font-medium text-white">
-              Advisory Solutions
+              {copy.servicesTitle}
             </h2>
           </div>
           
@@ -169,10 +138,10 @@ const RealEstatePage = () => {
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-3xl mb-16">
             <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-3">
-              classifications
+              {copy.typesEyebrow}
             </span>
             <h2 className="text-3xl font-display font-medium text-white">
-              Property Specializations
+              {copy.typesTitle}
             </h2>
           </div>
           
@@ -184,8 +153,7 @@ const RealEstatePage = () => {
               >
                 <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-accent/30" />
                 <div className="relative aspect-[4/3] overflow-hidden bg-[#0d0f14] border-b border-white/5">
-                  <img 
-                    src={type.image} 
+                  <img loading="lazy" decoding="async" src={type.image} 
                     alt={type.title}
                     className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
                   />
@@ -220,10 +188,10 @@ const RealEstatePage = () => {
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-3xl mb-16">
             <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-3">
-              proven track record
+              {copy.statsEyebrow}
             </span>
             <h2 className="text-3xl font-display font-medium text-white">
-              Market Leadership
+              {copy.statsTitle}
             </h2>
           </div>
           
@@ -235,7 +203,7 @@ const RealEstatePage = () => {
               >
                 <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-accent/30" />
                 <div className="text-2xl sm:text-3xl font-display font-medium text-accent mb-2">
-                  {stat.value}
+                  {statValue(stat, currency.code)}
                 </div>
                 <div className="text-[9px] font-mono uppercase tracking-widest text-white/40 font-bold">
                   {stat.label}
@@ -251,27 +219,28 @@ const RealEstatePage = () => {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(223,186,72,0.05),transparent_40%)] pointer-events-none" />
         <div className="container mx-auto px-4 md:px-8 text-center relative z-10 max-w-3xl">
           <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-4">
-            secure access
+            {copy.ctaEyebrow}
           </span>
           <h2 className="text-3xl sm:text-5xl font-display font-medium text-white mb-6 leading-none">
-            Scale Your Property <span className="bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent italic font-light">Equity</span>.
+            {copy.ctaTitle} <span className="text-accent italic font-light">{copy.ctaAccent}</span>
           </h2>
           <p className="text-xs text-white/55 leading-relaxed font-light mb-10 max-w-md mx-auto">
-            Book an orientation session with a senior real estate director to evaluate active catalog yields and secure immediate registry title allocations.
+            {copy.ctaBody}
           </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <Link to="/properties" className="w-full sm:w-auto">
-              <MagneticButton strength={20} className="w-full" as="div">
-                <Button className="btn-luxury-gold bg-accent text-[#0c0d10] border-transparent font-bold py-4 px-10 rounded-none uppercase text-[9px] tracking-widest hover:bg-accent-glow w-full">
-                  Explore Opportunities
-                </Button>
-              </MagneticButton>
-            </Link>
-            <Link to="/contact" className="w-full sm:w-auto">
-              <Button className="btn-luxury-outline border-white/20 text-white hover:bg-white hover:text-black rounded-none py-4 px-10 w-full uppercase text-[9px] tracking-widest font-bold">
-                Request Consultation
+          <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-5 justify-center items-stretch sm:items-center">
+            <MagneticButton strength={20} className="w-full sm:w-auto" as="div">
+              <Button asChild className="w-full sm:w-auto h-13 sm:h-14 px-8 py-4 bg-accent text-[#0c0d10] hover:bg-accent-glow font-display font-black text-xs uppercase tracking-[0.2em] rounded-none border border-accent hover:border-accent-glow shadow-[0_10px_30px_rgba(223,186,72,0.25)] flex items-center justify-center gap-2 group transition-all">
+                <Link to="/properties">
+                  <span>{copy.ctaPrimary}</span>
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+                </Link>
               </Button>
-            </Link>
+            </MagneticButton>
+            <MagneticButton strength={20} className="w-full sm:w-auto" as="div">
+              <Button asChild className="w-full sm:w-auto h-13 sm:h-14 px-8 py-4 bg-transparent text-white hover:bg-white hover:text-[#0c0d10] font-display font-black text-xs uppercase tracking-[0.2em] rounded-none border border-white/20 hover:border-white transition-all flex items-center justify-center">
+                <Link to="/contact">{copy.ctaSecondary}</Link>
+              </Button>
+            </MagneticButton>
           </div>
         </div>
       </section>

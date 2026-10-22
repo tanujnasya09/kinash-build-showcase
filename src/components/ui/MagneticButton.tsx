@@ -4,19 +4,23 @@ import gsap from 'gsap';
 interface MagneticButtonProps {
   children: React.ReactNode;
   className?: string;
+  containerClassName?: string;
   onClick?: () => void;
   strength?: number; // pull strength (0 to 1)
   type?: 'button' | 'submit';
   as?: React.ElementType;
+  ariaLabel?: string;
 }
 
 export default function MagneticButton({
   children,
   className = '',
+  containerClassName = '',
   onClick,
   strength = 30,
   type = 'button',
   as: Component = 'button',
+  ariaLabel,
 }: MagneticButtonProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const elementRef = useRef<HTMLElement>(null);
@@ -25,6 +29,11 @@ export default function MagneticButton({
     const container = containerRef.current;
     const element = elementRef.current;
     if (!container || !element) return;
+
+    // No magnetic pull for touch-only devices or motion-sensitive users.
+    const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (!finePointer || prefersReducedMotion) return;
 
     const handleMouseMove = (e: MouseEvent) => {
       const rect = container.getBoundingClientRect();
@@ -45,8 +54,8 @@ export default function MagneticButton({
       gsap.to(element, {
         x: 0,
         y: 0,
-        duration: 0.8,
-        ease: 'elastic.out(1, 0.3)',
+        duration: 0.5,
+        ease: 'power3.out',
       });
     };
 
@@ -56,14 +65,22 @@ export default function MagneticButton({
     return () => {
       container.removeEventListener('mousemove', handleMouseMove);
       container.removeEventListener('mouseleave', handleMouseLeave);
+      gsap.killTweensOf(element);
+      gsap.set(element, { clearProps: 'transform' });
     };
   }, [strength]);
 
+  const isFullWidth = className.includes('w-full') || containerClassName.includes('w-full');
+
   return (
-    <div ref={containerRef} className="inline-block p-4 -m-4">
+    <div
+      ref={containerRef}
+      className={`${isFullWidth ? 'w-full sm:w-auto block sm:inline-block' : 'inline-block'} ${containerClassName}`}
+    >
       <Component
         ref={elementRef}
         {...(Component === 'button' ? { type, onClick } : { onClick })}
+        aria-label={ariaLabel}
         className={`relative select-none ${className}`}
         style={{ transformStyle: 'preserve-3d' }}
       >

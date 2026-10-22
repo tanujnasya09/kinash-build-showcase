@@ -1,28 +1,54 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { useParams, Link } from "react-router-dom";
 import {
   MapPin, CheckCircle, Phone, X, Share2, Heart, Eye, Calendar, Home, Bed,
   Bath, Car, ArrowLeft, Play, Camera, ChevronLeft, ChevronRight, Maximize2,
-  FileText, Download, Compass, ShieldAlert, Award, Sparkles, RefreshCw
+  FileText, Download, Compass, ShieldAlert, Award, Sparkles, RefreshCw,
+  Calculator, Printer, TrendingUp
 } from "lucide-react";
 import { useProperties } from "@/context/PropertyContext";
 import { useLanguage } from "@/context/LanguageContext";
+import { formatPrice, parseAmount } from "@/lib/currency";
 import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
 import SEOHead from "@/components/SEO/SEOHead";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import MagneticButton from "@/components/ui/MagneticButton";
+import { siteConfig } from "@/config/site";
 
-// Helper: Get YouTube Embed URL
-function getYouTubeEmbedUrl(link: string | undefined) {
+// Helper: Get Video Embed or File Info
+function getVideoInfo(link: string | undefined) {
   if (!link) return null;
-  const match = link.match(/(?:v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/);
-  return match ? `https://www.youtube.com/embed/${match[1]}?autoplay=0&rel=0` : null;
+  // YouTube
+  const ytMatch = link.match(/(?:v=|\/embed\/|\.be\/)([a-zA-Z0-9_-]{11})/);
+  if (ytMatch) {
+    return {
+      type: 'youtube' as const,
+      url: `https://www.youtube.com/embed/${ytMatch[1]}?autoplay=0&rel=0`
+    };
+  }
+  // Vimeo
+  const vimeoMatch = link.match(/vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)/);
+  if (vimeoMatch) {
+    return {
+      type: 'vimeo' as const,
+      url: `https://player.vimeo.com/video/${vimeoMatch[1]}`
+    };
+  }
+  // Direct video file (mp4, webm, ogg)
+  if (link.match(/\.(mp4|webm|ogg)($|\?)/i)) {
+    return {
+      type: 'file' as const,
+      url: link
+    };
+  }
+  return null;
 }
 
 export default function PropertyDetails() {
   const { id } = useParams();
   const { properties } = useProperties();
-  const { t, language } = useLanguage();
+  const { t, language, currency } = useLanguage();
 
   // Find property by slug
   const property = properties.find((p) => p.slug.toString() === id);
@@ -31,6 +57,46 @@ export default function PropertyDetails() {
   const [isGalleryOpen, setIsGalleryOpen] = useState(false);
   const [activeTab, setActiveTab] = useState('overview');
   const [isLiked, setIsLiked] = useState(false);
+
+  // Tabs horizontal scroll states and refs
+  const tabsScrollRef = useRef<HTMLDivElement>(null);
+  const [canScrollLeft, setCanScrollLeft] = useState(false);
+  const [canScrollRight, setCanScrollRight] = useState(false);
+
+  const checkTabsScroll = useCallback(() => {
+    if (tabsScrollRef.current) {
+      const { scrollLeft, scrollWidth, clientWidth } = tabsScrollRef.current;
+      setCanScrollLeft(scrollLeft > 6);
+      setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 6);
+    }
+  }, []);
+
+  useEffect(() => {
+    checkTabsScroll();
+    const el = tabsScrollRef.current;
+    if (el) {
+      el.addEventListener('scroll', checkTabsScroll, { passive: true });
+      window.addEventListener('resize', checkTabsScroll);
+      return () => {
+        el.removeEventListener('scroll', checkTabsScroll);
+        window.removeEventListener('resize', checkTabsScroll);
+      };
+    }
+  }, [checkTabsScroll]);
+
+  const scrollTabs = (direction: 'left' | 'right') => {
+    if (tabsScrollRef.current) {
+      tabsScrollRef.current.scrollBy({
+        left: direction === 'left' ? -220 : 220,
+        behavior: 'smooth'
+      });
+    }
+  };
+
+  const handleTabSelect = (e: React.MouseEvent<HTMLButtonElement>, tabId: string) => {
+    setActiveTab(tabId);
+    e.currentTarget.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+  };
 
   // Brochure Modal State
   const [isBrochureOpen, setIsBrochureOpen] = useState(false);
@@ -42,7 +108,33 @@ export default function PropertyDetails() {
   const [isTourFullscreen, setIsTourFullscreen] = useState(false);
   const [tourHotspot, setTourHotspot] = useState('main');
 
+  // Wealth & Mortgage Workbench State
+  const [downPaymentPercent, setDownPaymentPercent] = useState(25);
+  const [interestRate, setInterestRate] = useState(8.5);
+  const [loanTenureYears, setLoanTenureYears] = useState(20);
+  const [expectedAppreciation, setExpectedAppreciation] = useState(9);
+
+  // Mortgage calculations using parsed numeric amount
+  const rawNumPrice = parseAmount(property?.price || 0);
+  const effectivePrice = rawNumPrice < 100000 && rawNumPrice > 0 ? rawNumPrice * 200 : (rawNumPrice || 5000000);
+  const downPaymentAmount = Math.round(effectivePrice * (downPaymentPercent / 100));
+  const loanPrincipal = Math.max(0, effectivePrice - downPaymentAmount);
+  const monthlyRate = (interestRate / 100) / 12;
+  const totalMonths = loanTenureYears * 12;
+  const monthlyEMI = monthlyRate > 0 && totalMonths > 0
+    ? Math.round((loanPrincipal * monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) / (Math.pow(1 + monthlyRate, totalMonths) - 1))
+    : Math.round(loanPrincipal / (totalMonths || 1));
+  const totalRepayment = monthlyEMI * totalMonths;
+  const totalInterest = Math.max(0, totalRepayment - loanPrincipal);
+  const estimatedValue5Yr = Math.round(effectivePrice * Math.pow(1 + expectedAppreciation / 100, 5));
+  const projectedGain5Yr = Math.max(0, estimatedValue5Yr - effectivePrice);
+
   const handleLaunchTour = () => {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      setIsTourActive(true);
+      setIsTourLoading(false);
+      return;
+    }
     setIsTourLoading(true);
     setIsTourActive(true);
     setTimeout(() => {
@@ -53,9 +145,9 @@ export default function PropertyDetails() {
   if (!property) {
     return (
       <div className="container py-32 text-center text-white bg-[#0c0d10] min-h-screen flex flex-col justify-center items-center">
-        <h1 className="text-3xl font-display font-medium text-accent">Property Not Found</h1>
+        <h1 className="text-3xl font-display font-medium text-accent">{t('detail.notFound')}</h1>
         <Link to="/properties" className="text-white/60 font-mono text-xs uppercase tracking-widest mt-6 block hover:text-accent transition-colors">
-          Return to Properties Directory
+          {t('detail.backToDirectory')}
         </Link>
       </div>
     );
@@ -72,7 +164,7 @@ export default function PropertyDetails() {
     facing: language === 'en' ? property.specs.facing : property.translations?.[language]?.specsFacing || property.specs.facing
   };
 
-  const youtubeUrl = getYouTubeEmbedUrl(property.videoLink);
+  const videoInfo = getVideoInfo(property.videoLink);
   const hasImages = property.images && property.images.length > 0;
 
   const nextImage = () => {
@@ -94,7 +186,7 @@ export default function PropertyDetails() {
       // Simulate PDF prospectus downloading
       const link = document.createElement('a');
       link.href = 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
-      link.setAttribute('download', `Kinash_${property.slug}_Brochure.pdf`);
+      link.setAttribute('download', `Apex_${property.slug}_Brochure.pdf`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -103,11 +195,11 @@ export default function PropertyDetails() {
   };
 
   return (
-    <section className="min-h-screen bg-[#0c0d10] text-white pt-28 pb-20 relative overflow-hidden">
+    <section className="min-h-screen bg-[#0c0d10] text-white pt-24 sm:pt-28 pb-36 lg:pb-20 relative overflow-x-clip">
       <SEOHead
-        title={`${displayTitle} | Kinash Associates`}
+        title={`${displayTitle} | Apex Luxury`}
         description={displayDesc}
-        keywords={`${displayTitle}, property dehradun, kinash listings`}
+        keywords={`${displayTitle}, property dehradun, apex listings`}
         canonical={`/property/${property.slug}`}
       />
 
@@ -165,10 +257,10 @@ export default function PropertyDetails() {
               </div>
             ) : (
               <iframe
-                src={`${property.virtualTourUrl || 'https://my.matterport.com/show/?m=sxQGDh8m21N'}`}
+                src={`${property.virtualTourUrl || siteConfig.demo.virtualTourUrl}`}
                 className="w-full h-full border-none"
                 allow="xr-spatial-tracking; gyroscope; accelerometer; fullscreen"
-                title="Fullscreen VR Tour"
+                title={t('detail.vrFullscreen')}
               />
             )}
             <div className="absolute inset-0 pointer-events-none technical-scanline z-10 opacity-20" />
@@ -193,8 +285,8 @@ export default function PropertyDetails() {
       </div>
 
       {/* Detail Navbar sticky header */}
-      <div className="bg-[#0a0c10]/80 border-b border-white/5 sticky top-[72px] z-30 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
-        <div className="max-w-7xl mx-auto px-4 py-4 md:px-8">
+      <div className="bg-[#0a0c10]/80 border-b border-white/5 relative lg:sticky lg:top-[72px] z-30 backdrop-blur-md shadow-[0_10px_30px_rgba(0,0,0,0.3)]">
+        <div className="max-w-7xl mx-auto px-4 py-3.5 md:py-4 md:px-8">
           <div className="flex items-center justify-between">
             <Link
               to="/properties"
@@ -207,7 +299,7 @@ export default function PropertyDetails() {
             <div className="flex items-center gap-3">
               <button
                 onClick={() => setIsLiked(!isLiked)}
-                className={`p-3 border transition-all duration-300 ${isLiked
+                className={`p-2.5 sm:p-3 border transition-all duration-300 ${isLiked
                   ? 'bg-accent/10 text-accent border-accent/40 scale-105'
                   : 'bg-transparent border-white/10 hover:bg-white/5 text-white/60 hover:text-white'
                   }`}
@@ -215,7 +307,7 @@ export default function PropertyDetails() {
                 <Heart size={14} fill={isLiked ? 'currentColor' : 'none'} />
               </button>
 
-              <button className="p-3 border border-white/10 bg-transparent hover:bg-white/5 text-white/60 hover:text-white transition-all">
+              <button className="p-2.5 sm:p-3 border border-white/10 bg-transparent hover:bg-white/5 text-white/60 hover:text-white transition-all">
                 <Share2 size={14} />
               </button>
             </div>
@@ -223,7 +315,7 @@ export default function PropertyDetails() {
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 mt-12 md:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 mt-6 md:mt-12 md:px-8 relative z-10">
 
         {/* Title Block Header */}
         <div className="bg-[#0a0c10]/70 border border-white/5 p-6 md:p-10 backdrop-blur-md relative mb-10 shadow-2xl">
@@ -250,10 +342,10 @@ export default function PropertyDetails() {
             <div className="bg-[#0d0f14] border border-white/5 p-6 min-w-[240px] text-left lg:text-right relative">
               <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-accent/30" />
               <span className="text-[9px] uppercase tracking-[0.25em] text-accent font-mono block mb-1">
-                {language === 'en' ? 'Premium Valuation' : 'Valuación Premium'}
+                {t('detail.valuation')}
               </span>
-              <span className="text-3xl md:text-4xl font-display font-light text-white block bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent">{property.price}</span>
-              <span className="text-[8px] text-white/40 font-mono tracking-wider uppercase mt-1.5 block">Immediate Demarcation Included</span>
+                <span className="text-3xl md:text-4xl font-display font-light text-accent block">{formatPrice(property.price, currency.code)}</span>
+              <span className="text-[8px] text-white/40 font-mono tracking-wider uppercase mt-1.5 block">{t('detail.demarcationIncluded')}</span>
             </div>
           </div>
         </div>
@@ -270,12 +362,11 @@ export default function PropertyDetails() {
                 <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-accent/40 z-20" />
 
                 <div className="aspect-video relative flex items-center justify-center">
-                  <img
-                    src={property.images[currentImageIndex]}
-                    alt={`Property image ${currentImageIndex + 1}`}
+                  <img loading="lazy" decoding="async" src={property.images[currentImageIndex]}
+                    alt={`${property.title} - photo ${currentImageIndex + 1}`}
                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
-                    onError={(e: any) => {
-                      e.target.src = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&h=800&fit=crop';
+                    onError={(e) => {
+                      e.currentTarget.src = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&h=800&fit=crop';
                     }}
                   />
 
@@ -330,35 +421,48 @@ export default function PropertyDetails() {
                       : 'border-white/10 opacity-50 hover:opacity-100'
                       }`}
                   >
-                    <img src={img} alt={`Thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
+                    <img loading="lazy" decoding="async" src={img} alt={`${property.title} - thumbnail ${idx + 1}`} className="w-full h-full object-cover" />
                   </button>
                 ))}
               </div>
             )}
           </div>
 
-          {/* YouTube HD Walkthrough Walk (Right column) */}
+          {/* YouTube / Vimeo / HD Video Walkthrough (Right column) */}
           <div className="lg:col-span-5 h-full">
-            {youtubeUrl ? (
+            {videoInfo ? (
               <div className="bg-[#0a0c10] border border-white/5 overflow-hidden shadow-2xl h-full flex flex-col">
                 <div className="p-4 bg-[#0d0f14] border-b border-white/5 flex items-center justify-between text-white text-[9px] font-mono tracking-widest">
-                  <span className="flex items-center gap-1.5 uppercase text-red-500 font-bold">
-                    <Play size={12} className="fill-red-500" />
+                  <span className="flex items-center gap-1.5 uppercase text-accent font-bold">
+                    <Play size={12} className="fill-accent text-accent" />
                     {t('detail.tour')}
                   </span>
-                  <span className="text-white/40">4K AERIAL WALKTHROUGH</span>
+                  <span className="text-white/40">{t('detail.aerialWalkthrough')}</span>
                 </div>
                 <div className="relative aspect-video lg:flex-1 h-full min-h-[250px] bg-black">
-                  <iframe
-                    width="100%"
-                    height="100%"
-                    src={youtubeUrl}
-                    title={displayTitle}
-                    frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                    allowFullScreen
-                    className="absolute inset-0 w-full h-full"
-                  ></iframe>
+                  {videoInfo.type === 'file' ? (
+                    <video
+                      controls
+                      playsInline
+                      preload="metadata"
+                      poster={property.images[0]}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    >
+                      <source src={videoInfo.url} />
+                      Your browser does not support the video tag.
+                    </video>
+                  ) : (
+                    <iframe
+                      width="100%"
+                      height="100%"
+                      src={videoInfo.url}
+                      title={displayTitle}
+                      frameBorder="0"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                      className="absolute inset-0 w-full h-full"
+                    ></iframe>
+                  )}
                 </div>
               </div>
             ) : (
@@ -366,15 +470,15 @@ export default function PropertyDetails() {
                 <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-accent/40" />
                 <Play className="text-accent mb-4 animate-pulse animate-duration-1000" size={36} />
                 <h3 className="text-xl font-display font-medium text-white mb-3">
-                  Signature Guided Tour
+                  {t('detail.guidedTour')}
                 </h3>
                 <p className="text-xs text-white/50 leading-relaxed mb-8 font-light">
-                  A high-definition cinematic and aerial walkthrough is currently being produced for this masterpiece. Inquire with our Dehradun registry to schedule a private, in-person site walk.
+                  {t('detail.guidedTourText')}
                 </p>
                 <Link to="/contact">
                   <MagneticButton strength={15} className="w-full" as="div">
                     <Button className="btn-luxury-gold bg-accent text-[#0c0d10] border-transparent font-bold py-4 w-full uppercase text-[9px] tracking-widest rounded-none hover:bg-accent-glow">
-                      Schedule Site Visit
+                      {t('detail.scheduleSiteVisit')}
                     </Button>
                   </MagneticButton>
                 </Link>
@@ -392,26 +496,65 @@ export default function PropertyDetails() {
             <div className="bg-[#0a0c10] border border-white/5 shadow-2xl relative">
               <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-accent/40" />
 
-              <div className="flex border-b border-white/5 overflow-x-auto bg-[#0d0f14]/50 scrollbar-none">
-                {[
-                  { id: 'overview', label: t('detail.overview'), icon: Home },
-                  { id: 'features', label: t('detail.features'), icon: CheckCircle },
-                  { id: 'floor', label: t('detail.floorPlan'), icon: FileText },
-                  { id: 'tour3d', label: t('detail.3dTour'), icon: Compass },
-                  { id: 'map', label: 'Map View', icon: MapPin }
-                ].map((tItem) => (
+              <div className="relative border-b border-white/5 bg-[#0d0f14]/50 group/tabs">
+                {/* Desktop/Tablet Left Scroll Arrow */}
+                {canScrollLeft && (
                   <button
-                    key={tItem.id}
-                    onClick={() => setActiveTab(tItem.id)}
-                    className={`flex items-center gap-2 px-6 py-2 font-mono text-[12px] uppercase tracking-widest border-b-2 whitespace-nowrap transition-all duration-300 ${activeTab === tItem.id
-                      ? 'border-accent text-accent bg-[#0a0c10] font-bold'
-                      : 'border-transparent text-white/50 hover:text-white hover:bg-white/5'
-                      }`}
+                    type="button"
+                    onClick={() => scrollTabs('left')}
+                    aria-label="Scroll tabs left"
+                    className="absolute left-0 top-0 bottom-0 z-20 px-1.5 sm:px-2 flex items-center justify-center bg-gradient-to-r from-[#0d0f14] via-[#0d0f14]/95 to-transparent text-white/70 hover:text-white transition-all duration-300"
                   >
-                    <tItem.icon size={12} className="text-accent" />
-                    {tItem.label}
+                    <div className="w-6 h-6 rounded-full bg-[#12141a] border border-white/25 hover:border-white/60 hover:bg-white/10 flex items-center justify-center shadow-xl transition-all">
+                      <ChevronLeft size={13} className="text-white/80" />
+                    </div>
                   </button>
-                ))}
+                )}
+
+                {/* Desktop/Tablet Right Scroll Arrow */}
+                {canScrollRight && (
+                  <button
+                    type="button"
+                    onClick={() => scrollTabs('right')}
+                    aria-label="Scroll tabs right"
+                    className="absolute right-0 top-0 bottom-0 z-20 px-1.5 sm:px-2 flex items-center justify-center bg-gradient-to-l from-[#0d0f14] via-[#0d0f14]/95 to-transparent text-white/70 hover:text-white transition-all duration-300"
+                  >
+                    <div className="w-6 h-6 rounded-full bg-[#12141a] border border-white/25 hover:border-white/60 hover:bg-white/10 flex items-center justify-center shadow-xl transition-all">
+                      <ChevronRight size={13} className="text-white/80" />
+                    </div>
+                  </button>
+                )}
+
+                <div
+                  ref={tabsScrollRef}
+                  onWheel={(e) => {
+                    if (e.deltaY !== 0 && tabsScrollRef.current) {
+                      tabsScrollRef.current.scrollLeft += e.deltaY;
+                    }
+                  }}
+                  className="flex overflow-x-auto luxury-scrollbar-x scroll-smooth relative px-2 sm:px-3"
+                >
+                  {[
+                    { id: 'overview', label: t('detail.overview'), icon: Home },
+                    { id: 'features', label: t('detail.features'), icon: CheckCircle },
+                    { id: 'floor', label: t('detail.floorPlan'), icon: FileText },
+                    { id: 'mortgage', label: 'Wealth & EMI', icon: Calculator },
+                    { id: 'tour3d', label: t('detail.3dTour'), icon: Compass },
+                    { id: 'map', label: 'Map View', icon: MapPin }
+                  ].map((tItem) => (
+                    <button
+                      key={tItem.id}
+                      onClick={(e) => handleTabSelect(e, tItem.id)}
+                      className={`flex items-center gap-1.5 sm:gap-2 px-3.5 sm:px-4 py-3 font-mono text-[10.5px] sm:text-[11.5px] uppercase tracking-wider sm:tracking-widest border-b-2 whitespace-nowrap transition-all duration-300 flex-shrink-0 ${activeTab === tItem.id
+                        ? 'border-accent text-accent bg-[#0a0c10] font-bold'
+                        : 'border-transparent text-white/50 hover:text-white hover:bg-white/5'
+                        }`}
+                    >
+                      <tItem.icon size={12} className="text-accent flex-shrink-0" />
+                      {tItem.label}
+                    </button>
+                  ))}
+                </div>
               </div>
 
               <div className="p-6 md:p-8">
@@ -493,15 +636,203 @@ export default function PropertyDetails() {
                       Carefully engineered space configuration utilizing maximum thermal insulation, solar access, and functional airflow pathways.
                     </p>
                     <div className="bg-[#0d0f14] border border-white/5 overflow-hidden max-w-lg mx-auto relative group shadow-2xl">
-                      <img
-                        src="https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop"
-                        alt="Premium Layout Floor Plan"
+                      <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop"
+                        alt={t('detail.floorPlanAlt')}
                         className="w-full h-auto opacity-70 group-hover:scale-102 transition-transform duration-500"
                       />
                       <div className="absolute inset-0 bg-black/60 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                         <span className="text-white text-[9px] font-mono uppercase tracking-widest bg-[#0c0d10] border border-white/10 py-3 px-5 shadow-lg flex items-center gap-2">
                           <Maximize2 size={10} className="text-accent" /> Click to Expand Blueprint
                         </span>
+                      </div>
+                    </div>
+                  </div>
+                )}
+
+                {/* Tab: Wealth & Mortgage Advisory Workbench */}
+                {activeTab === 'mortgage' && (
+                  <div className="space-y-8 animate-fade-in">
+                    <div>
+                      <h3 className="text-lg font-display font-medium text-white mb-2 flex items-center gap-2">
+                        <span className="w-1 h-5 bg-accent block" />
+                        Private Wealth & EMI Advisory Workbench
+                      </h3>
+                      <p className="text-xs text-white/55 leading-relaxed font-light">
+                        Simulate tailored debt structuring, monthly capital servicing, and 5-year asset appreciation based on institutional financing parameters.
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+                      {/* Left: Parameter Sliders */}
+                      <div className="lg:col-span-7 space-y-6 bg-[#0d0f14]/60 border border-white/5 p-6 relative">
+                        <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-accent/40" />
+
+                        {/* Down Payment Slider */}
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="font-mono uppercase tracking-widest text-white/70 text-[10px]">
+                              Initial Capital (Down Payment)
+                            </span>
+                            <span className="font-mono text-accent font-bold">
+                              {downPaymentPercent}% &middot; {formatPrice(downPaymentAmount, currency.code)}
+                            </span>
+                          </div>
+                          <Slider
+                            value={[downPaymentPercent]}
+                            min={10}
+                            max={70}
+                            step={5}
+                            onValueChange={(val) => setDownPaymentPercent(val[0])}
+                            aria-label="Down Payment Percentage"
+                          />
+                          <div className="flex justify-between text-[9px] font-mono text-white/30">
+                            <span>10% (Min)</span>
+                            <span>40% (Institutional)</span>
+                            <span>70% (Ultra-Equity)</span>
+                          </div>
+                        </div>
+
+                        {/* Interest Rate Slider */}
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="font-mono uppercase tracking-widest text-white/70 text-[10px]">
+                              Annual Financing Rate (APR)
+                            </span>
+                            <span className="font-mono text-accent font-bold">
+                              {interestRate.toFixed(2)}% p.a.
+                            </span>
+                          </div>
+                          <Slider
+                            value={[interestRate]}
+                            min={4}
+                            max={14}
+                            step={0.25}
+                            onValueChange={(val) => setInterestRate(val[0])}
+                            aria-label="Interest Rate"
+                          />
+                          <div className="flex justify-between text-[9px] font-mono text-white/30">
+                            <span>4.00% (Prime Tier)</span>
+                            <span>8.50% (Standard)</span>
+                            <span>14.00% (High-Yield)</span>
+                          </div>
+                        </div>
+
+                        {/* Loan Term Slider */}
+                        <div className="space-y-3">
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="font-mono uppercase tracking-widest text-white/70 text-[10px]">
+                              Amortization Term
+                            </span>
+                            <span className="font-mono text-accent font-bold">
+                              {loanTenureYears} Years ({totalMonths} Installments)
+                            </span>
+                          </div>
+                          <Slider
+                            value={[loanTenureYears]}
+                            min={5}
+                            max={30}
+                            step={1}
+                            onValueChange={(val) => setLoanTenureYears(val[0])}
+                            aria-label="Loan Term in Years"
+                          />
+                          <div className="flex justify-between text-[9px] font-mono text-white/30">
+                            <span>5 Yrs (Accelerated)</span>
+                            <span>15 Yrs</span>
+                            <span>30 Yrs (Max Horizon)</span>
+                          </div>
+                        </div>
+
+                        {/* Projected Appreciation Slider */}
+                        <div className="space-y-3 pt-2 border-t border-white/5">
+                          <div className="flex items-center justify-between text-xs">
+                            <span className="font-mono uppercase tracking-widest text-white/70 text-[10px] flex items-center gap-1.5">
+                              <TrendingUp size={11} className="text-accent" />
+                              Target Annual Capital Appreciation
+                            </span>
+                            <span className="font-mono text-emerald-400 font-bold">
+                              +{expectedAppreciation.toFixed(1)}% p.a.
+                            </span>
+                          </div>
+                          <Slider
+                            value={[expectedAppreciation]}
+                            min={3}
+                            max={16}
+                            step={0.5}
+                            onValueChange={(val) => setExpectedAppreciation(val[0])}
+                            aria-label="Annual Capital Growth Assumption"
+                          />
+                          <div className="flex justify-between text-[9px] font-mono text-white/30">
+                            <span>3.0% (Conservative)</span>
+                            <span>9.0% (Historic Avg)</span>
+                            <span>16.0% (Prime Expansion)</span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Right: Real-time Wealth & Cash-Flow Breakdown Card */}
+                      <div className="lg:col-span-5 bg-[#0a0c10] border border-white/10 p-6 space-y-6 shadow-2xl relative">
+                        <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-accent/40" />
+
+                        <div>
+                          <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-accent block mb-1">
+                            Estimated Monthly Outlay
+                          </span>
+                          <div className="text-3xl md:text-4xl font-display font-light text-white tracking-tight">
+                            {formatPrice(monthlyEMI, currency.code)}
+                            <span className="text-xs font-mono text-white/40 font-normal ml-2">/ month</span>
+                          </div>
+                          <p className="text-[10px] text-white/40 font-mono mt-1">
+                            Principal: {formatPrice(loanPrincipal, currency.code)} &middot; Term: {loanTenureYears}y
+                          </p>
+                        </div>
+
+                        <div className="space-y-3 pt-4 border-t border-white/5 text-xs">
+                          <div className="flex items-center justify-between py-1.5 border-b border-white/5">
+                            <span className="text-white/50 font-light">Upfront Equity</span>
+                            <span className="font-mono text-white font-medium">
+                              {formatPrice(downPaymentAmount, currency.code)}
+                            </span>
+                          </div>
+
+                          <div className="flex items-center justify-between py-1.5 border-b border-white/5">
+                            <span className="text-white/50 font-light">Financed Principal</span>
+                            <span className="font-mono text-white font-medium">
+                              {formatPrice(loanPrincipal, currency.code)}
+                            </span>
+                          </div>
+
+                          <div className="flex items-center justify-between py-1.5 border-b border-white/5">
+                            <span className="text-white/50 font-light">Estimated Total Interest</span>
+                            <span className="font-mono text-white/70">
+                              {formatPrice(totalInterest, currency.code)}
+                            </span>
+                          </div>
+
+                          <div className="flex items-center justify-between py-2 bg-emerald-950/20 border border-emerald-500/20 px-3">
+                            <div className="flex items-center gap-1.5">
+                              <TrendingUp size={12} className="text-emerald-400" />
+                              <span className="text-emerald-400 text-[10px] font-mono uppercase tracking-wider">
+                                5-Yr Asset Valuation
+                              </span>
+                            </div>
+                            <span className="font-mono text-emerald-400 font-bold text-xs">
+                              {formatPrice(estimatedValue5Yr, currency.code)}
+                            </span>
+                          </div>
+
+                          <div className="flex items-center justify-between text-[10px] px-1 text-white/40 font-mono">
+                            <span>Projected 5-Yr Equity Gain:</span>
+                            <span className="text-accent font-semibold">
+                              +{formatPrice(projectedGain5Yr, currency.code)}
+                            </span>
+                          </div>
+                        </div>
+
+                        <Link to="/contact">
+                          <Button className="w-full btn-luxury-gold bg-accent text-[#0c0d10] font-bold text-[9px] font-mono uppercase tracking-widest py-3.5 rounded-none hover:bg-accent-glow shadow-md mt-2">
+                            Request Private Banking Terms
+                          </Button>
+                        </Link>
                       </div>
                     </div>
                   </div>
@@ -556,9 +887,8 @@ export default function PropertyDetails() {
                       {!isTourActive ? (
                         /* Pre-activation cover screen */
                         <div className="absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
-                          <img
-                            src={property.images?.[1] || property.images?.[0]}
-                            alt="3D Space panorama preview"
+                          <img loading="lazy" decoding="async" src={property.images?.[1] || property.images?.[0]}
+                            alt="360 degree space preview"
                             className="absolute inset-0 w-full h-full object-cover opacity-25 blur-[1px]"
                           />
                           <div className="absolute inset-0 bg-gradient-to-t from-[#090a0d] via-transparent to-black/30" />
@@ -607,7 +937,7 @@ export default function PropertyDetails() {
                           </div>
 
                           <iframe
-                            src={`${property.virtualTourUrl || 'https://my.matterport.com/show/?m=sxQGDh8m21N'}`}
+                            src={`${property.virtualTourUrl || siteConfig.demo.virtualTourUrl}`}
                             className="w-full h-full border-none bg-black flex-1"
                             allow="xr-spatial-tracking; gyroscope; accelerometer; fullscreen"
                             title="Interactive 3D Virtual Tour"
@@ -639,7 +969,7 @@ export default function PropertyDetails() {
                       </div>
 
                       <iframe
-                        title="Google Map Location"
+                        title={t('detail.mapTitle')}
                         width="100%"
                         height="100%"
                         frameBorder="0"
@@ -683,6 +1013,14 @@ export default function PropertyDetails() {
                 <Download size={12} />
                 Get PDF Brochure
               </Button>
+              <button
+                type="button"
+                onClick={() => window.print()}
+                className="w-full mt-2.5 bg-transparent border border-white/10 hover:border-accent/40 hover:bg-accent/5 text-white/70 hover:text-white font-mono text-[10px] tracking-widest uppercase py-3 flex items-center justify-center gap-2 transition-all cursor-pointer"
+              >
+                <Printer size={12} className="text-accent" />
+                Print Architectural Dossier
+              </button>
             </div>
 
             {/* Direct Dial / Action list */}
@@ -695,14 +1033,17 @@ export default function PropertyDetails() {
                 <div className="flex items-center p-3 bg-[#0d0f14]/50 border border-white/5">
                   <Phone className="text-accent mr-3.5 flex-shrink-0" size={14} />
                   <div>
-                    <span className="text-[8px] text-white/40 font-mono tracking-wider uppercase block">DIRECT PHONE</span>
+                    <span className="text-[8px] text-white/40 font-mono tracking-wider uppercase block">{t('detail.directPhone')}</span>
                     <span className="text-xs font-bold text-white tracking-wide">{property.contact}</span>
                   </div>
                 </div>
 
                 <div className="space-y-2 pt-2">
                   <Link to="/contact">
-                    <Button className="w-full text-[9px] font-mono uppercase tracking-widest py-3 border border-white/10 text-white rounded-none hover:bg-white/5" variant="outline">
+                    <Button
+                      variant="outline"
+                      className="w-full text-[9px] font-mono uppercase tracking-widest py-3 border border-white/10 text-white rounded-none bg-transparent hover:bg-white/10 hover:text-white hover:border-accent/40 transition-all"
+                    >
                       {t('detail.sendMessage')}
                     </Button>
                   </Link>
@@ -749,12 +1090,11 @@ export default function PropertyDetails() {
             )}
 
             {/* Zoom Image */}
-            <img
-              src={property.images[currentImageIndex]}
-              alt={`Expanded property image ${currentImageIndex + 1}`}
+            <img loading="lazy" decoding="async" src={property.images[currentImageIndex]}
+              alt={`${property.title} - enlarged photo ${currentImageIndex + 1}`}
               className="max-w-full max-h-full object-contain border border-white/5 shadow-2xl"
-              onError={(e: any) => {
-                e.target.src = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&h=800&fit=crop';
+              onError={(e) => {
+                e.currentTarget.src = 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&h=800&fit=crop';
               }}
             />
 
@@ -776,19 +1116,19 @@ export default function PropertyDetails() {
               {t('detail.brochureDownload')}
             </DialogTitle>
             <DialogDescription className="text-[10px] text-white/40 mt-1 uppercase font-mono tracking-wider">
-              Securely authenticate to retrieve the luxury prospectus.
+              {t('detail.brochureAuth')}
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-4">
             <p className="text-xs text-white/60 leading-relaxed font-light">
-              {t('detail.brochureText')} By downloading, your interest is logged in our corporate pipeline to coordinate priority site allocations.
+              {t('detail.brochureText')} {t('detail.brochureNote')}
             </p>
 
             <div className="bg-[#0d0f14] p-4 border border-white/5 text-[9px] font-mono tracking-wide uppercase space-y-1 text-white/60">
-              <div><span className="text-accent/60 mr-1.5">File:</span> Kinash_Prospectus_{property.slug}.pdf</div>
-              <div><span className="text-accent/60 mr-1.5">Size:</span> 14.8 MB</div>
-              <div><span className="text-accent/60 mr-1.5">Format:</span> Print Ready vector layers</div>
+              <div><span className="text-accent/60 mr-1.5">{t('detail.file')}</span> Apex_Prospectus_{property.slug}.pdf</div>
+              <div><span className="text-accent/60 mr-1.5">{t('detail.size')}</span> 14.8 MB</div>
+              <div><span className="text-accent/60 mr-1.5">{t('detail.format')}</span> {t('detail.formatValue')}</div>
             </div>
 
             <Button
@@ -808,9 +1148,51 @@ export default function PropertyDetails() {
                 </>
               )}
             </Button>
+
+            <Button
+              type="button"
+              onClick={() => {
+                setIsBrochureOpen(false);
+                setTimeout(() => window.print(), 350);
+              }}
+              variant="outline"
+              className="w-full border-white/10 text-white hover:text-white hover:bg-white/10 hover:border-accent/40 font-mono text-[9px] uppercase tracking-widest py-3 flex items-center justify-center gap-2 rounded-none transition-all"
+            >
+              <Printer size={12} className="text-accent" />
+              Print Architectural Dossier Directly (A4)
+            </Button>
           </div>
         </DialogContent>
       </Dialog>
+
+      {/* Mobile Sticky Conversion Action Bar */}
+      <div className="lg:hidden fixed bottom-0 left-0 right-0 z-40 bg-[#0c0d10]/95 backdrop-blur-md border-t border-white/10 px-4 py-3 flex items-center justify-between shadow-[0_-10px_25px_rgba(0,0,0,0.5)]">
+        <div>
+          <span className="text-[8px] font-mono tracking-widest uppercase text-white/40 block">
+            {t('detail.valuation')}
+          </span>
+          <span className="text-base font-display font-medium text-accent">
+            {formatPrice(property.price, currency.code)}
+          </span>
+        </div>
+
+        <div className="flex items-center gap-2">
+          {property.contact && (
+            <a
+              href={`tel:${property.contact}`}
+              aria-label="Direct Call Specialist"
+              className="p-2.5 border border-white/10 bg-[#0a0c10] text-accent hover:bg-white/5 active:scale-95 transition-all"
+            >
+              <Phone size={14} />
+            </a>
+          )}
+          <Link to="/contact">
+            <Button className="btn-luxury-gold bg-accent text-[#0c0d10] font-bold text-[9px] font-mono uppercase tracking-widest px-4 py-2.5 rounded-none hover:bg-accent-glow shadow-md">
+              {t('detail.schedule')}
+            </Button>
+          </Link>
+        </div>
+      </div>
     </section>
   );
 }

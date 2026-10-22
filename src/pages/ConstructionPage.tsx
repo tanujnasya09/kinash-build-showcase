@@ -3,96 +3,42 @@ import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import MagneticButton from '@/components/ui/MagneticButton';
 import SEOHead from '@/components/SEO/SEOHead';
+import { useLanguage } from '@/context/LanguageContext';
 
 // High-end architectural photography URLs
 const luxuryHeroImage = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1600&h=900&fit=crop";
 const luxuryCommercialImage = "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?w=800&h=600&fit=crop";
 const luxuryMixedImage = "https://images.unsplash.com/photo-1448630360428-654a95b96e4e?w=800&h=600&fit=crop";
 
+const capabilityIcons = [Building, HardHat, Construction, Wrench];
+const advantageIcons = [CheckCircle, Calendar, DollarSign, Users];
+const projectImages = [luxuryCommercialImage, luxuryHeroImage, luxuryMixedImage];
+
 const ConstructionPage = () => {
-  const capabilities = [
-    {
-      icon: Building,
-      title: 'Commercial Construction',
-      description: 'Office buildings, retail centers, and industrial facilities built to the highest standards.',
-      projects: ['Corporate Headquarters', 'Shopping Centers', 'Manufacturing Facilities', 'Healthcare Centers']
-    },
-    {
-      icon: HardHat,
-      title: 'Residential Development',
-      description: 'Custom homes and residential communities that set new standards for quality living.',
-      projects: ['Luxury Single-Family Homes', 'Condominiums', 'Townhouse Communities', 'Senior Living']
-    },
-    {
-      icon: Construction,
-      title: 'Infrastructure Projects',
-      description: 'Large-scale infrastructure development including roads, utilities, and public facilities.',
-      projects: ['Transportation Systems', 'Utility Networks', 'Public Buildings', 'Sports Facilities']
-    },
-    {
-      icon: Wrench,
-      title: 'Renovation & Restoration',
-      description: 'Breathing new life into existing structures with modern upgrades and historic preservation.',
-      projects: ['Historic Renovations', 'Commercial Upgrades', 'Adaptive Reuse', 'Sustainability Retrofits']
-    }
-  ];
+  const { content } = useLanguage();
+  const copy = content.construction;
 
-  const featuredProjects = [
-    {
-      title: 'Metropolitan Business Center',
-      category: 'Commercial',
-      size: '2.5M sq ft',
-      completion: '2024',
-      description: 'A state-of-the-art office complex featuring sustainable design and smart building technology.',
-      image: luxuryCommercialImage
-    },
-    {
-      title: 'Riverside Luxury Residences',
-      category: 'Residential',
-      size: '150 units',
-      completion: '2023',
-      description: 'Premium waterfront condominiums with panoramic views and luxury amenities.',
-      image: luxuryHeroImage
-    },
-    {
-      title: 'Innovation Campus',
-      category: 'Mixed-Use',
-      size: '1.8M sq ft',
-      completion: '2024',
-      description: 'A cutting-edge research and development facility with integrated retail and dining.',
-      image: luxuryMixedImage
-    }
-  ];
+  const capabilities = copy.capabilities.map((capability, idx) => ({
+    ...capability,
+    icon: capabilityIcons[idx],
+  }));
 
-  const advantages = [
-    {
-      icon: CheckCircle,
-      title: 'Quality Assurance',
-      description: 'Rigorous quality control at every stage ensures exceptional results.'
-    },
-    {
-      icon: Calendar,
-      title: 'On-Time Delivery',
-      description: 'Proven track record of completing projects on schedule and within budget.'
-    },
-    {
-      icon: DollarSign,
-      title: 'Cost Efficiency',
-      description: 'Competitive pricing without compromising on quality or safety standards.'
-    },
-    {
-      icon: Users,
-      title: 'Expert Team',
-      description: 'Experienced professionals with deep expertise in construction management.'
-    }
-  ];
+  const featuredProjects = copy.projects.map((project, idx) => ({
+    ...project,
+    image: projectImages[idx],
+  }));
+
+  const advantages = copy.advantages.map((advantage, idx) => ({
+    ...advantage,
+    icon: advantageIcons[idx],
+  }));
 
   return (
-    <div className="min-h-screen bg-[#0c0d10] text-white pt-28 pb-16 relative overflow-hidden">
+    <div className="min-h-screen bg-[#0c0d10] text-white pt-20 sm:pt-24 lg:pt-28 pb-16 relative overflow-hidden">
       <SEOHead
-        title="Luxury Construction & Engineering | Kinash Associates"
-        description="Premium construction services by Kinash Associates. Commercial complexes, high-end residential estates, and civil infrastructure planning."
-        keywords="luxury builders dehradun, general contractors, site engineers uttarakhand"
+        title={copy.meta.title}
+        description={copy.meta.description}
+        keywords={copy.meta.keywords}
         canonical="/construction"
       />
 
@@ -105,7 +51,7 @@ const ConstructionPage = () => {
       </div>
 
       {/* Hero Section */}
-      <section className="relative py-32 overflow-hidden border-b border-white/5">
+      <section className="relative py-10 sm:py-20 lg:py-32 overflow-hidden border-b border-white/5">
         <div 
           className="absolute inset-0 bg-cover bg-center opacity-30 blur-[1px]"
           style={{ backgroundImage: `url(${luxuryHeroImage})` }}
@@ -113,28 +59,29 @@ const ConstructionPage = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-[#0c0d10] via-[#0c0d10]/90 to-transparent" />
         
         <div className="relative z-10 container mx-auto px-4 md:px-8 max-w-5xl">
-          <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-4">
-            civil contracting
+          <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-2.5 sm:mb-4">
+            {copy.eyebrow}
           </span>
-          <h1 className="text-4xl md:text-6xl font-display font-medium text-white mb-6 leading-none">
-            Structural Integrity, <span className="bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent italic font-light">Architectural</span> Elegance.
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-medium text-white mb-3.5 sm:mb-6 leading-[1.1] sm:leading-none">
+            {copy.title} <span className="text-accent italic font-light">{copy.titleAccent}</span>
           </h1>
-          <p className="text-xs sm:text-sm text-white/60 mb-8 leading-relaxed max-w-xl font-light">
-            We map, engineer, and build high-performance structural systems matching state-of-the-art seismic design guidelines and luxury standards.
+          <p className="text-xs sm:text-sm text-white/60 mb-6 sm:mb-8 leading-relaxed max-w-xl font-light">
+            {copy.intro}
           </p>
-          <div className="flex flex-col sm:flex-row gap-6">
-            <Link to="/contact">
-              <MagneticButton strength={20} as="div">
-                <Button className="btn-luxury-gold bg-accent text-[#0c0d10] border-transparent font-bold py-4 px-10 rounded-none uppercase text-[9px] tracking-widest hover:bg-accent-glow">
-                  Start Your Project
-                </Button>
-              </MagneticButton>
-            </Link>
-            <Link to="/properties">
-              <Button className="btn-luxury-outline border-white/20 text-white hover:bg-white hover:text-black rounded-none py-4 px-10 uppercase text-[9px] tracking-widest font-bold">
-                View Portfolio
+          <div className="flex flex-row gap-2.5 sm:gap-5 w-full max-w-md">
+            <MagneticButton strength={15} className="flex-1 sm:flex-initial" as="div">
+              <Button asChild className="w-full sm:w-auto h-11 sm:h-14 px-3 sm:px-8 py-3 sm:py-4 bg-accent text-[#0c0d10] hover:bg-accent-glow font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-accent hover:border-accent-glow shadow-[0_10px_30px_rgba(223,186,72,0.25)] flex items-center justify-center gap-1.5 sm:gap-2 group transition-all whitespace-nowrap">
+                <Link to="/contact">
+                  <span>{copy.heroCtaPrimary}</span>
+                  <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform duration-300" />
+                </Link>
               </Button>
-            </Link>
+            </MagneticButton>
+            <MagneticButton strength={15} className="flex-1 sm:flex-initial" as="div">
+              <Button asChild className="w-full sm:w-auto h-11 sm:h-14 px-3 sm:px-8 py-3 sm:py-4 bg-transparent text-white hover:bg-white hover:text-[#0c0d10] font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-white/20 hover:border-white transition-all flex items-center justify-center whitespace-nowrap">
+                <Link to="/properties">{copy.heroCtaSecondary}</Link>
+              </Button>
+            </MagneticButton>
           </div>
         </div>
       </section>
@@ -144,10 +91,10 @@ const ConstructionPage = () => {
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-3xl mb-16">
             <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-3">
-              capabilities
+              {copy.capabilitiesEyebrow}
             </span>
             <h2 className="text-3xl font-display font-medium text-white">
-              Engineering Divisions
+              {copy.capabilitiesTitle}
             </h2>
           </div>
           
@@ -191,10 +138,10 @@ const ConstructionPage = () => {
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-3xl mb-16">
             <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-3">
-              portfolio
+              {copy.projectsEyebrow}
             </span>
             <h2 className="text-3xl font-display font-medium text-white">
-              Landmark Commissions
+              {copy.projectsTitle}
             </h2>
           </div>
           
@@ -206,8 +153,7 @@ const ConstructionPage = () => {
               >
                 <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-accent/30" />
                 <div className="relative aspect-[4/3] overflow-hidden bg-[#0d0f14] border-b border-white/5">
-                  <img 
-                    src={project.image} 
+                  <img loading="lazy" decoding="async" src={project.image} 
                     alt={project.title}
                     className="w-full h-full object-cover transition-all duration-700 group-hover:scale-105"
                   />
@@ -225,7 +171,7 @@ const ConstructionPage = () => {
                   
                   <div className="flex justify-between font-mono text-[9px] text-accent uppercase tracking-wider mb-4 border-b border-white/5 pb-2">
                     <span>{project.size}</span>
-                    <span>Completed {project.completion}</span>
+                    <span>{copy.projectsCompletedPrefix} {project.completion}</span>
                   </div>
                   
                   <p className="text-xs text-white/55 leading-relaxed font-light">
@@ -243,10 +189,10 @@ const ConstructionPage = () => {
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-3xl mb-16">
             <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-3">
-              why kinash
+              {copy.advantagesEyebrow}
             </span>
             <h2 className="text-3xl font-display font-medium text-white">
-              The Engineering Edge
+              {copy.advantagesTitle}
             </h2>
           </div>
           
@@ -279,27 +225,28 @@ const ConstructionPage = () => {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(223,186,72,0.05),transparent_40%)] pointer-events-none" />
         <div className="container mx-auto px-4 md:px-8 text-center relative z-10 max-w-3xl">
           <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-4">
-            secure registry
+            {copy.ctaEyebrow}
           </span>
           <h2 className="text-3xl sm:text-5xl font-display font-medium text-white mb-6 leading-none">
-            Launch Your Civil <span className="bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent italic font-light">Endeavor</span>.
+            {copy.ctaTitle} <span className="text-accent italic font-light">{copy.ctaAccent}</span>
           </h2>
           <p className="text-xs text-white/55 leading-relaxed font-light mb-10 max-w-md mx-auto">
-            Schedule a session with our site planning engineers to draft structural blueprints and schedule soil-mechanics studies.
+            {copy.ctaBody}
           </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <Link to="/contact" className="w-full sm:w-auto">
-              <MagneticButton strength={20} className="w-full" as="div">
-                <Button className="btn-luxury-gold bg-accent text-[#0c0d10] border-transparent font-bold py-4 px-10 rounded-none uppercase text-[9px] tracking-widest hover:bg-accent-glow w-full">
-                  Start Your Project
-                </Button>
-              </MagneticButton>
-            </Link>
-            <Link to="/contact" className="w-full sm:w-auto">
-              <Button className="btn-luxury-outline border-white/20 text-white hover:bg-white hover:text-black rounded-none py-4 px-10 w-full uppercase text-[9px] tracking-widest font-bold">
-                Schedule Consultation
+          <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-5 justify-center items-stretch sm:items-center">
+            <MagneticButton strength={20} className="w-full sm:w-auto" as="div">
+              <Button asChild className="w-full sm:w-auto h-13 sm:h-14 px-8 py-4 bg-accent text-[#0c0d10] hover:bg-accent-glow font-display font-black text-xs uppercase tracking-[0.2em] rounded-none border border-accent hover:border-accent-glow shadow-[0_10px_30px_rgba(223,186,72,0.25)] flex items-center justify-center gap-2 group transition-all">
+                <Link to="/contact">
+                  <span>{copy.ctaPrimary}</span>
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+                </Link>
               </Button>
-            </Link>
+            </MagneticButton>
+            <MagneticButton strength={20} className="w-full sm:w-auto" as="div">
+              <Button asChild className="w-full sm:w-auto h-13 sm:h-14 px-8 py-4 bg-transparent text-white hover:bg-white hover:text-[#0c0d10] font-display font-black text-xs uppercase tracking-[0.2em] rounded-none border border-white/20 hover:border-white transition-all flex items-center justify-center">
+                <Link to="/contact">{copy.ctaSecondary}</Link>
+              </Button>
+            </MagneticButton>
           </div>
         </div>
       </section>

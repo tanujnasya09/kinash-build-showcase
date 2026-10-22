@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
 import gsap from 'gsap';
+import { useLanguage } from '@/context/LanguageContext';
+import siteConfig from '@/config/site';
 
 export default function LuxuryLoader({ onComplete }: { onComplete: () => void }) {
   const [progress, setProgress] = useState(0);
+  const { t } = useLanguage();
 
   useEffect(() => {
     // Fake progress loading counter
@@ -12,7 +15,7 @@ export default function LuxuryLoader({ onComplete }: { onComplete: () => void })
         // Slide up the loading panels
         gsap.to('.loader-container', {
           yPercent: -100,
-          duration: 1.2,
+            duration: 0.6,
           ease: 'power4.inOut',
           onComplete: onComplete,
         });
@@ -29,14 +32,14 @@ export default function LuxuryLoader({ onComplete }: { onComplete: () => void })
 
     tl.to(obj, {
       val: 100,
-      duration: 2.2,
+      duration: 0.9,
       ease: 'power1.out',
       onUpdate: () => {
         setProgress(Math.floor(obj.val));
       }
     });
 
-    // Stagger reveal of KINASH logo letters
+    // Stagger reveal of APEX logo letters
     gsap.fromTo('.loader-letter', 
       { opacity: 0, y: 30 },
       { opacity: 1, y: 0, duration: 1, stagger: 0.08, ease: 'power3.out' }
@@ -44,10 +47,15 @@ export default function LuxuryLoader({ onComplete }: { onComplete: () => void })
 
   }, [onComplete]);
 
-  const brandName = "KINASH ASSOCIATES";
+  const brandName = siteConfig.shortName.toUpperCase();
 
   return (
-    <div className="loader-container fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0c0d10] text-white">
+    <div
+      role="status"
+      aria-live="polite"
+      aria-label={t('common.loading', { brand: siteConfig.shortName })}
+      className="loader-container fixed inset-0 z-[9999] flex flex-col items-center justify-center bg-[#0c0d10] text-white"
+    >
       {/* Decorative clean line grid */}
       <div className="absolute inset-0 flex justify-between pointer-events-none opacity-5 px-12">
         <div className="w-[1px] h-full bg-white" />
@@ -63,7 +71,7 @@ export default function LuxuryLoader({ onComplete }: { onComplete: () => void })
         </span>
 
         {/* Staggered Title */}
-        <h1 className="text-2xl md:text-5xl font-display font-light tracking-[0.2em] mb-12 flex select-none">
+        <div aria-hidden="true" className="text-2xl md:text-5xl font-display font-light tracking-[0.2em] mb-12 flex select-none">
           {brandName.split("").map((char, index) => (
             <span 
               key={index} 
@@ -72,7 +80,7 @@ export default function LuxuryLoader({ onComplete }: { onComplete: () => void })
               {char}
             </span>
           ))}
-        </h1>
+        </div>
 
         {/* Minimal Progress Counter */}
         <div className="flex flex-col items-center">

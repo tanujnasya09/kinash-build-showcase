@@ -3,7 +3,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Phone, Mail, Globe, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/context/LanguageContext';
-import MagneticButton from '@/components/ui/MagneticButton';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,10 +11,14 @@ import {
 } from '@/components/ui/dropdown-menu';
 import gsap from 'gsap';
 
+import siteConfig from '@/config/site';
+import { currencies } from '@/lib/currency';
+import { languages, type Language } from '@/i18n';
+
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
-  const { language, setLanguage, t } = useLanguage();
+  const { language, setLanguage, currency, setCurrency, t } = useLanguage();
 
   const navigation = [
     { name: t('nav.home'), href: '/' },
@@ -28,7 +31,7 @@ const Header = () => {
 
   const isActive = (href: string) => location.pathname === href;
 
-  const handleLanguageChange = (lang: 'en' | 'es' | 'de') => {
+  const handleLanguageChange = (lang: Language) => {
     setLanguage(lang);
   };
 
@@ -48,16 +51,16 @@ const Header = () => {
         <div className="hidden md:flex items-center justify-between py-2 text-[10px] text-white/50 border-b border-white/5 font-mono uppercase tracking-[0.2em]">
           <div className="flex items-center gap-1.5">
             <Sparkles size={11} className="text-accent animate-pulse" />
-            <span>Kinash Luxury Portfolios</span>
+            <span>{siteConfig.shortName} Portfolios</span>
           </div>
           <div className="flex items-center space-x-6">
-            <a href="tel:+911352779000" className="flex items-center space-x-1.5 hover:text-accent transition-colors">
+            <a href={`tel:${siteConfig.contact.phone}`} className="flex items-center space-x-1.5 hover:text-accent transition-colors">
               <Phone size={10} className="text-accent" />
-              <span>+91 135 277 9000</span>
+              <span>{siteConfig.contact.phoneFormatted}</span>
             </a>
-            <a href="mailto:contact@kinash.luxury" className="flex items-center space-x-1.5 hover:text-accent transition-colors">
+            <a href={`mailto:${siteConfig.contact.email}`} className="flex items-center space-x-1.5 hover:text-accent transition-colors">
               <Mail size={10} className="text-accent" />
-              <span>contact@kinash.luxury</span>
+              <span>{siteConfig.contact.email}</span>
             </a>
           </div>
         </div>
@@ -72,20 +75,20 @@ const Header = () => {
             <div className="relative overflow-hidden w-9 h-9 rounded-none border border-accent/20 bg-[#0c0d10] flex items-center justify-center">
               <img
                 src="/assets/logo.png"
-                alt="Kinash Logo"
+                alt={`${siteConfig.shortName} logo`}
                 className="w-full h-full object-contain p-1 group-hover:scale-110 transition-transform duration-500"
-                onError={(e: any) => {
-                  e.target.src = "https://images.unsplash.com/photo-1542838132-92c53300491e?w=80&h=80&fit=crop";
+                onError={(e) => {
+                  e.currentTarget.src = "https://images.unsplash.com/photo-1542838132-92c53300491e?w=80&h=80&fit=crop";
                 }}
               />
               <div className="absolute inset-0 bg-accent/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
             </div>
             <div className="flex flex-col justify-center">
               <span className="text-[14px] uppercase tracking-[0.3em] font-black font-display text-white leading-none mb-1 group-hover:text-accent transition-colors duration-500">
-                Kinash<span className="text-accent group-hover:text-white transition-colors duration-500">.</span>
+                {siteConfig.wordmark}<span className="text-accent group-hover:text-white transition-colors duration-500">.</span>
               </span>
               <span className="text-[7px] uppercase tracking-[0.4em] font-mono text-white/50 leading-none">
-                Associates & Construction
+                {siteConfig.brandLine}
               </span>
             </div>
           </Link>
@@ -96,7 +99,7 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className={`relative text-[10px] font-sans font-bold tracking-[0.2em] uppercase transition-colors duration-300 py-2 ${
+                className={`relative text-xs font-sans font-bold tracking-[0.15em] uppercase transition-colors duration-300 py-2 ${
                   isActive(item.href) ? 'text-accent' : 'text-white/60 hover:text-white'
                 } group`}
               >
@@ -113,77 +116,127 @@ const Header = () => {
             {/* Elegant Multilingual Picker */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="sm" className="gap-1.5 hover:bg-white/5 border border-white/10 text-white rounded-none px-3.5 py-4 font-mono font-bold text-[9px] uppercase tracking-widest bg-transparent">
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  aria-label={t('nav.language')}
+                  className="gap-1.5 bg-transparent border border-white/10 text-white hover:text-white hover:bg-white/10 hover:border-accent/40 rounded-none px-3.5 py-4 font-mono font-bold text-[9px] uppercase tracking-widest transition-all"
+                >
                   <Globe size={12} className="text-accent" />
-                  {language === 'en' ? 'EN' : language === 'es' ? 'ES' : 'DE'}
+                  {language.slice(0, 2).toUpperCase()}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="bg-[#0b0c10] border border-white/10 rounded-none shadow-2xl p-1">
-                <DropdownMenuItem
-                  onClick={() => handleLanguageChange('en')}
-                  className={`font-mono text-[9px] py-2 px-4 rounded-none cursor-pointer tracking-widest uppercase ${
-                    language === 'en' ? 'bg-accent text-[#0c0d10] font-extrabold' : 'text-white/80 hover:bg-white/5 hover:text-white'
-                  }`}
-                >
-                  🇬🇧 English (EN)
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => handleLanguageChange('es')}
-                  className={`font-mono text-[9px] py-2 px-4 rounded-none cursor-pointer tracking-widest uppercase ${
-                    language === 'es' ? 'bg-accent text-[#0c0d10] font-extrabold' : 'text-white/80 hover:bg-white/5 hover:text-white'
-                  }`}
-                >
-                  🇪🇸 Español (ES)
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => handleLanguageChange('de')}
-                  className={`font-mono text-[9px] py-2 px-4 rounded-none cursor-pointer tracking-widest uppercase ${
-                    language === 'de' ? 'bg-accent text-[#0c0d10] font-extrabold' : 'text-white/80 hover:bg-white/5 hover:text-white'
-                  }`}
-                >
-                  🇩🇪 Deutsch (DE)
-                </DropdownMenuItem>
+                {languages.map((lang) => (
+                  <DropdownMenuItem
+                    key={lang.code}
+                    onClick={() => handleLanguageChange(lang.code)}
+                    className={`font-mono text-[9px] py-2 px-4 rounded-none cursor-pointer tracking-widest uppercase transition-colors ${
+                      language === lang.code ? 'bg-accent text-[#0c0d10] font-extrabold' : 'text-white/80 hover:bg-white/10 hover:text-white'
+                    }`}
+                  >
+                    {lang.label} ({lang.short})
+                  </DropdownMenuItem>
+                ))}
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* CTA Contact link wrapped in MagneticButton */}
-            <Link to="/contact">
-              <MagneticButton
-                className="btn-luxury-gold px-6 py-3.5 text-[9px] tracking-[0.25em] bg-accent text-[#0c0d10] border-transparent font-black"
-                strength={25}
-              >
-                {t('nav.contact')}
-              </MagneticButton>
+            {/* Currency picker — one-line rebrand in site.ts changes the default */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  aria-label={t('nav.currency')}
+                  className="gap-1.5 bg-transparent border border-white/10 text-white hover:text-white hover:bg-white/10 hover:border-accent/40 rounded-none px-3.5 py-4 font-mono font-bold text-[10px] uppercase tracking-widest transition-all"
+                >
+                  {currency.code}
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="bg-[#0b0c10] border border-white/10 rounded-none shadow-2xl p-1">
+                {currencies.map((c) => (
+                  <DropdownMenuItem
+                    key={c.code}
+                    onClick={() => setCurrency(c.code)}
+                    className={`font-mono text-[10px] py-2 px-4 rounded-none cursor-pointer tracking-widest uppercase ${
+                      currency.code === c.code ? 'bg-accent text-[#0c0d10] font-extrabold' : 'text-white/80 hover:bg-white/5 hover:text-white'
+                    }`}
+                  >
+                    {c.label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+
+            {/* CTA Contact link */}
+            <Link
+              to="/contact"
+              className="btn-luxury-gold px-6 py-3.5 text-[9px] tracking-[0.25em] bg-accent text-[#0c0d10] border-transparent font-black"
+            >
+              {t('nav.contact')}
             </Link>
           </div>
 
           {/* Mobile buttons */}
           <div className="flex xl:hidden items-center gap-2">
-            {/* Quick lang swap for mobile */}
+            {/* Quick lang swap — only below md, where the desktop picker is hidden */}
+            <div className="md:hidden flex items-center gap-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <button className="p-2 border border-white/10 rounded-none hover:bg-white/5 text-white">
+                <button
+                  aria-label={t('nav.language')}
+                  className="p-3 min-w-[44px] min-h-[44px] flex items-center justify-center border border-white/10 rounded-none bg-transparent hover:bg-white/10 text-white hover:text-white hover:border-accent/40 transition-all"
+                >
                   <Globe size={16} className="text-accent" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="bg-[#0b0c10] border border-white/10 rounded-none p-1">
-                <DropdownMenuItem onClick={() => handleLanguageChange('en')} className="font-mono text-[9px] tracking-widest uppercase py-2 text-white/80">
-                  🇬🇧 EN
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleLanguageChange('es')} className="font-mono text-[9px] tracking-widest uppercase py-2 text-white/80">
-                  🇪🇸 ES
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => handleLanguageChange('de')} className="font-mono text-[9px] tracking-widest uppercase py-2 text-white/80">
-                  🇩🇪 DE
-                </DropdownMenuItem>
+                {languages.map((lang) => (
+                  <DropdownMenuItem
+                    key={lang.code}
+                    onClick={() => handleLanguageChange(lang.code)}
+                    className={`font-mono text-[10px] tracking-widest uppercase py-2 cursor-pointer transition-colors ${
+                      language === lang.code ? 'bg-accent text-[#0c0d10] font-extrabold' : 'text-white/80 hover:bg-white/10 hover:text-white'
+                    }`}
+                  >
+                    {lang.label}
+                  </DropdownMenuItem>
+                ))}
               </DropdownMenuContent>
             </DropdownMenu>
 
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  aria-label={t('nav.currency')}
+                  className="p-3 min-h-[44px] flex items-center justify-center gap-1 border border-white/10 rounded-none bg-transparent hover:bg-white/10 text-white hover:text-white hover:border-accent/40 font-mono text-[10px] font-bold tracking-widest transition-all"
+                >
+                  {currency.code}
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="bg-[#0b0c10] border border-white/10 rounded-none p-1">
+                {currencies.map((c) => (
+                  <DropdownMenuItem
+                    key={c.code}
+                    onClick={() => setCurrency(c.code)}
+                    className={`font-mono text-[10px] tracking-widest uppercase py-2 ${
+                      currency.code === c.code ? 'text-accent' : 'text-white/80'
+                    }`}
+                  >
+                    {c.label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
+            </div>
+
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-2 text-white border border-white/10 rounded-none hover:bg-white/5"
+              aria-label={isMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
+              aria-expanded={isMenuOpen}
+              className="p-3 min-w-[44px] min-h-[44px] flex items-center justify-center text-white border border-white/10 rounded-none hover:bg-white/5"
             >
-              {isMenuOpen ? <X size={16} /> : <Menu size={16} />}
+              {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
         </div>
@@ -197,7 +250,7 @@ const Header = () => {
                   key={item.name}
                   to={item.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`block py-3 px-4 rounded-none text-[10px] font-sans font-bold uppercase tracking-[0.2em] ${
+                  className={`block py-3 px-4 rounded-none text-sm font-sans font-bold uppercase tracking-[0.12em] ${
                     isActive(item.href)
                       ? 'bg-accent text-[#0c0d10] font-extrabold'
                       : 'text-white/70 hover:bg-white/5 hover:text-white'
@@ -207,11 +260,11 @@ const Header = () => {
                 </Link>
               ))}
               <div className="border-t border-white/5 pt-4 mt-4 px-2">
-                <Link to="/contact" onClick={() => setIsMenuOpen(false)}>
-                  <Button className="btn-luxury-gold w-full bg-accent text-[#0c0d10] border-transparent font-bold py-4 text-[9px] tracking-widest uppercase">
+                <Button asChild className="btn-luxury-gold w-full bg-accent text-[#0c0d10] border-transparent font-bold py-4 text-[9px] tracking-widest uppercase">
+                  <Link to="/contact" onClick={() => setIsMenuOpen(false)}>
                     {t('nav.contact')}
-                  </Button>
-                </Link>
+                  </Link>
+                </Button>
               </div>
             </nav>
           </div>

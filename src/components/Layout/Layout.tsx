@@ -17,6 +17,13 @@ const Layout = ({ children }: LayoutProps) => {
   const lenisRef = useRef<Lenis | null>(null);
 
   useEffect(() => {
+    // Respect the user's motion preference: skip smooth scroll entirely.
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (prefersReducedMotion) {
+      window.scrollTo(0, 0);
+      return;
+    }
+
     // Initialize Lenis smooth scroll
     const lenis = new Lenis({
       duration: 1.2,
@@ -67,8 +74,14 @@ const Layout = ({ children }: LayoutProps) => {
 
   return (
     <div className="min-h-screen flex flex-col bg-[#0c0d10]">
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-accent focus:text-[#0c0d10] focus:font-bold focus:uppercase focus:tracking-widest focus:text-xs"
+      >
+        Skip to content
+      </a>
       <Header />
-      <main className="flex-1 pt-20">
+      <main id="main-content" tabIndex={-1} className="flex-1">
         {children}
       </main>
       <Footer />

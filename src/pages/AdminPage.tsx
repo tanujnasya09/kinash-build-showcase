@@ -8,10 +8,12 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { PlusCircle, Trash2, Edit3, Settings, ShieldAlert, Code2, Youtube, MapPin, Sparkles, RefreshCw, Layers } from 'lucide-react';
 import { toast } from 'sonner';
+import siteConfig from '@/config/site';
+import { formatPrice, formatCurrency } from '@/lib/currency';
 
 export default function AdminPage() {
   const { properties, addProperty, updateProperty, deleteProperty, resetProperties } = useProperties();
-  const { t, language } = useLanguage();
+  const { t, currency } = useLanguage();
   
   // State for form
   const [editingId, setEditingId] = useState<number | null>(null);
@@ -114,24 +116,25 @@ export default function AdminPage() {
         parking: 'Available',
         area: sizesArray[0] || '1500 Sq Ft'
       },
-      coordinates: coords
+      coordinates: coords,
+      contact: siteConfig.contact.phoneFormatted
     };
 
     if (editingId) {
       updateProperty({ ...propData, id: editingId });
-      toast.success('Listing updated successfully!');
+      toast.success(t('admin.toast.updated'));
     } else {
       addProperty(propData);
-      toast.success('New listing added successfully!');
+      toast.success(t('admin.toast.created'));
     }
 
     clearForm();
   };
 
   const handleDelete = (id: number) => {
-    if (confirm('Are you sure you want to delete this property?')) {
+    if (confirm(t('admin.toast.deleteConfirm'))) {
       deleteProperty(id);
-      toast.success('Property listing deleted successfully.');
+      toast.success(t('admin.toast.deleted'));
     }
   };
 
@@ -142,40 +145,40 @@ export default function AdminPage() {
         {/* Header Block */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <span className="text-xs uppercase tracking-widest text-accent font-semibold mb-3 block">
-            Content Administration
+            {t('admin.eyebrow')}
           </span>
-          <h1 className="text-4xl md:text-5xl font-display font-extrabold text-primary mb-6">
-            Unified Portfolio Gateway
+          <h1 className="text-4xl md:text-5xl font-display font-extrabold text-white mb-6">
+            {t('admin.heading')}
           </h1>
-          <p className="text-lg text-muted-foreground leading-relaxed font-light">
-            Manage your premium real-estate assets, structural specifications, and high-definition coordinates. Data is integrated with Sanity headless database schemas.
+          <p className="text-lg text-white/60 leading-relaxed font-light">
+            {t('admin.intro')}
           </p>
         </div>
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="dashboard" className="w-full">
           <div className="flex justify-center mb-8">
-            <TabsList className="bg-white border shadow-medium rounded-2xl p-1.5 gap-2 h-auto flex-wrap">
+            <TabsList className="bg-[#0a0c10] border shadow-medium rounded-2xl p-1.5 gap-2 h-auto flex-wrap">
               <TabsTrigger
                 value="dashboard"
                 className="data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl py-3 px-6 font-semibold"
               >
                 <Layers size={16} className="mr-2" />
-                {language === 'en' ? 'Manage Listings' : 'Gestionar'}
+                {t('admin.tab.manage')}
               </TabsTrigger>
               <TabsTrigger
                 value="form"
                 className="data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl py-3 px-6 font-semibold"
               >
                 <PlusCircle size={16} className="mr-2" />
-                {editingId ? 'Edit Listing' : 'Add Property'}
+                {editingId ? t('admin.tab.edit') : t('admin.tab.add')}
               </TabsTrigger>
               <TabsTrigger
                 value="sanity"
                 className="data-[state=active]:bg-primary data-[state=active]:text-white rounded-xl py-3 px-6 font-semibold"
               >
                 <Code2 size={16} className="mr-2" />
-                Sanity CMS Connect
+                {t('admin.tab.sanity')}
               </TabsTrigger>
             </TabsList>
           </div>
@@ -184,9 +187,9 @@ export default function AdminPage() {
           <TabsContent value="dashboard" className="outline-none">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {properties.map((p) => (
-                <Card key={p.id} className="overflow-hidden border border-border shadow-large rounded-3xl bg-white hover:-translate-y-1 transition-all duration-300">
-                  <div className="relative h-48 bg-muted">
-                    <img src={p.images?.[0]} alt={p.title} className="w-full h-full object-cover" />
+                <Card key={p.id} className="overflow-hidden border border-border shadow-large rounded-3xl bg-[#0a0c10] hover:-translate-y-1 transition-all duration-300">
+                  <div className="relative h-48 bg-white/5">
+                    <img loading="lazy" decoding="async" src={p.images?.[0]} alt={p.title} className="w-full h-full object-cover" />
                     <div className="absolute top-4 left-4 bg-primary text-white text-xs font-bold px-3 py-1 rounded-full border border-white/20">
                       {p.specs.type}
                     </div>
@@ -197,15 +200,15 @@ export default function AdminPage() {
                     )}
                   </div>
                   <CardContent className="p-6">
-                    <div className="flex items-center text-xs text-muted-foreground mb-2">
+                    <div className="flex items-center text-xs text-white/60 mb-2">
                       <MapPin size={12} className="mr-1 text-accent" />
                       <span>{p.location}</span>
                     </div>
-                    <h3 className="font-display font-bold text-lg text-primary mb-2 line-clamp-1">
+                    <h3 className="font-display font-bold text-lg text-white mb-2 line-clamp-1">
                       {p.title}
                     </h3>
                     <div className="flex items-center justify-between mb-4">
-                      <span className="text-xl font-bold text-primary">{p.price}</span>
+                      <span className="text-xl font-bold text-white">{formatPrice(p.price, currency.code)}</span>
                       <span className={`text-xs px-2.5 py-1 rounded-full font-bold ${
                         p.status.toLowerCase().includes('sold') ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'
                       }`}>
@@ -213,17 +216,17 @@ export default function AdminPage() {
                       </span>
                     </div>
 
-                    <div className="border-t border-muted pt-4 flex gap-3">
+                    <div className="border-t border-white/10 pt-4 flex gap-3">
                       <Button
                         onClick={() => {
                           fillForm(p);
                           // Select the form tab manually via trigger or state if React allows
-                          toast.info('Listing loaded. Please open the "Add / Edit" tab!');
+                          toast.info(t('admin.action.loaded'));
                         }}
-                        className="flex-1 bg-muted hover:bg-muted-foreground/10 text-primary font-semibold py-2.5 rounded-xl border"
+                        className="flex-1 bg-white/5 hover:bg-white/10 text-white font-semibold py-2.5 rounded-xl border"
                       >
                         <Edit3 size={14} className="mr-1.5" />
-                        Edit
+                        {t('admin.action.edit')}
                       </Button>
                       <Button
                         onClick={() => handleDelete(p.id)}
@@ -241,15 +244,19 @@ export default function AdminPage() {
 
           {/* Tab 2: Visual Creation Form */}
           <TabsContent value="form" className="outline-none">
-            <div className="max-w-4xl mx-auto bg-white border border-border shadow-large rounded-3xl p-8 md:p-10">
+            <div className="max-w-4xl mx-auto bg-[#0a0c10] border border-border shadow-large rounded-3xl p-8 md:p-10">
               <div className="flex items-center justify-between border-b pb-6 mb-8">
-                <h3 className="text-2xl font-display font-bold text-primary flex items-center gap-2">
+                <h3 className="text-2xl font-display font-bold text-white flex items-center gap-2">
                   <Sparkles className="text-accent" />
-                  {editingId ? `Editing Listing: ID #${editingId}` : 'Add a Premium Property Listing'}
+                  {editingId ? t('admin.form.editHeading', { id: editingId }) : t('admin.form.addHeading')}
                 </h3>
                 {editingId && (
-                  <Button onClick={clearForm} variant="outline" className="rounded-xl">
-                    Cancel Editing
+                  <Button
+                    onClick={clearForm}
+                    variant="outline"
+                    className="rounded-xl border-white/10 text-white hover:bg-white/10 hover:text-white hover:border-accent/40 transition-all"
+                  >
+                    {t('admin.action.cancelEditing')}
                   </Button>
                 )}
               </div>
@@ -257,197 +264,197 @@ export default function AdminPage() {
               <form onSubmit={handleSave} className="space-y-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="text-xs font-bold text-muted-foreground tracking-wide uppercase mb-2 block">
-                      Property Title *
+                    <label className="text-xs font-bold text-white/60 tracking-wide uppercase mb-2 block">
+                      {t('admin.form.title')}
                     </label>
                     <Input
                       required
                       placeholder="e.g. Imperial Villas, Sahastradhara"
                       value={title}
                       onChange={(e) => setTitle(e.target.value)}
-                      className="border-2 border-muted focus:border-accent rounded-xl"
+                      className="border-2 border-white/10 focus:border-accent rounded-xl"
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-muted-foreground tracking-wide uppercase mb-2 block">
-                      URL Slug * (Unique Identifier)
+                    <label className="text-xs font-bold text-white/60 tracking-wide uppercase mb-2 block">
+                      {t('admin.form.slug')}
                     </label>
                     <Input
                       required
                       placeholder="e.g. imperial-villas-sahastradhara"
                       value={slug}
                       onChange={(e) => setSlug(e.target.value)}
-                      className="border-2 border-muted focus:border-accent rounded-xl"
+                      className="border-2 border-white/10 focus:border-accent rounded-xl"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div>
-                    <label className="text-xs font-bold text-muted-foreground tracking-wide uppercase mb-2 block">
-                      Pricing (INR) *
+                    <label className="text-xs font-bold text-white/60 tracking-wide uppercase mb-2 block">
+                      {t('admin.form.pricing', { currency: currency.code })}
                     </label>
                     <Input
                       required
-                      placeholder="e.g. ₹45,00,000.00"
+                      placeholder={`e.g. ${formatCurrency(4500000, currency.code)}`}
                       value={price}
                       onChange={(e) => setPrice(e.target.value)}
-                      className="border-2 border-muted focus:border-accent rounded-xl"
+                      className="border-2 border-white/10 focus:border-accent rounded-xl"
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-muted-foreground tracking-wide uppercase mb-2 block">
-                      Listing Status
+                    <label className="text-xs font-bold text-white/60 tracking-wide uppercase mb-2 block">
+                      {t('admin.form.status')}
                     </label>
                     <select
                       value={status}
                       onChange={(e) => setStatus(e.target.value)}
-                      className="w-full border-2 border-muted focus:border-accent rounded-xl py-3 px-4 text-sm bg-background"
+                      className="w-full border-2 border-white/10 focus:border-accent rounded-xl py-3 px-4 text-sm bg-background"
                     >
-                      <option value="Available">Available</option>
-                      <option value="Under Construction">Under Construction</option>
-                      <option value="SOLD">SOLD</option>
+                      <option value="Available">{t('admin.status.available')}</option>
+                      <option value="Under Construction">{t('admin.status.underConstruction')}</option>
+                      <option value="SOLD">{t('admin.status.sold')}</option>
                     </select>
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-muted-foreground tracking-wide uppercase mb-2 block">
-                      Property Type
+                    <label className="text-xs font-bold text-white/60 tracking-wide uppercase mb-2 block">
+                      {t('admin.form.type')}
                     </label>
                     <select
                       value={type}
                       onChange={(e) => setType(e.target.value)}
-                      className="w-full border-2 border-muted focus:border-accent rounded-xl py-3 px-4 text-sm bg-background"
+                      className="w-full border-2 border-white/10 focus:border-accent rounded-xl py-3 px-4 text-sm bg-background"
                     >
-                      <option value="Residential Plot">Residential Plot</option>
-                      <option value="Commercial Plot">Commercial Plot</option>
-                      <option value="Luxury Villa">Luxury Villa</option>
-                      <option value="Luxury Apartment">Luxury Apartment</option>
+                      <option value="Residential Plot">{t('admin.type.residentialPlot')}</option>
+                      <option value="Commercial Plot">{t('admin.type.commercialPlot')}</option>
+                      <option value="Luxury Villa">{t('admin.type.luxuryVilla')}</option>
+                      <option value="Luxury Apartment">{t('admin.type.luxuryApartment')}</option>
                     </select>
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="text-xs font-bold text-muted-foreground tracking-wide uppercase mb-2 block">
-                      Location / Region *
+                    <label className="text-xs font-bold text-white/60 tracking-wide uppercase mb-2 block">
+                      {t('admin.form.location')}
                     </label>
                     <Input
                       required
                       placeholder="e.g. Sahastradhara Road, Dehradun"
                       value={location}
                       onChange={(e) => setLocation(e.target.value)}
-                      className="border-2 border-muted focus:border-accent rounded-xl"
+                      className="border-2 border-white/10 focus:border-accent rounded-xl"
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-muted-foreground tracking-wide uppercase mb-2 block font-display flex items-center gap-1 text-red-600">
-                      <Youtube size={14} /> YouTube Walkthrough Link
+                    <label className="text-xs font-bold text-white/60 tracking-wide uppercase mb-2 block font-display flex items-center gap-1 text-red-400">
+                      <Youtube size={14} /> {t('admin.form.video')}
                     </label>
                     <Input
-                      placeholder="e.g. https://www.youtube.com/watch?v=CneWfXK363M"
+                      placeholder="e.g. https://www.youtube.com/watch?v=YOUR_VIDEO_ID"
                       value={videoLink}
                       onChange={(e) => setVideoLink(e.target.value)}
-                      className="border-2 border-muted focus:border-accent rounded-xl"
+                      className="border-2 border-white/10 focus:border-accent rounded-xl"
                     />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
                   <div>
-                    <label className="text-xs font-bold text-muted-foreground tracking-wide uppercase mb-2 block">
-                      Sizes Option (comma separated)
+                    <label className="text-xs font-bold text-white/60 tracking-wide uppercase mb-2 block">
+                      {t('admin.form.sizes')}
                     </label>
                     <Input
                       placeholder="e.g. 100 Gaj, 150 Gaj, 250 Gaj"
                       value={sizesText}
                       onChange={(e) => setSizesText(e.target.value)}
-                      className="border-2 border-muted focus:border-accent rounded-xl"
+                      className="border-2 border-white/10 focus:border-accent rounded-xl"
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-muted-foreground tracking-wide uppercase mb-2 block">
-                      Possession Date
+                    <label className="text-xs font-bold text-white/60 tracking-wide uppercase mb-2 block">
+                      {t('admin.form.possession')}
                     </label>
                     <Input
                       placeholder="e.g. Immediate, Dec 2026"
                       value={possession}
                       onChange={(e) => setPossession(e.target.value)}
-                      className="border-2 border-muted focus:border-accent rounded-xl"
+                      className="border-2 border-white/10 focus:border-accent rounded-xl"
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-muted-foreground tracking-wide uppercase mb-2 block">
-                      Facing Direction
+                    <label className="text-xs font-bold text-white/60 tracking-wide uppercase mb-2 block">
+                      {t('admin.form.facing')}
                     </label>
                     <Input
                       placeholder="e.g. East, North-East"
                       value={facing}
                       onChange={(e) => setFacing(e.target.value)}
-                      className="border-2 border-muted focus:border-accent rounded-xl"
+                      className="border-2 border-white/10 focus:border-accent rounded-xl"
                     />
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     <div>
-                      <label className="text-[10px] font-bold text-muted-foreground tracking-wide uppercase mb-2 block">
-                        Latitude
+                      <label className="text-[10px] font-bold text-white/60 tracking-wide uppercase mb-2 block">
+                        {t('admin.form.latitude')}
                       </label>
                       <Input
                         placeholder="30.3475"
                         value={latitude}
                         onChange={(e) => setLatitude(e.target.value)}
-                        className="border-2 border-muted focus:border-accent rounded-xl px-2"
+                        className="border-2 border-white/10 focus:border-accent rounded-xl px-2"
                       />
                     </div>
                     <div>
-                      <label className="text-[10px] font-bold text-muted-foreground tracking-wide uppercase mb-2 block">
-                        Longitude
+                      <label className="text-[10px] font-bold text-white/60 tracking-wide uppercase mb-2 block">
+                        {t('admin.form.longitude')}
                       </label>
                       <Input
                         placeholder="78.0772"
                         value={longitude}
                         onChange={(e) => setLongitude(e.target.value)}
-                        className="border-2 border-muted focus:border-accent rounded-xl px-2"
+                        className="border-2 border-white/10 focus:border-accent rounded-xl px-2"
                       />
                     </div>
                   </div>
                 </div>
 
                 <div>
-                  <label className="text-xs font-bold text-muted-foreground tracking-wide uppercase mb-2 block">
-                    Detailed Narrative & Value Creation (Story)
+                  <label className="text-xs font-bold text-white/60 tracking-wide uppercase mb-2 block">
+                    {t('admin.form.description')}
                   </label>
                   <Textarea
-                    placeholder="Describe the architectural story, green spaces, and investment returns..."
+                    placeholder={t('admin.form.descriptionPlaceholder')}
                     value={description}
                     onChange={(e) => setDescription(e.target.value)}
                     rows={4}
-                    className="border-2 border-muted focus:border-accent rounded-xl"
+                    className="border-2 border-white/10 focus:border-accent rounded-xl"
                   />
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div>
-                    <label className="text-xs font-bold text-muted-foreground tracking-wide uppercase mb-2 block">
-                      High-Res Image URLs (One URL per line)
+                    <label className="text-xs font-bold text-white/60 tracking-wide uppercase mb-2 block">
+                      {t('admin.form.images')}
                     </label>
                     <Textarea
                       placeholder="e.g. https://images.unsplash.com/photo-1512917774080-9991f1c4c750"
                       value={imagesText}
                       onChange={(e) => setImagesText(e.target.value)}
                       rows={4}
-                      className="border-2 border-muted focus:border-accent rounded-xl font-mono text-xs"
+                      className="border-2 border-white/10 focus:border-accent rounded-xl font-mono text-xs"
                     />
                   </div>
                   <div>
-                    <label className="text-xs font-bold text-muted-foreground tracking-wide uppercase mb-2 block">
-                      Amenities & Key Features (One per line)
+                    <label className="text-xs font-bold text-white/60 tracking-wide uppercase mb-2 block">
+                      {t('admin.form.features')}
                     </label>
                     <Textarea
                       placeholder="e.g. Electricity Ingress&#10;Automatic Lifts&#10;Secure Guard Room"
                       value={featuresText}
                       onChange={(e) => setFeaturesText(e.target.value)}
                       rows={4}
-                      className="border-2 border-muted focus:border-accent rounded-xl text-sm"
+                      className="border-2 border-white/10 focus:border-accent rounded-xl text-sm"
                     />
                   </div>
                 </div>
@@ -457,14 +464,14 @@ export default function AdminPage() {
                     type="submit"
                     className="flex-1 bg-primary hover:bg-primary-glow text-white py-4 rounded-xl font-bold shadow-medium"
                   >
-                    {editingId ? 'Save Changes' : 'Create Luxury Listing'}
+                    {editingId ? t('admin.action.save') : t('admin.action.create')}
                   </Button>
                   <Button
                     type="button"
                     onClick={clearForm}
-                    className="bg-muted hover:bg-muted-foreground/10 text-primary border font-semibold py-4 rounded-xl px-6"
+                    className="bg-white/5 hover:bg-white/10 text-white border font-semibold py-4 rounded-xl px-6"
                   >
-                    Clear
+                    {t('admin.action.clear')}
                   </Button>
                 </div>
               </form>

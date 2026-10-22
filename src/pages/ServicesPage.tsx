@@ -3,82 +3,29 @@ import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import SEOHead from '@/components/SEO/SEOHead';
 import MagneticButton from '@/components/ui/MagneticButton';
+import { useLanguage } from '@/context/LanguageContext';
+
+const serviceIcons = [Building2, Home, TrendingUp, Settings, ClipboardList, Shield];
+const serviceLinks = ['/construction', '/construction', '/real-estate', '/real-estate', '/about', '/about'];
 
 const ServicesPage = () => {
-  const services = [
-    {
-      icon: Building2,
-      title: 'Commercial Construction',
-      description: 'State-of-the-art office buildings, retail spaces, and industrial facilities designed for modern business needs.',
-      features: ['Office Buildings', 'Retail Centers', 'Industrial Facilities', 'Mixed-Use Developments'],
-      link: '/construction'
-    },
-    {
-      icon: Home,
-      title: 'Residential Development',
-      description: 'Luxury homes and residential communities that combine comfort, style, and sustainability.',
-      features: ['Custom Homes', 'Residential Communities', 'Luxury Condominiums', 'Affordable Housing'],
-      link: '/construction'
-    },
-    {
-      icon: TrendingUp,
-      title: 'Real Estate Investment',
-      description: 'Strategic investment opportunities and portfolio management for maximum returns.',
-      features: ['Investment Analysis', 'Portfolio Management', 'Market Research', 'ROI Optimization'],
-      link: '/real-estate'
-    },
-    {
-      icon: Settings,
-      title: 'Property Management',
-      description: 'Comprehensive property management services to maximize asset value and tenant satisfaction.',
-      features: ['Tenant Relations', 'Maintenance Services', 'Financial Management', 'Asset Optimization'],
-      link: '/real-estate'
-    },
-    {
-      icon: ClipboardList,
-      title: 'Project Consulting',
-      description: 'Expert guidance through every phase of your construction or real estate project.',
-      features: ['Feasibility Studies', 'Project Planning', 'Cost Estimation', 'Risk Assessment'],
-      link: '/about'
-    },
-    {
-      icon: Shield,
-      title: 'Quality Assurance',
-      description: 'Rigorous quality control and compliance ensuring the highest standards in every project.',
-      features: ['Quality Control', 'Safety Compliance', 'Code Compliance', 'Performance Testing'],
-      link: '/about'
-    }
-  ];
+  const { content } = useLanguage();
+  const copy = content.services;
 
-  const process = [
-    {
-      step: '01',
-      title: 'Initial Consultation',
-      description: 'We meet to understand your vision, requirements, and goals for the project.'
-    },
-    {
-      step: '02',
-      title: 'Planning & Design',
-      description: 'Our experts develop comprehensive plans and designs tailored to your needs.'
-    },
-    {
-      step: '03',
-      title: 'Execution',
-      description: 'Professional implementation with regular updates and quality checkpoints.'
-    },
-    {
-      step: '04',
-      title: 'Delivery & Support',
-      description: 'Project completion with ongoing support and maintenance services.'
-    }
-  ];
+  const services = copy.services.map((service, idx) => ({
+    ...service,
+    icon: serviceIcons[idx],
+    link: serviceLinks[idx],
+  }));
+
+  const process = copy.process;
 
   return (
-    <div className="min-h-screen bg-[#0c0d10] text-white pt-28 pb-16 relative overflow-hidden">
+    <div className="min-h-screen bg-[#0c0d10] text-white pt-20 sm:pt-24 lg:pt-28 pb-16 relative overflow-hidden">
       <SEOHead
-        title="Services & Infrastructure | Kinash Associates"
-        description="Explore the construction and real estate services offered by Kinash Associates. Commercial construction, luxury homes, and property management."
-        keywords="commercial building construction dehradun, luxury villa builders, real estate consultants"
+        title={copy.meta.title}
+        description={copy.meta.description}
+        keywords={copy.meta.keywords}
         canonical="/services"
       />
 
@@ -91,17 +38,17 @@ const ServicesPage = () => {
       </div>
 
       {/* Hero Section */}
-      <section className="py-24 relative overflow-hidden">
+      <section className="py-8 sm:py-16 lg:py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-b from-[#0a0c10] to-transparent opacity-40 z-0" />
         <div className="container mx-auto px-4 md:px-8 relative z-10 max-w-5xl">
-          <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-4">
-            service portfolio
+          <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-2.5 sm:mb-4">
+            {copy.eyebrow}
           </span>
-          <h1 className="text-4xl md:text-6xl font-display font-medium leading-none mb-6">
-            Comprehensive Architectural <span className="bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent italic font-light">Capabilities</span>.
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-medium leading-[1.1] sm:leading-none mb-3.5 sm:mb-6">
+            {copy.title} <span className="text-accent italic font-light">{copy.titleAccent}</span>
           </h1>
-          <p className="text-xs sm:text-sm text-white/50 leading-relaxed font-light max-w-2xl">
-            From civil structural construction to premium registry transfers, our specialized divisions deliver secure real estate development and asset management.
+          <p className="text-xs sm:text-sm text-white/60 leading-relaxed font-light max-w-2xl">
+            {copy.intro}
           </p>
         </div>
       </section>
@@ -111,23 +58,23 @@ const ServicesPage = () => {
         <div className="container mx-auto px-4 md:px-8">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {services.map((service, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="border border-white/5 bg-[#0a0c10]/60 p-8 hover:border-accent/25 transition-all duration-500 group shadow-2xl relative"
               >
                 <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-accent/40" />
                 <div className="inline-flex items-center justify-center w-12 h-12 border border-white/10 bg-[#0d0f14] text-accent mb-6 group-hover:bg-accent group-hover:text-black transition-colors duration-500">
                   <service.icon size={18} />
                 </div>
-                
+
                 <h3 className="text-lg font-display font-medium text-white mb-4 group-hover:text-accent transition-colors">
                   {service.title}
                 </h3>
-                
+
                 <p className="text-xs text-white/50 leading-relaxed mb-6 font-light">
                   {service.description}
                 </p>
-                
+
                 <ul className="space-y-2.5 mb-8">
                   {service.features.map((feature, idx) => (
                     <li key={idx} className="flex items-center text-[10px] font-mono uppercase tracking-wide text-white/40">
@@ -136,10 +83,10 @@ const ServicesPage = () => {
                     </li>
                   ))}
                 </ul>
-                
+
                 <Link to={service.link}>
                   <Button className="w-full border border-white/10 text-white rounded-none py-5 text-[9px] uppercase tracking-widest font-mono hover:bg-accent hover:text-black hover:border-transparent transition-all">
-                    Explore Division
+                    {copy.exploreDivision}
                   </Button>
                 </Link>
               </div>
@@ -153,17 +100,17 @@ const ServicesPage = () => {
         <div className="container mx-auto px-4 md:px-8">
           <div className="max-w-3xl mb-20">
             <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-3">
-              methodology
+              {copy.processEyebrow}
             </span>
             <h2 className="text-3xl font-display font-medium text-white">
-              The Execution Framework
+              {copy.processTitle}
             </h2>
           </div>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {process.map((item, index) => (
-              <div 
-                key={index} 
+              <div
+                key={index}
                 className="group relative p-6 bg-[#0a0c10]/40 border border-white/5"
               >
                 <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-accent/40" />
@@ -172,11 +119,11 @@ const ServicesPage = () => {
                     <span className="text-xs font-mono font-bold text-white group-hover:text-black">{item.step}</span>
                   </div>
                 </div>
-                
+
                 <h3 className="text-sm font-display font-medium text-white mb-3 group-hover:text-accent transition-colors">
                   {item.title}
                 </h3>
-                
+
                 <p className="text-[11px] text-white/50 leading-relaxed font-light">
                   {item.description}
                 </p>
@@ -191,27 +138,28 @@ const ServicesPage = () => {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_70%,rgba(223,186,72,0.05),transparent_40%)] pointer-events-none" />
         <div className="container mx-auto px-4 md:px-8 text-center relative z-10 max-w-3xl">
           <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-4">
-            secure connection
+            {copy.ctaEyebrow}
           </span>
           <h2 className="text-3xl sm:text-5xl font-display font-medium text-white mb-6 leading-none">
-            Ready to Connect <span className="bg-gradient-to-r from-accent to-accent-glow bg-clip-text text-transparent italic font-light">With Us</span>?
+            {copy.ctaTitle} <span className="text-accent italic font-light">{copy.ctaAccent}</span>
           </h2>
           <p className="text-xs text-white/55 leading-relaxed font-light mb-10 max-w-md mx-auto">
-            Contact us today to discuss your project requirements and discover how we can help bring your vision to life.
+            {copy.ctaBody}
           </p>
-          <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <Link to="/contact" className="w-full sm:w-auto">
-              <MagneticButton strength={20} className="w-full" as="div">
-                <Button className="btn-luxury-gold bg-accent text-[#0c0d10] border-transparent font-bold py-4 px-10 rounded-none uppercase text-[9px] tracking-widest hover:bg-accent-glow w-full">
-                  Contact Us
-                </Button>
-              </MagneticButton>
-            </Link>
-            <Link to="/about" className="w-full sm:w-auto">
-              <Button className="btn-luxury-outline border-white/20 text-white hover:bg-white hover:text-black rounded-none py-4 px-10 w-full uppercase text-[9px] tracking-widest font-bold">
-                Learn About Kinash
+          <div className="flex flex-col sm:flex-row gap-3.5 sm:gap-5 justify-center items-stretch sm:items-center">
+            <MagneticButton strength={20} className="w-full sm:w-auto" as="div">
+              <Button asChild className="w-full sm:w-auto h-13 sm:h-14 px-8 py-4 bg-accent text-[#0c0d10] hover:bg-accent-glow font-display font-black text-xs uppercase tracking-[0.2em] rounded-none border border-accent hover:border-accent-glow shadow-[0_10px_30px_rgba(223,186,72,0.25)] flex items-center justify-center gap-2 group transition-all">
+                <Link to="/contact">
+                  <span>{copy.ctaPrimary}</span>
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform duration-300" />
+                </Link>
               </Button>
-            </Link>
+            </MagneticButton>
+            <MagneticButton strength={20} className="w-full sm:w-auto" as="div">
+              <Button asChild className="w-full sm:w-auto h-13 sm:h-14 px-8 py-4 bg-transparent text-white hover:bg-white hover:text-[#0c0d10] font-display font-black text-xs uppercase tracking-[0.2em] rounded-none border border-white/20 hover:border-white transition-all flex items-center justify-center">
+                <Link to="/about">{copy.ctaSecondary}</Link>
+              </Button>
+            </MagneticButton>
           </div>
         </div>
       </section>

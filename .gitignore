@@ -22,3 +22,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+# Local agent tooling artifacts (not part of the shipped template)
+.claude/
+.impeccable/

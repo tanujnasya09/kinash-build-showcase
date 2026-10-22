@@ -1,0 +1,31 @@
+{
+  "$schema": "https://raw.githubusercontent.com/sugarforever/open-design-skill/main/schema.json",
+  "designSystem": {
+    "name": "luxury",
+    "path": "design-systems/luxury/DESIGN.md",
+    "secondary": "design-systems/atelier-zero/DESIGN.md"
+  },
+  "skill": {
+    "name": "web-prototype-taste-editorial",
+    "path": "design-templates/web-prototype-taste-editorial/SKILL.md"
+  },
+  "craft": [
+    "craft/anti-ai-slop.md",
+    "craft/typography-hierarchy-editorial.md",
+    "craft/animation-discipline.md",
+    "craft/state-coverage.md"
+  ],
+  "tokens": {
+    "canvas": "#0c0d10",
+    "surface": "#121318",
+    "accent": "#dfba48",
+    "accentGlow": "#e5c96d",
+    "foreground": "#fdfbf7",
+    "muted": "#8d9099",
+    "border": "rgba(255, 255, 255, 0.1)",
+    "borderAccent": "rgba(223, 186, 72, 0.35)",
+    "fontDisplay": "Archivo, sans-serif",
+    "fontBody": "Manrope, sans-serif",
+    "fontMono": "JetBrains Mono, monospace"
+  }
+}

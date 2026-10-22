@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import initialProperties from '../data/proprties';
+import { siteConfig } from '@/config/site';
 
 export interface Property {
   id: number;
@@ -79,8 +79,8 @@ const enrichedInitialProperties: Property[] = [
       '100% Traffic Free and Pollution Free green belt',
       'Available in custom sizes (100 Gaj, 150 Gaj, 200 Gaj, 250 Gaj)'
     ],
-    contact: '+91 135 277 9000',
-    videoLink: 'https://www.youtube.com/watch?v=CneWfXK363M',
+    contact: siteConfig.contact.phoneFormatted,
+    videoLink: 'https://www.youtube.com/watch?v=0VReUpeFay4',
     additionalInfo: 'We have brought you the most beautiful plots in the Dehradun region, where you can build your dream villa for less than 10 Lakhs.',
     images: [
       'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&h=600&fit=crop',
@@ -99,7 +99,6 @@ const enrichedInitialProperties: Property[] = [
     },
     coordinates: [30.4284, 77.7471],
     floorPlanUrl: 'https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop', // Floor plan mock
-    virtualTourUrl: 'https://my.matterport.com/show/?m=sxQGDh8m21N',
     brochureUrl: '#',
     translations: {
       es: {
@@ -153,7 +152,8 @@ const enrichedInitialProperties: Property[] = [
       'Excellent highway connectivity and access to local transport',
       'Fast-developing high-end residential neighborhood'
     ],
-    contact: '+91 135 277 9000',
+    contact: siteConfig.contact.phoneFormatted,
+    videoLink: 'https://www.youtube.com/watch?v=sfWcqu4hPHw',
     images: [
       'https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?w=800&h=600&fit=crop',
       'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&h=600&fit=crop'
@@ -170,7 +170,6 @@ const enrichedInitialProperties: Property[] = [
     },
     coordinates: [30.2974, 78.1368],
     floorPlanUrl: 'https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop',
-    virtualTourUrl: 'https://my.matterport.com/show/?m=sxQGDh8m21N',
     brochureUrl: '#',
     translations: {
       es: {
@@ -220,7 +219,8 @@ const enrichedInitialProperties: Property[] = [
       'Walking distance from public transport corridors',
       'Surrounded by premium schools, colleges, banks, and hospital facilities'
     ],
-    contact: 'Contact Agent',
+    contact: siteConfig.contact.phoneFormatted,
+    videoLink: 'https://www.youtube.com/watch?v=6YPmNALHar4',
     images: [
       'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?w=800&h=600&fit=crop',
       'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&h=600&fit=crop',
@@ -239,7 +239,6 @@ const enrichedInitialProperties: Property[] = [
     },
     coordinates: [30.3475, 78.0772],
     floorPlanUrl: 'https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop',
-    virtualTourUrl: 'https://my.matterport.com/show/?m=sxQGDh8m21N',
     brochureUrl: '#',
     translations: {
       es: {
@@ -288,8 +287,8 @@ const enrichedInitialProperties: Property[] = [
       'Highly strategic geographic location with heavy appreciation forecast',
       'Superb regional and interstate highway connectivity'
     ],
-    contact: 'Message User Name',
-    videoLink: 'https://www.youtube.com/watch?v=IljspPrgaK4',
+    contact: siteConfig.contact.phoneFormatted,
+    videoLink: 'https://www.youtube.com/watch?v=sfWcqu4hPHw',
     images: [
       'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&h=600&fit=crop',
       'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&h=600&fit=crop'
@@ -306,7 +305,6 @@ const enrichedInitialProperties: Property[] = [
     },
     coordinates: [30.4000, 77.8500],
     floorPlanUrl: 'https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop',
-    virtualTourUrl: 'https://my.matterport.com/show/?m=sxQGDh8m21N',
     brochureUrl: '#',
     translations: {
       es: {
@@ -353,7 +351,8 @@ const enrichedInitialProperties: Property[] = [
       'Dedicated transformers for 24/7 electricity security',
       'Secure gated premium community entrance'
     ],
-    contact: '+91 135 277 9000',
+    contact: siteConfig.contact.phoneFormatted,
+    videoLink: 'https://www.youtube.com/watch?v=8CJrosYFsm0',
     images: [
       'https://images.unsplash.com/photo-1506974210756-8e1b8985d348?w=800&h=600&fit=crop',
       'https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?w=800&h=600&fit=crop'
@@ -370,7 +369,6 @@ const enrichedInitialProperties: Property[] = [
     },
     coordinates: [30.3547, 78.0862],
     floorPlanUrl: 'https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop',
-    virtualTourUrl: 'https://my.matterport.com/show/?m=sxQGDh8m21N',
     brochureUrl: '#',
     translations: {
       es: {
@@ -417,7 +415,8 @@ const enrichedInitialProperties: Property[] = [
       '24/7 CCTV smart network surveillance and security guards',
       'Immediate property transfer and mutation transfer'
     ],
-    contact: '+91 135 277 9000',
+    contact: siteConfig.contact.phoneFormatted,
+    videoLink: 'https://www.youtube.com/watch?v=J_0z0mRh_kQ',
     images: [
       'https://images.unsplash.com/photo-1441974231531-c6227db76b6e?w=800&h=600&fit=crop',
       'https://images.unsplash.com/photo-1500382017468-9049fed747ef?w=800&h=600&fit=crop'
@@ -434,7 +433,6 @@ const enrichedInitialProperties: Property[] = [
     },
     coordinates: [30.4350, 77.7550],
     floorPlanUrl: 'https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop',
-    virtualTourUrl: 'https://my.matterport.com/show/?m=sxQGDh8m21N',
     brochureUrl: '#',
     translations: {
       es: {
@@ -473,14 +471,15 @@ export const PropertyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
   const [properties, setProperties] = useState<Property[]>([]);
 
   useEffect(() => {
-    const saved = localStorage.getItem('kinash_properties');
+    const saved = localStorage.getItem('apex_properties');
     if (saved) {
       try {
-        const parsed = JSON.parse(saved);
-        const hasLegacyStatus = parsed.some((p: any) => p.id === 1 && p.status === 'Available');
-        if (parsed.length < enrichedInitialProperties.length || hasLegacyStatus) {
+        const parsed = JSON.parse(saved) as Property[];
+        const hasLegacyStatus = parsed.some((p) => p.id === 1 && p.status === 'Available');
+        const isMissingVideo = parsed.some((p) => !p.videoLink);
+        if (parsed.length < enrichedInitialProperties.length || hasLegacyStatus || isMissingVideo) {
           setProperties(enrichedInitialProperties);
-          localStorage.setItem('kinash_properties', JSON.stringify(enrichedInitialProperties));
+          localStorage.setItem('apex_properties', JSON.stringify(enrichedInitialProperties));
         } else {
           setProperties(parsed);
         }
@@ -489,13 +488,13 @@ export const PropertyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       }
     } else {
       setProperties(enrichedInitialProperties);
-      localStorage.setItem('kinash_properties', JSON.stringify(enrichedInitialProperties));
+      localStorage.setItem('apex_properties', JSON.stringify(enrichedInitialProperties));
     }
   }, []);
 
   const saveToStorage = (updated: Property[]) => {
     setProperties(updated);
-    localStorage.setItem('kinash_properties', JSON.stringify(updated));
+    localStorage.setItem('apex_properties', JSON.stringify(updated));
   };
 
   const addProperty = (newProp: Omit<Property, 'id'>) => {
@@ -504,7 +503,6 @@ export const PropertyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
       ...newProp,
       id: nextId,
       floorPlanUrl: 'https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop',
-      virtualTourUrl: 'https://my.matterport.com/show/?m=sxQGDh8m21N',
       brochureUrl: '#'
     };
     const updated = [...properties, added];
