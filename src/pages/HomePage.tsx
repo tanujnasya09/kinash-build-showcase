@@ -223,7 +223,7 @@ export default function HomePage() {
                     <span className="text-accent">{formatMoneyCompact(copy.statAmountEquity, currency.code)}</span><span className="text-accent font-light">+</span>
                   </div>
                   <div className="text-[8px] sm:text-[9px] font-mono uppercase tracking-[0.2em] text-foreground/70 dark:text-white/50 mt-2 font-medium">
-                    {copy.statLabelValue || 'Equity Delivered'}
+                    {copy.statLabelEquity || 'Equity Delivered'}
                   </div>
                 </div>
               </div>
