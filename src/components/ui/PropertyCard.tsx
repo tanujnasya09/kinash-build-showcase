@@ -43,11 +43,15 @@ export default function PropertyCard({ property, isActive = false, onMouseEnter 
     const card = cardRef.current;
     if (!card) return;
 
+    const isDark = document.documentElement.classList.contains('dark');
+
     // Smooth lift & shadow glow
     gsap.to(card, {
       y: -8,
-      borderColor: 'rgba(223, 186, 72, 0.35)',
-      boxShadow: '0 20px 45px rgba(223, 186, 72, 0.08), 0 0 40px rgba(0, 0, 0, 0.5)',
+      borderColor: isDark ? 'rgba(223, 186, 72, 0.35)' : 'rgba(156, 109, 18, 0.45)',
+      boxShadow: isDark 
+        ? '0 20px 45px rgba(223, 186, 72, 0.08), 0 0 40px rgba(0, 0, 0, 0.5)'
+        : '0 20px 45px rgba(18, 19, 24, 0.08), 0 4px 15px rgba(156, 109, 18, 0.1)',
       duration: 0.5,
       ease: 'power3.out'
     });
@@ -64,7 +68,7 @@ export default function PropertyCard({ property, isActive = false, onMouseEnter 
     // Animate and highlight corner brackets outward
     const corners = [topLeftRef.current, topRightRef.current, bottomLeftRef.current, bottomRightRef.current];
     gsap.to(corners.filter(Boolean), {
-      borderColor: 'rgba(223, 186, 72, 0.8)',
+      borderColor: isDark ? 'rgba(223, 186, 72, 0.8)' : 'rgba(156, 109, 18, 0.8)',
       scale: 1.25,
       duration: 0.4,
       ease: 'power2.out'
@@ -75,6 +79,7 @@ export default function PropertyCard({ property, isActive = false, onMouseEnter 
     const card = cardRef.current;
     if (!card) return;
 
+    const isDark = document.documentElement.classList.contains('dark');
     const rect = card.getBoundingClientRect();
     const x = (e.clientX - rect.left) / rect.width - 0.5; // range: -0.5 to 0.5
     const y = (e.clientY - rect.top) / rect.height - 0.5; // range: -0.5 to 0.5
@@ -96,7 +101,7 @@ export default function PropertyCard({ property, isActive = false, onMouseEnter 
       const borderX = e.clientX - rect.left;
       const borderY = e.clientY - rect.top;
       gsap.to(borderRef.current, {
-        background: `radial-gradient(350px circle at ${borderX}px ${borderY}px, rgba(223, 186, 72, 0.18), transparent 45%)`,
+        background: `radial-gradient(350px circle at ${borderX}px ${borderY}px, ${isDark ? 'rgba(223, 186, 72, 0.18)' : 'rgba(186, 137, 29, 0.15)'}, transparent 45%)`,
         duration: 0.3,
         ease: 'power2.out'
       });
@@ -107,11 +112,17 @@ export default function PropertyCard({ property, isActive = false, onMouseEnter 
     const card = cardRef.current;
     if (!card) return;
 
+    const isDark = document.documentElement.classList.contains('dark');
+
     // Reset card lift and shadow
     gsap.to(card, {
       y: 0,
-      borderColor: isActive ? 'rgba(223, 186, 72, 0.5)' : 'rgba(255, 255, 255, 0.05)',
-      boxShadow: isActive ? '0 0 50px rgba(223, 186, 72, 0.15)' : '0 10px 30px rgba(0, 0, 0, 0.3)',
+      borderColor: isActive
+        ? (isDark ? 'rgba(223, 186, 72, 0.5)' : 'rgba(156, 109, 18, 0.6)')
+        : (isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(17, 18, 22, 0.09)'),
+      boxShadow: isActive 
+        ? (isDark ? '0 0 50px rgba(223, 186, 72, 0.15)' : '0 10px 30px rgba(156, 109, 18, 0.12)')
+        : (isDark ? '0 10px 30px rgba(0, 0, 0, 0.3)' : '0 4px 12px rgba(18, 19, 24, 0.04)'),
       duration: 0.6,
       ease: 'power3.out'
     });
@@ -139,7 +150,7 @@ export default function PropertyCard({ property, isActive = false, onMouseEnter 
     // Reset corner brackets
     const corners = [topLeftRef.current, topRightRef.current, bottomLeftRef.current, bottomRightRef.current];
     gsap.to(corners.filter(Boolean), {
-      borderColor: 'rgba(223, 186, 72, 0.3)',
+      borderColor: isDark ? 'rgba(223, 186, 72, 0.3)' : 'rgba(156, 109, 18, 0.35)',
       scale: 1.0,
       duration: 0.5,
       ease: 'power3.out'

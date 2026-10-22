@@ -1,8 +1,9 @@
 import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone, Mail, Globe, Sparkles } from 'lucide-react';
+import { Menu, X, Phone, Mail, Globe, Sparkles, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/context/LanguageContext';
+import { useTheme } from '@/context/ThemeContext';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -19,6 +20,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const { language, setLanguage, currency, setCurrency, t } = useLanguage();
+  const { theme, toggleTheme } = useTheme();
 
   const navigation = [
     { name: t('nav.home'), href: '/' },
@@ -168,6 +170,28 @@ const Header = () => {
               </DropdownMenuContent>
             </DropdownMenu>
 
+            {/* Theme Toggle (Light / Dark Mode) */}
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={toggleTheme}
+              aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              className="gap-1.5 bg-transparent border border-white/10 text-white hover:text-accent hover:bg-white/10 hover:border-accent/40 rounded-none px-3 py-4 font-mono font-bold text-[10px] uppercase tracking-widest transition-all group"
+            >
+              {theme === 'dark' ? (
+                <>
+                  <Sun size={13} className="text-accent group-hover:rotate-45 transition-transform duration-300" />
+                  <span className="hidden lg:inline text-[9px]">LIGHT</span>
+                </>
+              ) : (
+                <>
+                  <Moon size={13} className="text-accent group-hover:-rotate-12 transition-transform duration-300" />
+                  <span className="hidden lg:inline text-[9px]">DARK</span>
+                </>
+              )}
+            </Button>
+
             {/* CTA Contact link */}
             <Link
               to="/contact"
@@ -230,6 +254,20 @@ const Header = () => {
             </DropdownMenu>
             </div>
 
+            {/* Mobile Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              className="p-3 min-w-[44px] min-h-[44px] flex items-center justify-center border border-white/10 rounded-none bg-transparent hover:bg-white/10 text-white hover:text-accent hover:border-accent/40 transition-all"
+            >
+              {theme === 'dark' ? (
+                <Sun size={16} className="text-accent" />
+              ) : (
+                <Moon size={16} className="text-accent" />
+              )}
+            </button>
+
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={isMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
@@ -259,6 +297,30 @@ const Header = () => {
                   {item.name}
                 </Link>
               ))}
+
+              {/* Mobile theme switch row inside menu */}
+              <div className="border-t border-white/5 pt-3 mt-3 px-3 flex items-center justify-between">
+                <span className="text-[10px] uppercase font-mono tracking-widest text-white/50">
+                  Theme Appearance
+                </span>
+                <button
+                  onClick={toggleTheme}
+                  className="inline-flex items-center gap-2 px-3 py-2 border border-white/10 text-[10px] font-mono uppercase tracking-widest text-white hover:border-accent/40 bg-white/5 transition-all"
+                >
+                  {theme === 'dark' ? (
+                    <>
+                      <Sun size={13} className="text-accent" />
+                      <span>Switch to Light</span>
+                    </>
+                  ) : (
+                    <>
+                      <Moon size={13} className="text-accent" />
+                      <span>Switch to Dark</span>
+                    </>
+                  )}
+                </button>
+              </div>
+
               <div className="border-t border-white/5 pt-4 mt-4 px-2">
                 <Button asChild className="btn-luxury-gold w-full bg-accent text-[#0c0d10] border-transparent font-bold py-4 text-[9px] tracking-widest uppercase">
                   <Link to="/contact" onClick={() => setIsMenuOpen(false)}>

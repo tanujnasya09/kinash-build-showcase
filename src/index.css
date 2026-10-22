@@ -6,14 +6,87 @@
 
 @layer base {
   :root {
-    /* Premium Color Palette: Charcoal Black + Champagne Gold + Ivory White */
+    /* Light Mode: Warm Architectural Alabaster (#f8f7f4) + Gallery White (#ffffff) + Charcoal Obsidian (#111215) + Heritage Gold (#ba891d) */
+    --background: 40 18% 97%;
+    /* Warm Alabaster (#f8f7f4) */
+    --foreground: 220 15% 10%;
+    /* Deep Charcoal Obsidian (#111215) */
+
+    --card: 0 0% 100%;
+    /* Pure Gallery White (#ffffff) */
+    --card-foreground: 220 15% 10%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 15% 10%;
+
+    --primary: 220 15% 10%;
+    /* Deep Charcoal Obsidian (#111215) */
+    --primary-foreground: 40 25% 97%;
+    --primary-light: 40 12% 88%;
+    --primary-glow: 220 12% 20%;
+
+    --secondary: 40 14% 92%;
+    /* Fine Carrara Stone (#ece9e1) */
+    --secondary-foreground: 220 15% 10%;
+
+    --muted: 40 12% 93%;
+    --muted-foreground: 220 10% 42%;
+    /* Muted Slate Charcoal (#606674) */
+
+    /* Heritage Architectural Gold (#ba891d) */
+    --accent: 42 75% 42%;
+    --accent-foreground: 0 0% 100%;
+    --accent-glow: 42 80% 52%;
+
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 40 10% 86%;
+    /* Architectural Stone Hairline (#dedbd2) */
+    --input: 40 10% 88%;
+    --ring: 42 75% 42%;
+
+    --radius: 0rem;
+    /* Flat sharp luxury borders */
+
+    /* Light Mode Gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
+    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-light)) 100%);
+    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-glow)));
+    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
+
+    /* Soft Diffused Shadows for Light Mode */
+    --shadow-soft: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+    --shadow-medium: 0 4px 12px -2px rgba(0, 0, 0, 0.06), 0 2px 6px -1px rgba(0, 0, 0, 0.03);
+    --shadow-large: 0 16px 30px -4px rgba(0, 0, 0, 0.07), 0 4px 10px -2px rgba(0, 0, 0, 0.04);
+    --shadow-elegant: 0 25px 40px -8px rgba(0, 0, 0, 0.08), 0 10px 15px -4px rgba(0, 0, 0, 0.04);
+    --shadow-glow: 0 0 35px hsl(var(--accent) / 0.15);
+
+    /* Professional Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    /* Luxury Typography Scale: Archivo display paired with Manrope body */
+    --font-display: 'Archivo', sans-serif;
+    --font-body: 'Manrope', sans-serif;
+    --font-sans: 'Manrope', sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 220 15% 10%;
+    --sidebar-primary: 42 75% 42%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 40 14% 92%;
+    --sidebar-accent-foreground: 220 15% 10%;
+    --sidebar-border: 40 10% 86%;
+    --sidebar-ring: 42 75% 42%;
+  }
+
+  .dark {
+    /* Dark Mode: Pitch Obsidian (#0c0d10) + Deep Titanium (#121318) + Champagne Gold (#dfba48) + Ivory White (#fdfbf7) */
     --background: 220 12% 8%;
-    /* Charcoal Black (#0c0d10) */
     --foreground: 40 25% 97%;
-    /* Ivory White (#fdfbf7) */
 
     --card: 220 12% 11%;
-    /* Slightly lighter Charcoal Black (#121318) */
     --card-foreground: 40 25% 97%;
 
     --popover: 220 12% 11%;
@@ -30,74 +103,9 @@
     --muted: 220 12% 12%;
     --muted-foreground: 40 10% 65%;
 
-    /* Champagne Gold (#dfba48) */
     --accent: 45 55% 58%;
     --accent-foreground: 220 12% 8%;
     --accent-glow: 45 60% 68%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 220 12% 15%;
-    --input: 220 12% 12%;
-    --ring: 45 55% 58%;
-
-    --radius: 0rem;
-    /* Flat sharp luxury borders */
-
-    /* Premium Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--primary-light)) 100%);
-    --gradient-accent: linear-gradient(135deg, hsl(var(--accent)), hsl(var(--accent-glow)));
-    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--muted)));
-
-    /* Elegant Shadows */
-    --shadow-soft: 0 1px 3px 0 rgba(0, 0, 0, 0.5), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
-    --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
-    --shadow-large: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
-    --shadow-elegant: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
-    --shadow-glow: 0 0 40px hsl(var(--accent) / 0.15);
-
-    /* Professional Animations */
-    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-
-    /* Luxury Typography Scale: Archivo display paired with Manrope body */
-    --font-display: 'Archivo', sans-serif;
-    --font-body: 'Manrope', sans-serif;
-    --font-sans: 'Manrope', sans-serif;
-    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
-
-    --sidebar-background: 220 12% 11%;
-    --sidebar-foreground: 40 25% 97%;
-    --sidebar-primary: 45 55% 58%;
-    --sidebar-primary-foreground: 220 12% 8%;
-    --sidebar-accent: 220 12% 14%;
-    --sidebar-accent-foreground: 40 25% 97%;
-    --sidebar-border: 220 12% 15%;
-    --sidebar-ring: 45 55% 58%;
-  }
-
-  .dark {
-    --background: 220 12% 8%;
-    --foreground: 40 25% 97%;
-
-    --card: 220 12% 11%;
-    --card-foreground: 40 25% 97%;
-
-    --popover: 220 12% 11%;
-    --popover-foreground: 40 25% 97%;
-
-    --primary: 220 12% 8%;
-    --primary-foreground: 40 25% 97%;
-
-    --secondary: 220 12% 14%;
-    --secondary-foreground: 40 25% 97%;
-
-    --muted: 220 12% 12%;
-    --muted-foreground: 40 10% 65%;
-
-    --accent: 45 55% 58%;
-    --accent-foreground: 220 12% 8%;
 
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 40 25% 97%;
@@ -105,6 +113,13 @@
     --border: 220 12% 15%;
     --input: 220 12% 12%;
     --ring: 45 55% 58%;
+
+    --shadow-soft: 0 1px 3px 0 rgba(0, 0, 0, 0.5), 0 1px 2px 0 rgba(0, 0, 0, 0.3);
+    --shadow-medium: 0 4px 6px -1px rgba(0, 0, 0, 0.5), 0 2px 4px -1px rgba(0, 0, 0, 0.3);
+    --shadow-large: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.3);
+    --shadow-elegant: 0 20px 25px -5px rgba(0, 0, 0, 0.6), 0 10px 10px -5px rgba(0, 0, 0, 0.4);
+    --shadow-glow: 0 0 40px hsl(var(--accent) / 0.15);
+
     --sidebar-background: 220 12% 11%;
     --sidebar-foreground: 40 25% 97%;
     --sidebar-primary: 45 55% 58%;
@@ -672,3 +687,292 @@
   background: rgba(255, 255, 255, 0.7);
   border-color: rgba(255, 255, 255, 0.85);
 }
+
+/* ==========================================================================
+   Comprehensive Light Mode Design System (Warm Architectural Alabaster)
+   Transforms obsidian dark elements to high-contrast gallery alabaster & heritage gold
+   ========================================================================== */
+
+html:not(.dark) {
+  color-scheme: light;
+}
+
+/* Base Canvas & Background Mappings */
+html:not(.dark) body,
+html:not(.dark) .bg-\[\#0c0d10\],
+html:not(.dark) .bg-\[\#0a0c10\],
+html:not(.dark) .bg-\[\#090b10\],
+html:not(.dark) .bg-\[\#090a0d\] {
+  background-color: #f7f6f2 !important;
+}
+
+/* Elevated Surfaces, Cards, and Dropdown Popovers */
+html:not(.dark) .bg-\[\#0d0f14\],
+html:not(.dark) .bg-\[\#121318\],
+html:not(.dark) .bg-\[\#12141a\],
+html:not(.dark) .bg-\[\#0b0c10\],
+html:not(.dark) .luxury-plate {
+  background-color: #ffffff !important;
+}
+
+/* Secondary Panels, Inset Well Grids, and Spec Blocks */
+html:not(.dark) .bg-\[\#0a0c10\]\/60,
+html:not(.dark) .bg-\[\#0a0c10\]\/40,
+html:not(.dark) .bg-\[\#0d0f14\]\/60,
+html:not(.dark) .bg-\[\#0d0f14\]\/50,
+html:not(.dark) .bg-\[\#0d0f14\]\/40 {
+  background-color: #f0eee7 !important;
+}
+
+/* Sticky Header, Floating Navigation, and Frosted Glass Bars */
+html:not(.dark) header.luxury-header,
+html:not(.dark) .bg-\[\#0c0d10\]\/85,
+html:not(.dark) .bg-\[\#0c0d10\]\/80,
+html:not(.dark) .bg-\[\#0c0d10\]\/90,
+html:not(.dark) .bg-\[\#0c0d10\]\/95,
+html:not(.dark) .bg-\[\#0a0c10\]\/80,
+html:not(.dark) .bg-\[\#0a0c10\]\/70,
+html:not(.dark) .bg-\[\#0a0c10\]\/85 {
+  background-color: rgba(247, 246, 242, 0.94) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.04) !important;
+}
+
+/* Fullscreen Gallery & Modal Backdrops in Light Mode */
+html:not(.dark) .fixed.inset-0.bg-\[\#0c0d10\]\/95,
+html:not(.dark) .fixed.inset-0.bg-\[\#0c0d10\] {
+  background-color: rgba(247, 246, 242, 0.98) !important;
+}
+
+/* Translucent Elements & Hover States */
+html:not(.dark) .bg-white\/5,
+html:not(.dark) .bg-white\/10 {
+  background-color: rgba(17, 18, 22, 0.04) !important;
+}
+
+html:not(.dark) .hover\:bg-white\/5:hover,
+html:not(.dark) .hover\:bg-white\/10:hover {
+  background-color: rgba(17, 18, 22, 0.07) !important;
+}
+
+html:not(.dark) .hover\:bg-white:hover {
+  background-color: #111215 !important;
+}
+
+html:not(.dark) .hover\:text-\[\#0c0d10\]:hover {
+  color: #ffffff !important;
+}
+
+/* High-Contrast Typography Mappings */
+html:not(.dark) .text-white {
+  color: #111215 !important;
+}
+
+html:not(.dark) .text-white\/90,
+html:not(.dark) .text-white\/85,
+html:not(.dark) .text-white\/80 {
+  color: #23272f !important;
+}
+
+html:not(.dark) .text-white\/70,
+html:not(.dark) .text-white\/60 {
+  color: #4d5360 !important;
+}
+
+html:not(.dark) .text-white\/50,
+html:not(.dark) .text-white\/40 {
+  color: #6f7684 !important;
+}
+
+html:not(.dark) .text-white\/30,
+html:not(.dark) .text-white\/20 {
+  color: #98a0b0 !important;
+}
+
+html:not(.dark) .hover\:text-white:hover {
+  color: #111215 !important;
+}
+
+/* Heritage Architectural Gold Text (Passes WCAG AA 4.8:1 on alabaster/white) */
+html:not(.dark) .text-accent {
+  color: #9c6d12 !important;
+}
+
+/* Buttons with accent gold backgrounds retain high-contrast white text in light mode */
+html:not(.dark) .bg-accent.text-\[\#0c0d10\],
+html:not(.dark) .btn-luxury-gold.bg-accent {
+  background-color: #ba891d !important;
+  color: #ffffff !important;
+  border-color: #9c6d12 !important;
+}
+
+html:not(.dark) .bg-accent.text-\[\#0c0d10\]:hover,
+html:not(.dark) .btn-luxury-gold.bg-accent:hover {
+  background-color: #9c6d12 !important;
+  border-color: #7f570b !important;
+  color: #ffffff !important;
+}
+
+/* Accent Badges, Pills, and Glow Overlays */
+html:not(.dark) .bg-accent\/5 {
+  background-color: rgba(186, 137, 29, 0.08) !important;
+}
+
+html:not(.dark) .bg-accent\/10 {
+  background-color: rgba(186, 137, 29, 0.12) !important;
+}
+
+html:not(.dark) .bg-accent\/20 {
+  background-color: rgba(186, 137, 29, 0.20) !important;
+}
+
+/* Architectural Hairlines & Crisp Borders */
+html:not(.dark) .border-white\/5,
+html:not(.dark) .border-white\/10,
+html:not(.dark) .border-white\/15,
+html:not(.dark) .border-white\/20,
+html:not(.dark) .border-white\/25,
+html:not(.dark) .border-white\/30 {
+  border-color: rgba(17, 18, 22, 0.09) !important;
+}
+
+html:not(.dark) .border-white {
+  border-color: #111215 !important;
+}
+
+html:not(.dark) .border-accent\/20,
+html:not(.dark) .border-accent\/25,
+html:not(.dark) .border-accent\/30,
+html:not(.dark) .border-accent\/35,
+html:not(.dark) .border-accent\/40,
+html:not(.dark) .border-accent\/50 {
+  border-color: rgba(156, 109, 18, 0.35) !important;
+}
+
+/* Gradients in Light Mode */
+html:not(.dark) .from-\[\#0c0d10\] {
+  --tw-gradient-from: #f7f6f2 var(--tw-gradient-from-position) !important;
+}
+
+html:not(.dark) .via-\[\#0c0d10\]\/90,
+html:not(.dark) .via-\[\#0c0d10\]\/80,
+html:not(.dark) .via-\[\#0c0d10\]\/60 {
+  --tw-gradient-via: rgba(247, 246, 242, 0.85) var(--tw-gradient-via-position) !important;
+}
+
+html:not(.dark) .to-\[\#0c0d10\]\/95 {
+  --tw-gradient-to: rgba(247, 246, 242, 0.95) var(--tw-gradient-to-position) !important;
+}
+
+/* Hero Section Subtle Architectural Grid Lines in Light Mode */
+html:not(.dark) .w-\[1px\].h-full.bg-white {
+  background-color: #111215 !important;
+  opacity: 0.05 !important;
+}
+
+/* Cards & Dropdown Shadows in Light Mode */
+html:not(.dark) .shadow-2xl {
+  box-shadow: 0 16px 40px -10px rgba(18, 19, 24, 0.07), 0 2px 6px rgba(18, 19, 24, 0.04) !important;
+}
+
+html:not(.dark) .shadow-xl {
+  box-shadow: 0 10px 25px -5px rgba(18, 19, 24, 0.06), 0 1px 3px rgba(18, 19, 24, 0.04) !important;
+}
+
+html:not(.dark) .shadow-lg {
+  box-shadow: 0 4px 12px rgba(18, 19, 24, 0.05) !important;
+}
+
+/* Luxury Card Elements in Light Mode */
+html:not(.dark) .luxury-card {
+  background-color: #ffffff !important;
+  border-color: rgba(17, 18, 22, 0.09) !important;
+}
+
+html:not(.dark) .luxury-card:hover {
+  border-color: rgba(156, 109, 18, 0.35) !important;
+  box-shadow: 0 20px 45px -10px rgba(18, 19, 24, 0.08) !important;
+}
+
+/* Luxury Outline Buttons in Light Mode */
+html:not(.dark) .btn-luxury-outline {
+  border-color: rgba(17, 18, 22, 0.18) !important;
+  color: #111215 !important;
+}
+
+html:not(.dark) .btn-luxury-outline:hover {
+  background-color: #111215 !important;
+  border-color: #111215 !important;
+  color: #ffffff !important;
+}
+
+/* Architectural Map Tiles & Leaflet Controls in Light Mode */
+html:not(.dark) .luxury-map-tiles {
+  filter: grayscale(0.75) contrast(1.1) brightness(0.97) !important;
+}
+
+html:not(.dark) .luxury-popup .leaflet-popup-content-wrapper {
+  background: #ffffff !important;
+  color: #111215 !important;
+  border: 1px solid rgba(156, 109, 18, 0.3) !important;
+  box-shadow: 0 15px 40px rgba(18, 19, 24, 0.12) !important;
+}
+
+html:not(.dark) .luxury-popup .leaflet-popup-tip {
+  background: #ffffff !important;
+  border-left: 1px solid rgba(156, 109, 18, 0.3) !important;
+  border-top: 1px solid rgba(156, 109, 18, 0.3) !important;
+}
+
+html:not(.dark) .luxury-popup .leaflet-container a.leaflet-popup-close-button {
+  color: rgba(17, 18, 22, 0.6) !important;
+}
+
+html:not(.dark) .luxury-popup .leaflet-container a.leaflet-popup-close-button:hover {
+  color: #9c6d12 !important;
+}
+
+html:not(.dark) .leaflet-bar {
+  border: 1px solid rgba(17, 18, 22, 0.12) !important;
+  box-shadow: 0 4px 15px rgba(18, 19, 24, 0.06) !important;
+}
+
+html:not(.dark) .leaflet-bar a {
+  background-color: #ffffff !important;
+  color: #9c6d12 !important;
+  border-bottom: 1px solid rgba(17, 18, 22, 0.08) !important;
+}
+
+html:not(.dark) .leaflet-bar a:hover {
+  background-color: #f7f6f2 !important;
+  color: #7f570b !important;
+}
+
+html:not(.dark) .leaflet-control-attribution {
+  background: rgba(247, 246, 242, 0.92) !important;
+  color: rgba(17, 18, 22, 0.5) !important;
+  border-left: 1px solid rgba(17, 18, 22, 0.1) !important;
+  border-top: 1px solid rgba(17, 18, 22, 0.1) !important;
+}
+
+html:not(.dark) .leaflet-control-attribution a {
+  color: rgba(156, 109, 18, 0.6) !important;
+}
+
+/* Horizontal Scrollbar in Light Mode (Warm Charcoal on Alabaster Track) */
+html:not(.dark) .luxury-scrollbar-x {
+  scrollbar-color: rgba(17, 18, 22, 0.22) rgba(247, 246, 242, 0.95);
+}
+
+html:not(.dark) .luxury-scrollbar-x::-webkit-scrollbar-track {
+  background: rgba(247, 246, 242, 0.95);
+  border-top: 1px solid rgba(17, 18, 22, 0.08);
+}
+
+html:not(.dark) .luxury-scrollbar-x::-webkit-scrollbar-thumb {
+  background: rgba(17, 18, 22, 0.20);
+  border: 1px solid rgba(17, 18, 22, 0.28);
+}
+
+html:not(.dark) .luxury-scrollbar-x::-webkit-scrollbar-thumb:hover {
+  background: rgba(17, 18, 22, 0.45);
+}
