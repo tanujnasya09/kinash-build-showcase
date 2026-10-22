@@ -119,7 +119,7 @@ export default function HomePage() {
       {/* Full-screen Cinematic Hero */}
       <section
         ref={heroRef}
-        className="section-hero relative flex flex-col justify-center overflow-hidden bg-[#f8f7f4] dark:bg-[#0c0d10] pt-24 sm:pt-28 lg:pt-30 pb-10 sm:pb-14 lg:pb-16 min-h-[85vh] border-b border-black/10 dark:border-white/5"
+        className="section-hero relative flex flex-col justify-start lg:justify-center overflow-hidden bg-[#f8f7f4] dark:bg-[#0c0d10] pt-20 sm:pt-28 lg:pt-30 pb-10 sm:pb-14 lg:pb-16 min-h-0 lg:min-h-[85vh] border-b border-black/10 dark:border-white/5"
       >
         {/* Fine Architectural Grid lines */}
         <div className="absolute inset-0 flex justify-between pointer-events-none opacity-[0.04] dark:opacity-[0.03] px-12 z-0">
@@ -135,12 +135,13 @@ export default function HomePage() {
 
         {/* Mobile Ambient Architectural Vignette */}
         <div
-          className="absolute inset-0 z-0 opacity-25 dark:opacity-15 bg-cover bg-center pointer-events-none lg:hidden"
+          className="absolute inset-0 z-0 opacity-35 dark:opacity-30 bg-cover bg-right pointer-events-none lg:hidden"
           style={{
             backgroundImage: "url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=1000&auto=format&fit=crop&q=80')",
           }}
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-[#f8f7f4] via-[#f8f7f4]/90 to-[#f8f7f4]/80 dark:from-[#0c0d10] dark:via-[#0c0d10]/90 dark:to-[#0c0d10]/95 pointer-events-none lg:hidden z-0" />
+        <div className="absolute inset-0 bg-gradient-to-r from-[#f8f7f4] via-[#f8f7f4]/90 to-[#f8f7f4]/50 dark:from-[#0c0d10] dark:via-[#0c0d10]/85 dark:to-[#0c0d10]/35 pointer-events-none lg:hidden z-0" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[#f8f7f4] dark:to-[#0c0d10] pointer-events-none lg:hidden z-0" />
         <ArchitecturalGrid columns={5} />
 
         <div className="relative z-10 container mx-auto px-4 md:px-8 w-full">
@@ -178,10 +179,10 @@ export default function HomePage() {
 
               {/* Action Links - Ergonomic Mobile & Desktop Buttons */}
               <div className="flex flex-row gap-2.5 sm:gap-4 justify-start items-center w-full max-w-md">
-                <MagneticButton strength={15} className="flex-1 sm:flex-initial" as="div">
+                <MagneticButton strength={15} containerClassName="flex-1 sm:flex-initial" className="w-full sm:w-auto" as="div">
                   <Button
                     asChild
-                    className="w-full sm:w-auto h-11 sm:h-14 px-3 sm:px-8 py-3 sm:py-4 bg-accent text-white hover:bg-accent-glow font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-accent hover:border-accent-glow shadow-[0_10px_30px_rgba(223,186,72,0.25)] flex items-center justify-center gap-1.5 sm:gap-2 group transition-all whitespace-nowrap"
+                    className="w-full sm:w-auto h-11 sm:h-14 px-3 sm:px-8 py-3 sm:py-4 bg-accent text-white hover:bg-accent-glow font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-accent hover:border-accent-glow shadow-sm hover:shadow-[0_10px_30px_rgba(223,186,72,0.35)] flex items-center justify-center gap-1.5 sm:gap-2 group transition-all whitespace-nowrap cursor-pointer"
                   >
                     <Link to="/properties">
                       <span>{copy.heroCtaProperties}</span>
@@ -189,11 +190,11 @@ export default function HomePage() {
                     </Link>
                   </Button>
                 </MagneticButton>
-                <MagneticButton strength={15} className="flex-1 sm:flex-initial" as="div">
+                <MagneticButton strength={15} containerClassName="flex-1 sm:flex-initial" className="w-full sm:w-auto" as="div">
                   <Button
                     asChild
                     variant="outline"
-                    className="w-full sm:w-auto h-11 sm:h-14 px-3 sm:px-8 py-3 sm:py-4 bg-white/80 dark:bg-transparent text-[#111215] dark:text-white hover:bg-black/5 dark:hover:bg-white/10 hover:border-accent dark:hover:border-accent hover:text-accent dark:hover:text-accent font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-black/20 dark:border-white/20 transition-all flex items-center justify-center whitespace-nowrap shadow-sm"
+                    className="w-full sm:w-auto h-11 sm:h-14 px-3 sm:px-8 py-3 sm:py-4 bg-white/80 dark:bg-transparent text-[#111215] dark:text-white hover:bg-black/5 dark:hover:bg-white/10 hover:border-accent dark:hover:border-accent hover:text-accent dark:hover:text-accent font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-black/20 dark:border-white/20 transition-all flex items-center justify-center whitespace-nowrap shadow-sm hover:shadow-md cursor-pointer"
                   >
                     <Link to="/about">{copy.heroCtaAbout}</Link>
                   </Button>
@@ -269,9 +270,9 @@ export default function HomePage() {
       </section>
 
       {/* Bento Grid Editorial Stats & Brand Heritage Section */}
-      <section className="py-14 sm:py-20 lg:py-32 bg-[#ede7dc] dark:bg-[#090b10] border-b border-black/10 dark:border-white/5 relative">
+      <section className="py-10 sm:py-20 lg:py-32 bg-[#ede7dc] dark:bg-[#090b10] border-b border-black/10 dark:border-white/5 relative">
         <div className="container mx-auto px-4 md:px-8">
-          <div className="max-w-4xl mb-10 sm:mb-16 lg:mb-24 text-left">
+          <div className="max-w-4xl mb-7 sm:mb-16 lg:mb-24 text-left">
             <span className="text-[9px] uppercase tracking-[0.3em] text-accent font-mono font-bold block mb-3 sm:mb-4">
               {copy.legacyEyebrow}
             </span>
