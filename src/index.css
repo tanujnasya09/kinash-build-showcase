@@ -885,26 +885,28 @@ html:not(.dark) .bg-gradient-to-b.from-\[\#0a0c10\].to-transparent {
   opacity: 0 !important;
 }
 
-/* Homepage Desktop Hero Visual Frame */
+/* Homepage Desktop Hero Visual Frame - 100% Photo Visibility */
 html:not(.dark) .hero-visual-frame {
   background-color: #ffffff !important;
   border-color: rgba(17, 18, 22, 0.1) !important;
   box-shadow: 0 24px 60px -12px rgba(17, 18, 22, 0.12), 0 0 0 1px rgba(17, 18, 22, 0.05) !important;
 }
 
-html:not(.dark) .hero-visual-frame .bg-gradient-to-t {
-  background: linear-gradient(to top, rgba(12, 13, 16, 0.85) 0%, rgba(12, 13, 16, 0.25) 38%, transparent 65%) !important;
+/* Floating Caption Plate at bottom of hero photo (Zero photo darkening) */
+html:not(.dark) .hero-floating-caption {
+  background-color: rgba(255, 255, 255, 0.96) !important;
+  border-color: rgba(17, 18, 22, 0.12) !important;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08) !important;
 }
 
-/* Maintain high-contrast ivory & gold on top of hero photo overlay */
-html:not(.dark) .hero-visual-frame .text-white {
-  color: #ffffff !important;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6) !important;
+html:not(.dark) .hero-floating-caption .text-white {
+  color: #111215 !important;
+  text-shadow: none !important;
 }
 
-html:not(.dark) .hero-visual-frame .text-accent {
-  color: #dfba48 !important;
-  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.6) !important;
+html:not(.dark) .hero-floating-caption .text-accent {
+  color: #9c6d12 !important;
+  text-shadow: none !important;
 }
 
 /* Property Cards: Remove dark bottom fade streak over property photo */

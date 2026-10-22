@@ -260,8 +260,9 @@ export default function AllProperties() {
               {/* Action */}
               <div>
                 <Button
+                  variant="outline"
                   onClick={clearFilters}
-                  className="w-full border border-white/15 text-white/80 hover:text-[#0c0d10] hover:bg-accent hover:border-accent font-mono text-[10px] py-2.5 uppercase tracking-widest rounded-none transition-colors duration-200"
+                  className="w-full font-mono text-[10px] py-2.5 uppercase tracking-widest rounded-none border border-white/20 dark:border-white/20 text-white/80 hover:bg-accent hover:text-[#0c0d10] hover:border-accent transition-all duration-200"
                 >
                   {t('properties.filter.reset')}
                 </Button>

@@ -224,18 +224,15 @@ export default function HomePage() {
                     alt={t('common.villaAlt')}
                     className="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-105"
                   />
-                  {/* Subtle dark gradient overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0c0d10]/80 via-[#0c0d10]/20 to-transparent" />
-
-                  {/* Editorial Overlay Info */}
-                  <div className="absolute bottom-6 left-6 right-6 flex justify-between items-end">
+                  {/* Architectural Floating Caption Plate (Zero photo darkening, maximum visibility) */}
+                  <div className="hero-floating-caption absolute bottom-3 left-3 right-3 p-3 bg-[#0c0d10]/80 backdrop-blur-md border border-white/10 flex justify-between items-end shadow-xl">
                     <div className="text-left">
-                      <span className="text-[8px] uppercase tracking-widest text-accent font-mono block mb-1">{copy.overlayRegistry}</span>
+                      <span className="text-[8px] uppercase tracking-widest text-accent font-mono block mb-0.5">{copy.overlayRegistry}</span>
                       <span className="text-xs font-display font-medium text-white block">{copy.overlayLocation}</span>
                     </div>
                     <div className="text-right">
-                      <span className="text-[8px] uppercase tracking-widest text-accent font-mono block mb-1">{copy.overlayDelivered}</span>
-                      <span className="text-xs font-display font-medium text-white block">
+                      <span className="text-[8px] uppercase tracking-widest text-accent font-mono block mb-0.5">{copy.overlayDelivered}</span>
+                      <span className="text-xs font-display font-medium text-accent block font-mono">
                         {formatMoneyCompact(copy.statAmountEquity, currency.code)}+
                       </span>
                     </div>

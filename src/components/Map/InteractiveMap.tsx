@@ -6,6 +6,7 @@ import { Property } from '@/context/PropertyContext';
 import { Link } from 'react-router-dom';
 import { MapPin, ArrowRight } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
+import { useTheme } from '@/context/ThemeContext';
 import { formatCompact, formatPrice, parseAmount } from '@/lib/currency';
 
 // Compact luxury tags for map pins: 6500000 -> "₹65L", 17000 -> "₹17K"
@@ -16,13 +17,19 @@ const getPriceTagText = (price: string, currencyCode: string) => {
 };
 
 // Generates a stunning custom luxury Price-Tag marker
-const createLuxuryPriceIcon = (price: string, isSelected: boolean, currencyCode: string) => {
+const createLuxuryPriceIcon = (price: string, isSelected: boolean, currencyCode: string, isDark: boolean = true) => {
   const displayPrice = getPriceTagText(price, currencyCode);
-  const activeClasses = isSelected 
-    ? 'bg-accent text-[#0c0d10] border-accent scale-110 shadow-[0_0_20px_rgba(223,186,72,0.5)] z-50 font-bold' 
-    : 'bg-[#0c0d10]/90 text-accent border-accent/30 hover:bg-accent hover:text-[#0c0d10] hover:scale-105';
+  const activeClasses = isDark
+    ? (isSelected 
+        ? 'bg-accent text-[#0c0d10] border-accent scale-110 shadow-[0_0_20px_rgba(223,186,72,0.5)] z-50 font-bold' 
+        : 'bg-[#0c0d10]/95 text-accent border-accent/40 hover:bg-accent hover:text-[#0c0d10] hover:scale-105 shadow-xl')
+    : (isSelected
+        ? 'bg-accent text-white border-accent scale-110 shadow-[0_8px_20px_rgba(156,109,18,0.4)] z-50 font-bold'
+        : 'bg-white text-[#9c6d12] border-[#9c6d12]/40 hover:bg-accent hover:text-white hover:scale-105 shadow-md font-semibold');
 
-  const tipBorderClass = isSelected ? 'bg-accent border-accent' : 'bg-[#0c0d10] border-accent/30';
+  const tipBorderClass = isDark
+    ? (isSelected ? 'bg-accent border-accent' : 'bg-[#0c0d10] border-accent/40')
+    : (isSelected ? 'bg-accent border-accent' : 'bg-white border-[#9c6d12]/40');
 
   return L.divIcon({
     className: 'custom-luxury-marker',
@@ -35,7 +42,7 @@ const createLuxuryPriceIcon = (price: string, isSelected: boolean, currencyCode:
         <div class="w-1.5 h-1.5 rotate-45 -mt-1 border-r border-b ${tipBorderClass}"></div>
       </div>
     `,
-    iconSize: [60, 24],
+    iconSize: [60, 30],
     iconAnchor: [30, 24],
     popupAnchor: [0, -24],
   });
@@ -71,6 +78,8 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
   zoom = 11,
 }) => {
   const { language, t, currency } = useLanguage();
+  const { theme } = useTheme();
+  const isDark = theme === 'dark';
 
   // Find active property coordinate to center map
   const activeProp = properties.find((p) => p.id === activePropertyId);
@@ -95,10 +104,15 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
       >
         <ChangeView center={mapCenter} zoom={mapZoom} />
         
-        {/* Dark minimalist tile skin from CartoDB */}
+        {/* Dynamic theme-aware architectural tile skin (Esri World Gray Canvas - No API Key Required) */}
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'
-          url="https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png"
+          key={theme}
+          attribution='&copy; <a href="https://www.esri.com/">Esri</a>, DeLorme, NAVTEQ'
+          url={
+            isDark
+              ? "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+              : "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}"
+          }
           className="luxury-map-tiles"
         />
 
@@ -111,9 +125,9 @@ const InteractiveMap: React.FC<InteractiveMapProps> = ({
 
             return (
               <Marker
-                key={`${p.id}-${isSelected}`} // Force Leaflet recreation on active hover state change
+                key={`${p.id}-${isSelected}-${theme}`} // Force Leaflet recreation on theme/active change
                 position={p.coordinates}
-                icon={createLuxuryPriceIcon(p.price, isSelected, currency.code)}
+                icon={createLuxuryPriceIcon(p.price, isSelected, currency.code, isDark)}
                 eventHandlers={{
                   click: () => {
                     if (onSelectProperty) {
