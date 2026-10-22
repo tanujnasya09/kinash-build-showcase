@@ -32,7 +32,7 @@ const AboutPage = () => {
   const stats = copy.stats;
 
   return (
-    <div className="min-h-screen bg-[#f8f7f4] dark:bg-[#0c0d10] text-foreground dark:text-white pt-20 sm:pt-24 lg:pt-28 pb-16 relative overflow-hidden">
+    <div className="min-h-screen bg-[#f8f7f4] dark:bg-[#0c0d10] text-foreground dark:text-white pb-16 relative overflow-hidden">
       <SEOHead
         title={copy.meta.title}
         description={copy.meta.description}
@@ -44,7 +44,7 @@ const AboutPage = () => {
       <ArchitecturalGrid columns={5} />
 
       {/* Editorial Architectural Hero (Direct Turner & Hill Reference) */}
-      <section className="relative min-h-[75vh] flex items-center py-20 lg:py-32 overflow-hidden border-b border-black/10 dark:border-white/5">
+      <section className="relative min-h-[70vh] flex items-center pt-24 sm:pt-28 lg:pt-32 pb-14 sm:pb-20 lg:pb-24 overflow-hidden border-b border-black/10 dark:border-white/5">
         {/* Right-aligned architectural glass facade bleeding into background (Image 3) */}
         <div
           className="absolute right-0 top-0 bottom-0 w-full lg:w-1/2 bg-cover bg-center pointer-events-none opacity-85 dark:opacity-75"

@@ -119,7 +119,7 @@ export default function HomePage() {
       {/* Full-screen Cinematic Hero */}
       <section
         ref={heroRef}
-        className="section-hero relative flex flex-col justify-center overflow-hidden bg-[#f8f7f4] dark:bg-[#0c0d10] pt-28 sm:pt-32 lg:pt-36 pb-12 sm:pb-16 lg:pb-20 min-h-[90vh] border-b border-black/10 dark:border-white/5"
+        className="section-hero relative flex flex-col justify-center overflow-hidden bg-[#f8f7f4] dark:bg-[#0c0d10] pt-24 sm:pt-28 lg:pt-30 pb-10 sm:pb-14 lg:pb-16 min-h-[85vh] border-b border-black/10 dark:border-white/5"
       >
         {/* Fine Architectural Grid lines */}
         <div className="absolute inset-0 flex justify-between pointer-events-none opacity-[0.04] dark:opacity-[0.03] px-12 z-0">

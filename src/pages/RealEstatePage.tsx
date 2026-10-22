@@ -36,7 +36,7 @@ const RealEstatePage = () => {
   }));
 
   return (
-    <div className="min-h-screen bg-[#f8f7f4] dark:bg-[#0c0d10] text-foreground dark:text-white pt-20 sm:pt-24 lg:pt-28 pb-16 relative overflow-hidden">
+    <div className="min-h-screen bg-[#f8f7f4] dark:bg-[#0c0d10] text-foreground dark:text-white pb-16 relative overflow-hidden">
       <SEOHead
         title={copy.meta.title}
         description={copy.meta.description}
@@ -48,7 +48,7 @@ const RealEstatePage = () => {
       <ArchitecturalGrid columns={5} />
 
       {/* Hero Section with Cinematic Background Photography */}
-      <section className="relative py-16 sm:py-24 lg:py-36 overflow-hidden border-b border-black/10 dark:border-white/5">
+      <section className="relative pt-24 sm:pt-28 lg:pt-32 pb-14 sm:pb-20 lg:pb-24 overflow-hidden border-b border-black/10 dark:border-white/5">
         <div 
           className="hero-bg-image absolute inset-0 bg-cover bg-center opacity-90 md:opacity-95"
           style={{ backgroundImage: `url(${luxuryRealEstateImage})` }}

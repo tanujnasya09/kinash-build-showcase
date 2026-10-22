@@ -75,7 +75,7 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0c0d10] text-white pt-28 pb-20 relative overflow-hidden">
+    <div className="min-h-screen bg-[#f8f7f4] dark:bg-[#0c0d10] text-foreground dark:text-white pt-24 sm:pt-28 pb-20 relative overflow-hidden">
       <SEOHead
         title={copy.meta.title}
         description={copy.meta.description}
