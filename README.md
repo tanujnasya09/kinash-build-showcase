@@ -1,38 +1,53 @@
-# Apex Luxury — Luxury Real Estate & Construction Template
+# Apex Luxury — Ultra-Luxury Real Estate & Construction Web Template
 
-A production-ready, agency-grade website template for property developers, architects, and boutique real-estate firms. Built with React 18, TypeScript, Vite, Tailwind CSS, and shadcn/ui — with a tri-lingual content layer, a multi-currency display layer, a Leaflet price-tag map, a client-side CMS, and SEO wired end to end.
+A production-ready, agency-grade website template engineered for property developers, architects, and boutique real-estate firms. Built with React 18, TypeScript, Vite, Tailwind CSS, shadcn/ui, and a **pre-configured Headless Sanity CMS Studio (`/studio`)** — with a tri-lingual content layer, a multi-currency display layer, an interactive Leaflet price-tag map, and SEO wired end to end.
 
-**Every word on the site and every brand detail is editable without touching a component.** The demo brand (Apex Luxury, Dehradun) is just one configuration away from being yours.
+**Every word on the site, every listing, and every brand detail is editable without touching a single component.**
 
 ---
 
 ## Highlights
 
-| | |
+| Feature | Details |
 |---|---|
+| **Headless Sanity CMS (`/studio`)** | Full production Sanity Studio embedded inside the codebase. Cloud database, media pipeline, multi-device team editing, and zero write tokens exposed to the browser. |
+| **Hybrid Zero-Setup Fallback** | Runs immediately out of the box using local browser storage (`src/data/properties.ts`). Add a Sanity Project ID in `.env` whenever you're ready to go live. |
+| **Dual Theme Engine** | Bespoke **Obsidian Dark** & **Architectural Alabaster Light** palettes with hardware card depth and 1-click header switcher. |
 | **Tri-lingual (EN / ES / DE)** | Instant language switching, per-listing translations, localized `<html lang>`, hreflang alternates, and localized SEO meta. |
-| **Multi-currency display** | INR, USD, EUR, GBP with locale-correct formatting (`₹200Cr`, `$2B`, `2 Mrd. €`, `£2B`). No backend, no FX API. |
-| **Content layer** | All page copy lives in `src/content/*.ts` — hero, sections, CTAs, and per-page meta titles/descriptions. |
-| **Client-side CMS** | `/admin` gives you full property CRUD with LocalStorage persistence and a Sanity-shaped document model. |
-| **Interactive price-tag map** | Custom gold Leaflet markers that pan with the viewport and stay in sync with the filter grid. |
-| **3D tour embeds** | Matterport and YouTube walkthrough modals on every property page. |
-| **SEO ready** | Per-page meta, Open Graph + Twitter cards, JSON-LD Organization/WebSite schema, generated `sitemap.xml`, `robots.txt`, canonical URLs. |
-| **Route-level code splitting** | Every page is a separate chunk; the map bundle only loads when `/properties` is opened. |
-| **Accessible by default** | Skip link, visible focus rings, `prefers-reduced-motion` gates, labelled controls, semantic landmarks. |
-| **Zero backend** | Static output in `dist/`. Deploy to Netlify, Vercel, Cloudflare Pages, or GitHub Pages. |
+| **Multi-currency display** | INR (₹), USD ($), EUR (€), GBP (£) with locale-correct formatting (`₹200Cr`, `$2B`, `2 Mrd. €`, `£2B`). |
+| **Wealth & Mortgage Workbench** | Live interactive EMI financing calculator with sliders for down payment, interest rate, tenure, and 5-year capital appreciation projection. |
+| **Printable Client Dossier** | One-click print-ready black & white A4/Letter dossier for in-person high-net-worth client meetings via `window.print()`. |
+| **Interactive Leaflet price-tag map** | Custom gold Leaflet markers that pan with the viewport and stay in sync with the filter grid. |
+| **3D tour & video embeds** | Built-in modal viewers for Matterport 3D digital-twin scans and YouTube / Vimeo walkthroughs. |
+| **Dynamic SEO & Sitemap** | Per-page meta, Open Graph + Twitter cards, JSON-LD Schema, auto-generated `sitemap.xml` that updates from your live CMS slugs. |
+| **Zero backend server required** | 100% static frontend output in `dist/`. Deploy in 2 minutes to Vercel, Netlify, Cloudflare Pages, or GitHub Pages. |
 
 ---
 
 ## Quick start
 
 ```bash
-npm install      # install dependencies
-npm run dev      # dev server → http://localhost:8080
-npm run build    # production build → dist/
-npm run preview  # serve the production build locally
+# 1. Install dependencies
+npm install
+
+# 2. Start local development server
+npm run dev      # website → http://localhost:8080
+
+# 3. Production build
+npm run build    # production bundle → dist/
+npm run preview  # test the production build locally
 ```
 
-Node 18+ is required. The dev server port is set in `vite.config.ts` (`server.port`).
+### Launching Sanity Studio (Optional)
+
+```bash
+cd studio
+npm install
+npm run seed     # imports demo listings into your Sanity dataset
+npm run dev      # studio dashboard → http://localhost:3333
+npm run deploy   # free hosted studio → https://<your-name>.sanity.studio
+```
+See [SANITY-SETUP.md](./SANITY-SETUP.md) for the 10-minute guide.
 
 ---
 
@@ -40,15 +55,15 @@ Node 18+ is required. The dev server port is set in `vite.config.ts` (`server.po
 
 | Route | Page |
 |---|---|
-| `/` | Home — hero, bento stats, featured collection, divisions, CTA |
+| `/` | Home — hero text reveal, bento statistics, featured portfolio, divisions, CTA |
 | `/properties` | Directory — split-view filter grid + sticky Leaflet map |
-| `/property/:slug` | Property detail — gallery, 3D tour, specs, brochure |
+| `/property/:slug` | Property detail — gallery, 3D tour, specs table, video, printable dossier |
 | `/services` | Services & infrastructure |
-| `/construction` | Construction & engineering |
-| `/real-estate` | Real-estate advisory |
-| `/about` | Legacy, leadership, values |
-| `/contact` | Lead capture with a simulated CRM intake |
-| `/admin` | Client-side property CMS |
+| `/construction` | Construction & structural engineering (with live counter) |
+| `/real-estate` | Real-estate advisory & market metrics |
+| `/about` | Legacy, leadership, operating values |
+| `/contact` | Lead capture with simulated CRM intake pipeline |
+| `/admin` | CMS synchronization & property management dashboard |
 | `*` | Branded 404 |
 
 ---
@@ -57,23 +72,29 @@ Node 18+ is required. The dev server port is set in `vite.config.ts` (`server.po
 
 ```
 apex-luxury/
-├─ public/                    # favicon, logo, OG image, property photos, sitemap.xml, robots.txt, _redirects
+├─ public/                    # favicon, logo, OG images, sitemap.xml, robots.txt
 ├─ scripts/
-│  └─ generate-sitemap.mjs    # regenerates public/sitemap.xml from site config + listings
+│  ├─ generate-sitemap.mjs    # builds sitemap.xml from site config + live Sanity slugs
+│  └─ package.mjs             # creates release zip excluding private envs
 ├─ src/
-│  ├─ components/             # Layout, Map, SEO, Loader + ui/ primitives
+│  ├─ components/             # Layout, Map, SEO, Admin panel, UI primitives
 │  ├─ config/site.ts          # brand, contact, social, domain, default currency
-│  ├─ content/                # page copy per language (home, about, services, realEstate, construction, properties, contact, notFound)
-│  ├─ context/                # LanguageContext (language + currency + content), PropertyContext (listings + CMS state)
-│  ├─ i18n/                   # chrome strings per language (en.ts, es.ts, de.ts) + interpolate()
-│  ├─ lib/currency.ts         # currency table + formatters
-│  ├─ lib/stat.ts             # money-aware stat renderer
-│  ├─ pages/                  # one file per route
-│  ├─ App.tsx                 # providers, router, route-level lazy loading
-│  └─ index.css               # Tailwind layers, design tokens, keyframes
-├─ DESIGN.md                  # design system, typography, motion rules
-├─ DOCUMENTATION.md           # full customization + rebrand guide
-└─ GUMROAD-LISTING.md         # marketplace copy for the product page
+│  ├─ content/                # page copy per language (EN / ES / DE)
+│  ├─ context/                # LanguageContext, PropertyContext (hybrid Sanity provider)
+│  ├─ data/properties.ts      # fallback demo properties
+│  ├─ i18n/                   # UI translation strings (en.ts, es.ts, de.ts)
+│  ├─ lib/sanity.ts           # Sanity client & GROQ listing queries
+│  ├─ lib/currency.ts         # multi-currency table + formatters
+│  ├─ pages/                  # route components
+│  └─ types/property.ts       # unified TypeScript property model
+├─ studio/                    # Embedded Headless Sanity CMS Studio
+│  ├─ schemaTypes/            # luxury real estate document schema
+│  ├─ scripts/seed.ts         # 1-command demo data seeder
+│  └─ sanity.config.ts        # Sanity Studio configuration
+├─ SANITY-SETUP.md            # step-by-step Sanity setup guide
+├─ DOCUMENTATION.md           # full customization, rebrand, & deployment guide
+├─ DESIGN.md                  # design system tokens, typography, motion rules
+└─ GUMROAD-LISTING.md         # marketplace copy & sales kit
 ```
 
 ---
@@ -83,10 +104,10 @@ apex-luxury/
 1. **Brand, contact, domain, default currency** → `src/config/site.ts`
 2. **Page copy and SEO meta** → `src/content/*.ts` (EN / ES / DE)
 3. **Navigation, buttons, form labels, filters** → `src/i18n/{en,es,de}.ts`
-4. **Listings and coordinates** → `src/context/PropertyContext.tsx` or the `/admin` dashboard
+4. **Listings** → Connect Sanity Studio (`studio/`) or edit `src/data/properties.ts`
 5. **Colors, type scale, spacing** → `tailwind.config.ts` and `src/index.css`
 
-The full walkthrough — including how to add a language, wire a real CMS, and deploy — is in [DOCUMENTATION.md](./DOCUMENTATION.md).
+The complete walkthrough — including hosting, domain configuration, and SEO — is in [DOCUMENTATION.md](./DOCUMENTATION.md).
 
 ---
 

@@ -116,15 +116,28 @@ Four currencies ship by default:
 
 ## 6. Listings & the CMS
 
-### Via the dashboard (`/admin`)
+The template features a **hybrid CMS architecture** that supports both an enterprise headless cloud CMS and zero-setup local storage.
 
-Add, edit, and delete properties with title, slug, price, status, type, location, coordinates, image URLs, features, video link, and sizes. Everything persists to `localStorage` under `apex_properties` and appears instantly in the grid, the Leaflet map, and the home page collection.
+### Option A: Headless Sanity CMS Studio (Recommended for Production)
 
-The admin panel is a full CRUD interface — it is a demo of the Sanity document model, not a live connection. To move to a real backend, declare the matching Sanity document type and swap the provider functions in `src/context/PropertyContext.tsx`; the components already read the same field names.
+The template comes with an embedded, pre-configured **Sanity Studio** inside the `studio/` folder.
 
-### Via code (`src/context/PropertyContext.tsx`)
+1. **Setup**: Follow the 10-minute guide in [SANITY-SETUP.md](./SANITY-SETUP.md).
+2. **Seeding demo data**: Inside `studio/`, run `npm run seed` to import all demo properties into your Sanity cloud dataset in one command.
+3. **Editing & Media**: Run `npm run dev` inside `studio/` (or deploy to `https://<your-project>.sanity.studio`) to manage properties, upload high-res galleries, set Leaflet map coordinates, and enter Spanish/German translations.
+4. **Connecting the site**: Set `VITE_SANITY_PROJECT_ID` in your `.env` (and your hosting dashboard). The website will automatically pull listings live via GROQ (`src/lib/sanity.ts`).
+5. **Admin panel in Sanity mode**: Visiting `/admin` displays a live synchronization dashboard with connection health status, listing counts, a manual re-sync button, and direct deep-links into Sanity Studio.
 
-Edit `enrichedInitialProperties`:
+### Option B: Local Browser Admin (`/admin`)
+
+If `VITE_SANITY_PROJECT_ID` is left empty in `.env`, the template runs in **Demo Mode**:
+- Add, edit, and delete properties through the built-in `/admin` form.
+- Data persists to the browser's `localStorage` under `apex_properties` and updates the directory, the Leaflet map, and home page collections immediately.
+- Zero API keys or cloud accounts needed — ideal for quick offline client mockups.
+
+### Option C: Hardcoded Demo Data (`src/data/properties.ts`)
+
+Default fallback properties live in `src/data/properties.ts` as `demoProperties`:
 
 ```ts
 {
@@ -132,19 +145,19 @@ Edit `enrichedInitialProperties`:
   slug: 'mg-residency',
   title: 'MG Residency',
   location: 'Dehradun',
-  price: 4500000,
+  price: '₹4,50,00,000',
   status: 'Available',
   coordinates: [30.3165, 78.0322],
-  images: ['/assets/your-project-photo.jpg'],
+  images: ['https://images.unsplash.com/...'],
   videoLink: 'https://youtube.com/watch?v=YOUR_VIDEO_ID',
   virtualTourUrl: 'https://my.matterport.com/show/?m=YOUR_SPACE_ID',
-  features: ['…'],
-  specs: { type: 'Luxury Apartment', area: '2,850 sq.ft', sizes: ['2 BHK'], possession: 'Immediate', facing: 'North' },
+  features: ['24/7 Security', 'Private Clubhouse'],
+  specs: { type: 'Luxury Villa', area: '4,500 sq.ft', sizes: ['4 BHK'], possession: 'Immediate', facing: 'East' },
   translations: { es: { title: '…', location: '…', description: '…' }, de: { … } }
 }
 ```
 
-`scripts/generate-sitemap.mjs` reads these slugs, so `npm run build` regenerates `public/sitemap.xml` automatically (also runnable with `npm run sitemap`).
+The sitemap generator (`scripts/generate-sitemap.mjs`) automatically checks for live Sanity listings, and falls back to `src/data/properties.ts` if Sanity is offline. Every `npm run build` regenerates `public/sitemap.xml` automatically.
 
 ---
 

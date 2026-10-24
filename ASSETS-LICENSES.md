@@ -75,6 +75,7 @@ them (`@fontsource/archivo` etc.) and keep the licence files in the package.
 | `react-helmet-async` | Apache-2.0 | |
 | `@tanstack/react-query` | MIT | |
 | `react-router-dom` | MIT | |
+| `@sanity/client` / `sanity` | MIT | Official open-source Sanity client & studio framework. Permissive commercial use. |
 | `react` / `react-dom` | MIT | |
 | `tailwindcss` | MIT | |
 
@@ -87,6 +88,7 @@ them.
 ## Pre-launch checklist
 
 - [ ] Replaced `logo.png`, `favicon.png`, `apex-opengraph.png` with your own brand assets
+- [ ] Configured Sanity CMS Studio (or decided to run local demo mode) per `SANITY-SETUP.md`
 - [ ] Replaced every demo listing photo with photos you own or are licensed to redistribute
 - [ ] Set `siteConfig.demo.virtualTourUrl` to your own Matterport space (or left the official demo)
 - [ ] Added your own YouTube walkthrough IDs (or left them unset)

@@ -12,6 +12,15 @@ dist
 dist-ssr
 *.local
 
+# Environment secrets
+.env
+.env.production
+studio/.env
+
+# Sanity Studio build output
+studio/dist
+studio/.sanity
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

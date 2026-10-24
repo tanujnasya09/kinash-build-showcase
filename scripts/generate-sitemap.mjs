@@ -10,8 +10,47 @@ const siteUrl = (siteConfig.match(/url:\s*["']([^"']+)["']/)?.[1] ?? 'https://ex
   ''
 );
 
-const propertyContext = readFileSync(join(root, 'src/context/PropertyContext.tsx'), 'utf8');
-const slugs = [...propertyContext.matchAll(/slug:\s*'([^']+)'/g)].map((match) => match[1]);
+// ---- Read .env / .env.local (no dependency on dotenv) ----
+const readEnv = () => {
+  const env = { ...process.env };
+  for (const file of ['.env', '.env.local', '.env.production']) {
+    try {
+      for (const line of readFileSync(join(root, file), 'utf8').split(/\r?\n/)) {
+        const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)\s*$/);
+        if (m && !env[m[1]]) env[m[1]] = m[2].replace(/^["']|["']$/g, '');
+      }
+    } catch {
+      /* file not present */
+    }
+  }
+  return env;
+};
+const env = readEnv();
+
+const localSlugs = () => {
+  const data = readFileSync(join(root, 'src/data/properties.ts'), 'utf8');
+  return [...data.matchAll(/slug:\s*'([^']+)'/g)].map((match) => match[1]);
+};
+
+// Sanity mode: pull live slugs so new listings are indexed on every build.
+const sanitySlugs = async () => {
+  const projectId = env.VITE_SANITY_PROJECT_ID?.trim();
+  if (!projectId) return null;
+  const dataset = env.VITE_SANITY_DATASET || 'production';
+  const apiVersion = env.VITE_SANITY_API_VERSION || '2024-10-01';
+  const query = encodeURIComponent('*[_type == "property" && defined(slug.current)].slug.current');
+  try {
+    const res = await fetch(`https://${projectId}.apicdn.sanity.io/v${apiVersion}/data/query/${dataset}?query=${query}`);
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const { result } = await res.json();
+    return Array.isArray(result) ? result : null;
+  } catch (err) {
+    console.warn(`sitemap: Sanity fetch failed (${err.message}) — using demo listings.`);
+    return null;
+  }
+};
+
+const slugs = (await sanitySlugs()) ?? localSlugs();
 
 const staticRoutes = [
   { path: '/', priority: '1.0', changefreq: 'weekly' },

@@ -28,7 +28,7 @@ function getVideoInfo(link: string | undefined) {
     };
   }
   // Vimeo
-  const vimeoMatch = link.match(/vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^\/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)/);
+  const vimeoMatch = link.match(/vimeo\.com\/(?:channels\/(?:\w+\/)?|groups\/(?:[^/]*)\/videos\/|album\/(?:\d+)\/video\/|video\/|)(\d+)/);
   if (vimeoMatch) {
     return {
       type: 'vimeo' as const,
@@ -47,7 +47,7 @@ function getVideoInfo(link: string | undefined) {
 
 export default function PropertyDetails() {
   const { id } = useParams();
-  const { properties } = useProperties();
+  const { properties, loading } = useProperties();
   const { t, language, currency } = useLanguage();
 
   // Find property by slug
@@ -141,6 +141,19 @@ export default function PropertyDetails() {
       setIsTourLoading(false);
     }, 1800);
   };
+
+  if (!property && loading) {
+    return (
+      <div
+        className="container py-32 min-h-screen flex flex-col justify-center items-center"
+        role="status"
+        aria-live="polite"
+      >
+        <div className="h-px w-24 bg-accent/60 animate-pulse" />
+        <p className="font-mono text-xs uppercase tracking-[0.3em] text-muted-foreground mt-6">Loading residence…</p>
+      </div>
+    );
+  }
 
   if (!property) {
     return (

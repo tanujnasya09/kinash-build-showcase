@@ -11,8 +11,10 @@ import { toast } from 'sonner';
 import siteConfig from '@/config/site';
 import { formatPrice, formatCurrency } from '@/lib/currency';
 
+import SanityAdminPanel from '@/components/admin/SanityAdminPanel';
+
 export default function AdminPage() {
-  const { properties, addProperty, updateProperty, deleteProperty, resetProperties } = useProperties();
+  const { properties, addProperty, updateProperty, deleteProperty, resetProperties, cmsMode } = useProperties();
   const { t, currency } = useLanguage();
   
   // State for form
@@ -137,6 +139,11 @@ export default function AdminPage() {
       toast.success(t('admin.toast.deleted'));
     }
   };
+
+  // Sanity mode: listings are managed in Sanity Studio, not in the browser.
+  if (cmsMode === 'sanity') {
+    return <SanityAdminPanel />;
+  }
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-background via-muted/30 to-background pt-28 pb-16">
