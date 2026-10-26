@@ -145,20 +145,20 @@ const Header = () => {
 
         {/* Main navigation row: Left Logo, Center Page Links, Right Contact Us Button (Exact Reference Layout) */}
         <div className="flex items-center justify-between py-2 sm:py-2.5">
-          {/* Left: Brand Logo & Tagline (Matches reference black square with gold A) */}
-          <div className="flex-1 flex items-center justify-start min-w-0">
+          {/* Left: Brand Logo & Tagline (Tagline hidden on mobile < sm to prevent header collision) */}
+          <div className="flex-1 flex items-center justify-start min-w-0 pr-2">
             <Link
               to="/"
-              className="flex items-center gap-3 group shrink-0"
+              className="flex items-center gap-2 sm:gap-3 group shrink-0"
             >
-              <div className="w-9 h-9 sm:w-10 sm:h-10 bg-black text-accent border border-black dark:border-white/10 flex items-center justify-center font-display font-black text-xl sm:text-2xl select-none shrink-0 shadow-sm transition-transform duration-300 group-hover:scale-105">
+              <div className="w-8 h-8 sm:w-10 sm:h-10 bg-black text-accent border border-black dark:border-white/10 flex items-center justify-center font-display font-black text-lg sm:text-2xl select-none shrink-0 shadow-sm transition-transform duration-300 group-hover:scale-105">
                 A
               </div>
-              <div className="flex flex-col justify-center">
-                <span className="text-[15px] sm:text-[16px] font-display font-black uppercase tracking-[0.25em] text-foreground dark:text-white leading-none">
+              <div className="flex flex-col justify-center min-w-0">
+                <span className="text-[14px] sm:text-[16px] font-display font-black uppercase tracking-[0.18em] sm:tracking-[0.25em] text-foreground dark:text-white leading-none whitespace-nowrap">
                   {siteConfig.wordmark.toUpperCase()}<span className="text-accent">.</span>
                 </span>
-                <span className="text-[7.5px] sm:text-[8px] font-mono uppercase tracking-[0.22em] text-foreground/60 dark:text-white/50 leading-none mt-1 font-bold">
+                <span className="hidden sm:block text-[7.5px] sm:text-[8px] font-mono uppercase tracking-[0.22em] text-foreground/60 dark:text-white/50 leading-none mt-1 font-bold whitespace-nowrap">
                   {siteConfig.brandLine.toUpperCase()}
                 </span>
               </div>
@@ -197,14 +197,14 @@ const Header = () => {
           </div>
 
           {/* Mobile action & menu buttons (visible on < lg) */}
-          <div className="flex lg:hidden items-center gap-2">
+          <div className="flex lg:hidden items-center gap-1 sm:gap-2 shrink-0">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button
                   aria-label={t('nav.language')}
-                  className="p-2 min-w-[36px] min-h-[36px] flex items-center justify-center border border-black/15 dark:border-white/10 rounded-none bg-transparent hover:bg-black/5 dark:hover:bg-white/10 text-foreground dark:text-white hover:border-accent/40 transition-all cursor-pointer"
+                  className="p-1.5 sm:p-2 min-w-[32px] sm:min-w-[36px] min-h-[32px] sm:min-h-[36px] flex items-center justify-center border border-black/15 dark:border-white/10 rounded-none bg-transparent hover:bg-black/5 dark:hover:bg-white/10 text-foreground dark:text-white hover:border-accent/40 transition-all cursor-pointer"
                 >
-                  <Globe size={14} className="text-accent" />
+                  <Globe size={13} className="text-accent" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="bg-white dark:bg-[#0b0c10] border border-black/10 dark:border-white/10 rounded-none p-1 z-50">
@@ -225,7 +225,7 @@ const Header = () => {
               <DropdownMenuTrigger asChild>
                 <button
                   aria-label={t('nav.currency')}
-                  className="p-2 min-h-[36px] flex items-center justify-center gap-1 border border-black/15 dark:border-white/10 rounded-none bg-transparent hover:bg-black/5 dark:hover:bg-white/10 text-foreground dark:text-white hover:border-accent/40 font-mono text-[10px] font-bold tracking-widest transition-all cursor-pointer"
+                  className="px-1.5 sm:px-2 min-h-[32px] sm:min-h-[36px] flex items-center justify-center gap-1 border border-black/15 dark:border-white/10 rounded-none bg-transparent hover:bg-black/5 dark:hover:bg-white/10 text-foreground dark:text-white hover:border-accent/40 font-mono text-[9px] sm:text-[10px] font-bold tracking-wider sm:tracking-widest transition-all cursor-pointer"
                 >
                   {currency.code}
                 </button>
@@ -249,12 +249,12 @@ const Header = () => {
               onClick={toggleTheme}
               aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
               title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              className="p-2 min-w-[36px] min-h-[36px] flex items-center justify-center border border-black/15 dark:border-white/10 rounded-none bg-transparent hover:bg-black/5 dark:hover:bg-white/10 text-foreground dark:text-white hover:text-accent hover:border-accent/40 transition-all cursor-pointer"
+              className="p-1.5 sm:p-2 min-w-[32px] sm:min-w-[36px] min-h-[32px] sm:min-h-[36px] flex items-center justify-center border border-black/15 dark:border-white/10 rounded-none bg-transparent hover:bg-black/5 dark:hover:bg-white/10 text-foreground dark:text-white hover:text-accent hover:border-accent/40 transition-all cursor-pointer"
             >
               {theme === 'dark' ? (
-                <Sun size={14} className="text-accent" />
+                <Sun size={13} className="text-accent" />
               ) : (
-                <Moon size={14} className="text-accent" />
+                <Moon size={13} className="text-accent" />
               )}
             </button>
 
@@ -262,23 +262,23 @@ const Header = () => {
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               aria-label={isMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
               aria-expanded={isMenuOpen}
-              className="p-2 min-w-[36px] min-h-[36px] flex items-center justify-center text-foreground dark:text-white border border-black/15 dark:border-white/10 rounded-none hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer"
+              className="p-1.5 sm:p-2 min-w-[32px] sm:min-w-[36px] min-h-[32px] sm:min-h-[36px] flex items-center justify-center text-foreground dark:text-white border border-black/15 dark:border-white/10 rounded-none hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer"
             >
-              {isMenuOpen ? <X size={16} /> : <Menu size={16} />}
+              {isMenuOpen ? <X size={15} /> : <Menu size={15} />}
             </button>
           </div>
         </div>
 
         {/* Mobile Navigation Drawer */}
         {isMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-black/10 dark:border-white/10 animate-fade-in bg-[#f8f7f4] dark:bg-[#0c0d10]">
-            <nav className="space-y-2 px-2">
+          <div className="lg:hidden py-4 border-t border-black/10 dark:border-white/10 animate-fade-in bg-[#f8f7f4] dark:bg-[#0c0d10] max-h-[calc(100vh-4.5rem)] overflow-y-auto">
+            <nav className="space-y-1.5 px-2">
               {navigation.map((item) => (
                 <Link
                   key={item.name}
                   to={item.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`block py-3 px-4 rounded-none text-sm font-sans font-bold uppercase tracking-[0.12em] ${isActive(item.href)
+                  className={`block py-2.5 px-4 rounded-none text-xs sm:text-sm font-sans font-bold uppercase tracking-[0.12em] ${isActive(item.href)
                       ? 'bg-accent text-white font-extrabold'
                       : 'text-foreground/80 dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/5 hover:text-foreground dark:hover:text-white'
                     } transition-all`}
@@ -287,31 +287,75 @@ const Header = () => {
                 </Link>
               ))}
 
+              {/* Language selection in mobile drawer */}
+              <div className="border-t border-black/10 dark:border-white/10 pt-3 mt-3 px-3">
+                <span className="text-[9px] uppercase font-mono tracking-widest text-muted-foreground dark:text-white/50 block mb-2 font-bold">
+                  {t('nav.language')}
+                </span>
+                <div className="grid grid-cols-3 gap-1.5">
+                  {languages.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => handleLanguageChange(lang.code)}
+                      className={`py-1.5 text-[9px] font-mono uppercase tracking-wider border text-center transition-all cursor-pointer ${
+                        language === lang.code
+                          ? 'bg-accent text-white border-accent font-bold'
+                          : 'border-black/15 dark:border-white/10 text-foreground/80 dark:text-white/75 bg-black/5 dark:bg-white/5 hover:border-accent/40'
+                      }`}
+                    >
+                      {lang.short}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Currency selection in mobile drawer */}
+              <div className="pt-2 px-3">
+                <span className="text-[9px] uppercase font-mono tracking-widest text-muted-foreground dark:text-white/50 block mb-2 font-bold">
+                  {t('nav.currency')}
+                </span>
+                <div className="grid grid-cols-4 gap-1.5">
+                  {currencies.map((c) => (
+                    <button
+                      key={c.code}
+                      onClick={() => setCurrency(c.code)}
+                      className={`py-1.5 text-[9px] font-mono uppercase tracking-wider border text-center transition-all cursor-pointer ${
+                        currency.code === c.code
+                          ? 'bg-accent text-white border-accent font-bold'
+                          : 'border-black/15 dark:border-white/10 text-foreground/80 dark:text-white/75 bg-black/5 dark:bg-white/5 hover:border-accent/40'
+                      }`}
+                    >
+                      {c.code}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               {/* Mobile theme switch row inside menu */}
               <div className="border-t border-black/10 dark:border-white/10 pt-3 mt-3 px-3 flex items-center justify-between">
-                <span className="text-[10px] uppercase font-mono tracking-widest text-muted-foreground dark:text-white/50">
+                <span className="text-[9px] uppercase font-mono tracking-widest text-muted-foreground dark:text-white/50 font-bold">
                   Theme Appearance
                 </span>
                 <button
                   onClick={toggleTheme}
-                  className="inline-flex items-center gap-2 px-3 py-2 border border-black/15 dark:border-white/10 text-[10px] font-mono uppercase tracking-widest text-foreground dark:text-white hover:border-accent/40 bg-black/5 dark:bg-white/5 transition-all cursor-pointer"
+                  className="inline-flex items-center gap-2 px-3 py-1.5 border border-black/15 dark:border-white/10 text-[9px] font-mono uppercase tracking-widest text-foreground dark:text-white hover:border-accent/40 bg-black/5 dark:bg-white/5 transition-all cursor-pointer"
                 >
                   {theme === 'dark' ? (
                     <>
-                      <Sun size={13} className="text-accent" />
+                      <Sun size={12} className="text-accent" />
                       <span>Switch to Light</span>
                     </>
                   ) : (
                     <>
-                      <Moon size={13} className="text-accent" />
+                      <Moon size={12} className="text-accent" />
                       <span>Switch to Dark</span>
                     </>
                   )}
                 </button>
               </div>
 
-              <div className="border-t border-black/10 dark:border-white/10 pt-4 mt-4 px-2">
-                <Button asChild className="btn-luxury-gold w-full bg-accent text-[#0c0d10] border-transparent font-bold py-4 text-[9px] tracking-widest uppercase">
+              <div className="border-t border-black/10 dark:border-white/10 pt-3 mt-3 px-2">
+                <Button asChild className="btn-luxury-gold w-full bg-accent text-[#0c0d10] border-transparent font-bold py-3.5 text-[9px] tracking-widest uppercase">
                   <Link to="/contact" onClick={() => setIsMenuOpen(false)}>
                     {t('nav.contact')}
                   </Link>

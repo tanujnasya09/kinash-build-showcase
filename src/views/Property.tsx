@@ -210,7 +210,7 @@ export default function PropertyDetails() {
   };
 
   return (
-    <section className="min-h-screen bg-[#f8f7f4] dark:bg-[#0c0d10] text-foreground dark:text-white pt-20 sm:pt-24 pb-28 lg:pb-16 relative overflow-x-clip">
+    <section className="min-h-screen bg-[#f8f7f4] dark:bg-[#0c0d10] text-foreground dark:text-white pt-24 sm:pt-28 pb-28 lg:pb-16 relative overflow-x-clip">
       <SEOHead
         title={`${displayTitle} | Apex Luxury`}
         description={displayDesc}

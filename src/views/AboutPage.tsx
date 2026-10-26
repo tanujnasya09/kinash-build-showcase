@@ -94,7 +94,7 @@ const AboutPage = () => {
       <ArchitecturalGrid columns={5} />
 
       {/* Editorial Architectural Hero */}
-      <section className="relative pt-20 sm:pt-24 lg:pt-28 pb-10 sm:pb-14 lg:pb-16 overflow-hidden border-b border-black/10 dark:border-white/5">
+      <section className="relative pt-24 sm:pt-28 pb-10 sm:pb-14 lg:pb-16 overflow-hidden border-b border-black/10 dark:border-white/5">
         <div
           className="hero-bg-image absolute inset-0 bg-cover bg-center opacity-85 md:opacity-90"
           style={{ backgroundImage: `url('${siteConfig.images.aboutHero.url}')` }}

@@ -197,8 +197,8 @@ export default function HomePage() {
               </p>
 
               {/* Action Links - Ergonomic Mobile & Desktop Buttons */}
-              <div className="flex flex-row gap-2.5 sm:gap-4 justify-start items-center w-full max-w-md">
-                <MagneticButton strength={15} containerClassName="flex-1 sm:flex-initial" className="w-full sm:w-auto" as="div">
+              <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-4 justify-start items-stretch sm:items-center w-full max-w-md">
+                <MagneticButton strength={15} containerClassName="w-full sm:w-auto" className="w-full sm:w-auto" as="div">
                   <Button
                     asChild
                     className="w-full sm:w-auto h-11 sm:h-12 px-4 sm:px-7 py-2.5 sm:py-3 bg-accent text-[#0c0d10] hover:bg-accent-glow font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-accent hover:border-accent-glow shadow-sm hover:shadow-[0_10px_30px_rgba(223,186,72,0.35)] flex items-center justify-center gap-1.5 sm:gap-2 group transition-all whitespace-nowrap cursor-pointer"
@@ -209,11 +209,11 @@ export default function HomePage() {
                     </Link>
                   </Button>
                 </MagneticButton>
-                <MagneticButton strength={15} containerClassName="flex-1 sm:flex-initial" className="w-full sm:w-auto" as="div">
+                <MagneticButton strength={15} containerClassName="w-full sm:w-auto" className="w-full sm:w-auto" as="div">
                   <Button
                     asChild
                     variant="outline"
-                    className="w-full sm:w-auto h-11 sm:h-12 px-7 py-3 bg-white dark:bg-transparent text-foreground dark:text-white hover:hover:bg-zinc-100   dark:hover:bg-accent/25 dark:hover:border-accent dark:hover:text-white hover:border-accent font-display font-black text-xs uppercase tracking-[0.2em] rounded-none border border-black/20 dark:border-white/20 transition-all flex items-center justify-center shadow-xs hover:shadow-md cursor-pointer"
+                    className="w-full sm:w-auto h-11 sm:h-12 px-4 sm:px-7 py-2.5 sm:py-3 bg-white dark:bg-transparent text-foreground dark:text-white hover:bg-zinc-100 dark:hover:bg-accent/25 dark:hover:border-accent dark:hover:text-white hover:border-accent font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-black/20 dark:border-white/20 transition-all flex items-center justify-center shadow-xs hover:shadow-md cursor-pointer whitespace-nowrap"
                   >
                     <Link to="/contact">{copy.heroCtaAbout}</Link>
                   </Button>
@@ -221,36 +221,36 @@ export default function HomePage() {
               </div>
 
               {/* Editorial Architectural Metrics Bar (Direct from Reference Image 1) */}
-              <div className="grid grid-cols-3 gap-3 sm:gap-6 pt-3 sm:pt-4 mt-3 sm:mt-4 border-t border-black/10 dark:border-white/10 w-full max-w-xl">
+              <div className="grid grid-cols-3 gap-2 sm:gap-6 pt-3 sm:pt-4 mt-3 sm:mt-4 border-t border-black/10 dark:border-white/10 w-full max-w-xl">
                 <div>
-                  <div className="text-2xl sm:text-3xl lg:text-4xl font-display font-medium text-foreground dark:text-white leading-none">
+                  <div className="text-xl sm:text-3xl lg:text-4xl font-display font-medium text-foreground dark:text-white leading-none">
                     <CountUpStat
                       value={siteStats.projects.numericValue}
                       suffix={siteStats.projects.suffix}
                       formattedFallback={siteStats.projects.formattedRaw}
                     />
                   </div>
-                  <div className="text-xs font-mono uppercase tracking-[0.16em] text-foreground/75 dark:text-white/60 mt-1.5 font-medium">
+                  <div className="text-[9px] sm:text-xs font-mono uppercase tracking-[0.1em] sm:tracking-[0.16em] text-foreground/75 dark:text-white/60 mt-1 sm:mt-1.5 font-medium">
                     {siteStats.projects.labels[language] || 'Projects Completed'}
                   </div>
                 </div>
-                <div className="border-l border-black/10 dark:border-white/10 pl-3 sm:pl-6">
-                  <div className="text-2xl sm:text-3xl lg:text-4xl font-display font-medium text-foreground dark:text-white leading-none">
+                <div className="border-l border-black/10 dark:border-white/10 pl-2 sm:pl-6">
+                  <div className="text-xl sm:text-3xl lg:text-4xl font-display font-medium text-foreground dark:text-white leading-none">
                     <CountUpStat
                       value={siteStats.years.numericValue}
                       suffix={siteStats.years.suffix}
                       formattedFallback={siteStats.years.formattedRaw}
                     />
                   </div>
-                  <div className="text-xs font-mono uppercase tracking-[0.16em] text-foreground/75 dark:text-white/60 mt-1.5 font-medium">
+                  <div className="text-[9px] sm:text-xs font-mono uppercase tracking-[0.1em] sm:tracking-[0.16em] text-foreground/75 dark:text-white/60 mt-1 sm:mt-1.5 font-medium">
                     {siteStats.years.labels[language] || 'Years Experience'}
                   </div>
                 </div>
-                <div className="border-l border-black/10 dark:border-white/10 pl-3 sm:pl-6">
-                  <div className="text-2xl sm:text-3xl lg:text-4xl font-display font-medium text-foreground dark:text-white leading-none">
+                <div className="border-l border-black/10 dark:border-white/10 pl-2 sm:pl-6">
+                  <div className="text-xl sm:text-3xl lg:text-4xl font-display font-medium text-foreground dark:text-white leading-none">
                     <span className="text-accent">{formatMoneyCompact(siteStats.value.amountInINR!, currency.code)}+</span>
                   </div>
-                  <div className="text-xs font-mono uppercase tracking-[0.16em] text-foreground/75 dark:text-white/60 mt-1.5 font-medium">
+                  <div className="text-[9px] sm:text-xs font-mono uppercase tracking-[0.1em] sm:tracking-[0.16em] text-foreground/75 dark:text-white/60 mt-1 sm:mt-1.5 font-medium">
                     {siteStats.value.labels[language] || 'Equity Delivered'}
                   </div>
                 </div>
