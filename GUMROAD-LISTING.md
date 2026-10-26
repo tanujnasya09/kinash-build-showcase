@@ -8,10 +8,10 @@ Use this file as the exact copy for your Gumroad product page.
 **Apex Luxury — Premium Real Estate & Construction Web Template**
 
 ## Tagline
-An agency-grade, ultra-luxury React template for property developers, architects, and real-estate firms — dual-theme (Obsidian Dark & Alabaster Light), tri-lingual, multi-currency, with a client CMS and SEO wired end to end.
+An agency-grade, ultra-luxury Next.js 14 template for property developers, architects, and real-estate firms — dual-theme (Obsidian Dark & Alabaster Light), tri-lingual, multi-currency, with a client CMS and SEO wired end to end.
 
 ## Short Description (Card / Social Preview)
-Launch a world-class luxury property site in minutes. React 18 + TypeScript + Vite + Tailwind, bespoke Obsidian Dark & Alabaster Light themes, Leaflet price-tag map, Matterport 3D tour embeds, a client-side CMS admin, four display currencies, and three languages (EN/ES/DE).
+Launch a world-class luxury property site in minutes. Next.js 14 (App Router) + React 18 + TypeScript + Tailwind CSS, bespoke Obsidian Dark & Alabaster Light themes, Leaflet price-tag map, Matterport 3D tour embeds, a client-side CMS admin, four display currencies, and three languages (EN/ES/DE).
 
 ---
 
@@ -28,7 +28,7 @@ Launch a world-class luxury property site in minutes. React 18 + TypeScript + Vi
 ---
 
 ## Pricing Tiers
-- **Standard Edition ($49)**: Full production-ready package for a single property developer, broker, or agency client. Includes full React 18 + TypeScript source code, embedded Headless Sanity CMS Studio (`/studio`), hybrid local browser admin, multi-currency engine (INR/USD/EUR/GBP), tri-lingual support (EN/ES/DE), dual themes (Obsidian Dark & Alabaster Light), seed demo importer, and lifetime updates.
+- **Standard Edition ($49)**: Full production-ready package for a single property developer, broker, or agency client. Includes full Next.js 14 App Router + React 18 + TypeScript source code, embedded Headless Sanity CMS Studio (`/studio`), hybrid local browser admin, multi-currency engine (INR/USD/EUR/GBP), tri-lingual support (EN/ES/DE), dual themes (Obsidian Dark & Alabaster Light), seed demo importer, and lifetime updates.
 - **Agency License ($129)**: Unlimited client deployments. For digital design agencies, creative studios, and independent freelancers building and charging clients $5,000–$25,000+ per luxury real estate portal. Includes all Pro & Sanity Studio source code with priority commercial clearance.
 
 ---
@@ -37,7 +37,7 @@ Launch a world-class luxury property site in minutes. React 18 + TypeScript + Vi
 
 ### Everything a modern luxury property firm needs, out of the box.
 
-**Apex Luxury** is an architectural-grade showcase template crafted for prime residences, luxury land plots, private estates, and commercial developments. Built with React 18, TypeScript, Tailwind CSS, and shadcn/ui — inspired by the Open Design *Luxury & Atelier Zero* aesthetic. Features bespoke **Obsidian Dark** and **Architectural Alabaster Light** palettes, physical Doppelrand card depth, and razor-sharp 0rem geometry. The bespoke agency design high-ticket clients expect, without the $20,000 agency invoice.
+**Apex Luxury** is an architectural-grade showcase template crafted for prime residences, luxury land plots, private estates, and commercial developments. Built with Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS, and shadcn/ui — inspired by the Open Design *Luxury & Atelier Zero* aesthetic. Features bespoke **Obsidian Dark** and **Architectural Alabaster Light** palettes, physical Doppelrand card depth, and razor-sharp 0rem geometry. The bespoke agency design high-ticket clients expect, without the $20,000 agency invoice.
 
 ### Why it commands a premium:
 
@@ -54,11 +54,11 @@ Launch a world-class luxury property site in minutes. React 18 + TypeScript + Vi
 - 🗺️ **Interactive Leaflet price-tag map**: custom gold price-pill markers that pan with the viewport and stay in sync with the filter grid and budget sliders.
 - 🛠️ **Production Headless Sanity CMS & Local Admin**: Complete flexibility — use the built-in browser `/admin` panel with zero setup, or activate **Sanity Studio (`/studio`)** for true cloud database persistence, team collaboration, image CDN asset pipeline, and multi-device access with one `.env` flag. Seamless fallback ensures the site never crashes even if external APIs are unreachable.
 - 🕶️ **Matterport & YouTube tour embeds**: built-in modal viewers for 3D property scans and video walkthroughs.
-- 🔍 **SEO shipped, not promised**: per-page meta, Open Graph + Twitter cards, JSON-LD Organization/WebSite schema, canonical URLs, an auto-generated `sitemap.xml`, and `robots.txt`.
-- ⚡ **Fast by construction**: route-level code splitting — every page is its own chunk, and the 154 kB map bundle only loads when the directory opens.
+- 🔍 **SEO shipped, not promised**: Full SSG static pre-rendering, native Next.js metadata, Open Graph + Twitter cards, JSON-LD Organization/WebSite schema, canonical URLs, an auto-generated dynamic `sitemap.xml`, and `robots.txt`.
+- ⚡ **Fast by construction**: Next.js App Router code splitting, route prefetching, and dynamic lazy-loading for the Leaflet map bundle.
 - ♿ **Accessible by default**: skip link, visible focus rings, `prefers-reduced-motion` gates, labelled controls, semantic landmarks.
 - 🛡️ **100% Commercial-Safe Licensing**: Zero bundled copyright photography, zero stock-photo trap dependencies. Ships with clean licenses (BSD-2, ISC, MIT, SIL OFL).
-- 🚀 **Zero-friction deployment**: no backend, no database. Static output in `dist/` — deploy to Netlify, Vercel, Cloudflare Pages, or GitHub Pages in one click.
+- 🚀 **Zero-friction deployment**: Zero configuration on Vercel, Netlify, or Cloudflare with Next.js App Router and full SSG pre-rendering.
 
 ### Pages & routes included:
 
@@ -78,15 +78,15 @@ Launch a world-class luxury property site in minutes. React 18 + TypeScript + Vi
 - Full source code with TypeScript types on every content object
 - A documented four-layer content model (brand / page copy / UI strings / listings)
 - `DESIGN.md` — the design system, typography, and motion rules the template follows
-- `DOCUMENTATION.md` — rebrand walkthrough, deployment guides for four hosts, and an SEO launch checklist
-- `sitemap.xml` generator that rebuilds itself from your listings on every build
+- `DOCUMENTATION.md` — rebrand walkthrough, deployment guides, and an SEO launch checklist
+- Dynamic `sitemap.xml` that updates from your live Sanity or fallback listings
 
 ---
 
 ## Frequently Asked Questions (FAQ)
 
 **Q: What tech stack is used?**
-A: React 18, TypeScript, Vite 5, Tailwind CSS 3, shadcn/ui (Radix), GSAP + ScrollTrigger, Lenis, Leaflet, React Helmet Async, and Lucide icons.
+A: Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS 3, shadcn/ui (Radix), GSAP + ScrollTrigger, Lenis, Leaflet, and Lucide icons.
 
 **Q: Do I need a database or backend server?**
 A: No backend server required! Out of the box, it works with zero configuration using browser LocalStorage for instant previews. In the Pro edition, you get a pre-wired Sanity Studio (`/studio`) that connects to Sanity's free-tier cloud database with your own Project ID. You can deploy it to Vercel/Netlify for free.

@@ -1,6 +1,6 @@
 # Apex Luxury — Ultra-Luxury Real Estate & Construction Web Template
 
-A production-ready, agency-grade website template engineered for property developers, architects, and boutique real-estate firms. Built with React 18, TypeScript, Vite, Tailwind CSS, shadcn/ui, and a **pre-configured Headless Sanity CMS Studio (`/studio`)** — with a tri-lingual content layer, a multi-currency display layer, an interactive Leaflet price-tag map, and SEO wired end to end.
+A production-ready, agency-grade website template engineered for property developers, architects, and boutique real-estate firms. Built with Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS, shadcn/ui, and a **pre-configured Headless Sanity CMS Studio (`/studio`)** — with a tri-lingual content layer, a multi-currency display layer, an interactive Leaflet price-tag map, and SEO wired end to end.
 
 **Every word on the site, every listing, and every brand detail is editable without touching a single component.**
 
@@ -19,8 +19,8 @@ A production-ready, agency-grade website template engineered for property develo
 | **Printable Client Dossier** | One-click print-ready black & white A4/Letter dossier for in-person high-net-worth client meetings via `window.print()`. |
 | **Interactive Leaflet price-tag map** | Custom gold Leaflet markers that pan with the viewport and stay in sync with the filter grid. |
 | **3D tour & video embeds** | Built-in modal viewers for Matterport 3D digital-twin scans and YouTube / Vimeo walkthroughs. |
-| **Dynamic SEO & Sitemap** | Per-page meta, Open Graph + Twitter cards, JSON-LD Schema, auto-generated `sitemap.xml` that updates from your live CMS slugs. |
-| **Zero backend server required** | 100% static frontend output in `dist/`. Deploy in 2 minutes to Vercel, Netlify, Cloudflare Pages, or GitHub Pages. |
+| **Dynamic SEO & Sitemap** | Native Next.js metadata, Open Graph + Twitter cards, JSON-LD Schema, auto-generated `sitemap.xml` and `robots.txt` that update from live CMS slugs. |
+| **Zero backend server required** | Pre-rendered static HTML (SSG) & SSR. Zero-config deploy to Vercel, Netlify, Cloudflare Pages, or AWS Amplify in 2 minutes. |
 
 ---
 
@@ -31,11 +31,11 @@ A production-ready, agency-grade website template engineered for property develo
 npm install
 
 # 2. Start local development server
-npm run dev      # website → http://localhost:8080
+npm run dev      # website → http://localhost:3000
 
 # 3. Production build
-npm run build    # production bundle → dist/
-npm run preview  # test the production build locally
+npm run build    # builds optimized production site
+npm run start    # preview the production build locally
 ```
 
 ### Launching Sanity Studio (Optional)
@@ -72,11 +72,13 @@ See [SANITY-SETUP.md](./SANITY-SETUP.md) for the 10-minute guide.
 
 ```
 apex-luxury/
-├─ public/                    # favicon, logo, OG images, sitemap.xml, robots.txt
+├─ public/                    # favicon, logo, OG images, static assets
 ├─ scripts/
 │  ├─ generate-sitemap.mjs    # builds sitemap.xml from site config + live Sanity slugs
 │  └─ package.mjs             # creates release zip excluding private envs
 ├─ src/
+│  ├─ app/                    # Next.js App Router (layout, routes, sitemap.ts, robots.ts)
+│  ├─ views/                  # route views (Home, Properties, Detail, Contact, etc.)
 │  ├─ components/             # Layout, Map, SEO, Admin panel, UI primitives
 │  ├─ config/site.ts          # brand, contact, social, domain, default currency
 │  ├─ content/                # page copy per language (EN / ES / DE)
@@ -85,7 +87,6 @@ apex-luxury/
 │  ├─ i18n/                   # UI translation strings (en.ts, es.ts, de.ts)
 │  ├─ lib/sanity.ts           # Sanity client & GROQ listing queries
 │  ├─ lib/currency.ts         # multi-currency table + formatters
-│  ├─ pages/                  # route components
 │  └─ types/property.ts       # unified TypeScript property model
 ├─ studio/                    # Embedded Headless Sanity CMS Studio
 │  ├─ schemaTypes/            # luxury real estate document schema
@@ -124,9 +125,8 @@ Full rationale and override rules live in [DESIGN.md](./DESIGN.md).
 ## Quality gates
 
 ```bash
-npx tsc --noEmit -p tsconfig.app.json   # type check
-npm run lint                            # eslint (0 errors)
-npm run build                           # production bundle
+npx tsc --noEmit     # type check
+npm run build        # production build & SSG validation (19/19 routes)
 ```
 
 ---

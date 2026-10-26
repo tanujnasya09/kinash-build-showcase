@@ -2,7 +2,7 @@
 
 Connect the template to **Sanity**, a hosted headless CMS with a free tier. You can then add listings, upload photos and publish from any device, and the website updates automatically.
 
-> **No Sanity? No problem.** If `VITE_SANITY_PROJECT_ID` is empty, the site runs in demo mode. Listings come from `src/data/properties.ts` and can be edited at `/admin` in the browser.
+> **No Sanity? No problem.** If `NEXT_PUBLIC_SANITY_PROJECT_ID` (or `VITE_SANITY_PROJECT_ID`) is empty, the site runs in demo mode. Listings come from `src/data/properties.ts` and can be edited at `/admin` in the browser.
 
 Setup takes about 10 minutes.
 
@@ -58,10 +58,11 @@ cp .env.example .env
 ```
 
 ```env
-VITE_SANITY_PROJECT_ID=abc123xy
-VITE_SANITY_DATASET=production
-VITE_SANITY_STUDIO_URL=https://apex-luxury.sanity.studio
+NEXT_PUBLIC_SANITY_PROJECT_ID=abc123xy
+NEXT_PUBLIC_SANITY_DATASET=production
+NEXT_PUBLIC_SANITY_STUDIO_URL=https://apex-luxury.sanity.studio
 ```
+*(Legacy `VITE_SANITY_*` variables are also supported automatically).*
 
 Add the same variables in **Vercel / Netlify → Environment Variables**, then redeploy.
 
@@ -69,7 +70,8 @@ Add the same variables in **Vercel / Netlify → Environment Variables**, then r
 
 **sanity.io/manage → your project → API → CORS origins → Add origin**
 
-- `http://localhost:8080` (local dev)
+- `http://localhost:3000` (Next.js local dev)
+- `http://localhost:8080` (alternative port)
 - `https://your-site.com` (production)
 - Leave **"Allow credentials"** unchecked
 
@@ -86,7 +88,7 @@ If you skip this step, the browser blocks the request. The site falls back to de
 | `/admin` in Sanity mode | `src/components/admin/SanityAdminPanel.tsx` |
 | Document schema | `studio/schemaTypes/property.ts` |
 | Demo data importer | `studio/scripts/seed.ts` |
-| Sitemap from live slugs | `scripts/generate-sitemap.mjs` |
+| Dynamic sitemap from live slugs | `src/app/sitemap.ts` |
 
 - **Reads are public** through the Sanity CDN, so the website needs no token. Keep the dataset **public** (the default).
 - **Writes happen only inside Sanity Studio** with each editor's own login. No write token is ever shipped to the browser.

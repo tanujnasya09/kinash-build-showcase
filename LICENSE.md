@@ -41,7 +41,7 @@ licensed separately by their own owners — see `ASSETS-LICENSES.md`.
 
 ## 3. What you receive
 
-- The full source code (React + TypeScript + Vite + Tailwind) for the version you purchased.
+- The full source code (Next.js 14 App Router + React + TypeScript + Tailwind CSS) for the version you purchased.
 - All updates published for the version you purchased.
 - The documentation (`README.md`, `DOCUMENTATION.md`, `ASSETS-LICENSES.md`).
 

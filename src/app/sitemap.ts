@@ -2,7 +2,41 @@ import { MetadataRoute } from 'next';
 import siteConfig from '@/config/site';
 import { demoProperties } from '@/data/properties';
 
-export default function sitemap(): MetadataRoute.Sitemap {
+const getEnv = (key: string): string | undefined => {
+  if (typeof process !== 'undefined' && process.env) {
+    return process.env[`NEXT_PUBLIC_${key}`] || process.env[key] || process.env[`VITE_${key}`];
+  }
+  return undefined;
+};
+
+async function getPropertySlugs(): Promise<string[]> {
+  const projectId = getEnv('SANITY_PROJECT_ID')?.trim();
+  if (!projectId) {
+    return demoProperties.map((p) => p.slug);
+  }
+
+  const dataset = getEnv('SANITY_DATASET') || 'production';
+  const apiVersion = getEnv('SANITY_API_VERSION') || '2024-10-01';
+  const query = encodeURIComponent('*[_type == "property" && defined(slug.current)].slug.current');
+
+  try {
+    const res = await fetch(
+      `https://${projectId}.apicdn.sanity.io/v${apiVersion}/data/query/${dataset}?query=${query}`,
+      { next: { revalidate: 3600 } }
+    );
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const { result } = await res.json();
+    if (Array.isArray(result) && result.length > 0) {
+      return result;
+    }
+  } catch (err) {
+    // Fall back to demo listings gracefully if Sanity is unreachable
+  }
+
+  return demoProperties.map((p) => p.slug);
+}
+
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const baseUrl = siteConfig.url.replace(/\/$/, '');
 
   const staticRoutes: MetadataRoute.Sitemap = [
@@ -50,8 +84,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
   ];
 
-  const propertyRoutes: MetadataRoute.Sitemap = demoProperties.map((prop) => ({
-    url: `${baseUrl}/property/${prop.slug}`,
+  const slugs = await getPropertySlugs();
+  const propertyRoutes: MetadataRoute.Sitemap = slugs.map((slug) => ({
+    url: `${baseUrl}/property/${slug}`,
     lastModified: new Date(),
     changeFrequency: 'weekly',
     priority: 0.7,

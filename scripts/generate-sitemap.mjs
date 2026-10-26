@@ -34,10 +34,10 @@ const localSlugs = () => {
 
 // Sanity mode: pull live slugs so new listings are indexed on every build.
 const sanitySlugs = async () => {
-  const projectId = env.VITE_SANITY_PROJECT_ID?.trim();
+  const projectId = (env.NEXT_PUBLIC_SANITY_PROJECT_ID || env.VITE_SANITY_PROJECT_ID)?.trim();
   if (!projectId) return null;
-  const dataset = env.VITE_SANITY_DATASET || 'production';
-  const apiVersion = env.VITE_SANITY_API_VERSION || '2024-10-01';
+  const dataset = env.NEXT_PUBLIC_SANITY_DATASET || env.VITE_SANITY_DATASET || 'production';
+  const apiVersion = env.NEXT_PUBLIC_SANITY_API_VERSION || env.VITE_SANITY_API_VERSION || '2024-10-01';
   const query = encodeURIComponent('*[_type == "property" && defined(slug.current)].slug.current');
   try {
     const res = await fetch(`https://${projectId}.apicdn.sanity.io/v${apiVersion}/data/query/${dataset}?query=${query}`);

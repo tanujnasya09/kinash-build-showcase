@@ -8,12 +8,12 @@ Use this document to fill out both the **Product** tab and the **Content** tab o
 
 ### Title
 ```
-Apex Luxury — Ultra-Luxury Real Estate & Contracting Website Template (React + Sanity CMS)
+Apex Luxury — Ultra-Luxury Real Estate & Contracting Website Template (Next.js 14 + Sanity CMS)
 ```
 
 ### Tagline
 ```
-Agency-grade React 18 template with Dual Themes, Leaflet Price Map, Mortgage Simulator, and Headless Sanity CMS Studio.
+Agency-grade Next.js 14 template with Dual Themes, Leaflet Price Map, Mortgage Simulator, and Headless Sanity CMS Studio.
 ```
 
 ### Price
@@ -23,7 +23,7 @@ $49 (Single Project)  |  $129 (Agency / Unlimited Projects)
 
 ### Description (Copy & paste into the Product Description box)
 ```markdown
-Apex Luxury is an architectural-grade showcase website template engineered for prime residential estates, luxury villas, private land developments, and bespoke architectural firms. Built with React 18, TypeScript, Tailwind CSS, and shadcn/ui — featuring an embedded Headless Sanity CMS Studio.
+Apex Luxury is an architectural-grade showcase website template engineered for prime residential estates, luxury villas, private land developments, and bespoke architectural firms. Built with Next.js 14 (App Router), React 18, TypeScript, Tailwind CSS, and shadcn/ui — featuring an embedded Headless Sanity CMS Studio.
 
 It delivers the bespoke, high-ticket digital presence top design agencies charge $15,000–$25,000 to build — without the agency invoice or months of waiting.
 
@@ -72,7 +72,7 @@ It delivers the bespoke, high-ticket digital presence top design agencies charge
   - Per-page meta tags, Open Graph + Twitter cards, JSON-LD Schema markup, canonical links, and an auto-generating `sitemap.xml` that updates from your CMS.
 
 - ⚡ Fast, Accessible & Zero-Backend Deployment
-  - 100% static frontend output. Deploy to Vercel, Netlify, or Cloudflare Pages in 2 minutes.
+  - Pre-rendered static SSG & SSR output. Deploy to Vercel, Netlify, or Cloudflare Pages in 2 minutes.
 
 ---
 
@@ -94,7 +94,7 @@ It delivers the bespoke, high-ticket digital presence top design agencies charge
 
 ### 📦 What You Get
 
-- Full TypeScript source code for the entire website
+- Full Next.js 14 App Router & TypeScript source code for the entire website
 - Complete Sanity Studio codebase (/studio) with custom schemas
 - Documentation:
   - SANITY-SETUP.md (10-minute setup & deployment guide)
@@ -114,7 +114,7 @@ Paste this directly into Gumroad's **Content / Delivery** text box and attach `a
 ```markdown
 # Welcome to Apex Luxury! 🏛️
 
-Thank you for your purchase! You now have the complete source code for **Apex Luxury — Ultra-Luxury Real Estate & Contracting Web Template (React + Sanity CMS)**.
+Thank you for your purchase! You now have the complete source code for **Apex Luxury — Ultra-Luxury Real Estate & Contracting Web Template (Next.js 14 + Sanity CMS)**.
 
 ---
 
@@ -138,7 +138,7 @@ npm install
 npm run dev
 ```
 
-Visit **http://localhost:8080** in your browser. The site is live with demo properties!
+Visit **http://localhost:3000** in your browser. The site is live with demo properties!
 
 ---
 
@@ -157,7 +157,7 @@ The website works immediately out of the box with zero configuration! If you wan
    ```
 3. Copy your Sanity Project ID into `.env`:
    ```env
-   VITE_SANITY_PROJECT_ID=your-project-id
+   NEXT_PUBLIC_SANITY_PROJECT_ID=your-project-id
    ```
 4. Restart your website (`npm run dev`) — it will now pull live from your cloud database!
 
@@ -166,7 +166,7 @@ The website works immediately out of the box with zero configuration! If you wan
 ### 🚀 4. Rebranding & Deploying
 
 - **Rebrand in 60 seconds**: Open `src/config/site.ts` to edit brand name, phone, address, and email.
-- **Deploy to Vercel/Netlify**: Run `npm run build`, connect your GitHub repo, and deploy for free.
+- **Deploy to Vercel/Netlify**: Push your repo to GitHub and connect to Vercel for instant zero-config SSR/SSG deployment.
 - **Full Guide**: Open `DOCUMENTATION.md` for complete guides on custom domains, colors, and SEO.
 
 ---

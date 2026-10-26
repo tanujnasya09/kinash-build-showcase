@@ -15,6 +15,8 @@ const EXCLUDE_DIRS = new Set([
   ".agents",
   ".impeccable",
   "dist",
+  ".next",
+  "legacy-vite",
   "release",
   ".gemini"
 ]);

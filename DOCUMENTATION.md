@@ -13,7 +13,7 @@ Everything you need to turn the demo into your own site. Each layer of the templ
 | **UI chrome** | `src/i18n/{en,es,de}.ts` | Nav labels, buttons, form labels, filter names, footer, CMS strings |
 | **Listings** | `src/context/PropertyContext.tsx` | Properties, prices, coordinates, photos, 3D tour URLs, per-listing translations |
 
-Nothing in `src/components` or `src/pages` needs editing to rebrand the site.
+Nothing in `src/components`, `src/views`, or `src/app` needs editing to rebrand the site.
 
 ---
 
@@ -35,9 +35,9 @@ export const siteConfig: SiteConfig = {
 };
 ```
 
-Changing `url` here is enough — the canonical tags, Open Graph URLs, JSON-LD, `robots.txt`, and the generated sitemap all follow it.
+Changing `url` here is enough — the canonical tags, Open Graph URLs, JSON-LD, `robots.txt`, and the generated Next.js `sitemap.xml` all follow it automatically.
 
-> `index.html` also ships static fallback meta tags for crawlers that read the raw HTML. Update the `<title>`, `<meta name="description">`, `<link rel="canonical">` and `og:url` there to match your domain.
+> Next.js App Router manages metadata natively in `src/app/layout.tsx` and individual `page.tsx` routes. Crawlers and social bots receive fully-rendered `<title>`, `<meta name="description">`, and Open Graph tags directly in the initial HTML payload (SSG/SSR).
 
 ---
 
@@ -125,12 +125,12 @@ The template comes with an embedded, pre-configured **Sanity Studio** inside the
 1. **Setup**: Follow the 10-minute guide in [SANITY-SETUP.md](./SANITY-SETUP.md).
 2. **Seeding demo data**: Inside `studio/`, run `npm run seed` to import all demo properties into your Sanity cloud dataset in one command.
 3. **Editing & Media**: Run `npm run dev` inside `studio/` (or deploy to `https://<your-project>.sanity.studio`) to manage properties, upload high-res galleries, set Leaflet map coordinates, and enter Spanish/German translations.
-4. **Connecting the site**: Set `VITE_SANITY_PROJECT_ID` in your `.env` (and your hosting dashboard). The website will automatically pull listings live via GROQ (`src/lib/sanity.ts`).
+4. **Connecting the site**: Set `NEXT_PUBLIC_SANITY_PROJECT_ID` (or `VITE_SANITY_PROJECT_ID`) in your `.env` (and your hosting dashboard). The website will automatically pull listings live via GROQ (`src/lib/sanity.ts`).
 5. **Admin panel in Sanity mode**: Visiting `/admin` displays a live synchronization dashboard with connection health status, listing counts, a manual re-sync button, and direct deep-links into Sanity Studio.
 
 ### Option B: Local Browser Admin (`/admin`)
 
-If `VITE_SANITY_PROJECT_ID` is left empty in `.env`, the template runs in **Demo Mode**:
+If `NEXT_PUBLIC_SANITY_PROJECT_ID` (or `VITE_SANITY_PROJECT_ID`) is left empty in `.env`, the template runs in **Demo Mode**:
 - Add, edit, and delete properties through the built-in `/admin` form.
 - Data persists to the browser's `localStorage` under `apex_properties` and updates the directory, the Leaflet map, and home page collections immediately.
 - Zero API keys or cloud accounts needed — ideal for quick offline client mockups.
@@ -157,7 +157,7 @@ Default fallback properties live in `src/data/properties.ts` as `demoProperties`
 }
 ```
 
-The sitemap generator (`scripts/generate-sitemap.mjs`) automatically checks for live Sanity listings, and falls back to `src/data/properties.ts` if Sanity is offline. Every `npm run build` regenerates `public/sitemap.xml` automatically.
+The dynamic Next.js sitemap (`src/app/sitemap.ts`) automatically pulls live Sanity listings, and falls back to `src/data/properties.ts` if Sanity is offline. Visiting `/sitemap.xml` renders valid XML with all live property URLs.
 
 ---
 
@@ -216,42 +216,43 @@ or avoid third-party requests, and keep the OFL notice.
 
 ## 8. SEO checklist before launch
 
-1. Set `siteConfig.url` to your live domain.
-2. Update the static meta block in `index.html` to match.
-3. Replace `public/assets/apex-opengraph.png` with your own 1200×630 social card.
-4. Edit the `meta` block in each `src/content/*.ts` file with your page titles and descriptions.
-5. `npm run build` regenerates `public/sitemap.xml` with your domain and listings.
-6. Submit the sitemap in Google Search Console.
-7. Replace the demo photos with your own, and check the pre-launch list in `ASSETS-LICENSES.md`.
+1. Set `siteConfig.url` to your live domain in `src/config/site.ts`.
+2. Replace `public/assets/apex-opengraph.png` with your own 1200×630 social card.
+3. Edit the `meta` block in each `src/content/*.ts` file with your page titles, descriptions, and keywords.
+4. Run `npm run build` to verify all 19 routes compile cleanly into static SSG pages.
+5. Your dynamic sitemap is automatically available at `/sitemap.xml` and robots at `/robots.txt`.
+6. Submit `https://your-domain.com/sitemap.xml` in Google Search Console.
+7. Replace demo photos with your own, and check the pre-launch list in `ASSETS-LICENSES.md`.
 
 ---
 
 ## 9. Deployment
 
-### Netlify
-- Build command: `npm run build`
-- Publish directory: `dist`
-- `public/_redirects` already contains the SPA fallback (`/* /index.html 200`)
+### Vercel (Recommended — Zero Configuration)
+1. Push your repository to GitHub or GitLab.
+2. In Vercel, click **Import Project** and select your repository.
+3. Vercel automatically detects **Next.js**:
+   - Framework preset: **Next.js**
+   - Build command: `npm run build` (`next build`)
+   - Output directory: `.next`
+4. Add environment variables if using Sanity (`NEXT_PUBLIC_SANITY_PROJECT_ID`, etc.).
+5. Click **Deploy**. Full SSR/SSG rendering, dynamic metadata, and edge routing work immediately out of the box with zero custom rewrite configuration.
 
-### Vercel
-- Framework preset: **Vite**
-- Build command: `npm run build`, output directory: `dist`
-- SPA rewrites are already included in `vercel.json` — deploy as-is.
+### Netlify
+- Framework preset: **Next.js**
+- Build command: `npm run build`
+- Publish directory: `.next` (Netlify Next.js Runtime handles SSR/SSG automatically)
 
 ### Cloudflare Pages
-- Build command: `npm run build`, output directory: `dist`
-- Add a `_redirects` rule: `/* /index.html 200`
-
-### GitHub Pages
-- Build with `npm run build`, publish `dist` from the `gh-pages` branch
-- Because the app uses client-side routing, also copy `index.html` to `dist/404.html` so deep links fall back to the app
+- Framework preset: **Next.js**
+- Build command: `npx @cloudflare/next-on-pages` or standard Next.js static build
 
 ---
 
 ## 10. FAQ
 
 **Do I need a backend?**
-No. The CMS stores to LocalStorage in the visitor's browser. It works out of the box and is easy to replace with Sanity, Supabase, or your own API.
+No backend server required. The CMS stores to LocalStorage in the visitor's browser for instant offline mockups, and seamlessly synchronizes with hosted Sanity CMS in the cloud when you're ready.
 
 **Can I change colors and fonts?**
 Yes — `tailwind.config.ts` and `src/index.css`. Keep the contrast ratio of gold on charcoal (about 8:1) for accessibility.
@@ -260,7 +261,7 @@ Yes — `tailwind.config.ts` and `src/index.css`. Keep the contrast ratio of gol
 No, they are independent. Language is stored under `apex_lang`, currency under `apex_currency`.
 
 **How do I remove the `/admin` route?**
-Delete the route and the `AdminPage` import in `src/App.tsx`.
+Delete the directory `src/app/admin/`.
 
 **Why do prices show the same number in different currencies?**
 The template formats numbers, it does not convert them. See section 5.
