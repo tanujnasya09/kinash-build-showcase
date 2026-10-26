@@ -215,7 +215,7 @@ export default function HomePage() {
                     variant="outline"
                     className="w-full sm:w-auto h-11 sm:h-12 px-7 py-3 bg-white dark:bg-transparent text-foreground dark:text-white hover:hover:bg-zinc-100   dark:hover:bg-accent/25 dark:hover:border-accent dark:hover:text-white hover:border-accent font-display font-black text-xs uppercase tracking-[0.2em] rounded-none border border-black/20 dark:border-white/20 transition-all flex items-center justify-center shadow-xs hover:shadow-md cursor-pointer"
                   >
-                    <Link to="/about">{copy.heroCtaAbout}</Link>
+                    <Link to="/contact">{copy.heroCtaAbout}</Link>
                   </Button>
                 </MagneticButton>
               </div>
