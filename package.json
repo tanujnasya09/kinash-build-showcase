@@ -5,14 +5,11 @@
   "description": "Ultra-Luxury Real Estate & Architectural Construction Agency Web Template — Pro edition with Sanity CMS",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "sitemap": "node scripts/generate-sitemap.mjs",
-    "prebuild": "node scripts/generate-sitemap.mjs",
-    "build": "vite build",
-    "build:dev": "vite build --mode development",
-    "lint": "eslint .",
-    "package": "node scripts/package.mjs",
-    "preview": "vite preview"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "package": "node scripts/package.mjs"
   },
   "dependencies": {
     "@radix-ui/react-dialog": "^1.1.2",
@@ -33,6 +30,7 @@
     "leaflet": "^1.9.4",
     "lenis": "^1.3.23",
     "lucide-react": "^0.462.0",
+    "next": "^14.2.35",
     "next-themes": "^0.3.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

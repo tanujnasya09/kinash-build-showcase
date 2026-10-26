@@ -1,3 +1,5 @@
+'use client';
+
 import { Building, Construction, HardHat, Wrench, CheckCircle, Calendar, DollarSign, Users, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';

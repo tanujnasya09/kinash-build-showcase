@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useRef } from 'react';
 import { ArrowRight, Award, Users, Building, Building2, TrendingUp, Sparkles, ShieldCheck, MapPin, Quote, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
@@ -17,7 +19,9 @@ import { getHomeDivisions } from '@/config/services';
 import { formatMoneyCompact } from '@/lib/currency';
 import ArchitecturalGrid from '@/components/ui/ArchitecturalGrid';
 
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== 'undefined') {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export default function HomePage() {
   const { properties } = useProperties();

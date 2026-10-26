@@ -1,3 +1,5 @@
+'use client';
+
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 import type { Property } from '@/types/property';
 import { demoProperties as enrichedInitialProperties } from '@/data/properties';
@@ -28,6 +30,9 @@ const PropertyContext = createContext<PropertyContextType | undefined>(undefined
 const STORAGE_KEY = 'apex_properties';
 
 const loadLocalProperties = (): Property[] => {
+  if (typeof window === 'undefined') {
+    return enrichedInitialProperties;
+  }
   const saved = localStorage.getItem(STORAGE_KEY);
   if (!saved) {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(enrichedInitialProperties));

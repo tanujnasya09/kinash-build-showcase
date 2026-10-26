@@ -1,3 +1,5 @@
+'use client';
+
 import { useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { useLanguage } from '@/context/LanguageContext';

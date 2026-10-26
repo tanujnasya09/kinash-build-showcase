@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { MapPin, Phone, CheckCircle, ArrowUpRight } from 'lucide-react';

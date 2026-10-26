@@ -33,6 +33,8 @@ export interface SiteConfig {
     servicesHero: { url: string; alt: string; width: number; height: number };
     constructionHero: { url: string; alt: string; width: number; height: number };
     aboutHero: { url: string; alt: string; width: number; height: number };
+    propertiesHero?: { url: string; alt: string; width: number; height: number };
+    artistryBento?: { url: string; alt: string; width: number; height: number };
     constructionProjects: {
       commercial: { url: string; alt: string };
       residential: { url: string; alt: string };
@@ -46,8 +48,15 @@ export interface SiteConfig {
   };
 }
 
-const siteUrl = (import.meta.env?.VITE_SITE_URL as string) || "https://apexluxuryestates.com";
-const twitterHandle = (import.meta.env?.VITE_TWITTER_HANDLE as string) || "@apex_luxury";
+const getSiteEnv = (key: string): string | undefined => {
+  if (typeof process !== 'undefined' && process.env) {
+    return process.env[`NEXT_PUBLIC_${key}`] || process.env[key] || process.env[`VITE_${key}`];
+  }
+  return undefined;
+};
+
+const siteUrl = getSiteEnv('SITE_URL') || "https://apexluxuryestates.com";
+const twitterHandle = getSiteEnv('TWITTER_HANDLE') || "@apex_luxury";
 
 export const siteConfig: SiteConfig = {
   name: "Apex Luxury Real Estate & Contracting",

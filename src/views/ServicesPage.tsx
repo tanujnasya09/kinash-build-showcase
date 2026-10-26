@@ -1,3 +1,5 @@
+'use client';
+
 import { Building2, Home, Settings, TrendingUp, Shield, ClipboardList, ArrowRight, Check } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';

@@ -1,3 +1,5 @@
+'use client';
+
 import { Link } from 'react-router-dom';
 import { Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram, Youtube, Sparkles } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';

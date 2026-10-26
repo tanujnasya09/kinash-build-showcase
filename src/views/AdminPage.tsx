@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import { useProperties, Property } from '@/context/PropertyContext';
 import { useLanguage } from '@/context/LanguageContext';

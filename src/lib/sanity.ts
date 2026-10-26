@@ -13,12 +13,19 @@
 import { createClient, type SanityClient } from '@sanity/client';
 import type { Property } from '@/types/property';
 
-const projectId = import.meta.env.VITE_SANITY_PROJECT_ID as string | undefined;
-const dataset = (import.meta.env.VITE_SANITY_DATASET as string | undefined) || 'production';
-const apiVersion = (import.meta.env.VITE_SANITY_API_VERSION as string | undefined) || '2024-10-01';
+const getEnv = (key: string): string | undefined => {
+  if (typeof process !== 'undefined' && process.env) {
+    return process.env[`NEXT_PUBLIC_${key}`] || process.env[key] || process.env[`VITE_${key}`];
+  }
+  return undefined;
+};
+
+const projectId = getEnv('SANITY_PROJECT_ID');
+const dataset = getEnv('SANITY_DATASET') || 'production';
+const apiVersion = getEnv('SANITY_API_VERSION') || '2024-10-01';
 
 /** Public URL of your deployed Studio, e.g. https://apex-luxury.sanity.studio */
-export const sanityStudioUrl = (import.meta.env.VITE_SANITY_STUDIO_URL as string | undefined) || '';
+export const sanityStudioUrl = getEnv('SANITY_STUDIO_URL') || '';
 
 export const isSanityEnabled = Boolean(projectId && projectId.trim());
 

@@ -1,3 +1,5 @@
+'use client';
+
 import { ExternalLink, RefreshCw, Database, MapPin, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useProperties } from '@/context/PropertyContext';

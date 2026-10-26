@@ -1,3 +1,5 @@
+'use client';
+
 import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 import siteConfig from '@/config/site';
 import { type Currency, getCurrency } from '@/lib/currency';
@@ -20,16 +22,37 @@ const LanguageContext = createContext<LanguageContextType | undefined>(undefined
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [language, setLanguageState] = useState<Language>(() => {
-    const saved = localStorage.getItem('apex_lang');
-    return (saved as Language) || 'en';
+    if (typeof window !== 'undefined') {
+      const saved = localStorage.getItem('apex_lang');
+      return (saved as Language) || 'en';
+    }
+    return 'en';
   });
 
-  const [currency, setCurrencyState] = useState<Currency>(() =>
-    getCurrency(localStorage.getItem('apex_currency') || siteConfig.defaultCurrency)
-  );
+  const [currency, setCurrencyState] = useState<Currency>(() => {
+    if (typeof window !== 'undefined') {
+      return getCurrency(localStorage.getItem('apex_currency') || siteConfig.defaultCurrency);
+    }
+    return getCurrency(siteConfig.defaultCurrency);
+  });
 
   useEffect(() => {
-    document.documentElement.lang = language;
+    if (typeof window !== 'undefined') {
+      const savedLang = localStorage.getItem('apex_lang') as Language | null;
+      if (savedLang && (savedLang === 'en' || savedLang === 'es' || savedLang === 'de')) {
+        setLanguageState(savedLang);
+      }
+      const savedCurr = localStorage.getItem('apex_currency');
+      if (savedCurr) {
+        setCurrencyState(getCurrency(savedCurr));
+      }
+    }
+  }, []);
+
+  useEffect(() => {
+    if (typeof document !== 'undefined') {
+      document.documentElement.lang = language;
+    }
   }, [language]);
 
   const setLanguage = (lang: Language) => {

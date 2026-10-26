@@ -1,13 +1,24 @@
+'use client';
+
 import { useState, useEffect, useRef } from "react";
 import { useSearchParams } from "react-router-dom";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Slider } from "@/components/ui/slider";
 import { Search, Filter, Home, Sparkles, Map, LayoutGrid, CheckCircle2 } from "lucide-react";
 import { useProperties } from "@/context/PropertyContext";
 import { useLanguage } from "@/context/LanguageContext";
-import InteractiveMap from "@/components/Map/InteractiveMap";
 import SEOHead from "@/components/SEO/SEOHead";
+
+const InteractiveMap = dynamic(() => import("@/components/Map/InteractiveMap"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-full min-h-[500px] flex items-center justify-center bg-[#0c0d10] border border-border">
+      <span className="w-8 h-8 border border-accent/30 border-t-accent rounded-full animate-spin" />
+    </div>
+  ),
+});
 import PropertyCard from "@/components/ui/PropertyCard";
 import { formatCompact, parseAmount } from "@/lib/currency";
 import gsap from "gsap";

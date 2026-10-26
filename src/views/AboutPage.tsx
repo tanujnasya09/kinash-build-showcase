@@ -1,3 +1,5 @@
+'use client';
+
 import { Target, Heart, Users, Award, ShieldCheck, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';

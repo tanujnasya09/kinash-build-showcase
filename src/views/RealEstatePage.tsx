@@ -1,3 +1,5 @@
+'use client';
+
 import { Home, TrendingUp, Key, Search, DollarSign, Award, Users, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
