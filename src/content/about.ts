@@ -47,8 +47,8 @@ export const about: Localized<AboutContent> = {
       keywords: 'apex luxury, construction company dehradun, real estate history, leadership team'
     },
     eyebrow: 'corporate profile',
-    title: 'Building Legacies, Shaping',
-    titleAccent: 'Landscapes.',
+    title: 'Built on Vision,',
+    titleAccent: 'Driven by Craft.',
     intro: 'Established in Dehradun, Apex Luxury specializes in demarcating high-value plots and constructing state-of-the-art civil infrastructure under verified ISO compliance workflows.',
     heritageEyebrow: 'our heritage',
     heritageTitle: 'The History of Apex',
@@ -92,8 +92,8 @@ export const about: Localized<AboutContent> = {
       keywords: 'apex luxury, empresa constructora dehradun, historia inmobiliaria, equipo directivo'
     },
     eyebrow: 'perfil corporativo',
-    title: 'Construyendo Legados, Transformando',
-    titleAccent: 'Paisajes.',
+    title: 'Construido con Visión,',
+    titleAccent: 'Guiado por la Maestría.',
     intro: 'Establecida en Dehradun, Apex Luxury se especializa en el trazado de terrenos de alto valor y en la construcción de infraestructura civil de última generación bajo flujos de cumplimiento ISO verificados.',
     heritageEyebrow: 'nuestro legado',
     heritageTitle: 'La Historia de Apex',
@@ -137,8 +137,8 @@ export const about: Localized<AboutContent> = {
       keywords: 'apex luxury, bauunternehmen dehradun, immobilien geschichte, führungsteam'
     },
     eyebrow: 'unternehmensprofil',
-    title: 'Legacy Bauen, Landschaften Formen',
-    titleAccent: '.',
+    title: 'Erbaut auf Vision,',
+    titleAccent: 'Geleitet von Handwerk.',
     intro: 'Mit Sitz in Dehradun spezialisiert sich Apex Luxury auf die Parzellierung hochwertiger Grundstücke sowie den Bau modernster Tiefbauinfrastruktur — unter verifizierten ISO-konformen Abläufen.',
     heritageEyebrow: 'unsere geschichte',
     heritageTitle: 'Die Geschichte von Apex',

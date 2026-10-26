@@ -12,6 +12,7 @@ import PropertyCard from "@/components/ui/PropertyCard";
 import { formatCompact, parseAmount } from "@/lib/currency";
 import gsap from "gsap";
 import ArchitecturalGrid from "@/components/ui/ArchitecturalGrid";
+import siteConfig from "@/config/site";
 
 export default function AllProperties() {
   const { properties } = useProperties();
@@ -103,7 +104,7 @@ export default function AllProperties() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#f8f7f4] dark:bg-[#0c0d10] text-foreground dark:text-white pt-24 sm:pt-28 pb-16 relative overflow-x-clip">
+    <div className="min-h-screen bg-[#f8f7f4] dark:bg-[#0c0d10] text-foreground dark:text-white pb-16 relative overflow-x-clip">
       <SEOHead
         title={copy.meta.title}
         description={copy.meta.description}
@@ -114,23 +115,60 @@ export default function AllProperties() {
       {/* Architectural Drafting Blueprint Grid */}
       <ArchitecturalGrid columns={5} />
 
-      <div className="max-w-[1600px] mx-auto px-4 md:px-8 relative z-10">
+      {/* Hero Section with Cinematic Background Photography */}
+      <section className="relative pt-20 sm:pt-24 lg:pt-28 pb-10 sm:pb-14 lg:pb-16 overflow-hidden border-b border-black/10 dark:border-white/5">
+        <div 
+          className="hero-bg-image absolute inset-0 bg-cover bg-center opacity-85 md:opacity-90"
+          style={{ backgroundImage: `url('${siteConfig.images.propertiesHero.url}')` }}
+        />
+        {/* Left Veil: High contrast readable text */}
+        <div className="hero-gradient-overlay absolute inset-0 bg-gradient-to-r from-[#f8f7f4] via-[#f8f7f4]/98 sm:via-[#f8f7f4]/90 to-[#f8f7f4]/40 lg:to-transparent dark:from-[#0c0d10] dark:via-[#0c0d10]/98 sm:dark:via-[#0c0d10]/90 dark:to-[#0c0d10]/40 lg:dark:to-transparent" />
+        
+        <div className="relative z-10 container mx-auto px-4 md:px-8">
+          <div className="max-w-3xl text-left">
+            {/* Architectural Eyebrow with Accent Line */}
+            <div className="inline-flex items-center gap-3 mb-3 sm:mb-4">
+              <span className="w-8 h-[2px] bg-accent inline-block" />
+              <span className="text-[10px] uppercase tracking-[0.3em] text-accent font-mono font-bold">
+                {t('properties.title') || "VERIFIED PORTFOLIO"}
+              </span>
+            </div>
 
-        {/* Header Block with Editorial Architectural Styling */}
-        <div className="text-left mb-10 max-w-4xl">
-          <div className="inline-flex items-center gap-3 mb-4">
-            <span className="w-6 sm:w-8 h-[2px] bg-accent inline-block" />
-            <span className="text-[10px] font-mono uppercase tracking-[0.25em] text-accent font-bold">
-              {t('properties.title') || "Verified Portfolio"}
-            </span>
+            {/* Title with Italic Accent */}
+            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-display font-medium text-foreground dark:text-white mb-3 sm:mb-4 leading-[1.1] sm:leading-none">
+              <span className="block">{copy.headline}</span>
+              <span className="block text-accent italic font-light">{copy.headlineAccent}</span>
+            </h1>
+
+            {/* Clear Communicative Intro */}
+            <p className="text-xs sm:text-sm text-foreground/80 dark:text-white/70 mb-5 sm:mb-6 leading-relaxed max-w-xl font-light">
+              {copy.intro}
+            </p>
+
+            {/* Division Metric Indicators */}
+            <div className="flex flex-wrap items-center gap-3 sm:gap-6 pt-5 border-t border-black/10 dark:border-white/10 text-xs text-foreground/80 dark:text-white/70 font-mono">
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-accent" />
+                <span><strong className="text-foreground dark:text-white font-bold">{properties.length}</strong> Curated Assets</span>
+              </div>
+              <div className="hidden sm:block w-[1px] h-3 bg-black/15 dark:bg-white/15" />
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-accent" />
+                <span><strong className="text-foreground dark:text-white font-bold">100%</strong> Registry Verified</span>
+              </div>
+              <div className="hidden sm:block w-[1px] h-3 bg-black/15 dark:bg-white/15" />
+              <div className="flex items-center gap-2">
+                <div className="w-1.5 h-1.5 bg-accent" />
+                <span><strong className="text-accent font-bold">Zero-Risk</strong> Clear Titles</span>
+              </div>
+            </div>
           </div>
-          <h1 className="text-4xl md:text-6xl font-display font-medium text-foreground dark:text-white mb-5 leading-tight tracking-tight">
-            {copy.headline} <span className="text-accent italic font-light">{copy.headlineAccent}</span>
-          </h1>
-          <p className="text-sm text-foreground/75 dark:text-white/60 max-w-2xl leading-relaxed font-light">
-            {copy.intro}
-          </p>
         </div>
+      </section>
+
+      {/* Search & Listings Section */}
+      <section className="py-10 sm:py-14 relative z-10 bg-transparent">
+        <div className="container mx-auto px-4 md:px-8">
 
         {/* Search & Filter Command Center */}
         <div className="bg-white/95 dark:bg-[#0a0c10]/90 border border-black/10 dark:border-white/10 shadow-xl dark:shadow-2xl mb-10 backdrop-blur-md relative">
@@ -260,7 +298,7 @@ export default function AllProperties() {
                 <Button
                   variant="outline"
                   onClick={clearFilters}
-                  className="w-full font-mono text-[10px] py-2.5 uppercase tracking-widest rounded-none border border-black/20 dark:border-white/20 text-foreground dark:text-white/80 hover:bg-black/5 dark:hover:bg-white/10 hover:border-accent dark:hover:border-accent hover:text-accent dark:hover:text-[#0c0d10] transition-all duration-200"
+                  className="w-full font-mono text-[10px] py-2.5 uppercase tracking-widest rounded-none border border-black/20 dark:border-white/20 text-foreground dark:text-white/80 hover:bg-black/5 dark:hover:bg-white/10 hover:border-accent dark:hover:border-accent hover:text-accent dark:hover:text-white transition-all duration-200"
                 >
                   {t('properties.filter.reset')}
                 </Button>
@@ -270,17 +308,17 @@ export default function AllProperties() {
         </div>
 
         {/* Counter & Mobile Map/Grid Switcher */}
-        <div className="flex items-center justify-between mb-8 pb-4 border-b border-white/10">
-          <div className="flex items-center gap-2 text-xs font-mono text-white/60">
+        <div className="flex items-center justify-between mb-8 pb-4 border-b border-black/10 dark:border-white/10">
+          <div className="flex items-center gap-2 text-xs font-mono text-foreground/75 dark:text-white/60">
             <CheckCircle2 size={13} className="text-accent" />
             <span>{t('properties.showing', { count: filtered.length })}</span>
           </div>
 
-          <div className="flex lg:hidden bg-[#0a0c10] border border-white/10 p-1">
+          <div className="flex lg:hidden bg-white dark:bg-[#0a0c10] border border-black/15 dark:border-white/10 p-1 shadow-sm">
             <button
               onClick={() => setMobileView('list')}
               className={`px-3 py-1.5 flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider ${
-                mobileView === 'list' ? 'bg-accent text-[#0c0d10] font-bold' : 'text-white/70'
+                mobileView === 'list' ? 'bg-accent text-[#0c0d10] font-bold' : 'text-foreground/75 dark:text-white/70'
               }`}
             >
               <LayoutGrid size={11} />
@@ -289,7 +327,7 @@ export default function AllProperties() {
             <button
               onClick={() => setMobileView('map')}
               className={`px-3 py-1.5 flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-wider ${
-                mobileView === 'map' ? 'bg-accent text-[#0c0d10] font-bold' : 'text-white/70'
+                mobileView === 'map' ? 'bg-accent text-[#0c0d10] font-bold' : 'text-foreground/75 dark:text-white/70'
               }`}
             >
               <Map size={11} />
@@ -318,15 +356,15 @@ export default function AllProperties() {
                 ))}
               </div>
             ) : (
-              <div className="text-center py-24 bg-[#0a0c10]/40 border border-white/10 p-8">
+              <div className="text-center py-24 bg-white dark:bg-[#0a0c10]/40 border border-black/10 dark:border-white/10 p-8 shadow-sm">
                 <Home size={40} className="mx-auto text-accent/40 mb-4 animate-pulse" />
-                <h3 className="text-xl font-display font-medium text-white mb-2">{t('properties.noResults')}</h3>
-                <p className="text-white/50 max-w-sm mx-auto text-xs leading-relaxed mb-6 font-light">
+                <h3 className="text-xl font-display font-medium text-foreground dark:text-white mb-2">{t('properties.noResults')}</h3>
+                <p className="text-foreground/60 dark:text-white/50 max-w-sm mx-auto text-xs leading-relaxed mb-6 font-light">
                   {t('properties.noResultsDesc')}
                 </p>
                 <Button
                   onClick={clearFilters}
-                  className="bg-accent text-[#0c0d10] hover:bg-accent-glow font-mono font-bold text-[10px] tracking-widest uppercase py-3 px-6 rounded-none"
+                  className="bg-accent text-[#0c0d10] hover:bg-accent-glow font-mono font-bold text-xs tracking-widest uppercase py-3 px-6 rounded-none cursor-pointer"
                 >
                   {t('properties.clearAll')}
                 </Button>
@@ -336,9 +374,9 @@ export default function AllProperties() {
 
           {/* Interactive Leaflet Map */}
           <div className={`lg:col-span-5 lg:sticky lg:top-28 ${mobileView === 'map' ? 'block' : 'hidden lg:block'}`}>
-            <div className="h-[450px] sm:h-[550px] lg:h-[720px] w-full rounded-none overflow-hidden border border-white/10 bg-[#0a0c10] p-1 relative shadow-2xl">
-              <div className="absolute top-4 right-4 z-20 bg-[#0c0d10]/90 backdrop-blur-md text-accent font-mono text-[9px] py-1.5 px-3 border border-accent/30 tracking-widest uppercase flex items-center gap-1.5 pointer-events-none">
-                <Sparkles size={11} className="text-accent animate-pulse" />
+            <div className="h-[450px] sm:h-[550px] lg:h-[720px] w-full rounded-none overflow-hidden border border-black/10 dark:border-white/10 bg-white dark:bg-[#0a0c10] p-1 relative shadow-2xl">
+              <div className="absolute top-4 right-4 z-30 bg-white/95 dark:bg-[#0c0d10]/90 backdrop-blur-md text-accent font-mono text-xs py-1.5 px-3.5 border border-accent/40 tracking-widest uppercase flex items-center gap-2 pointer-events-none shadow-md">
+                <Sparkles size={12} className="text-accent animate-pulse" />
                 {t('properties.coordinatesActive')}
               </div>
               <InteractiveMap
@@ -350,6 +388,7 @@ export default function AllProperties() {
           </div>
         </div>
       </div>
-    </div>
+    </section>
+  </div>
   );
 }

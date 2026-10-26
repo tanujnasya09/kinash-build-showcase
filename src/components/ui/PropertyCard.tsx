@@ -49,7 +49,7 @@ export default function PropertyCard({ property, isActive = false, onMouseEnter 
     gsap.to(card, {
       y: -8,
       borderColor: isDark ? 'rgba(223, 186, 72, 0.35)' : 'rgba(156, 109, 18, 0.45)',
-      boxShadow: isDark 
+      boxShadow: isDark
         ? '0 20px 45px rgba(223, 186, 72, 0.08), 0 0 40px rgba(0, 0, 0, 0.5)'
         : '0 20px 45px rgba(18, 19, 24, 0.08), 0 4px 15px rgba(156, 109, 18, 0.1)',
       duration: 0.5,
@@ -120,7 +120,7 @@ export default function PropertyCard({ property, isActive = false, onMouseEnter 
       borderColor: isActive
         ? (isDark ? 'rgba(223, 186, 72, 0.5)' : 'rgba(156, 109, 18, 0.6)')
         : (isDark ? 'rgba(255, 255, 255, 0.05)' : 'rgba(17, 18, 22, 0.09)'),
-      boxShadow: isActive 
+      boxShadow: isActive
         ? (isDark ? '0 0 50px rgba(223, 186, 72, 0.15)' : '0 10px 30px rgba(156, 109, 18, 0.12)')
         : (isDark ? '0 10px 30px rgba(0, 0, 0, 0.3)' : '0 4px 12px rgba(18, 19, 24, 0.04)'),
       duration: 0.6,
@@ -163,21 +163,20 @@ export default function PropertyCard({ property, isActive = false, onMouseEnter 
       onMouseEnter={handleMouseEnter}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className={`group relative flex flex-col w-full bg-[#0a0c10]/85 border border-white/5 shadow-2xl shadow-[inset_0_1px_1px_rgba(255,255,255,0.06)] transition-colors duration-300 overflow-hidden ${
-        isActive ? 'border-accent/50 shadow-[0_0_50px_rgba(223,186,72,0.15)]' : ''
-      }`}
+      className={`group relative flex flex-col w-full bg-white dark:bg-[#0c0d10] border border-black/10 dark:border-white/10 shadow-md dark:shadow-2xl transition-colors duration-300 overflow-hidden ${isActive ? 'border-accent shadow-[0_0_35px_rgba(223,186,72,0.2)]' : ''
+        }`}
     >
       {/* Animated Hover Border Overlay */}
-      <div 
-        ref={borderRef} 
-        className="absolute inset-0 pointer-events-none z-20 border border-transparent" 
+      <div
+        ref={borderRef}
+        className="absolute inset-0 pointer-events-none z-20 border border-transparent"
       />
 
       {/* Technical corner marks for architectural design aesthetic */}
-      <div ref={topLeftRef} className="absolute top-0 left-0 w-2 h-2 border-t border-l border-accent/35 pointer-events-none z-20 origin-top-left transition-colors duration-300" />
-      <div ref={topRightRef} className="absolute top-0 right-0 w-2 h-2 border-t border-r border-accent/35 pointer-events-none z-20 origin-top-right transition-colors duration-300" />
-      <div ref={bottomLeftRef} className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-accent/35 pointer-events-none z-20 origin-bottom-left transition-colors duration-300" />
-      <div ref={bottomRightRef} className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-accent/35 pointer-events-none z-20 origin-bottom-right transition-colors duration-300" />
+      <div ref={topLeftRef} className="absolute top-0 left-0 w-2 h-2 border-t border-l border-accent/40 pointer-events-none z-20 origin-top-left transition-colors duration-300" />
+      <div ref={topRightRef} className="absolute top-0 right-0 w-2 h-2 border-t border-r border-accent/40 pointer-events-none z-20 origin-top-right transition-colors duration-300" />
+      <div ref={bottomLeftRef} className="absolute bottom-0 left-0 w-2 h-2 border-b border-l border-accent/40 pointer-events-none z-20 origin-bottom-left transition-colors duration-300" />
+      <div ref={bottomRightRef} className="absolute bottom-0 right-0 w-2 h-2 border-b border-r border-accent/40 pointer-events-none z-20 origin-bottom-right transition-colors duration-300" />
 
       {/* Image container with hidden overflow */}
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#0d0f14]">
@@ -185,73 +184,74 @@ export default function PropertyCard({ property, isActive = false, onMouseEnter 
           ref={imgRef}
           src={property.images?.[0]}
           alt={displayTitle}
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover scale-[1.08]"
           onError={(e) => {
             e.currentTarget.src = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop";
           }}
         />
         {/* Dark gold color tint overlay */}
-        <div className="property-card-image-gradient absolute inset-0 bg-gradient-to-t from-[#0c0d10] via-[#0c0d10]/15 to-transparent z-10" />
-        
+        <div className="property-card-image-gradient absolute inset-0 bg-gradient-to-t from-black/85 via-black/25 to-transparent z-10" />
+
         {/* Luxury Glassmorphic Status Badge */}
         <div
-          className={`absolute top-4 left-4 z-20 px-3.5 py-1.5 bg-[#0c0d10]/60 backdrop-blur-md border text-[9px] font-sans font-bold uppercase tracking-widest ${
-            property.status.toLowerCase().includes("completed")
-              ? "text-accent border-accent/30"
-              : property.status.toLowerCase().includes("construction")
-              ? "text-amber-400 border-amber-400/30"
+          className={`absolute top-3.5 left-3.5 z-20 px-3 py-1 font-mono text-[10px] font-bold uppercase tracking-widest backdrop-blur-md border shadow-sm ${property.status.toLowerCase().includes("construction")
+            ? "bg-amber-100/95 dark:bg-amber-950/85 text-amber-900 dark:text-amber-300 border-amber-600/40"
+            : property.status.toLowerCase().includes("completed")
+              ? "bg-white/95 dark:bg-[#0c0d10]/90 text-accent border-accent/50"
               : property.status.toLowerCase().includes("sold")
-              ? "text-red-400 border-red-400/30"
-              : "text-green-400 border-green-400/30"
-          }`}
+                ? "bg-rose-100/95 dark:bg-rose-950/85 text-rose-900 dark:text-rose-300 border-rose-600/40"
+                : "bg-emerald-100/95 dark:bg-emerald-950/85 text-emerald-900 dark:text-emerald-300 border-emerald-600/40"
+            }`}
         >
           {property.status}
         </div>
 
         {/* Spec Badge Overlay */}
-        <div className="absolute bottom-4 left-4 z-20 text-[9px] font-mono uppercase tracking-widest text-[#0c0d10] bg-accent px-3 py-1 font-bold">
+        <div className="absolute bottom-3 left-3 z-20 text-[10px] font-mono uppercase tracking-widest text-[#0c0d10] bg-accent px-2.5 py-1 font-bold shadow-sm">
           {displaySpecs.type}
         </div>
       </div>
 
       {/* Info Content Section */}
-      <div className="p-4 sm:p-6 flex flex-col justify-between flex-1 relative z-10">
+      <div className="p-4 sm:p-5 flex flex-col justify-between flex-1 relative z-10 bg-white dark:bg-[#0c0d10]">
         <div>
-          <div className="flex items-center text-foreground/60 dark:text-white/50 mb-2 font-mono text-[9px] uppercase tracking-wider">
-            <MapPin size={10} className="mr-1.5 text-accent flex-shrink-0" />
+          <div className="flex items-center text-foreground/75 dark:text-white/60 mb-1.5 font-mono text-xs uppercase tracking-wider">
+            <MapPin size={12} className="mr-1.5 text-accent flex-shrink-0" />
             <span className="line-clamp-1">{displayLocation}</span>
           </div>
-          <h3 className="text-base sm:text-lg font-display font-medium text-foreground dark:text-white mb-1.5 sm:mb-2 line-clamp-1 group-hover:text-accent transition-colors duration-500 leading-tight">
+          <h3 className="text-base sm:text-lg font-display font-medium text-foreground dark:text-white mb-1.5 line-clamp-1 group-hover:text-accent transition-colors duration-300 leading-tight">
             {displayTitle}
           </h3>
-          <p className="text-lg sm:text-xl font-display font-extralight text-accent mb-3 sm:mb-4">
+          <p className="text-lg sm:text-xl font-display font-light text-accent mb-3">
             {formatPrice(property.price, currency.code)}
           </p>
 
           {/* Quick Technical specifications */}
-          <div className="grid grid-cols-3 gap-1 sm:gap-2 p-2 sm:p-3 bg-[#f8f7f4] dark:bg-[#0d0f14]/50 border border-black/10 dark:border-white/5 text-[8px] sm:text-[9px] font-mono tracking-wider uppercase text-foreground/75 dark:text-white/60 mb-3 sm:mb-4">
-            <div className="text-center border-r border-black/10 dark:border-white/5 px-1">
-              <span className="text-accent/70 dark:text-accent/50 block font-normal text-[7px] mb-0.5">{t('properties.card.size')}</span>
-              <span className="truncate block">{property.specs.area || property.specs.sizes[0]}</span>
+          <div className="grid grid-cols-3 gap-1 sm:gap-2 p-2.5 sm:p-3 bg-[#f4efe6] dark:bg-[#12141a] border border-black/10 dark:border-white/10 text-xs font-mono tracking-wider uppercase mb-3 sm:mb-4">
+            <div className="text-center border-r border-black/10 dark:border-white/10 px-1">
+              <span className="text-foreground/70 dark:text-white/60 block font-medium text-[10px] mb-0.5">{t('properties.card.size')}</span>
+              <span className="truncate block font-bold text-foreground dark:text-white">{property.specs.area || property.specs.sizes[0]}</span>
             </div>
-            <div className="text-center border-r border-black/10 dark:border-white/5 px-1">
-              <span className="text-accent/70 dark:text-accent/50 block font-normal text-[7px] mb-0.5">{t('properties.card.timeline')}</span>
-              <span className="truncate block">{displaySpecs.possession}</span>
+            <div className="text-center border-r border-black/10 dark:border-white/10 px-1">
+              <span className="text-foreground/70 dark:text-white/60 block font-medium text-[10px] mb-0.5">{t('properties.card.timeline')}</span>
+              <span className="truncate block font-bold text-foreground dark:text-white">{displaySpecs.possession}</span>
             </div>
             <div className="text-center px-1">
-              <span className="text-accent/70 dark:text-accent/50 block font-normal text-[7px] mb-0.5">{t('properties.card.facing')}</span>
-              <span className="truncate block">{property.specs.facing}</span>
+              <span className="text-foreground/70 dark:text-white/60 block font-medium text-[10px] mb-0.5">{t('properties.card.facing')}</span>
+              <span className="truncate block font-bold text-foreground dark:text-white">{property.specs.facing}</span>
             </div>
           </div>
 
-          <p className="text-[11px] sm:text-xs text-foreground/70 dark:text-white/60 font-light line-clamp-2 leading-relaxed mb-4 sm:mb-6">
+          <p className="text-xs sm:text-sm text-foreground/75 dark:text-white/65 font-light line-clamp-2 leading-relaxed mb-4">
             {displayDesc}
           </p>
 
           {/* Features checkmarks */}
-          <div className="space-y-1.5 border-t border-black/10 dark:border-white/5 pt-3 sm:pt-4 mb-4 sm:mb-6">
+          <div className="space-y-1.5 border-t border-black/10 dark:border-white/10 pt-3 mb-4">
             {displayFeatures.slice(0, 2).map((feat, i) => (
-              <div key={i} className="flex items-center text-[10px] text-foreground/65 dark:text-white/50 font-sans tracking-wide">
+              <div key={i} className="flex items-center text-xs text-foreground/80 dark:text-white/70 font-sans tracking-wide">
                 <CheckCircle className="w-3.5 h-3.5 text-accent mr-2 flex-shrink-0" />
                 <span className="line-clamp-1 font-light">{feat}</span>
               </div>
@@ -262,21 +262,20 @@ export default function PropertyCard({ property, isActive = false, onMouseEnter 
         {/* Footer Actions - Equalized heights (44px) */}
         <div className="flex gap-2.5 sm:gap-3 mt-auto items-center pt-2">
           <Link to={`/property/${property.slug}`} className="flex-1">
-            <Button 
+            <Button
               variant="outline"
-              className="w-full h-11 sm:h-12 border border-black/15 dark:border-white/10 bg-transparent text-[#111215] dark:text-white hover:bg-accent hover:text-[#0c0d10] dark:hover:bg-accent dark:hover:text-[#0c0d10] rounded-none text-[9px] tracking-widest uppercase flex items-center justify-center gap-1.5 font-bold transition-colors"
-            >
+              className="w-full h-11 group-hover/btn:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"            >
               <span>{t('properties.card.details')}</span>
-              <ArrowUpRight size={12} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              <ArrowUpRight size={13} className="group-hover/btn:text-white group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </Button>
           </Link>
           <Link to="/contact">
-            <MagneticButton 
-              className="h-11 sm:h-12 w-11 sm:w-12 bg-accent text-[#0c0d10] border-transparent rounded-none hover:bg-accent-glow flex items-center justify-center transition-colors shadow-sm"
+            <MagneticButton
+              className="h-11 w-11 bg-accent text-[#0c0d10] border border-accent rounded-none hover:bg-zinc-600 hover:text-white dark:hover:bg-accent-glow dark:hover:text-[#0c0d10] flex items-center justify-center transition-colors shadow-sm cursor-pointer"
               strength={20}
               ariaLabel={t('properties.contact')}
             >
-              <Phone size={13} />
+              <Phone size={14} />
             </MagneticButton>
           </Link>
         </div>

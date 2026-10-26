@@ -88,11 +88,10 @@ const Header = () => {
                   <DropdownMenuItem
                     key={lang.code}
                     onClick={() => handleLanguageChange(lang.code)}
-                    className={`font-mono text-[9px] py-1.5 px-3 rounded-none cursor-pointer tracking-widest uppercase transition-colors ${
-                      language === lang.code
+                    className={`font-mono text-[9px] py-1.5 px-3 rounded-none cursor-pointer tracking-widest uppercase transition-colors ${language === lang.code
                         ? 'bg-accent text-white font-extrabold'
                         : 'text-foreground/80 dark:text-white/80 hover:bg-black/5 dark:hover:bg-white/10'
-                    }`}
+                      }`}
                   >
                     {lang.label} ({lang.short})
                   </DropdownMenuItem>
@@ -115,11 +114,10 @@ const Header = () => {
                   <DropdownMenuItem
                     key={c.code}
                     onClick={() => setCurrency(c.code)}
-                    className={`font-mono text-[9px] py-1.5 px-3 rounded-none cursor-pointer tracking-widest uppercase ${
-                      currency.code === c.code
+                    className={`font-mono text-[9px] py-1.5 px-3 rounded-none cursor-pointer tracking-widest uppercase ${currency.code === c.code
                         ? 'bg-accent text-white font-extrabold'
                         : 'text-foreground/80 dark:text-white/80 hover:bg-black/5 dark:hover:bg-white/10'
-                    }`}
+                      }`}
                   >
                     {c.label}
                   </DropdownMenuItem>
@@ -171,11 +169,10 @@ const Header = () => {
               <Link
                 key={item.name}
                 to={item.href}
-                className={`relative text-[10.5px] xl:text-[11.5px] font-mono font-bold tracking-[0.18em] uppercase transition-colors duration-200 py-1 ${
-                  isActive(item.href)
+                className={`relative text-[10.5px] xl:text-[11.5px] font-mono font-bold tracking-[0.18em] uppercase transition-colors duration-200 py-1 ${isActive(item.href)
                     ? 'text-accent'
                     : 'text-foreground/80 dark:text-white/70 hover:text-foreground dark:hover:text-white'
-                } group`}
+                  } group`}
               >
                 {item.name}
                 {isActive(item.href) && (
@@ -189,7 +186,7 @@ const Header = () => {
           <div className="hidden lg:flex flex-1 items-center justify-end">
             <Button
               asChild
-              className="h-9 sm:h-9.5 px-5 sm:px-6 bg-accent text-white hover:bg-accent-glow font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] rounded-none border border-accent hover:border-accent-glow shadow-[0_4px_16px_rgba(186,137,29,0.25)] flex items-center justify-center transition-all cursor-pointer"
+              className="h-9 sm:h-9.5 px-5 sm:px-6 bg-accent text-[#0c0d10] hover:bg-accent-glow font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.2em] rounded-none border border-accent hover:border-accent-glow shadow-[0_4px_16px_rgba(186,137,29,0.25)] flex items-center justify-center transition-all cursor-pointer"
             >
               <Link to="/contact">
                 {t('nav.contact')}
@@ -213,9 +210,8 @@ const Header = () => {
                   <DropdownMenuItem
                     key={lang.code}
                     onClick={() => handleLanguageChange(lang.code)}
-                    className={`font-mono text-[10px] tracking-widest uppercase py-2 cursor-pointer transition-colors ${
-                      language === lang.code ? 'bg-accent text-white font-extrabold' : 'text-foreground/80 dark:text-white/80 hover:bg-black/5 dark:hover:bg-white/10 hover:text-foreground dark:hover:text-white'
-                    }`}
+                    className={`font-mono text-[10px] tracking-widest uppercase py-2 cursor-pointer transition-colors ${language === lang.code ? 'bg-accent text-white font-extrabold' : 'text-foreground/80 dark:text-white/80 hover:bg-black/5 dark:hover:bg-white/10 hover:text-foreground dark:hover:text-white'
+                      }`}
                   >
                     {lang.label}
                   </DropdownMenuItem>
@@ -237,9 +233,8 @@ const Header = () => {
                   <DropdownMenuItem
                     key={c.code}
                     onClick={() => setCurrency(c.code)}
-                    className={`font-mono text-[10px] tracking-widest uppercase py-2 cursor-pointer ${
-                      currency.code === c.code ? 'text-accent font-bold' : 'text-foreground/80 dark:text-white/80'
-                    }`}
+                    className={`font-mono text-[10px] tracking-widest uppercase py-2 cursor-pointer ${currency.code === c.code ? 'text-accent font-bold' : 'text-foreground/80 dark:text-white/80'
+                      }`}
                   >
                     {c.label}
                   </DropdownMenuItem>
@@ -281,11 +276,10 @@ const Header = () => {
                   key={item.name}
                   to={item.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`block py-3 px-4 rounded-none text-sm font-sans font-bold uppercase tracking-[0.12em] ${
-                    isActive(item.href)
+                  className={`block py-3 px-4 rounded-none text-sm font-sans font-bold uppercase tracking-[0.12em] ${isActive(item.href)
                       ? 'bg-accent text-white font-extrabold'
                       : 'text-foreground/80 dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/5 hover:text-foreground dark:hover:text-white'
-                  } transition-all`}
+                    } transition-all`}
                 >
                   {item.name}
                 </Link>
@@ -315,7 +309,7 @@ const Header = () => {
               </div>
 
               <div className="border-t border-black/10 dark:border-white/10 pt-4 mt-4 px-2">
-                <Button asChild className="btn-luxury-gold w-full bg-accent text-white border-transparent font-bold py-4 text-[9px] tracking-widest uppercase">
+                <Button asChild className="btn-luxury-gold w-full bg-accent text-[#0c0d10] border-transparent font-bold py-4 text-[9px] tracking-widest uppercase">
                   <Link to="/contact" onClick={() => setIsMenuOpen(false)}>
                     {t('nav.contact')}
                   </Link>

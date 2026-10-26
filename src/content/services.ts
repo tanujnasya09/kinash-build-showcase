@@ -40,8 +40,8 @@ export const services: Localized<ServicesContent> = {
       keywords: 'commercial building construction dehradun, luxury villa builders, real estate consultants'
     },
     eyebrow: 'service portfolio',
-    title: 'Comprehensive Architectural',
-    titleAccent: 'Capabilities.',
+    title: 'Integrated Services,',
+    titleAccent: 'Turnkey Capabilities.',
     intro: 'From civil structural construction to premium registry transfers, our specialized divisions deliver secure real estate development and asset management.',
     services: [
       {

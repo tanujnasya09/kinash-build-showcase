@@ -22,7 +22,7 @@ export const ArchitecturalGrid: React.FC<ArchitecturalGridProps> = ({
         {Array.from({ length: columns }).map((_, idx) => (
           <div
             key={idx}
-            className={`w-[1px] h-full bg-black/[0.04] dark:bg-white/[0.035] ${
+            className={`w-[1px] h-full bg-black/[0.02] dark:bg-white/[0.018] ${
               idx > 1 && idx < columns - 1 ? 'hidden sm:block' : ''
             }`}
           />

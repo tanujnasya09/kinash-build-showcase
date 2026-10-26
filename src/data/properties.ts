@@ -1,4 +1,4 @@
-﻿import { siteConfig } from '../config/site';
+import { siteConfig } from '../config/site';
 import type { Property } from '../types/property';
 
 // Rich luxury mockup assets generated using standard URLs and structured schemas
@@ -96,7 +96,7 @@ export const demoProperties: Property[] = [
     contact: siteConfig.contact.phoneFormatted,
     videoLink: 'https://www.youtube.com/watch?v=sfWcqu4hPHw',
     images: [
-      'https://images.unsplash.com/photo-1524413840807-0c3cb6fa808d?w=800&h=600&fit=crop',
+      'https://images.unsplash.com/photo-1506744038136-46273834b3fb?w=800&h=600&fit=crop',
       'https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?w=800&h=600&fit=crop'
     ],
     specs: {
