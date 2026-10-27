@@ -10,7 +10,7 @@
  * Reads are public (no token) — keep your dataset "public" or add a read token proxy.
  * Never put a write token in VITE_* variables: they are shipped to the browser.
  */
-import { createClient, type SanityClient } from '@sanity/client';
+import type { SanityClient } from '@sanity/client';
 import type { Property } from '@/types/property';
 
 const getEnv = (key: string): string | undefined => {
@@ -29,15 +29,28 @@ export const sanityStudioUrl = getEnv('SANITY_STUDIO_URL') || '';
 
 export const isSanityEnabled = Boolean(projectId && projectId.trim());
 
-export const sanityClient: SanityClient | null = isSanityEnabled
-  ? createClient({
-      projectId: projectId!.trim(),
-      dataset,
-      apiVersion,
-      useCdn: true, // fast, cached reads; content updates appear within ~60s
-      perspective: 'published',
-    })
-  : null;
+let _client: SanityClient | null = null;
+export function getSanityClient(): SanityClient | null {
+  if (!isSanityEnabled) return null;
+  if (!_client) {
+    try {
+      const { createClient } = require('@sanity/client');
+      _client = createClient({
+        projectId: projectId!.trim(),
+        dataset,
+        apiVersion,
+        useCdn: true, // fast, cached reads; content updates appear within ~60s
+        perspective: 'published',
+      });
+    } catch (e) {
+      console.warn('[Apex] Failed to initialize @sanity/client:', e);
+      return null;
+    }
+  }
+  return _client;
+}
+
+export const sanityClient: SanityClient | null = isSanityEnabled ? getSanityClient() : null;
 
 /**
  * GROQ query — shapes Sanity documents into the exact `Property` interface the UI uses,
@@ -90,8 +103,9 @@ const optimise = (url: string) =>
   url.includes('cdn.sanity.io/images') && !url.includes('?') ? `${url}?w=1600&auto=format&q=80` : url;
 
 export async function fetchSanityProperties(): Promise<Property[]> {
-  if (!sanityClient) return [];
-  const rows = await sanityClient.fetch<SanityPropertyRow[]>(PROPERTIES_QUERY);
+  const client = getSanityClient();
+  if (!client) return [];
+  const rows = await client.fetch<SanityPropertyRow[]>(PROPERTIES_QUERY);
 
   return rows.map((row, index) => {
     const { _id, lat, lng, ...rest } = row;

@@ -1,6 +1,6 @@
 'use client';
 
-import { Home, TrendingUp, Key, Search, DollarSign, Award, Users, ArrowRight } from 'lucide-react';
+import { Home, TrendingUp, Key, Search, DollarSign, Award, Users, ArrowRight, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Link } from 'react-router-dom';
 import MagneticButton from '@/components/ui/MagneticButton';
@@ -57,15 +57,16 @@ const RealEstatePage = () => {
         />
         {/* Left Veil: High contrast readable text */}
         <div className="hero-gradient-overlay absolute inset-0 bg-gradient-to-r from-[#f8f7f4] via-[#f8f7f4]/98 sm:via-[#f8f7f4]/90 to-[#f8f7f4]/40 lg:to-transparent dark:from-[#0c0d10] dark:via-[#0c0d10]/98 sm:dark:via-[#0c0d10]/90 dark:to-[#0c0d10]/40 lg:dark:to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_75%_40%,rgba(223,186,72,0.08),transparent_55%)] z-0 pointer-events-none" />
 
         <div className="relative z-10 container mx-auto px-4 md:px-8">
           <div className="max-w-3xl text-left">
-            {/* Architectural Eyebrow with Accent Line */}
-            <div className="inline-flex items-center gap-3 mb-3 sm:mb-4">
-              <span className="w-8 h-[2px] bg-accent inline-block" />
-              <span className="text-[10px] uppercase tracking-[0.3em] text-accent font-mono font-bold">
-                {copy.eyebrow || 'REAL ESTATE ADVISORY'}
-              </span>
+            {/* Architectural Eyebrow Badge with Corner Accents (Matching Homepage) */}
+            <div className="inline-flex items-center gap-2 bg-accent/10 border border-accent/30 px-3.5 sm:px-4 py-1 sm:py-1.5 mb-2.5 sm:mb-4 text-accent text-[9px] font-mono font-bold tracking-[0.3em] uppercase relative shadow-xs">
+              <div className="absolute top-0 left-0 w-1.5 h-1.5 border-t border-l border-accent/60" />
+              <div className="absolute bottom-0 right-0 w-1.5 h-1.5 border-b border-r border-accent/60" />
+              <Sparkles size={11} className="animate-pulse text-accent" />
+              <span>{copy.eyebrow || 'REAL ESTATE ADVISORY'}</span>
             </div>
 
             {/* Title with Italic Accent */}
@@ -79,18 +80,25 @@ const RealEstatePage = () => {
               {copy.intro}
             </p>
 
-            {/* Action Buttons */}
-            <div className="flex flex-row gap-2.5 sm:gap-4 justify-start items-center w-full max-w-md mb-6">
-              <MagneticButton strength={15} className="flex-1 sm:flex-initial" as="div">
-                <Button asChild className="w-full sm:w-auto h-11 sm:h-12 px-6 sm:px-8 bg-accent text-[#0c0d10] hover:bg-accent-glow font-display font-black text-xs uppercase tracking-[0.15em] rounded-none border border-accent hover:border-accent-glow shadow-[0_10px_30px_rgba(223,186,72,0.25)] flex items-center justify-center gap-2 group transition-all whitespace-nowrap cursor-pointer">
+            {/* Action Buttons - Fully Responsive Mobile-to-Desktop Layout */}
+            <div className="flex flex-col sm:flex-row gap-2.5 sm:gap-4 justify-start items-stretch sm:items-center w-full max-w-md mb-6">
+              <MagneticButton strength={15} containerClassName="w-full sm:w-auto" className="w-full sm:w-auto" as="div">
+                <Button
+                  asChild
+                  className="w-full sm:w-auto h-11 sm:h-12 px-4 sm:px-7 py-2.5 sm:py-3 bg-accent text-[#0c0d10] hover:bg-accent-glow font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-accent hover:border-accent-glow shadow-sm hover:shadow-[0_10px_30px_rgba(223,186,72,0.35)] flex items-center justify-center gap-1.5 sm:gap-2 group transition-all whitespace-nowrap cursor-pointer"
+                >
                   <Link to="/properties">
                     <span>{copy.heroCtaPrimary}</span>
                     <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform duration-300" />
                   </Link>
                 </Button>
               </MagneticButton>
-              <MagneticButton strength={15} className="flex-1 sm:flex-initial" as="div">
-                <Button asChild variant="outline" className="w-full sm:w-auto h-11 sm:h-12 px-6 sm:px-8 bg-white dark:bg-transparent text-[#0c0d10] dark:text-white hover:bg-zinc-100 hover:text-white hover:border-accent dark:hover:bg-accent/25 dark:hover:border-accent dark:hover:text-white font-display font-black text-xs uppercase tracking-[0.15em] rounded-none border border-black/20 dark:border-white/20 transition-all flex items-center justify-center whitespace-nowrap shadow-xs cursor-pointer">
+              <MagneticButton strength={15} containerClassName="w-full sm:w-auto" className="w-full sm:w-auto" as="div">
+                <Button
+                  asChild
+                  variant="outline"
+                  className="w-full sm:w-auto h-11 sm:h-12 px-4 sm:px-7 py-2.5 sm:py-3 bg-white dark:bg-transparent text-foreground dark:text-white hover:bg-zinc-100 dark:hover:bg-accent/25 dark:hover:border-accent dark:hover:text-white hover:border-accent font-display font-black text-[10px] sm:text-xs uppercase tracking-[0.1em] sm:tracking-[0.2em] rounded-none border border-black/20 dark:border-white/20 transition-all flex items-center justify-center shadow-xs hover:shadow-md cursor-pointer whitespace-nowrap"
+                >
                   <Link to="/contact">{copy.heroCtaSecondary}</Link>
                 </Button>
               </MagneticButton>

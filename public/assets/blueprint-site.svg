@@ -1,0 +1,114 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="100%" height="100%">
+  <defs>
+    <pattern id="gridSite" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1c2834" stroke-width="0.75" />
+      <path d="M 200 0 L 0 0 0 200" fill="none" stroke="#253545" stroke-width="1.2" />
+    </pattern>
+    <pattern id="greenZone" width="12" height="12" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="12" stroke="#10b981" stroke-width="1.2" opacity="0.35" />
+    </pattern>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1200" height="800" fill="#090d12" />
+  <rect width="1200" height="800" fill="url(#gridSite)" />
+
+  <!-- Outer Architectural Border -->
+  <rect x="25" y="25" width="1150" height="750" fill="none" stroke="#dfba48" stroke-width="1.5" stroke-opacity="0.4" />
+  <rect x="35" y="35" width="1130" height="730" fill="none" stroke="#38bdf8" stroke-width="0.8" stroke-opacity="0.25" />
+
+  <!-- Highway / Avenue Access (Bottom) -->
+  <rect x="35" y="660" width="1130" height="105" fill="#0d141e" stroke="#38bdf8" stroke-width="1.2" />
+  <line x1="35" y1="712" x2="1165" y2="712" stroke="#dfba48" stroke-width="2" stroke-dasharray="20,15" opacity="0.7" />
+  <text x="600" y="735" font-family="'Courier New', monospace" font-size="12" font-weight="bold" fill="#dfba48" letter-spacing="2" text-anchor="middle">
+    30.0 METER WIDE ARTERIAL ACCESS HIGHWAY // DUAL CARRIAGEWAY
+  </text>
+
+  <!-- Gated Security Entry & Setbacks -->
+  <rect x="520" y="630" width="160" height="30" fill="#dfba48" opacity="0.3" />
+  <text x="600" y="650" font-family="'Courier New', monospace" font-size="9" font-weight="bold" fill="#ffffff" text-anchor="middle">
+    PRIVATE SECURITY CHECKPOINT &amp; BOOM BARRIER
+  </text>
+
+  <!-- Main Compound Plot Boundary (Gold Thick Line) -->
+  <polygon points="160,120 1040,120 1040,630 160,630" fill="#0a1017" stroke="#dfba48" stroke-width="2.5" />
+
+  <!-- Setback Buffer Zone (Greenery) -->
+  <polygon points="180,140 1020,140 1020,610 180,610" fill="url(#greenZone)" stroke="#10b981" stroke-width="1" stroke-dasharray="4,4" opacity="0.7" />
+
+  <!-- Building Footprint (Ground Envelope) -->
+  <rect x="320" y="220" width="560" height="320" fill="#131c28" stroke="#38bdf8" stroke-width="2" />
+
+  <!-- Pool Schematic -->
+  <rect x="220" y="280" width="90" height="200" fill="#0e3d54" stroke="#38bdf8" stroke-width="1.5" />
+  <text x="265" y="385" font-family="'Courier New', monospace" font-size="10" font-weight="bold" fill="#38bdf8" text-anchor="middle" transform="rotate(-90 265 385)">INFINITY POOL</text>
+
+  <!-- Driveway & Porte-Cochere -->
+  <polygon points="540,630 660,630 660,540 540,540" fill="#101824" stroke="#dfba48" stroke-width="1" stroke-dasharray="2,2" />
+
+  <!-- Building Envelope Center Callout -->
+  <g font-family="'Courier New', monospace" fill="#ffffff" text-anchor="middle">
+    <text x="600" y="360" font-size="16" font-weight="bold" fill="#dfba48" letter-spacing="1.5">
+      MAIN RESIDENTIAL ESTATE FOOTPRINT
+    </text>
+    <text x="600" y="385" font-size="11" fill="#94a3b8">
+      MAX PERMITTED FAR: 1.80 // GROUND COVERAGE: 38%
+    </text>
+    <text x="600" y="405" font-size="10" fill="#38bdf8">
+      SETBACKS: FRONT 9.0M // REAR 6.0M // SIDES 4.5M
+    </text>
+  </g>
+
+  <!-- Plot Dimensions -->
+  <g stroke="#38bdf8" stroke-width="1" fill="#38bdf8" font-family="'Courier New', monospace" font-size="10">
+    <!-- Width Top -->
+    <line x1="160" y1="90" x2="1040" y2="90" />
+    <line x1="160" y1="80" x2="160" y2="100" />
+    <line x1="1040" y1="80" x2="1040" y2="100" />
+    <text x="600" y="85" stroke="none" text-anchor="middle">TOTAL FRONTAGE: 180'-0" [54.86 M]</text>
+
+    <!-- Depth Left -->
+    <line x1="120" y1="120" x2="120" y2="630" />
+    <line x1="110" y1="120" x2="130" y2="120" />
+    <line x1="110" y1="630" x2="130" y2="630" />
+    <text x="110" y="375" stroke="none" text-anchor="middle" transform="rotate(-90 110 375)">TOTAL DEPTH: 165'-0" [50.29 M]</text>
+  </g>
+
+  <!-- North Compass -->
+  <g transform="translate(1080, 100)">
+    <circle cx="0" cy="0" r="28" fill="#090d12" stroke="#dfba48" stroke-width="1.2" />
+    <polygon points="0,-24 6,-2 0,-8" fill="#dfba48" />
+    <polygon points="0,-24 -6,-2 0,-8" fill="#ffffff" />
+    <polygon points="0,24 6,2 0,8" fill="#38bdf8" opacity="0.6" />
+    <polygon points="0,24 -6,2 0,8" fill="#ffffff" opacity="0.6" />
+    <text x="0" y="-30" font-family="'Courier New', monospace" font-size="11" font-weight="bold" fill="#dfba48" text-anchor="middle">N</text>
+  </g>
+
+  <!-- Architectural Title Block -->
+  <g transform="translate(680, 520)">
+    <rect x="0" y="0" width="460" height="90" fill="#0c1219" stroke="#dfba48" stroke-width="1.5" />
+    <line x1="0" y1="30" x2="460" y2="30" stroke="#dfba48" stroke-width="0.8" opacity="0.5" />
+    <line x1="280" y1="30" x2="280" y2="90" stroke="#dfba48" stroke-width="0.8" opacity="0.5" />
+
+    <text x="15" y="20" font-family="'Courier New', monospace" font-size="12" font-weight="bold" fill="#dfba48" letter-spacing="1.5">
+      APEX LUXURY ARCHITECTURE &amp; CONTRACTING
+    </text>
+    <text x="445" y="20" font-family="'Courier New', monospace" font-size="9" fill="#38bdf8" text-anchor="end">
+      ISO 9001:2026 // RERA
+    </text>
+
+    <text x="15" y="48" font-family="'Courier New', monospace" font-size="10" font-weight="bold" fill="#ffffff">
+      PROJECT: APEX ULTRA-PRIME RESIDENTIAL ESTATE
+    </text>
+    <text x="15" y="64" font-family="'Courier New', monospace" font-size="9" fill="#94a3b8">
+      MASTER SITE DEMARCATION &amp; BOUNDARY SURVEY
+    </text>
+    <text x="15" y="78" font-family="'Courier New', monospace" font-size="8" fill="#4fd1c5">
+      SHEET: L-001 // SITE &amp; LANDSCAPE SCHEMATIC
+    </text>
+
+    <text x="295" y="48" font-family="'Courier New', monospace" font-size="8" fill="#94a3b8">SCALE: 1:250 @ A3</text>
+    <text x="295" y="62" font-family="'Courier New', monospace" font-size="8" fill="#94a3b8">LAND AREA: 29,700 SQ FT</text>
+    <text x="295" y="76" font-family="'Courier New', monospace" font-size="8" fill="#dfba48">REV: C // APPROVED EXECUTIVE</text>
+  </g>
+</svg>

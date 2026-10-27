@@ -22,7 +22,7 @@ const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const { language, setLanguage, currency, setCurrency, t } = useLanguage();
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme, mounted } = useTheme();
 
   const navigation = [
     { name: t('nav.home'), href: '/' },
@@ -130,14 +130,15 @@ const Header = () => {
             {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
-              aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              suppressHydrationWarning
+              aria-label={mounted && theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+              title={mounted && theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
               className="h-5.5 w-5.5 border border-black/15 dark:border-white/15 text-foreground dark:text-white hover:border-accent hover:text-accent flex items-center justify-center transition-colors cursor-pointer bg-white/40 dark:bg-white/5"
             >
-              {theme === 'dark' ? (
-                <Sun size={9} className="text-accent" />
-              ) : (
+              {mounted && theme === 'light' ? (
                 <Moon size={9} className="text-foreground" />
+              ) : (
+                <Sun size={9} className="text-accent" />
               )}
             </button>
           </div>
@@ -247,14 +248,15 @@ const Header = () => {
             {/* Mobile Theme Toggle */}
             <button
               onClick={toggleTheme}
-              aria-label={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-              title={theme === 'dark' ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+              suppressHydrationWarning
+              aria-label={mounted && theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
+              title={mounted && theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
               className="p-1.5 sm:p-2 min-w-[32px] sm:min-w-[36px] min-h-[32px] sm:min-h-[36px] flex items-center justify-center border border-black/15 dark:border-white/10 rounded-none bg-transparent hover:bg-black/5 dark:hover:bg-white/10 text-foreground dark:text-white hover:text-accent hover:border-accent/40 transition-all cursor-pointer"
             >
-              {theme === 'dark' ? (
-                <Sun size={13} className="text-accent" />
-              ) : (
+              {mounted && theme === 'light' ? (
                 <Moon size={13} className="text-accent" />
+              ) : (
+                <Sun size={13} className="text-accent" />
               )}
             </button>
 
@@ -338,17 +340,18 @@ const Header = () => {
                 </span>
                 <button
                   onClick={toggleTheme}
+                  suppressHydrationWarning
                   className="inline-flex items-center gap-2 px-3 py-1.5 border border-black/15 dark:border-white/10 text-[9px] font-mono uppercase tracking-widest text-foreground dark:text-white hover:border-accent/40 bg-black/5 dark:bg-white/5 transition-all cursor-pointer"
                 >
-                  {theme === 'dark' ? (
-                    <>
-                      <Sun size={12} className="text-accent" />
-                      <span>Switch to Light</span>
-                    </>
-                  ) : (
+                  {mounted && theme === 'light' ? (
                     <>
                       <Moon size={12} className="text-accent" />
                       <span>Switch to Dark</span>
+                    </>
+                  ) : (
+                    <>
+                      <Sun size={12} className="text-accent" />
+                      <span>Switch to Light</span>
                     </>
                   )}
                 </button>

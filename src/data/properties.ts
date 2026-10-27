@@ -39,7 +39,7 @@ export const demoProperties: Property[] = [
       area: '2250 Sq Ft'
     },
     coordinates: [30.4284, 77.7471],
-    floorPlanUrl: 'https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop', // Floor plan mock
+    floorPlanUrl: '/assets/blueprint-ground.svg', // Floor plan mock
     brochureUrl: '#',
     translations: {
       es: {
@@ -110,7 +110,7 @@ export const demoProperties: Property[] = [
       area: '1800 Sq Ft'
     },
     coordinates: [30.2974, 78.1368],
-    floorPlanUrl: 'https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop',
+    floorPlanUrl: '/assets/blueprint-ground.svg',
     brochureUrl: '#',
     translations: {
       es: {
@@ -179,7 +179,7 @@ export const demoProperties: Property[] = [
       area: '1800 Sq Ft'
     },
     coordinates: [30.3475, 78.0772],
-    floorPlanUrl: 'https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop',
+    floorPlanUrl: '/assets/blueprint-ground.svg',
     brochureUrl: '#',
     translations: {
       es: {
@@ -245,7 +245,7 @@ export const demoProperties: Property[] = [
       area: '2000 Sq Ft'
     },
     coordinates: [30.4000, 77.8500],
-    floorPlanUrl: 'https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop',
+    floorPlanUrl: '/assets/blueprint-ground.svg',
     brochureUrl: '#',
     translations: {
       es: {
@@ -309,7 +309,7 @@ export const demoProperties: Property[] = [
       area: '2700 Sq Ft'
     },
     coordinates: [30.3547, 78.0862],
-    floorPlanUrl: 'https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop',
+    floorPlanUrl: '/assets/blueprint-ground.svg',
     brochureUrl: '#',
     translations: {
       es: {
@@ -373,7 +373,7 @@ export const demoProperties: Property[] = [
       area: '1800 Sq Ft'
     },
     coordinates: [30.4350, 77.7550],
-    floorPlanUrl: 'https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop',
+    floorPlanUrl: '/assets/blueprint-ground.svg',
     brochureUrl: '#',
     translations: {
       es: {

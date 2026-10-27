@@ -54,7 +54,7 @@ const loadLocalProperties = (): Property[] => {
 
 export const PropertyProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const cmsMode: CmsMode = isSanityEnabled ? 'sanity' : 'demo';
-  const [properties, setProperties] = useState<Property[]>([]);
+  const [properties, setProperties] = useState<Property[]>(enrichedInitialProperties);
   const [loading, setLoading] = useState<boolean>(cmsMode === 'sanity');
   const [error, setError] = useState<string | null>(null);
 
@@ -102,7 +102,7 @@ export const PropertyProvider: React.FC<{ children: React.ReactNode }> = ({ chil
     const added: Property = {
       ...newProp,
       id: nextId,
-      floorPlanUrl: 'https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop',
+      floorPlanUrl: '/assets/blueprint-ground.svg',
       brochureUrl: '#'
     };
     saveToStorage([...properties, added]);

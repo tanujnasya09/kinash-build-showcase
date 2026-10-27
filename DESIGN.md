@@ -23,9 +23,9 @@ styling, so intentional choices are not "fixed" by a later audit.
 Type: **Archivo** (display), **Manrope** (body), **JetBrains Mono** (labels).
 Fonts are loaded via `<link>` + `preconnect` in `index.html` (not CSS `@import`).
 
-## Open Design Specification (`luxury` + `atelier-zero`)
+## Architectural Specification (`luxury` + `atelier-zero`)
 
-This project implements the Open Design **Luxury Editorial** profile (`.open-design.json`), inspired by high-horology and bespoke architectural publications (Atelier Zero / Bugatti / Aman / Patek Philippe).
+This project implements the bespoke **Luxury Editorial** architectural design system, inspired by high-horology and bespoke architectural publications (Atelier Zero / Bugatti / Aman / Patek Philippe).
 
 ### Core Aesthetic Rules
 1. **Obsidian & Champagne Gold**: Pitch-black canvas (`#0c0d10`) illuminated solely by warm, champagne-gold accents (`#dfba48`) and ivory serif/grotesque typographic contrast (`#fdfbf7`).

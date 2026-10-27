@@ -21,20 +21,8 @@ interface LanguageContextType {
 const LanguageContext = createContext<LanguageContextType | undefined>(undefined);
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [language, setLanguageState] = useState<Language>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('apex_lang');
-      return (saved as Language) || 'en';
-    }
-    return 'en';
-  });
-
-  const [currency, setCurrencyState] = useState<Currency>(() => {
-    if (typeof window !== 'undefined') {
-      return getCurrency(localStorage.getItem('apex_currency') || siteConfig.defaultCurrency);
-    }
-    return getCurrency(siteConfig.defaultCurrency);
-  });
+  const [language, setLanguageState] = useState<Language>('en');
+  const [currency, setCurrencyState] = useState<Currency>(() => getCurrency(siteConfig.defaultCurrency));
 
   useEffect(() => {
     if (typeof window !== 'undefined') {

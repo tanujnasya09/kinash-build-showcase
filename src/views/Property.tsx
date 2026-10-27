@@ -6,8 +6,9 @@ import {
   MapPin, CheckCircle, Phone, X, Share2, Heart, Eye, Calendar, Home, Bed,
   Bath, Car, ArrowLeft, Play, Camera, ChevronLeft, ChevronRight, Maximize2,
   FileText, Download, Compass, ShieldAlert, Award, Sparkles, RefreshCw,
-  Calculator, Printer, TrendingUp
+  Calculator, Printer, TrendingUp, Layers
 } from "lucide-react";
+import { toast } from "sonner";
 import { useProperties } from "@/context/PropertyContext";
 import { useLanguage } from "@/context/LanguageContext";
 import { formatPrice, parseAmount } from "@/lib/currency";
@@ -104,6 +105,37 @@ export default function PropertyDetails() {
   const [isBrochureOpen, setIsBrochureOpen] = useState(false);
   const [downloadingBrochure, setDownloadingBrochure] = useState(false);
 
+  // Architectural Floor Plan & Blueprint States
+  const [selectedBlueprint, setSelectedBlueprint] = useState<'ground' | 'first' | 'site'>('ground');
+  const [isBlueprintModalOpen, setIsBlueprintModalOpen] = useState(false);
+
+  const blueprintAssets = {
+    ground: {
+      id: 'ground',
+      title: 'Level 01 — Grand Living Pavilion & Pool Deck',
+      sheet: 'A-101',
+      scale: '1:100 @ A3',
+      url: '/assets/blueprint-ground.svg',
+      desc: 'Ground floor space layout featuring double-height living pavilion, chef kitchen, executive study, guest suite, and heated lap pool.'
+    },
+    first: {
+      id: 'first',
+      title: 'Level 02 — Upper Master Sanctuary & Private Suites',
+      sheet: 'A-102',
+      scale: '1:100 @ A3',
+      url: '/assets/blueprint-first.svg',
+      desc: 'Upper residential floor featuring primary master sanctuary with walk-in dressing, ensuite spa bath, mezzanine lounge, and cantilevered terrace.'
+    },
+    site: {
+      id: 'site',
+      title: 'Master Site & Boundary Demarcation Plan',
+      sheet: 'L-001',
+      scale: '1:250 @ A3',
+      url: '/assets/blueprint-site.svg',
+      desc: 'Overall land plot boundary, setbacks, 30m wide highway access corridor, landscaped green belts, and security gatehouse.'
+    }
+  };
+
   // Immersive 3D virtual tour portal states
   const [isTourActive, setIsTourActive] = useState(false);
   const [isTourLoading, setIsTourLoading] = useState(false);
@@ -198,15 +230,34 @@ export default function PropertyDetails() {
     setDownloadingBrochure(true);
     setTimeout(() => {
       setDownloadingBrochure(false);
-      // Simulate PDF prospectus downloading
+      // Safe, immediate download of local prospectus without blank black screen
       const link = document.createElement('a');
-      link.href = 'https://www.w3.org/WAI/ER/tests/xhtml/testfiles/resources/pdf/dummy.pdf';
-      link.setAttribute('download', `Apex_${property.slug}_Brochure.pdf`);
+      link.href = '/assets/Apex-Luxury-Property-Prospectus.pdf';
+      link.setAttribute('download', `Apex_${property.slug}_Executive_Prospectus.pdf`);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
       setIsBrochureOpen(false);
-    }, 1500);
+      toast.success(`Prospectus downloaded: Apex_${property.slug}_Executive_Prospectus.pdf`);
+    }, 900);
+  };
+
+  const handleDownloadBlueprint = () => {
+    const current = blueprintAssets[selectedBlueprint];
+    const link = document.createElement('a');
+    link.href = current.url;
+    link.setAttribute('download', `Apex_${property.slug}_${selectedBlueprint}_blueprint.svg`);
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast.success(`Blueprint downloaded: Apex_${property.slug}_${selectedBlueprint}_blueprint.svg`);
+  };
+
+  const handlePrintDossier = () => {
+    setIsBrochureOpen(false);
+    setTimeout(() => {
+      window.print();
+    }, 250);
   };
 
   return (
@@ -217,6 +268,9 @@ export default function PropertyDetails() {
         keywords={`${displayTitle}, property dehradun, apex listings`}
         canonical={`/property/${property.slug}`}
       />
+
+      {/* Screen-Only Interactive Application Container */}
+      <div className="print:hidden">
 
       {/* Immersive Fullscreen VR Portal Overlay */}
       {isTourFullscreen && isTourActive && (
@@ -655,26 +709,228 @@ export default function PropertyDetails() {
                   </div>
                 )}
 
-                {/* Tab: Floor Plans */}
+                {/* Tab: Architectural Floor & Layout Plans (Multi-Sheet Blueprint Engine) */}
                 {activeTab === 'floor' && (
-                  <div className="space-y-4 sm:space-y-6 animate-fade-in">
-                    <h3 className="text-base sm:text-lg font-display font-medium text-foreground dark:text-white mb-3 sm:mb-4 flex items-center gap-2">
-                      <span className="w-1 h-4 sm:h-5 bg-accent block" />
-                      Architectural Floor & Layout Plans
-                    </h3>
-                    <p className="text-xs text-foreground/70 dark:text-white/55 leading-relaxed font-light mb-4">
-                      Carefully engineered space configuration utilizing maximum thermal insulation, solar access, and functional airflow pathways.
-                    </p>
-                    <div className="bg-[#f4efe6] dark:bg-[#0d0f14] border border-black/10 dark:border-white/5 overflow-hidden max-w-lg mx-auto relative group shadow-md dark:shadow-2xl">
-                      <img loading="lazy" decoding="async" src="https://images.unsplash.com/photo-1545464693-f1798a373343?w=800&h=600&fit=crop"
-                        alt={t('detail.floorPlanAlt')}
-                        className="w-full h-auto opacity-75 group-hover:scale-102 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                        <span className="text-foreground dark:text-white text-[9px] font-mono uppercase tracking-widest bg-white dark:bg-[#0c0d10] border border-black/10 dark:border-white/10 py-2.5 sm:py-3 px-4 sm:px-5 shadow-lg flex items-center gap-2">
-                          <Maximize2 size={10} className="text-accent" /> Click to Expand Blueprint
-                        </span>
+                  <div className="space-y-6 sm:space-y-8 animate-fade-in">
+                    <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 border-b border-black/10 dark:border-white/10 pb-4">
+                      <div>
+                        <h3 className="text-base sm:text-lg font-display font-medium text-foreground dark:text-white flex items-center gap-2">
+                          <span className="w-1 h-4 sm:h-5 bg-accent block" />
+                          Architectural Floor &amp; Layout Blueprints
+                        </h3>
+                        <p className="text-xs text-foreground/70 dark:text-white/55 leading-relaxed font-light mt-1">
+                          Publication-grade CAD schematics certified by Apex Structural &amp; Civil Engineering Studio.
+                        </p>
                       </div>
+
+                      {/* Quick Blueprint Actions */}
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={handleDownloadBlueprint}
+                          className="px-3 py-1.5 bg-black/5 dark:bg-white/5 hover:bg-accent hover:text-white dark:hover:bg-accent/25 dark:hover:border-accent dark:hover:text-white border border-black/10 dark:border-white/10 text-foreground dark:text-white text-[10px] font-mono uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer"
+                        >
+                          <Download size={11} className="text-accent" />
+                          Download CAD
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setIsBlueprintModalOpen(true)}
+                          className="px-3 py-1.5 bg-accent text-[#0c0d10] hover:bg-accent-glow font-bold text-[10px] font-mono uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer shadow-xs"
+                        >
+                          <Maximize2 size={11} />
+                          Enlarge
+                        </button>
+                      </div>
+                    </div>
+
+                    {/* Level / Sheet Switcher Tabs */}
+                    <div className="flex flex-wrap gap-2">
+                      {(['ground', 'first', 'site'] as const).map((key) => {
+                        const sheet = blueprintAssets[key];
+                        const isSelected = selectedBlueprint === key;
+                        return (
+                          <button
+                            key={key}
+                            type="button"
+                            onClick={() => setSelectedBlueprint(key)}
+                            className={`px-3.5 py-2 text-[10px] sm:text-[11px] font-mono uppercase tracking-wider border transition-all cursor-pointer flex items-center gap-2 ${
+                              isSelected
+                                ? 'bg-accent text-[#0c0d10] font-bold border-accent shadow-sm'
+                                : 'bg-white dark:bg-[#0c0d10] text-foreground/80 dark:text-white/70 border-black/10 dark:border-white/10 hover:border-accent/50'
+                            }`}
+                          >
+                            <Layers size={12} className={isSelected ? 'text-[#0c0d10]' : 'text-accent'} />
+                            <span>{key === 'ground' ? 'Level 01: Ground Living' : key === 'first' ? 'Level 02: Upper Sanctuary' : 'Master Site Plan'}</span>
+                            <span className={`text-[8px] px-1.5 py-0.5 rounded-none font-bold ${
+                              isSelected ? 'bg-black/15 text-[#0c0d10]' : 'bg-black/5 dark:bg-white/10 text-foreground/60 dark:text-white/50'
+                            }`}>
+                              {sheet.sheet}
+                            </span>
+                          </button>
+                        );
+                      })}
+                    </div>
+
+                    {/* Blueprint Display Canvas with Architectural Telemetry */}
+                    <div className="relative border border-black/15 dark:border-white/10 bg-[#090d12] shadow-xl overflow-hidden group">
+                      {/* Architectural Blueprint Header Strip */}
+                      <div className="bg-[#0c1219] border-b border-white/10 px-4 py-2.5 flex items-center justify-between text-[9px] font-mono text-white/70 uppercase tracking-widest">
+                        <div className="flex items-center gap-2">
+                          <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                          <span className="text-white font-bold">{blueprintAssets[selectedBlueprint].title}</span>
+                        </div>
+                        <div className="hidden sm:flex items-center gap-4 text-white/50">
+                          <span>SCALE: {blueprintAssets[selectedBlueprint].scale}</span>
+                          <span className="text-accent font-bold">RERA CERTIFIED</span>
+                        </div>
+                      </div>
+
+                      {/* Clickable Vector Blueprint Display */}
+                      <div
+                        onClick={() => setIsBlueprintModalOpen(true)}
+                        className="p-3 sm:p-6 flex items-center justify-center cursor-zoom-in relative bg-[#090d12] min-h-[340px] sm:min-h-[460px]"
+                      >
+                        <img
+                          loading="lazy"
+                          decoding="async"
+                          src={blueprintAssets[selectedBlueprint].url}
+                          alt={`${property.title} - ${blueprintAssets[selectedBlueprint].title}`}
+                          className="w-full h-auto max-h-[520px] object-contain transition-transform duration-500 group-hover:scale-[1.015]"
+                          onError={(e) => {
+                            e.currentTarget.src = '/assets/blueprint-ground.svg';
+                          }}
+                        />
+
+                        {/* Hover Overlay Hint */}
+                        <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                          <span className="bg-white/95 dark:bg-[#0c0d10]/95 text-foreground dark:text-white border border-black/15 dark:border-white/15 px-4 py-2 text-[10px] font-mono uppercase tracking-widest flex items-center gap-2 shadow-2xl backdrop-blur-md">
+                            <Maximize2 size={12} className="text-accent" /> Click to Expand Fullscreen CAD Blueprint
+                          </span>
+                        </div>
+                      </div>
+
+                      {/* Description strip below canvas */}
+                      <div className="bg-[#0c1219] border-t border-white/10 p-3 sm:p-4 text-[11px] text-white/80 font-light leading-relaxed">
+                        <span className="text-accent font-mono font-bold mr-2 text-[10px] uppercase">Architectural Notes:</span>
+                        {blueprintAssets[selectedBlueprint].desc}
+                      </div>
+                    </div>
+
+                    {/* Room Dimension & Architectural Schedule Grid */}
+                    <div className="border border-black/10 dark:border-white/10 bg-white dark:bg-[#0a0c10] p-4 sm:p-6 shadow-sm">
+                      <div className="flex items-center justify-between mb-4 border-b border-black/10 dark:border-white/10 pb-2">
+                        <h4 className="font-display font-medium text-sm text-foreground dark:text-white flex items-center gap-2">
+                          <span className="w-1.5 h-1.5 bg-accent" />
+                          Dimensional Schedule &amp; Space Metrics ({blueprintAssets[selectedBlueprint].sheet})
+                        </h4>
+                        <span className="text-[9px] font-mono text-foreground/50 dark:text-white/40 uppercase">Internal Clear Dimensions</span>
+                      </div>
+
+                      {selectedBlueprint === 'ground' && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs font-mono">
+                          <div className="p-3 bg-[#f8f7f4] dark:bg-[#0d0f14] border border-black/5 dark:border-white/5">
+                            <span className="text-[9px] text-accent block uppercase font-bold">01 // Grand Living Pavilion</span>
+                            <span className="text-foreground dark:text-white font-medium text-sm">28&apos;-6&quot; × 22&apos;-0&quot;</span>
+                            <span className="text-[9px] text-foreground/60 dark:text-white/50 block mt-0.5">8.69m × 6.70m (Double Height 4.2m)</span>
+                          </div>
+                          <div className="p-3 bg-[#f8f7f4] dark:bg-[#0d0f14] border border-black/5 dark:border-white/5">
+                            <span className="text-[9px] text-accent block uppercase font-bold">02 // Formal Dining Salon</span>
+                            <span className="text-foreground dark:text-white font-medium text-sm">18&apos;-0&quot; × 15&apos;-0&quot;</span>
+                            <span className="text-[9px] text-foreground/60 dark:text-white/50 block mt-0.5">5.48m × 4.57m (Seats 14 Guests)</span>
+                          </div>
+                          <div className="p-3 bg-[#f8f7f4] dark:bg-[#0d0f14] border border-black/5 dark:border-white/5">
+                            <span className="text-[9px] text-accent block uppercase font-bold">03 // Chef&apos;s Show Kitchen</span>
+                            <span className="text-foreground dark:text-white font-medium text-sm">16&apos;-4&quot; × 14&apos;-8&quot;</span>
+                            <span className="text-[9px] text-foreground/60 dark:text-white/50 block mt-0.5">4.98m × 4.47m (Butler&apos;s Pantry)</span>
+                          </div>
+                          <div className="p-3 bg-[#f8f7f4] dark:bg-[#0d0f14] border border-black/5 dark:border-white/5">
+                            <span className="text-[9px] text-accent block uppercase font-bold">04 // Executive Study / Library</span>
+                            <span className="text-foreground dark:text-white font-medium text-sm">17&apos;-0&quot; × 14&apos;-6&quot;</span>
+                            <span className="text-[9px] text-foreground/60 dark:text-white/50 block mt-0.5">5.18m × 4.42m (Teak Acoustic Lining)</span>
+                          </div>
+                          <div className="p-3 bg-[#f8f7f4] dark:bg-[#0d0f14] border border-black/5 dark:border-white/5">
+                            <span className="text-[9px] text-accent block uppercase font-bold">05 // Guest Bedroom Suite 01</span>
+                            <span className="text-foreground dark:text-white font-medium text-sm">18&apos;-6&quot; × 14&apos;-6&quot;</span>
+                            <span className="text-[9px] text-foreground/60 dark:text-white/50 block mt-0.5">5.64m × 4.42m (Private Marble Ensuite)</span>
+                          </div>
+                          <div className="p-3 bg-[#f8f7f4] dark:bg-[#0d0f14] border border-black/5 dark:border-white/5">
+                            <span className="text-[9px] text-accent block uppercase font-bold">06 // Heated Infinity Lap Pool</span>
+                            <span className="text-foreground dark:text-white font-medium text-sm">15.0m × 5.2m</span>
+                            <span className="text-[9px] text-foreground/60 dark:text-white/50 block mt-0.5">Saltwater Filtration + Timber Sun Deck</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {selectedBlueprint === 'first' && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs font-mono">
+                          <div className="p-3 bg-[#f8f7f4] dark:bg-[#0d0f14] border border-black/5 dark:border-white/5">
+                            <span className="text-[9px] text-accent block uppercase font-bold">01 // Primary Master Sanctuary</span>
+                            <span className="text-foreground dark:text-white font-medium text-sm">24&apos;-0&quot; × 18&apos;-6&quot;</span>
+                            <span className="text-[9px] text-foreground/60 dark:text-white/50 block mt-0.5">7.32m × 5.64m (Fireplace + Sunset Balcony)</span>
+                          </div>
+                          <div className="p-3 bg-[#f8f7f4] dark:bg-[#0d0f14] border border-black/5 dark:border-white/5">
+                            <span className="text-[9px] text-accent block uppercase font-bold">02 // Dual Dressing Salon</span>
+                            <span className="text-foreground dark:text-white font-medium text-sm">16&apos;-0&quot; × 12&apos;-0&quot;</span>
+                            <span className="text-[9px] text-foreground/60 dark:text-white/50 block mt-0.5">4.88m × 3.66m (Custom Wardrobe Islands)</span>
+                          </div>
+                          <div className="p-3 bg-[#f8f7f4] dark:bg-[#0d0f14] border border-black/5 dark:border-white/5">
+                            <span className="text-[9px] text-accent block uppercase font-bold">03 // Master Spa Ensuite</span>
+                            <span className="text-foreground dark:text-white font-medium text-sm">16&apos;-0&quot; × 14&apos;-0&quot;</span>
+                            <span className="text-[9px] text-foreground/60 dark:text-white/50 block mt-0.5">Freestanding Soaking Tub + Dual Rainshowers</span>
+                          </div>
+                          <div className="p-3 bg-[#f8f7f4] dark:bg-[#0d0f14] border border-black/5 dark:border-white/5">
+                            <span className="text-[9px] text-accent block uppercase font-bold">04 // Mezzanine Family Lounge</span>
+                            <span className="text-foreground dark:text-white font-medium text-sm">20&apos;-0&quot; × 16&apos;-0&quot;</span>
+                            <span className="text-[9px] text-foreground/60 dark:text-white/50 block mt-0.5">6.10m × 4.88m (Overlooking Living Atrium)</span>
+                          </div>
+                          <div className="p-3 bg-[#f8f7f4] dark:bg-[#0d0f14] border border-black/5 dark:border-white/5">
+                            <span className="text-[9px] text-accent block uppercase font-bold">05 // Bedroom Suite 02</span>
+                            <span className="text-foreground dark:text-white font-medium text-sm">18&apos;-0&quot; × 15&apos;-0&quot;</span>
+                            <span className="text-[9px] text-foreground/60 dark:text-white/50 block mt-0.5">5.48m × 4.57m (Private Bath &amp; Veranda)</span>
+                          </div>
+                          <div className="p-3 bg-[#f8f7f4] dark:bg-[#0d0f14] border border-black/5 dark:border-white/5">
+                            <span className="text-[9px] text-accent block uppercase font-bold">06 // Bedroom Suite 03</span>
+                            <span className="text-foreground dark:text-white font-medium text-sm">17&apos;-6&quot; × 15&apos;-0&quot;</span>
+                            <span className="text-[9px] text-foreground/60 dark:text-white/50 block mt-0.5">5.33m × 4.57m (Walk-in Closet &amp; Bath)</span>
+                          </div>
+                        </div>
+                      )}
+
+                      {selectedBlueprint === 'site' && (
+                        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 text-xs font-mono">
+                          <div className="p-3 bg-[#f8f7f4] dark:bg-[#0d0f14] border border-black/5 dark:border-white/5">
+                            <span className="text-[9px] text-accent block uppercase font-bold">Total Frontage</span>
+                            <span className="text-foreground dark:text-white font-medium text-sm">180&apos;-0&quot; [54.86 M]</span>
+                            <span className="text-[9px] text-foreground/60 dark:text-white/50 block mt-0.5">Uninterrupted Highway/Boulevard Exposure</span>
+                          </div>
+                          <div className="p-3 bg-[#f8f7f4] dark:bg-[#0d0f14] border border-black/5 dark:border-white/5">
+                            <span className="text-[9px] text-accent block uppercase font-bold">Total Plot Depth</span>
+                            <span className="text-foreground dark:text-white font-medium text-sm">165&apos;-0&quot; [50.29 M]</span>
+                            <span className="text-[9px] text-foreground/60 dark:text-white/50 block mt-0.5">Deep Setback with Mountain Horizon Vistas</span>
+                          </div>
+                          <div className="p-3 bg-[#f8f7f4] dark:bg-[#0d0f14] border border-black/5 dark:border-white/5">
+                            <span className="text-[9px] text-accent block uppercase font-bold">Arterial Highway Frontage</span>
+                            <span className="text-foreground dark:text-white font-medium text-sm">30.0 Meters</span>
+                            <span className="text-[9px] text-foreground/60 dark:text-white/50 block mt-0.5">Wide Dual Carriageway with Turning Lanes</span>
+                          </div>
+                          <div className="p-3 bg-[#f8f7f4] dark:bg-[#0d0f14] border border-black/5 dark:border-white/5">
+                            <span className="text-[9px] text-accent block uppercase font-bold">Front Setback Line</span>
+                            <span className="text-foreground dark:text-white font-medium text-sm">9.0 Meters [29.5 Ft]</span>
+                            <span className="text-[9px] text-foreground/60 dark:text-white/50 block mt-0.5">Landscaped Buffer &amp; Security Zone</span>
+                          </div>
+                          <div className="p-3 bg-[#f8f7f4] dark:bg-[#0d0f14] border border-black/5 dark:border-white/5">
+                            <span className="text-[9px] text-accent block uppercase font-bold">Rear &amp; Side Setbacks</span>
+                            <span className="text-foreground dark:text-white font-medium text-sm">6.0M Rear // 4.5M Sides</span>
+                            <span className="text-[9px] text-foreground/60 dark:text-white/50 block mt-0.5">Private Garden Courtyards</span>
+                          </div>
+                          <div className="p-3 bg-[#f8f7f4] dark:bg-[#0d0f14] border border-black/5 dark:border-white/5">
+                            <span className="text-[9px] text-accent block uppercase font-bold">Max Permissible FAR</span>
+                            <span className="text-foreground dark:text-white font-medium text-sm">1.80 FAR // 38% Coverage</span>
+                            <span className="text-[9px] text-foreground/60 dark:text-white/50 block mt-0.5">RERA &amp; MDDA Sanctioned</span>
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 )}
@@ -1043,7 +1299,7 @@ export default function PropertyDetails() {
               </Button>
               <button
                 type="button"
-                onClick={() => window.print()}
+                onClick={handlePrintDossier}
                 className="w-full mt-2.5 bg-transparent border border-black/15 dark:border-white/10 hover:border-accent hover:bg-accent hover:text-white dark:hover:bg-accent/25 dark:hover:border-accent dark:hover:text-white text-foreground/80 dark:text-white/70 font-mono text-[10px] tracking-widest uppercase py-2.5 sm:py-3 flex items-center justify-center gap-2 transition-all cursor-pointer group"
               >
                 <Printer size={12} className="text-accent group-hover:text-white transition-colors" />
@@ -1138,58 +1394,103 @@ export default function PropertyDetails() {
 
       {/* Brochure Prospectus Download Modal Dialog */}
       <Dialog open={isBrochureOpen} onOpenChange={setIsBrochureOpen}>
-        <DialogContent className="max-w-md bg-white dark:bg-[#0a0c10] border border-black/15 dark:border-white/10 rounded-none shadow-2xl p-6 outline-none text-foreground dark:text-white relative">
-          <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-accent/40" />
+        <DialogContent className="max-w-md bg-white dark:bg-[#0a0c10] border border-black/15 dark:border-white/10 rounded-none shadow-2xl p-6 sm:p-7 outline-none text-foreground dark:text-white z-[100]">
+          {/* Architectural Heritage Gold 4-Corner Accents */}
+          <div className="absolute top-0 left-0 w-3 h-3 border-t-2 border-l-2 border-accent pointer-events-none" />
+          <div className="absolute top-0 right-0 w-3 h-3 border-t-2 border-r-2 border-accent pointer-events-none" />
+          <div className="absolute bottom-0 left-0 w-3 h-3 border-b-2 border-l-2 border-accent pointer-events-none" />
+          <div className="absolute bottom-0 right-0 w-3 h-3 border-b-2 border-r-2 border-accent pointer-events-none" />
 
-          <DialogHeader className="border-b border-black/10 dark:border-white/5 pb-4 mb-4">
-            <DialogTitle className="text-lg font-display font-medium text-foreground dark:text-white flex items-center gap-2">
-              <Award className="text-accent animate-pulse" size={18} />
+          <DialogHeader className="border-b border-black/10 dark:border-white/5 pb-4 mb-4 text-left">
+            <div className="flex items-center justify-between">
+              <span className="text-[9px] font-mono tracking-[0.25em] text-accent uppercase font-bold flex items-center gap-1.5">
+                <Sparkles size={11} className="text-accent" />
+                OFFICIAL CLIENT DOSSIER
+              </span>
+              <span className="text-[9px] font-mono text-foreground/40 dark:text-white/40 uppercase">
+                ISO 9001:2026
+              </span>
+            </div>
+            <DialogTitle className="text-lg sm:text-xl font-display font-medium text-foreground dark:text-white flex items-center gap-2 mt-1">
+              <Award className="text-accent shrink-0" size={18} />
               {t('detail.brochureDownload')}
             </DialogTitle>
-            <DialogDescription className="text-[10px] text-foreground/50 dark:text-white/40 mt-1 uppercase font-mono tracking-wider">
+            <DialogDescription className="text-[10px] text-foreground/50 dark:text-white/40 mt-0.5 uppercase font-mono tracking-wider">
               {t('detail.brochureAuth')}
             </DialogDescription>
           </DialogHeader>
 
           <div className="space-y-4">
+            {/* Bespoke Property Snapshot Card */}
+            <div className="flex items-center gap-3 p-2.5 bg-black/[0.03] dark:bg-white/[0.03] border border-black/10 dark:border-white/5">
+              {hasImages && (
+                <img
+                  src={property.images[0]}
+                  alt={property.title}
+                  className="w-16 h-12 object-cover border border-black/10 dark:border-white/10 shrink-0"
+                />
+              )}
+              <div className="min-w-0 flex-1">
+                <h4 className="text-xs font-display font-medium text-foreground dark:text-white truncate">
+                  {property.title}
+                </h4>
+                <div className="flex items-center gap-1 text-[10px] text-foreground/60 dark:text-white/50 truncate font-mono mt-0.5">
+                  <MapPin size={10} className="text-accent shrink-0" />
+                  <span className="truncate">{property.location}</span>
+                </div>
+                <div className="text-[11px] font-mono font-bold text-accent mt-0.5">
+                  {formatPrice(property.price, currency.code)}
+                </div>
+              </div>
+            </div>
+
             <p className="text-xs text-foreground/75 dark:text-white/60 leading-relaxed font-light">
               {t('detail.brochureText')} {t('detail.brochureNote')}
             </p>
 
-            <div className="bg-[#f4efe6] dark:bg-[#0d0f14] p-4 border border-black/10 dark:border-white/5 text-[9px] font-mono tracking-wide uppercase space-y-1 text-foreground/75 dark:text-white/60">
-              <div><span className="text-accent mr-1.5 font-bold">{t('detail.file')}</span> Apex_Prospectus_{property.slug}.pdf</div>
-              <div><span className="text-accent mr-1.5 font-bold">{t('detail.size')}</span> 14.8 MB</div>
-              <div><span className="text-accent mr-1.5 font-bold">{t('detail.format')}</span> {t('detail.formatValue')}</div>
+            {/* Technical Specification Box */}
+            <div className="bg-[#f4efe6] dark:bg-[#0d0f14] p-3.5 border border-black/10 dark:border-white/5 text-[9px] font-mono tracking-wide uppercase space-y-1.5 text-foreground/75 dark:text-white/60">
+              <div className="flex justify-between items-center">
+                <span className="text-accent font-bold">{t('detail.file')}</span>
+                <span className="font-semibold text-foreground dark:text-white truncate max-w-[210px]">
+                  Apex_Prospectus_{property.slug}.pdf
+                </span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-accent font-bold">{t('detail.size')}</span>
+                <span>14.8 MB // PRINT READY CMYK</span>
+              </div>
+              <div className="flex justify-between items-center">
+                <span className="text-accent font-bold">{t('detail.format')}</span>
+                <span>VECTOR CAD BLUEPRINTS + WEALTH ANALYSIS</span>
+              </div>
             </div>
 
             <Button
               onClick={handleDownloadBrochure}
               disabled={downloadingBrochure}
-              className="w-full btn-luxury-gold bg-accent text-[#0c0d10] border-transparent font-bold py-3.5 rounded-none flex items-center justify-center gap-2 uppercase tracking-widest font-mono text-[9px] hover:bg-accent-glow cursor-pointer"
+              className="w-full btn-luxury-gold bg-accent text-[#0c0d10] border-transparent font-bold py-3.5 rounded-none flex items-center justify-center gap-2 uppercase tracking-widest font-mono text-[9px] hover:bg-accent-glow cursor-pointer transition-all shadow-md active:scale-[0.99]"
             >
               {downloadingBrochure ? (
                 <>
-                  <RefreshCw className="animate-spin" size={12} />
+                  <RefreshCw className="animate-spin" size={13} />
                   Preparing portfolio dossier...
                 </>
               ) : (
                 <>
-                  <Download size={12} />
-                  Download Prospectus
+                  <Download size={13} />
+                  Download Prospectus (PDF)
                 </>
               )}
             </Button>
 
             <Button
               type="button"
-              onClick={() => {
-                setIsBrochureOpen(false);
-                setTimeout(() => window.print(), 350);
-              }}
+              onClick={handlePrintDossier}
               variant="outline"
               className="w-full border-black/15 dark:border-white/10 text-foreground dark:text-white hover:text-white hover:bg-accent dark:hover:bg-accent/25 dark:hover:border-accent dark:hover:text-white hover:border-accent font-mono text-[9px] uppercase tracking-widest py-3 flex items-center justify-center gap-2 rounded-none transition-all cursor-pointer group"
             >
-              <Printer size={12} className="text-accent group-hover:text-white transition-colors" />
+              <Printer size={13} className="text-accent group-hover:text-white transition-colors" />
               Print Architectural Dossier Directly (A4)
             </Button>
           </div>
@@ -1222,6 +1523,403 @@ export default function PropertyDetails() {
               {t('detail.schedule')}
             </Button>
           </Link>
+        </div>
+      </div>
+      </div>
+
+      {/* Full-Screen Architectural Blueprint Modal Dialog */}
+      <Dialog open={isBlueprintModalOpen} onOpenChange={setIsBlueprintModalOpen}>
+        <DialogContent className="max-w-5xl w-[95vw] h-[90vh] bg-[#090d12] border border-white/20 text-white rounded-none p-0 flex flex-col overflow-hidden shadow-2xl">
+          {/* Header */}
+          <div className="bg-[#0c1219] border-b border-white/10 px-4 sm:px-6 py-3 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <span className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
+              <div>
+                <span className="text-xs sm:text-sm font-mono font-bold uppercase tracking-wider text-white">
+                  CAD BLUEPRINT VIEWER // {blueprintAssets[selectedBlueprint].sheet}
+                </span>
+                <span className="text-[10px] text-white/50 font-mono block">
+                  {blueprintAssets[selectedBlueprint].title}
+                </span>
+              </div>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={handleDownloadBlueprint}
+                className="px-3 py-1.5 bg-white/10 hover:bg-accent hover:text-black border border-white/20 text-white text-[10px] font-mono uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer"
+              >
+                <Download size={12} />
+                Download
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setIsBlueprintModalOpen(false);
+                  setTimeout(() => window.print(), 300);
+                }}
+                className="px-3 py-1.5 bg-accent text-[#0c0d10] hover:bg-accent-glow text-[10px] font-mono font-bold uppercase tracking-wider flex items-center gap-1.5 transition-all cursor-pointer"
+              >
+                <Printer size={12} />
+                Print Sheet
+              </button>
+            </div>
+          </div>
+
+          {/* Level Switcher Bar */}
+          <div className="bg-[#0a0f16] border-b border-white/10 px-4 sm:px-6 py-2 flex items-center gap-2 overflow-x-auto">
+            {(['ground', 'first', 'site'] as const).map((key) => {
+              const isSelected = selectedBlueprint === key;
+              return (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setSelectedBlueprint(key)}
+                  className={`px-3 py-1 text-[10px] font-mono uppercase tracking-wider border whitespace-nowrap transition-all cursor-pointer ${
+                    isSelected
+                      ? 'bg-accent text-[#0c0d10] font-bold border-accent'
+                      : 'bg-transparent text-white/70 border-white/10 hover:border-white/30'
+                  }`}
+                >
+                  {key === 'ground' ? '01 // Ground Level' : key === 'first' ? '02 // Upper Level' : '03 // Site Plan'}
+                </button>
+              );
+            })}
+          </div>
+
+          {/* Blueprint Canvas */}
+          <div className="flex-1 overflow-auto p-4 sm:p-8 flex items-center justify-center bg-[#070a0e] relative">
+            <img
+              src={blueprintAssets[selectedBlueprint].url}
+              alt={blueprintAssets[selectedBlueprint].title}
+              className="max-w-full max-h-full object-contain filter drop-shadow-2xl"
+              onError={(e) => {
+                e.currentTarget.src = '/assets/blueprint-ground.svg';
+              }}
+            />
+          </div>
+
+          {/* Footer Bar */}
+          <div className="bg-[#0c1219] border-t border-white/10 px-4 sm:px-6 py-2.5 flex items-center justify-between text-[10px] font-mono text-white/50">
+            <span>SCALE: {blueprintAssets[selectedBlueprint].scale} // ISO 9001:2026 CERTIFIED</span>
+            <span className="text-accent">APEX ARCHITECTURAL &amp; CONTRACTING STUDIO</span>
+          </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* =========================================================================
+          DEDICATED FULL ARCHITECTURAL CLIENT DOSSIER (STRICTLY PRINT & PDF EXPORT)
+          Hidden on screen, rendered automatically when window.print() is executed
+          ========================================================================= */}
+      <div className="hidden print:block text-black bg-white w-full print-dossier-root font-sans">
+        {/* DOSSIER PAGE 1: COVER & EXECUTIVE ARCHITECTURAL FACADE */}
+        <div className="dossier-page flex flex-col justify-between">
+          <div>
+            {/* Dossier Header & Monogram */}
+            <div className="flex items-center justify-between border-b-2 border-[#926f1c] pb-3 mb-5">
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 border border-[#926f1c] flex items-center justify-center font-serif text-lg font-bold text-[#926f1c]">
+                  A
+                </div>
+                <div>
+                  <h2 className="text-sm font-bold tracking-[0.2em] uppercase font-mono text-black">
+                    APEX LUXURY REAL ESTATE &amp; ARCHITECTURAL CONTRACTING
+                  </h2>
+                  <p className="text-[9px] tracking-widest uppercase font-mono text-zinc-600">
+                    EXECUTIVE ARCHITECTURAL DOSSIER // PRIVATE CLIENT PRESENTATION
+                  </p>
+                </div>
+              </div>
+              <div className="text-right font-mono text-[9px] text-zinc-600 space-y-0.5">
+                <div><strong className="text-black">REF:</strong> APX-{property.id}-{property.slug.toUpperCase().slice(0, 8)}</div>
+                <div><strong className="text-black">DATE:</strong> {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</div>
+                <div className="text-[#926f1c] font-bold">CONFIDENTIAL // ULTRA-PRIME</div>
+              </div>
+            </div>
+
+            {/* Title & Valuation Banner */}
+            <div className="mb-4">
+              <h1 className="text-2xl font-serif font-bold text-black tracking-tight leading-tight mb-1">
+                {property.title}
+              </h1>
+              <div className="flex items-center justify-between text-xs font-mono text-zinc-700 border-b border-zinc-200 pb-2">
+                <span>{property.location} // Geographic Coordinates: {property.coordinates.join(', ')}</span>
+                <span className="text-base font-serif font-bold text-[#926f1c]">
+                  Valuation: {formatPrice(property.price, currency.code)}
+                </span>
+              </div>
+            </div>
+
+            {/* Primary Hero Photograph */}
+            <div className="border border-zinc-300 p-1 mb-4 bg-zinc-50 relative">
+              <img
+                src={property.images[0] || 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&h=800&fit=crop'}
+                alt={property.title}
+                className="w-full h-[220px] max-h-[300px] object-cover"
+              />
+              <div className="mt-1 text-[8px] font-mono text-zinc-500 flex justify-between px-1">
+                <span>FIG 1.0 — PRIMARY ARCHITECTURAL FACADE &amp; VOLUMETRIC PROFILE</span>
+                <span>APEX LUXURY ASSET REGISTRY</span>
+              </div>
+            </div>
+
+            {/* Key Specifications Grid */}
+            <div className="grid grid-cols-4 gap-2 mb-4 text-zinc-800 font-mono text-[9px]">
+              <div className="border border-zinc-300 p-2 bg-zinc-50">
+                <span className="text-zinc-500 block uppercase font-bold text-[8px]">Asset Type</span>
+                <span className="font-bold text-black text-[10px]">{property.specs.type}</span>
+              </div>
+              <div className="border border-zinc-300 p-2 bg-zinc-50">
+                <span className="text-zinc-500 block uppercase font-bold text-[8px]">Extent / Built-Up</span>
+                <span className="font-bold text-black text-[10px]">{property.specs.area || (property.specs.sizes && property.specs.sizes.join(', ')) || '2,250 Sq Ft'}</span>
+              </div>
+              <div className="border border-zinc-300 p-2 bg-zinc-50">
+                <span className="text-zinc-500 block uppercase font-bold text-[8px]">Orientation / Facing</span>
+                <span className="font-bold text-black text-[10px]">{property.specs.facing || 'East Facing'}</span>
+              </div>
+              <div className="border border-zinc-300 p-2 bg-zinc-50">
+                <span className="text-zinc-500 block uppercase font-bold text-[8px]">Possession Status</span>
+                <span className="font-bold text-black text-[10px]">{property.specs.possession || 'Immediate'}</span>
+              </div>
+            </div>
+
+            {/* Architectural Concept Narrative */}
+            <div className="border border-zinc-200 p-3 bg-zinc-50/50 text-[10px] text-zinc-700 leading-relaxed font-serif">
+              <span className="font-mono text-[9px] uppercase font-bold text-[#926f1c] block mb-1">
+                Architectural Concept &amp; Design Narrative:
+              </span>
+              <p>{property.description}</p>
+            </div>
+          </div>
+
+          {/* Page 1 Footer */}
+          <div className="border-t border-zinc-300 pt-2 flex items-center justify-between text-[8px] font-mono text-zinc-500">
+            <span>PAGE 1 OF 3 // APEX LUXURY ARCHITECTURAL DOSSIER</span>
+            <span>STRICTLY PRIVATE &amp; CONFIDENTIAL // REGISTERED CLIENT COPY</span>
+          </div>
+        </div>
+
+        {/* DOSSIER PAGE 2: CAD BLUEPRINTS & SPACE CONFIGURATION */}
+        <div className="dossier-page flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between border-b-2 border-[#926f1c] pb-3 mb-4">
+              <div>
+                <h3 className="text-sm font-bold tracking-[0.2em] uppercase font-mono text-black">
+                  APEX LUXURY // ARCHITECTURAL BLUEPRINT &amp; SPACE MATRIX
+                </h3>
+                <p className="text-[9px] tracking-widest uppercase font-mono text-zinc-600">
+                  SHEET A-101 // LEVEL 01 GROUND LIVING PAVILION &amp; SITE DEMARCATION
+                </p>
+              </div>
+              <div className="text-right font-mono text-[9px] text-zinc-600">
+                <div>SCALE: 1:100 @ A3</div>
+                <div className="text-[#926f1c] font-bold">RERA &amp; MDDA CERTIFIED</div>
+              </div>
+            </div>
+
+            {/* Vector Blueprint Embed */}
+            <div className="border border-zinc-300 p-2 mb-4 bg-zinc-900 text-white">
+              <img
+                src="/assets/blueprint-ground.svg"
+                alt="CAD Architectural Floor Plan"
+                className="w-full h-auto max-h-[360px] object-contain mx-auto"
+              />
+              <div className="mt-1 text-[8px] font-mono text-zinc-400 flex justify-between px-1">
+                <span>CAD DRAWING: APPROVED STRUCTURAL &amp; MEP LAYOUT</span>
+                <span>DRAWN BY: APEX ARCHITECTURAL STUDIO</span>
+              </div>
+            </div>
+
+            {/* Dimensional Room Schedule Table */}
+            <div className="mb-4">
+              <h4 className="font-mono text-[9px] uppercase font-bold text-black border-b border-zinc-300 pb-1 mb-2">
+                Table 2.1 — Space Allocation &amp; Clear Interior Dimensions:
+              </h4>
+              <table className="w-full text-[9px] font-mono border-collapse border border-zinc-300">
+                <thead>
+                  <tr className="bg-zinc-100 text-zinc-700">
+                    <th className="border border-zinc-300 p-1.5 text-left">Zone Designation</th>
+                    <th className="border border-zinc-300 p-1.5 text-left">Imperial Dimensions</th>
+                    <th className="border border-zinc-300 p-1.5 text-left">Metric Equiv.</th>
+                    <th className="border border-zinc-300 p-1.5 text-left">Architectural Specification</th>
+                  </tr>
+                </thead>
+                <tbody className="text-zinc-800">
+                  <tr>
+                    <td className="border border-zinc-300 p-1.5 font-bold">Grand Living Pavilion</td>
+                    <td className="border border-zinc-300 p-1.5">28&apos;-6&quot; × 22&apos;-0&quot;</td>
+                    <td className="border border-zinc-300 p-1.5">8.69m × 6.70m</td>
+                    <td className="border border-zinc-300 p-1.5">Double Height 4.2m Ceilings // Calacatta Marble</td>
+                  </tr>
+                  <tr className="bg-zinc-50">
+                    <td className="border border-zinc-300 p-1.5 font-bold">Formal Dining Salon</td>
+                    <td className="border border-zinc-300 p-1.5">18&apos;-0&quot; × 15&apos;-0&quot;</td>
+                    <td className="border border-zinc-300 p-1.5">5.48m × 4.57m</td>
+                    <td className="border border-zinc-300 p-1.5">14-Seat Banqueting // Direct Service Corridor</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-zinc-300 p-1.5 font-bold">Chef&apos;s Show Kitchen</td>
+                    <td className="border border-zinc-300 p-1.5">16&apos;-4&quot; × 14&apos;-8&quot;</td>
+                    <td className="border border-zinc-300 p-1.5">4.98m × 4.47m</td>
+                    <td className="border border-zinc-300 p-1.5">Sub-Zero &amp; Wolf // Butler&apos;s Walk-in Pantry</td>
+                  </tr>
+                  <tr className="bg-zinc-50">
+                    <td className="border border-zinc-300 p-1.5 font-bold">Executive Study / Library</td>
+                    <td className="border border-zinc-300 p-1.5">17&apos;-0&quot; × 14&apos;-6&quot;</td>
+                    <td className="border border-zinc-300 p-1.5">5.18m × 4.42m</td>
+                    <td className="border border-zinc-300 p-1.5">Acoustic Teak Paneling // Garden Aspect</td>
+                  </tr>
+                  <tr>
+                    <td className="border border-zinc-300 p-1.5 font-bold">Primary Master Sanctuary</td>
+                    <td className="border border-zinc-300 p-1.5">24&apos;-0&quot; × 18&apos;-6&quot;</td>
+                    <td className="border border-zinc-300 p-1.5">7.32m × 5.64m</td>
+                    <td className="border border-zinc-300 p-1.5">Walk-in Dressing Salon + Ensuite Spa Bath</td>
+                  </tr>
+                  <tr className="bg-zinc-50">
+                    <td className="border border-zinc-300 p-1.5 font-bold">Heated Infinity Pool</td>
+                    <td className="border border-zinc-300 p-1.5">49&apos;-2&quot; × 17&apos;-0&quot;</td>
+                    <td className="border border-zinc-300 p-1.5">15.0m × 5.2m</td>
+                    <td className="border border-zinc-300 p-1.5">Saltwater Filtration + Timber Sun Deck</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            {/* Civil Engineering Schedule */}
+            <div className="border border-zinc-200 p-3 bg-zinc-50 text-[9px] font-mono text-zinc-700">
+              <span className="font-bold text-black uppercase block mb-1">Civil Structural &amp; MEP Engineering Schedule:</span>
+              <div className="grid grid-cols-2 gap-2">
+                <div>• Frame: Seismic Zone IV/V Reinforced Concrete</div>
+                <div>• Thermal: Low-E Double Glazing (STC 42dB)</div>
+                <div>• Backup: 100% Full Dual DG Array Support</div>
+                <div>• Sustainable: Solar Thermal Array + Rain Harvesting</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t border-zinc-300 pt-2 flex items-center justify-between text-[8px] font-mono text-zinc-500">
+            <span>PAGE 2 OF 3 // APEX LUXURY ARCHITECTURAL DOSSIER</span>
+            <span>STRICTLY PRIVATE &amp; CONFIDENTIAL // CAD SCHEMATIC</span>
+          </div>
+        </div>
+
+        {/* DOSSIER PAGE 3: WEALTH ADVISORY, SPECIFICATION MATRIX & VERIFICATION */}
+        <div className="dossier-page flex flex-col justify-between">
+          <div>
+            <div className="flex items-center justify-between border-b-2 border-[#926f1c] pb-3 mb-4">
+              <div>
+                <h3 className="text-sm font-bold tracking-[0.2em] uppercase font-mono text-black">
+                  APEX LUXURY // SPECIFICATION MATRIX &amp; WEALTH ADVISORY
+                </h3>
+                <p className="text-[9px] tracking-widest uppercase font-mono text-zinc-600">
+                  FINANCIAL STRUCTURING, TITLE CERTIFICATION &amp; ADVISORY SIGN-OFF
+                </p>
+              </div>
+              <div className="text-right font-mono text-[9px] text-zinc-600">
+                <div>VALUATION: {formatPrice(property.price, currency.code)}</div>
+                <div className="text-[#926f1c] font-bold">APPROVED EXECUTIVE COPY</div>
+              </div>
+            </div>
+
+            {/* Feature Matrix */}
+            <div className="mb-4">
+              <h4 className="font-mono text-[9px] uppercase font-bold text-black border-b border-zinc-300 pb-1 mb-2">
+                Detailed Property Attributes &amp; Amenities:
+              </h4>
+              <div className="grid grid-cols-2 gap-2 text-[9px] font-mono text-zinc-800">
+                {property.features.map((feat, idx) => (
+                  <div key={idx} className="flex items-start gap-1.5 p-1.5 bg-zinc-50 border border-zinc-200">
+                    <span className="text-[#926f1c] font-bold">✓</span>
+                    <span>{feat}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Wealth & Financial Advisory Matrix */}
+            <div className="border border-zinc-300 p-3 bg-zinc-50 mb-5">
+              <h4 className="font-mono text-[9px] uppercase font-bold text-black border-b border-zinc-200 pb-1 mb-2">
+                Private Wealth &amp; Investment Advisory Summary:
+              </h4>
+              <div className="grid grid-cols-3 gap-3 text-[9px] font-mono">
+                <div className="p-2 bg-white border border-zinc-200">
+                  <span className="text-zinc-500 block uppercase font-bold text-[8px]">Indicative Acquisition</span>
+                  <span className="text-sm font-bold text-black block mt-0.5">{formatPrice(property.price, currency.code)}</span>
+                  <span className="text-[8px] text-zinc-500">Outright Registry Transfer</span>
+                </div>
+                <div className="p-2 bg-white border border-zinc-200">
+                  <span className="text-zinc-500 block uppercase font-bold text-[8px]">25% Equity Allocation</span>
+                  <span className="text-sm font-bold text-[#926f1c] block mt-0.5">{formatPrice(downPaymentAmount, currency.code)}</span>
+                  <span className="text-[8px] text-zinc-500">Recommended Capital Outlay</span>
+                </div>
+                <div className="p-2 bg-white border border-zinc-200">
+                  <span className="text-zinc-500 block uppercase font-bold text-[8px]">5-Yr Projected Growth</span>
+                  <span className="text-sm font-bold text-emerald-700 block mt-0.5">+{formatPrice(projectedGain5Yr, currency.code)}</span>
+                  <span className="text-[8px] text-zinc-500">CAGR Projection: ~9.0%</span>
+                </div>
+              </div>
+              <p className="text-[8px] font-mono text-zinc-500 mt-2">
+                * Note: Projections based on historical prime corridor index performance. Legal freehold conveyance with immediate registry transfer guaranteed.
+              </p>
+            </div>
+
+            {/* Official Verification & Executive Signature Block */}
+            <div className="border border-zinc-300 p-4 bg-zinc-50 mb-4">
+              <h4 className="font-mono text-[9px] uppercase font-bold text-black mb-3">
+                Executive Verification &amp; Certification Sign-Off:
+              </h4>
+              <div className="grid grid-cols-3 gap-4 font-mono text-[9px]">
+                {/* Principal Architect */}
+                <div className="border border-zinc-200 p-2.5 bg-white flex flex-col justify-between h-28">
+                  <div>
+                    <span className="text-[8px] text-zinc-500 uppercase block">Principal Architect</span>
+                    <span className="font-bold text-black">Apex Design Studio</span>
+                  </div>
+                  <div className="border-t border-zinc-400 pt-1 text-center font-serif italic text-zinc-600 text-xs">
+                    Michael Vance, AIA
+                  </div>
+                </div>
+
+                {/* Managing Broker */}
+                <div className="border border-zinc-200 p-2.5 bg-white flex flex-col justify-between h-28">
+                  <div>
+                    <span className="text-[8px] text-zinc-500 uppercase block">Managing Partner</span>
+                    <span className="font-bold text-black">Apex Luxury Advisory</span>
+                  </div>
+                  <div className="border-t border-zinc-400 pt-1 text-center font-serif italic text-zinc-600 text-xs">
+                    Tanuj Nasya, FRICS
+                  </div>
+                </div>
+
+                {/* Official Embossed Seal */}
+                <div className="border-2 border-dashed border-[#926f1c] p-2 bg-white flex flex-col items-center justify-center text-center h-28">
+                  <div className="w-10 h-10 rounded-full border-2 border-[#926f1c] flex items-center justify-center text-[#926f1c] font-bold text-[9px] mb-1">
+                    APEX
+                  </div>
+                  <span className="text-[8px] font-bold text-[#926f1c] uppercase">
+                    SEAL OF VERIFICATION
+                  </span>
+                  <span className="text-[7px] text-zinc-500">RERA &amp; MDDA COMPLIANT</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Advisory Contact & Confidentiality Clause */}
+            <div className="text-[8px] font-mono text-zinc-600 space-y-1">
+              <div>
+                <strong>ADVISORY DIRECT LINE:</strong> {property.contact} | inquiries@apexluxuryestates.com | Apex Tower, Rajpur Road, Dehradun
+              </div>
+              <div className="text-zinc-500 leading-tight">
+                <strong>CONFIDENTIALITY NOTICE:</strong> This architectural dossier is prepared exclusively for registered private clients of Apex Luxury Real Estate &amp; Contracting. Reproduction, transmission, or disclosure to unauthorized third parties is strictly prohibited under international copyright conventions.
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t border-zinc-300 pt-2 flex items-center justify-between text-[8px] font-mono text-zinc-500">
+            <span>PAGE 3 OF 3 // END OF ARCHITECTURAL DOSSIER</span>
+            <span>APEX LUXURY REAL ESTATE &amp; CONTRACTING // COPYRIGHT 2026</span>
+          </div>
         </div>
       </div>
     </section>

@@ -8,22 +8,26 @@ interface ThemeContextType {
   theme: Theme;
   setTheme: (theme: Theme) => void;
   toggleTheme: () => void;
+  mounted: boolean;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [theme, setThemeState] = useState<Theme>(() => {
-    if (typeof window !== 'undefined') {
-      const saved = localStorage.getItem('apex_theme') as Theme | null;
-      if (saved === 'dark' || saved === 'light') return saved;
-      // Default to luxury dark mode
-      return 'dark';
-    }
-    return 'dark';
-  });
+  // Always default to 'dark' for both server and initial client render to guarantee 100% hydration match
+  const [theme, setThemeState] = useState<Theme>('dark');
+  const [mounted, setMounted] = useState<boolean>(false);
 
   useEffect(() => {
+    setMounted(true);
+    const saved = localStorage.getItem('apex_theme') as Theme | null;
+    if (saved === 'dark' || saved === 'light') {
+      setThemeState(saved);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
     const root = document.documentElement;
     if (theme === 'dark') {
       root.classList.add('dark');
@@ -35,13 +39,13 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       document.querySelector('meta[name="theme-color"]')?.setAttribute('content', '#f7f6f2');
     }
     localStorage.setItem('apex_theme', theme);
-  }, [theme]);
+  }, [theme, mounted]);
 
   const setTheme = (t: Theme) => setThemeState(t);
   const toggleTheme = () => setThemeState((prev) => (prev === 'dark' ? 'light' : 'dark'));
 
   return (
-    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, setTheme, toggleTheme, mounted }}>
       {children}
     </ThemeContext.Provider>
   );

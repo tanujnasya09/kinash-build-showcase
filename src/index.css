@@ -607,7 +607,7 @@
   scrollbar-width: none;
 }
 
-/* Open Design Double-Bezel Hardware Plate Architecture */
+/* Double-Bezel Hardware Plate Architecture */
 .luxury-plate {
   position: relative;
   background-color: rgba(10, 12, 16, 0.75);
@@ -623,20 +623,66 @@
 
 /* High-Ticket Enterprise Client Dossier Print Stylesheet */
 @media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm 12mm 12mm 12mm;
+  }
+
+  html, body {
+    background-color: #ffffff !important;
+    color: #111111 !important;
+    font-size: 10pt !important;
+    line-height: 1.4 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
   header,
   footer,
   nav,
   .luxury-header,
   .leaflet-control-container,
   button,
-  .no-print {
+  .no-print,
+  .print-hidden,
+  .print\:hidden {
     display: none !important;
   }
 
-  body {
-    background-color: #ffffff !important;
-    color: #111111 !important;
-    font-size: 11pt !important;
+  .print-visible,
+  .print\:block {
+    display: block !important;
+  }
+
+  .print-flex,
+  .print\:flex {
+    display: flex !important;
+  }
+
+  .print-grid,
+  .print\:grid {
+    display: grid !important;
+  }
+
+  .dossier-page {
+    page-break-after: always !important;
+    break-after: page !important;
+    min-height: 270mm;
+    box-sizing: border-box;
+    position: relative;
+    padding-bottom: 12mm;
+  }
+
+  .dossier-page:last-child {
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  .avoid-break {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
   }
 
   .bg-\[\#0c0d10\],
@@ -658,13 +704,13 @@
   }
 
   .text-accent {
-    color: #8b6b15 !important;
+    color: #926f1c !important;
     font-weight: bold !important;
   }
 
   img {
     max-width: 100% !important;
-    page-break-inside: avoid;
+    page-break-inside: avoid !important;
   }
 }
 
@@ -715,7 +761,7 @@
 }
 
 /* ==========================================================================
-   Comprehensive Light Mode Design System (Open Design Luxury & Atelier Zero)
+   Comprehensive Light Mode Design System (Luxury & Atelier Zero)
    Warm Architectural Alabaster, Travertine Wells & Heritage Gold Accents
    ========================================================================== */
 

@@ -1,0 +1,155 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" width="100%" height="100%">
+  <defs>
+    <!-- Grid Pattern -->
+    <pattern id="gridFirst" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#1c2834" stroke-width="0.75" />
+      <path d="M 200 0 L 0 0 0 200" fill="none" stroke="#253545" stroke-width="1.2" />
+    </pattern>
+    <!-- Wall Hatch Pattern -->
+    <pattern id="wallHatchFirst" width="8" height="8" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#dfba48" stroke-width="1.5" opacity="0.35" />
+    </pattern>
+  </defs>
+
+  <!-- Background Blueprint Slate -->
+  <rect width="1200" height="800" fill="#090d12" />
+  <rect width="1200" height="800" fill="url(#gridFirst)" />
+
+  <!-- Outer Architectural Border with Corner Registration Marks -->
+  <rect x="25" y="25" width="1150" height="750" fill="none" stroke="#dfba48" stroke-width="1.5" stroke-opacity="0.4" />
+  <rect x="35" y="35" width="1130" height="730" fill="none" stroke="#38bdf8" stroke-width="0.8" stroke-opacity="0.25" />
+
+  <!-- Registration Marks -->
+  <g stroke="#dfba48" stroke-width="1.2" opacity="0.7">
+    <line x1="25" y1="15" x2="25" y2="35" />
+    <line x1="15" y1="25" x2="35" y2="25" />
+    <line x1="1175" y1="15" x2="1175" y2="35" />
+    <line x1="1165" y1="25" x2="1185" y2="25" />
+    <line x1="25" y1="765" x2="25" y2="785" />
+    <line x1="15" y1="775" x2="35" y2="775" />
+    <line x1="1175" y1="765" x2="1175" y2="785" />
+    <line x1="1165" y1="775" x2="1185" y2="775" />
+  </g>
+
+  <!-- Top Axis Line Markers -->
+  <g fill="#090d12" stroke="#38bdf8" stroke-width="1" font-family="'Courier New', monospace" font-size="11" text-anchor="middle">
+    <circle cx="120" cy="55" r="14" /><text x="120" y="59" fill="#38bdf8" stroke="none">A</text>
+    <circle cx="340" cy="55" r="14" /><text x="340" y="59" fill="#38bdf8" stroke="none">B</text>
+    <circle cx="600" cy="55" r="14" /><text x="600" y="59" fill="#38bdf8" stroke="none">C</text>
+    <circle cx="860" cy="55" r="14" /><text x="860" y="59" fill="#38bdf8" stroke="none">D</text>
+    <circle cx="1060" cy="55" r="14" /><text x="1060" y="59" fill="#38bdf8" stroke="none">E</text>
+    <line x1="120" y1="70" x2="120" y2="720" stroke="#38bdf8" stroke-dasharray="4,6" stroke-opacity="0.2" />
+    <line x1="340" y1="70" x2="340" y2="720" stroke="#38bdf8" stroke-dasharray="4,6" stroke-opacity="0.2" />
+    <line x1="600" y1="70" x2="600" y2="720" stroke="#38bdf8" stroke-dasharray="4,6" stroke-opacity="0.2" />
+    <line x1="860" y1="70" x2="860" y2="720" stroke="#38bdf8" stroke-dasharray="4,6" stroke-opacity="0.2" />
+    <line x1="1060" y1="70" x2="1060" y2="720" stroke="#38bdf8" stroke-dasharray="4,6" stroke-opacity="0.2" />
+  </g>
+
+  <!-- ==================== UPPER LEVEL ROOM LAYOUTS ==================== -->
+
+  <!-- ROOM 1: PRIMARY MASTER BEDROOM SANCTUARY (Left Top) -->
+  <rect x="180" y="140" width="420" height="260" fill="#0f1620" stroke="#38bdf8" stroke-width="1.5" />
+  <rect x="180" y="140" width="420" height="260" fill="url(#wallHatchFirst)" opacity="0.15" />
+  <!-- Thick Walls -->
+  <rect x="174" y="134" width="432" height="12" fill="#dfba48" />
+  <rect x="174" y="134" width="12" height="272" fill="#dfba48" />
+  <rect x="174" y="394" width="432" height="12" fill="#dfba48" />
+
+  <!-- ROOM 2: DUAL DRESSING SALON & WALK-IN ROBE -->
+  <rect x="600" y="140" width="220" height="130" fill="#111824" stroke="#38bdf8" stroke-width="1.2" />
+  <rect x="814" y="134" width="12" height="142" fill="#dfba48" />
+
+  <!-- ROOM 3: MASTER SPA BATHROOM WITH SOAKING TUB -->
+  <rect x="600" y="270" width="220" height="130" fill="#0e1722" stroke="#38bdf8" stroke-width="1.2" />
+  <!-- Oval Soaking Tub Schematic -->
+  <ellipse cx="710" cy="335" rx="55" ry="32" fill="#090d12" stroke="#4fd1c5" stroke-width="1.5" />
+  <ellipse cx="710" cy="335" rx="42" ry="22" fill="#0e3d54" stroke="#4fd1c5" stroke-width="1" />
+
+  <!-- ROOM 4: CANTILEVERED SUNSET SKY TERRACE (Far Left Extension) -->
+  <rect x="100" y="140" width="80" height="260" fill="#0a121a" stroke="#dfba48" stroke-width="1.5" stroke-dasharray="4,4" />
+  <text x="140" y="270" font-family="'Courier New', monospace" font-size="10" font-weight="bold" fill="#dfba48" text-anchor="middle" transform="rotate(-90 140 270)">SUNSET TERRACE</text>
+
+  <!-- ROOM 5: UPPER MEZZANINE & PRIVATE MEDIA LOUNGE (Center Bottom) -->
+  <rect x="360" y="400" width="340" height="220" fill="#131c28" stroke="#dfba48" stroke-width="1.5" />
+  <rect x="354" y="614" width="352" height="12" fill="#dfba48" />
+
+  <!-- ROOM 6: BEDROOM SUITE 02 WITH PRIVATE ENSUITE (Right Top) -->
+  <rect x="820" y="140" width="250" height="240" fill="#0f1722" stroke="#38bdf8" stroke-width="1.5" />
+  <rect x="1064" y="134" width="12" height="252" fill="#dfba48" />
+  <rect x="820" y="374" width="256" height="12" fill="#dfba48" />
+
+  <!-- ROOM 7: BEDROOM SUITE 03 WITH BALCONY (Right Bottom) -->
+  <rect x="700" y="400" width="260" height="220" fill="#0f1722" stroke="#38bdf8" stroke-width="1.5" />
+  <rect x="954" y="394" width="12" height="232" fill="#dfba48" />
+  <rect x="694" y="614" width="272" height="12" fill="#dfba48" />
+
+  <!-- ==================== ROOM LABELS & TYPOGRAPHY ==================== -->
+  <g font-family="'Courier New', monospace" fill="#ffffff" text-anchor="middle">
+    <!-- Master Suite -->
+    <text x="390" y="240" font-size="14" font-weight="bold" fill="#dfba48" letter-spacing="1">01 // PRIMARY MASTER SANCTUARY</text>
+    <text x="390" y="260" font-size="11" fill="#94a3b8">DIM: 24'-0" × 18'-6" [7.32m × 5.64m]</text>
+    <text x="390" y="278" font-size="9" fill="#38bdf8">INTEGRATED FIREPLACE &amp; PRIVATE BALCONY</text>
+
+    <!-- Dressing -->
+    <text x="710" y="195" font-size="11" font-weight="bold" fill="#dfba48">WALK-IN DRESSING</text>
+    <text x="710" y="215" font-size="9" fill="#94a3b8">16'-0" × 12'-0"</text>
+
+    <!-- Master Bath -->
+    <text x="710" y="295" font-size="11" font-weight="bold" fill="#4fd1c5">SPA ENSUITE</text>
+    <text x="710" y="380" font-size="9" fill="#94a3b8">RAIN SHOWER &amp; SOAKING TUB</text>
+
+    <!-- Mezzanine -->
+    <text x="530" y="490" font-size="13" font-weight="bold" fill="#dfba48" letter-spacing="1">02 // MEZZANINE MEDIA LOUNGE</text>
+    <text x="530" y="510" font-size="10" fill="#94a3b8">20'-0" × 16'-0" [6.10m × 4.88m]</text>
+    <text x="530" y="528" font-size="8" fill="#4fd1c5">OVERLOOKING LIVING VOID</text>
+
+    <!-- Bed 2 -->
+    <text x="945" y="240" font-size="12" font-weight="bold" fill="#dfba48">03 // SUITE 02</text>
+    <text x="945" y="260" font-size="10" fill="#94a3b8">18'-0" × 15'-0"</text>
+    <text x="945" y="278" font-size="8" fill="#38bdf8">ENSUITE &amp; VERANDA</text>
+
+    <!-- Bed 3 -->
+    <text x="830" y="500" font-size="12" font-weight="bold" fill="#dfba48">04 // SUITE 03</text>
+    <text x="830" y="520" font-size="10" fill="#94a3b8">17'-6" × 15'-0"</text>
+    <text x="830" y="538" font-size="8" fill="#38bdf8">ENSUITE INCLUDED</text>
+  </g>
+
+  <!-- ==================== COMPASS ROSE (North Arrow) ==================== -->
+  <g transform="translate(1100, 100)">
+    <circle cx="0" cy="0" r="28" fill="#090d12" stroke="#dfba48" stroke-width="1.2" />
+    <polygon points="0,-24 6,-2 0,-8" fill="#dfba48" />
+    <polygon points="0,-24 -6,-2 0,-8" fill="#ffffff" />
+    <polygon points="0,24 6,2 0,8" fill="#38bdf8" opacity="0.6" />
+    <polygon points="0,24 -6,2 0,8" fill="#ffffff" opacity="0.6" />
+    <text x="0" y="-30" font-family="'Courier New', monospace" font-size="11" font-weight="bold" fill="#dfba48" text-anchor="middle">N</text>
+    <text x="0" y="38" font-family="'Courier New', monospace" font-size="8" fill="#94a3b8" text-anchor="middle">0°00'00"</text>
+  </g>
+
+  <!-- ==================== PROFESSIONAL ARCHITECTURAL TITLE BLOCK ==================== -->
+  <g transform="translate(680, 650)">
+    <rect x="0" y="0" width="460" height="90" fill="#0c1219" stroke="#dfba48" stroke-width="1.5" />
+    <line x1="0" y1="30" x2="460" y2="30" stroke="#dfba48" stroke-width="0.8" opacity="0.5" />
+    <line x1="280" y1="30" x2="280" y2="90" stroke="#dfba48" stroke-width="0.8" opacity="0.5" />
+
+    <text x="15" y="20" font-family="'Courier New', monospace" font-size="12" font-weight="bold" fill="#dfba48" letter-spacing="1.5">
+      APEX LUXURY ARCHITECTURE &amp; CONTRACTING
+    </text>
+    <text x="445" y="20" font-family="'Courier New', monospace" font-size="9" fill="#38bdf8" text-anchor="end">
+      ISO 9001:2026 // RERA CERTIFIED
+    </text>
+
+    <text x="15" y="48" font-family="'Courier New', monospace" font-size="10" font-weight="bold" fill="#ffffff">
+      PROJECT: APEX ULTRA-PRIME RESIDENTIAL ESTATE
+    </text>
+    <text x="15" y="64" font-family="'Courier New', monospace" font-size="9" fill="#94a3b8">
+      LOCATION: PRIVATE GATED RESERVE // PHASE 1
+    </text>
+    <text x="15" y="78" font-family="'Courier New', monospace" font-size="8" fill="#4fd1c5">
+      SHEET: A-102 // LEVEL 02 UPPER RESIDENTIAL SANCTUARY
+    </text>
+
+    <text x="295" y="48" font-family="'Courier New', monospace" font-size="8" fill="#94a3b8">SCALE: 1:100 @ A3</text>
+    <text x="295" y="62" font-family="'Courier New', monospace" font-size="8" fill="#94a3b8">STATUS: ISSUED FOR CONSTRUCTION</text>
+    <text x="295" y="76" font-family="'Courier New', monospace" font-size="8" fill="#dfba48">REV: C // APPROVED EXECUTIVE</text>
+  </g>
+</svg>

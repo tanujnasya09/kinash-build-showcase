@@ -7,6 +7,7 @@ const __dirname = path.dirname(__filename);
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: false,
+  transpilePackages: ['@sanity/client'],
   images: {
     unoptimized: true,
     remotePatterns: [

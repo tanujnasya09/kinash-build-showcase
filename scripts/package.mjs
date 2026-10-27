@@ -18,7 +18,8 @@ const EXCLUDE_DIRS = new Set([
   ".next",
   "legacy-vite",
   "release",
-  ".gemini"
+  ".gemini",
+  "scripts"
 ]);
 
 const EXCLUDE_FILES = new Set([
@@ -27,11 +28,29 @@ const EXCLUDE_FILES = new Set([
   ".env",
   ".env.local",
   ".env.production",
-  "tsconfig.tsbuildinfo"
+  ".open-design.json",
+  "GUMROAD-CONTENT-TAB.md",
+  "GUMROAD-LISTING.md",
+  "index.html",
+  "vite.config.ts",
+  "tsconfig.app.json",
+  "tsconfig.node.json",
+  "tsconfig.tsbuildinfo",
+  "tsconfig.app.tsbuildinfo",
+  "tsconfig.node.tsbuildinfo"
 ]);
 
-// Excluded at any depth (e.g. studio/node_modules, studio/dist)
+// Excluded at any depth (e.g. studio/node_modules, studio/dist, marketing banners)
 const EXCLUDE_NESTED = new Set(["node_modules", "dist", ".sanity", ".git"]);
+
+const keep = (src) => {
+  const name = basename(src);
+  if (name.startsWith("gumroad-")) return false;
+  if (name.startsWith(".open-design")) return false;
+  if (name.endsWith(".tsbuildinfo")) return false;
+  if (EXCLUDE_FILES.has(name)) return false;
+  return !EXCLUDE_NESTED.has(name);
+};
 
 const entries = readdirSync(root).filter(
   (entry) =>
@@ -39,11 +58,6 @@ const entries = readdirSync(root).filter(
     !EXCLUDE_FILES.has(entry) &&
     !entry.endsWith(".tsbuildinfo")
 );
-
-const keep = (src) => {
-  const name = basename(src);
-  return !EXCLUDE_NESTED.has(name) && !EXCLUDE_FILES.has(name) && !name.endsWith(".tsbuildinfo");
-};
 
 const stage = join(tmpdir(), `${name}-stage-${Date.now()}`);
 const stageRoot = join(stage, name);
