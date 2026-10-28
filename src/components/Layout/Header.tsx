@@ -1,8 +1,8 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Phone, Mail, Globe, Sun, Moon } from 'lucide-react';
+import { Phone, Mail, Globe, Sun, Moon } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useLanguage } from '@/context/LanguageContext';
 import { useTheme } from '@/context/ThemeContext';
@@ -19,7 +19,6 @@ import { currencies } from '@/lib/currency';
 import { languages, type Language } from '@/i18n';
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
   const { language, setLanguage, currency, setCurrency, t } = useLanguage();
   const { theme, toggleTheme, mounted } = useTheme();
@@ -197,176 +196,23 @@ const Header = () => {
             </Button>
           </div>
 
-          {/* Mobile action & menu buttons (visible on < lg) */}
-          <div className="flex lg:hidden items-center gap-1 sm:gap-2 shrink-0">
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button
-                  aria-label={t('nav.language')}
-                  className="p-1.5 sm:p-2 min-w-[32px] sm:min-w-[36px] min-h-[32px] sm:min-h-[36px] flex items-center justify-center border border-black/15 dark:border-white/10 rounded-none bg-transparent hover:bg-black/5 dark:hover:bg-white/10 text-foreground dark:text-white hover:border-accent/40 transition-all cursor-pointer"
-                >
-                  <Globe size={13} className="text-accent" />
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-white dark:bg-[#0b0c10] border border-black/10 dark:border-white/10 rounded-none p-1 z-50">
-                {languages.map((lang) => (
-                  <DropdownMenuItem
-                    key={lang.code}
-                    onClick={() => handleLanguageChange(lang.code)}
-                    className={`font-mono text-[10px] tracking-widest uppercase py-2 cursor-pointer transition-colors ${language === lang.code ? 'bg-accent text-white font-extrabold' : 'text-foreground/80 dark:text-white/80 hover:bg-black/5 dark:hover:bg-white/10 hover:text-foreground dark:hover:text-white'
-                      }`}
-                  >
-                    {lang.label}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <button
-                  aria-label={t('nav.currency')}
-                  className="px-1.5 sm:px-2 min-h-[32px] sm:min-h-[36px] flex items-center justify-center gap-1 border border-black/15 dark:border-white/10 rounded-none bg-transparent hover:bg-black/5 dark:hover:bg-white/10 text-foreground dark:text-white hover:border-accent/40 font-mono text-[9px] sm:text-[10px] font-bold tracking-wider sm:tracking-widest transition-all cursor-pointer"
-                >
-                  {currency.code}
-                </button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="bg-white dark:bg-[#0b0c10] border border-black/10 dark:border-white/10 rounded-none p-1 z-50">
-                {currencies.map((c) => (
-                  <DropdownMenuItem
-                    key={c.code}
-                    onClick={() => setCurrency(c.code)}
-                    className={`font-mono text-[10px] tracking-widest uppercase py-2 cursor-pointer ${currency.code === c.code ? 'text-accent font-bold' : 'text-foreground/80 dark:text-white/80'
-                      }`}
-                  >
-                    {c.label}
-                  </DropdownMenuItem>
-                ))}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
-            {/* Mobile Theme Toggle */}
+          {/* Mobile action button (visible on < lg): Theme Toggle */}
+          <div className="flex lg:hidden items-center shrink-0">
             <button
               onClick={toggleTheme}
               suppressHydrationWarning
               aria-label={mounted && theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
               title={mounted && theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}
-              className="p-1.5 sm:p-2 min-w-[32px] sm:min-w-[36px] min-h-[32px] sm:min-h-[36px] flex items-center justify-center border border-black/15 dark:border-white/10 rounded-none bg-transparent hover:bg-black/5 dark:hover:bg-white/10 text-foreground dark:text-white hover:text-accent hover:border-accent/40 transition-all cursor-pointer"
+              className="touch-target active-tactile w-10 h-10 border border-black/15 dark:border-white/10 text-foreground dark:text-white hover:text-accent hover:border-accent bg-black/5 dark:bg-white/5 transition-colors cursor-pointer"
             >
               {mounted && theme === 'light' ? (
-                <Moon size={13} className="text-accent" />
+                <Moon size={15} className="text-foreground" />
               ) : (
-                <Sun size={13} className="text-accent" />
+                <Sun size={15} className="text-accent" />
               )}
-            </button>
-
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              aria-label={isMenuOpen ? t('nav.closeMenu') : t('nav.openMenu')}
-              aria-expanded={isMenuOpen}
-              className="p-1.5 sm:p-2 min-w-[32px] sm:min-w-[36px] min-h-[32px] sm:min-h-[36px] flex items-center justify-center text-foreground dark:text-white border border-black/15 dark:border-white/10 rounded-none hover:bg-black/5 dark:hover:bg-white/5 cursor-pointer"
-            >
-              {isMenuOpen ? <X size={15} /> : <Menu size={15} />}
             </button>
           </div>
         </div>
-
-        {/* Mobile Navigation Drawer */}
-        {isMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-black/10 dark:border-white/10 animate-fade-in bg-[#f8f7f4] dark:bg-[#0c0d10] max-h-[calc(100vh-4.5rem)] overflow-y-auto">
-            <nav className="space-y-1.5 px-2">
-              {navigation.map((item) => (
-                <Link
-                  key={item.name}
-                  to={item.href}
-                  onClick={() => setIsMenuOpen(false)}
-                  className={`block py-2.5 px-4 rounded-none text-xs sm:text-sm font-sans font-bold uppercase tracking-[0.12em] ${isActive(item.href)
-                      ? 'bg-accent text-white font-extrabold'
-                      : 'text-foreground/80 dark:text-white/70 hover:bg-black/5 dark:hover:bg-white/5 hover:text-foreground dark:hover:text-white'
-                    } transition-all`}
-                >
-                  {item.name}
-                </Link>
-              ))}
-
-              {/* Language selection in mobile drawer */}
-              <div className="border-t border-black/10 dark:border-white/10 pt-3 mt-3 px-3">
-                <span className="text-[9px] uppercase font-mono tracking-widest text-muted-foreground dark:text-white/50 block mb-2 font-bold">
-                  {t('nav.language')}
-                </span>
-                <div className="grid grid-cols-3 gap-1.5">
-                  {languages.map((lang) => (
-                    <button
-                      key={lang.code}
-                      onClick={() => handleLanguageChange(lang.code)}
-                      className={`py-1.5 text-[9px] font-mono uppercase tracking-wider border text-center transition-all cursor-pointer ${
-                        language === lang.code
-                          ? 'bg-accent text-white border-accent font-bold'
-                          : 'border-black/15 dark:border-white/10 text-foreground/80 dark:text-white/75 bg-black/5 dark:bg-white/5 hover:border-accent/40'
-                      }`}
-                    >
-                      {lang.short}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Currency selection in mobile drawer */}
-              <div className="pt-2 px-3">
-                <span className="text-[9px] uppercase font-mono tracking-widest text-muted-foreground dark:text-white/50 block mb-2 font-bold">
-                  {t('nav.currency')}
-                </span>
-                <div className="grid grid-cols-4 gap-1.5">
-                  {currencies.map((c) => (
-                    <button
-                      key={c.code}
-                      onClick={() => setCurrency(c.code)}
-                      className={`py-1.5 text-[9px] font-mono uppercase tracking-wider border text-center transition-all cursor-pointer ${
-                        currency.code === c.code
-                          ? 'bg-accent text-white border-accent font-bold'
-                          : 'border-black/15 dark:border-white/10 text-foreground/80 dark:text-white/75 bg-black/5 dark:bg-white/5 hover:border-accent/40'
-                      }`}
-                    >
-                      {c.code}
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Mobile theme switch row inside menu */}
-              <div className="border-t border-black/10 dark:border-white/10 pt-3 mt-3 px-3 flex items-center justify-between">
-                <span className="text-[9px] uppercase font-mono tracking-widest text-muted-foreground dark:text-white/50 font-bold">
-                  Theme Appearance
-                </span>
-                <button
-                  onClick={toggleTheme}
-                  suppressHydrationWarning
-                  className="inline-flex items-center gap-2 px-3 py-1.5 border border-black/15 dark:border-white/10 text-[9px] font-mono uppercase tracking-widest text-foreground dark:text-white hover:border-accent/40 bg-black/5 dark:bg-white/5 transition-all cursor-pointer"
-                >
-                  {mounted && theme === 'light' ? (
-                    <>
-                      <Moon size={12} className="text-accent" />
-                      <span>Switch to Dark</span>
-                    </>
-                  ) : (
-                    <>
-                      <Sun size={12} className="text-accent" />
-                      <span>Switch to Light</span>
-                    </>
-                  )}
-                </button>
-              </div>
-
-              <div className="border-t border-black/10 dark:border-white/10 pt-3 mt-3 px-2">
-                <Button asChild className="btn-luxury-gold w-full bg-accent text-[#0c0d10] border-transparent font-bold py-3.5 text-[9px] tracking-widest uppercase">
-                  <Link to="/contact" onClick={() => setIsMenuOpen(false)}>
-                    {t('nav.contact')}
-                  </Link>
-                </Button>
-              </div>
-            </nav>
-          </div>
-        )}
       </div>
     </header>
   );

@@ -4,6 +4,7 @@ import { ReactNode, useEffect, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import Header from './Header';
 import Footer from './Footer';
+import MobileBottomNav from './MobileBottomNav';
 import Lenis from 'lenis';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -77,7 +78,7 @@ const Layout = ({ children }: LayoutProps) => {
   }, [location.pathname]);
 
   return (
-    <div className="min-h-screen flex flex-col bg-[#0c0d10]">
+    <div className="min-h-screen flex flex-col bg-[#0c0d10] pb-16 lg:pb-0">
       <a
         href="#main-content"
         className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[100] focus:px-4 focus:py-2 focus:bg-accent focus:text-[#0c0d10] focus:font-bold focus:uppercase focus:tracking-widest focus:text-xs"
@@ -89,6 +90,7 @@ const Layout = ({ children }: LayoutProps) => {
         {children}
       </main>
       <Footer />
+      <MobileBottomNav />
     </div>
   );
 };
