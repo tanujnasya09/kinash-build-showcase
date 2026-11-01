@@ -1,7 +1,7 @@
 'use client';
 
 import { Link } from 'react-router-dom';
-import { Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram, Youtube, Sparkles } from 'lucide-react';
+import { Phone, Mail, MapPin, Facebook, Twitter, Linkedin, Instagram, Youtube, Sparkles, ExternalLink } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import siteConfig from '@/config/site';
 import { getCoreOfferings } from '@/config/services';
@@ -179,15 +179,34 @@ const Footer = () => {
 
         {/* Legal & Copyright */}
         <div className="border-t border-black/10 dark:border-white/10 mt-8 sm:mt-12 lg:mt-16 pt-5 sm:pt-7">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4">
-            <div className="flex items-center gap-1.5 text-[11px] sm:text-xs text-muted-foreground dark:text-primary-foreground/50 text-center sm:text-left">
-              <Sparkles size={11} className="text-accent shrink-0" />
-              <span>{t('footer.rights', { year: new Date().getFullYear(), company: siteConfig.name })}</span>
+          <div className="flex flex-col md:flex-row justify-between items-center gap-3 sm:gap-4 text-center md:text-left">
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-x-2.5 gap-y-1.5 text-[11px] sm:text-xs text-muted-foreground dark:text-primary-foreground/60">
+              <div className="flex items-center gap-1.5">
+                <Sparkles size={11} className="text-accent shrink-0" />
+                <span>{t('footer.rights', { year: new Date().getFullYear(), company: siteConfig.name })}</span>
+              </div>
+              <span className="hidden sm:inline text-muted-foreground/40 dark:text-primary-foreground/30">•</span>
+              <div className="flex items-center gap-1.5">
+                <span>{t('footer.developedBy')}</span>
+                <a
+                  href={siteConfig.developer.portfolioUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1 font-medium text-foreground dark:text-white hover:text-accent dark:hover:text-accent underline underline-offset-4 decoration-accent/40 hover:decoration-accent transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent group"
+                  title={`${siteConfig.developer.fullName}'s Portfolio`}
+                >
+                  <span>{siteConfig.developer.name}</span>
+                  <span className="font-mono text-[10px] uppercase tracking-wider text-accent font-semibold px-1.5 py-0.5 bg-accent/10 border border-accent/25 group-hover:bg-accent group-hover:text-[#0c0d10] transition-colors">
+                    {siteConfig.developer.portfolioLabel}
+                  </span>
+                  <ExternalLink size={10} className="opacity-70 group-hover:opacity-100" />
+                </a>
+              </div>
             </div>
             <button
               type="button"
               onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
-              className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground dark:text-primary-foreground/50 hover:text-accent dark:hover:text-accent transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              className="text-[11px] sm:text-xs font-semibold uppercase tracking-[0.15em] text-muted-foreground dark:text-primary-foreground/50 hover:text-accent dark:hover:text-accent transition-colors cursor-pointer focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent shrink-0"
             >
               {t('footer.backToTop')}
             </button>

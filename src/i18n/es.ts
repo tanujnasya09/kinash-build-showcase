@@ -18,6 +18,8 @@ const es = {
     'footer.infrastructure': 'Contratos de Infraestructura',
     'footer.isoAudits': 'Auditorías de Calidad ISO',
     'footer.rights': '© {year} {company}. Todos los derechos reservados.',
+    'footer.developedBy': 'Desarrollado por',
+    'footer.portfolio': 'Portafolio',
     'footer.backToTop': 'Volver arriba',
     
     // Services

@@ -14,7 +14,12 @@ export const metadata: Metadata = {
     template: `%s | ${siteConfig.name}`,
   },
   description: siteConfig.description,
-  authors: [{ name: siteConfig.shortName }],
+  authors: [
+    { name: `${siteConfig.developer.fullName} (${siteConfig.developer.portfolioLabel})`, url: siteConfig.developer.portfolioUrl },
+    { name: siteConfig.shortName },
+  ],
+  creator: `${siteConfig.developer.fullName} (${siteConfig.developer.portfolioLabel})`,
+  publisher: siteConfig.shortName,
   alternates: {
     canonical: siteConfig.url,
   },

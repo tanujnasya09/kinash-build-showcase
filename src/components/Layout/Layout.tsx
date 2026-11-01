@@ -38,6 +38,7 @@ const Layout = ({ children }: LayoutProps) => {
       smoothWheel: true,
       wheelMultiplier: 1,
       touchMultiplier: 1.5,
+      autoRaf: false, // Prevent internal RAF loop so GSAP ticker drives smooth scrolling exclusively
     });
 
     lenisRef.current = lenis;
@@ -50,7 +51,9 @@ const Layout = ({ children }: LayoutProps) => {
     };
 
     gsap.ticker.add(updateTicker);
-    gsap.ticker.lagSmoothing(0);
+    // lagSmoothing(500, 33) provides frame-drop compensation and prevents the ticker
+    // from freezing during initial page load, React hydration, or when tab focus changes.
+    gsap.ticker.lagSmoothing(500, 33);
 
     // Scroll to top on load
     window.scrollTo(0, 0);

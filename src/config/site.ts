@@ -17,6 +17,14 @@ export interface SiteConfig {
     country: string;
     hours: string;
   };
+  developer: {
+    name: string;
+    fullName: string;
+    role: string;
+    portfolioUrl: string;
+    portfolioLabel: string;
+    github?: string;
+  };
   social: {
     facebook?: string;
     twitter?: string;
@@ -76,6 +84,14 @@ export const siteConfig: SiteConfig = {
     city: "Dehradun, Uttarakhand",
     country: "India",
     hours: "Mon - Sat: 9:00 AM - 7:00 PM IST"
+  },
+  developer: {
+    name: "Tanuj",
+    fullName: "Tanuj Pandey",
+    role: "Full-Stack Designer & Developer",
+    portfolioUrl: "https://tanujbuildsite.com",
+    portfolioLabel: "tanujbuildsite",
+    github: "https://github.com/tanujnasya09",
   },
   social: {
     facebook: "https://facebook.com",

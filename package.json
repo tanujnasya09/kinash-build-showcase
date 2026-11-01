@@ -3,6 +3,7 @@
   "private": true,
   "version": "2.0.0",
   "description": "Ultra-Luxury Real Estate & Architectural Construction Agency Web Template — Pro edition with Sanity CMS",
+  "author": "Tanuj Pandey <pandey.nasya@gmail.com> (tanujbuildsite)",
   "type": "module",
   "scripts": {
     "dev": "next dev",

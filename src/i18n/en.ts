@@ -18,6 +18,8 @@ const en = {
     'footer.infrastructure': 'Infrastructure Contracting',
     'footer.isoAudits': 'ISO Quality Audits',
     'footer.rights': '© {year} {company}. All rights reserved.',
+    'footer.developedBy': 'Developed by',
+    'footer.portfolio': 'Portfolio',
     'footer.backToTop': 'Back to top',
     
     // Services
